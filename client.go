@@ -28,6 +28,8 @@ type WorkwxApp struct {
 
 	// CorpSecret 应用的凭证密钥，必填
 	CorpSecret string
+	// AgentID 应用 ID，必填
+	AgentID int64
 
 	tokenMu        *sync.Mutex
 	accessToken    string
@@ -51,11 +53,12 @@ func WithHTTPClient(client *http.Client) *Workwx {
 }
 
 // WithApp 构造本企业下某自建 app 的客户端
-func (c *Workwx) WithApp(corpSecret string) *WorkwxApp {
+func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 	return &WorkwxApp{
 		Workwx: c,
 
 		CorpSecret: corpSecret,
+		AgentID:    agentID,
 
 		tokenMu:     &sync.Mutex{},
 		accessToken: "",
