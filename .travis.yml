@@ -1,0 +1,15 @@
+language: go
+go:
+  - "1.11"
+go_import_path: github.com/xen0n/go-workwx
+cache:
+  - $GOPATH/pkg/dep
+before_install:
+  - go get -u -v github.com/golang/dep/cmd/dep
+  - go get -u -v honnef.co/go/tools/cmd/staticcheck
+install:
+  - dep ensure --vendor-only -v
+  - go install -v ./...
+script:
+  - ./ci/run-lint.sh
+  # TODO: test
