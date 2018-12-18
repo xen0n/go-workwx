@@ -67,10 +67,10 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 }
 
 //
-// impl Workwx
+// impl WorkwxApp
 //
 
-func (c *Workwx) composeQyapiURL(path string, req interface{}) string {
+func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) string {
 	values := url.Values{}
 	if valuer, ok := req.(urlValuer); ok {
 		values = valuer.IntoURLValues()
@@ -89,7 +89,7 @@ func (c *Workwx) composeQyapiURL(path string, req interface{}) string {
 	return base.String()
 }
 
-func (c *Workwx) executeQyapiGet(path string, req urlValuer, respObj interface{}) error {
+func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interface{}) error {
 	url := c.composeQyapiURL(path, req)
 
 	resp, err := c.http.Get(url)
@@ -110,7 +110,7 @@ func (c *Workwx) executeQyapiGet(path string, req urlValuer, respObj interface{}
 	return nil
 }
 
-func (c *Workwx) executeQyapiJSONPost(path string, req bodyer, respObj interface{}) error {
+func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interface{}) error {
 	url := c.composeQyapiURL(path, req)
 	body := req.IntoBody()
 
