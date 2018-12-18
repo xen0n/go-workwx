@@ -70,7 +70,7 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 // impl WorkwxApp
 //
 
-func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) url.URL {
+func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
 	values := url.Values{}
 	if valuer, ok := req.(urlValuer); ok {
 		values = valuer.IntoURLValues()
