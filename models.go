@@ -69,7 +69,7 @@ func (x reqTextMessage) IntoBody() []byte {
 	obj := map[string]interface{}{
 		"touser":  strings.Join(x.ToUser, "|"),
 		"toparty": strings.Join(x.ToParty, "|"),
-		"ToTag":   strings.Join(x.ToTag, "|"),
+		"totag":   strings.Join(x.ToTag, "|"),
 		"msgtype": "text",
 		"agentid": x.AgentID,
 		"text": map[string]string{
