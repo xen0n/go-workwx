@@ -70,7 +70,7 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 // impl WorkwxApp
 //
 
-func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) string {
+func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) url.URL {
 	values := url.Values{}
 	if valuer, ok := req.(urlValuer); ok {
 		values = valuer.IntoURLValues()
@@ -86,13 +86,14 @@ func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) string {
 	base.Path = path
 	base.RawQuery = values.Encode()
 
-	return base.String()
+	return base
 }
 
 func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interface{}) error {
 	url := c.composeQyapiURL(path, req)
+	urlStr := url.String()
 
-	resp, err := c.http.Get(url)
+	resp, err := c.http.Get(urlStr)
 	defer resp.Body.Close()
 
 	if err != nil {
@@ -112,9 +113,10 @@ func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interfac
 
 func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interface{}) error {
 	url := c.composeQyapiURL(path, req)
+	urlStr := url.String()
 	body := req.IntoBody()
 
-	resp, err := c.http.Post(url, "application/json", bytes.NewReader(body))
+	resp, err := c.http.Post(urlStr, "application/json", bytes.NewReader(body))
 	defer resp.Body.Close()
 
 	if err != nil {
