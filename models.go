@@ -1,7 +1,9 @@
 package workwx
 
 import (
+	"encoding/json"
 	"net/url"
+	"strings"
 )
 
 type reqAccessToken struct {
@@ -40,4 +42,47 @@ type respAccessToken struct {
 
 	AccessToken   string `json:"access_token"`
 	ExpiresInSecs int64  `json:"expires_in"`
+}
+
+// reqTextMessage 文本消息发送请求
+type reqTextMessage struct {
+	AccessToken string
+
+	ToUser  []string
+	ToParty []string
+	ToTag   []string
+	AgentID int64
+	Content string
+	IsSafe  bool
+}
+
+// IntoBody 转换为请求体的 []byte 类型
+//
+// impl bodyer for reqTextMessage
+func (x reqTextMessage) IntoBody() []byte {
+	// fuck
+	safeInt := 0
+	if x.IsSafe {
+		safeInt = 1
+	}
+
+	obj := map[string]interface{}{
+		"touser":  strings.Join(x.ToUser, "|"),
+		"toparty": strings.Join(x.ToParty, "|"),
+		"ToTag":   strings.Join(x.ToTag, "|"),
+		"msgtype": "text",
+		"agentid": x.AgentID,
+		"text": map[string]string{
+			"content": x.Content,
+		},
+		"safe": safeInt,
+	}
+
+	result, err := json.Marshal(obj)
+	if err != nil {
+		// TODO: interface method signature
+		panic("should never happen unless OOM or similar bad things")
+	}
+
+	return result
 }
