@@ -111,8 +111,26 @@ func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interfac
 	return nil
 }
 
-func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interface{}) error {
+func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interface{}, withAccessToken bool) error {
 	url := c.composeQyapiURL(path, req)
+
+	if withAccessToken {
+		// intensive mutex juggling action
+		c.tokenMu.RLock()
+		if c.accessToken == "" {
+			c.tokenMu.RUnlock() // RWMutex doesn't like recursive locking
+			// TODO: what to do with the possible error?
+			_ = c.syncAccessToken()
+			c.tokenMu.RLock()
+		}
+		tokenToUse := c.accessToken
+		c.tokenMu.RUnlock()
+
+		q := url.Query()
+		q.Set("access_token", tokenToUse)
+		url.RawQuery = q.Encode()
+	}
+
 	urlStr := url.String()
 	body := req.IntoBody()
 
