@@ -25,7 +25,7 @@ func (c *WorkwxApp) getAccessToken() (respAccessToken, error) {
 
 // syncAccessToken 同步该客户端实例的 access token
 //
-// 会拿 `tokenMu` 锁
+// 会拿 `tokenMu` 写锁
 func (c *WorkwxApp) syncAccessToken() error {
 	tok, err := c.getAccessToken()
 	if err != nil {

@@ -31,7 +31,7 @@ type WorkwxApp struct {
 	// AgentID 应用 ID，必填
 	AgentID int64
 
-	tokenMu        *sync.Mutex
+	tokenMu        *sync.RWMutex
 	accessToken    string
 	tokenExpiresIn time.Duration
 	lastRefresh    time.Time
@@ -60,7 +60,7 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 		CorpSecret: corpSecret,
 		AgentID:    agentID,
 
-		tokenMu:     &sync.Mutex{},
+		tokenMu:     &sync.RWMutex{},
 		accessToken: "",
 		lastRefresh: time.Time{},
 	}
