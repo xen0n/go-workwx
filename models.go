@@ -46,8 +46,6 @@ type respAccessToken struct {
 
 // reqTextMessage 文本消息发送请求
 type reqTextMessage struct {
-	AccessToken string
-
 	ToUser  []string
 	ToParty []string
 	ToTag   []string
