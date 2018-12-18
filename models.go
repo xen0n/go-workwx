@@ -84,3 +84,12 @@ func (x reqTextMessage) IntoBody() []byte {
 
 	return result
 }
+
+// respMessageSend 消息发送响应
+type respMessageSend struct {
+	respCommon
+
+	InvalidUsers   string `json:"invaliduser"`
+	InvalidParties string `json:"invalidparty"`
+	InvalidTags    string `json:"invalidtag"`
+}

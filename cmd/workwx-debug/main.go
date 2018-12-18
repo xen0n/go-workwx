@@ -15,6 +15,7 @@ func main() {
 	corpID := os.Getenv("TEST_WORKWX_CORPID")
 	corpSecret := os.Getenv("TEST_WORKWX_CORPSECRET")
 	agentIDStr := os.Getenv("TEST_WORKWX_AGENTID")
+	userID := os.Getenv("TEST_WORKWX_USERID")
 
 	if corpID == "" {
 		fmt.Print("fatal: please set TEST_WORKWX_CORPID")
@@ -26,6 +27,10 @@ func main() {
 	}
 	if agentIDStr == "" {
 		fmt.Println("fatal: please set TEST_WORKWX_AGENTID")
+		os.Exit(1)
+	}
+	if userID == "" {
+		fmt.Println("fatal: please set TEST_WORKWX_USERID")
 		os.Exit(1)
 	}
 
@@ -40,5 +45,10 @@ func main() {
 
 	app := c.WithApp(corpSecret, int64(agentID))
 	app.SpawnAccessTokenRefresher()
-	time.Sleep(5 * time.Second)
+	time.Sleep(time.Second)
+
+	to1 := workwx.Recipient{
+		UserIDs: []string{userID},
+	}
+	_ = app.SendTextMessage(&to1, "testtest", false)
 }
