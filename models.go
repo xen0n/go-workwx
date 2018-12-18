@@ -49,6 +49,7 @@ type reqTextMessage struct {
 	ToUser  []string
 	ToParty []string
 	ToTag   []string
+	ChatID  string
 	AgentID int64
 	Content string
 	IsSafe  bool
@@ -65,15 +66,21 @@ func (x reqTextMessage) IntoBody() []byte {
 	}
 
 	obj := map[string]interface{}{
-		"touser":  strings.Join(x.ToUser, "|"),
-		"toparty": strings.Join(x.ToParty, "|"),
-		"totag":   strings.Join(x.ToTag, "|"),
 		"msgtype": "text",
 		"agentid": x.AgentID,
 		"text": map[string]string{
 			"content": x.Content,
 		},
 		"safe": safeInt,
+	}
+
+	// 复用这个结构体，因为是 package-private 的所以这么做没风险
+	if x.ChatID != "" {
+		obj["chatid"] = x.ChatID
+	} else {
+		obj["touser"] = strings.Join(x.ToUser, "|")
+		obj["toparty"] = strings.Join(x.ToParty, "|")
+		obj["totag"] = strings.Join(x.ToTag, "|")
 	}
 
 	result, err := json.Marshal(obj)

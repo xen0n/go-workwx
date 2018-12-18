@@ -16,6 +16,7 @@ func main() {
 	corpSecret := os.Getenv("TEST_WORKWX_CORPSECRET")
 	agentIDStr := os.Getenv("TEST_WORKWX_AGENTID")
 	userID := os.Getenv("TEST_WORKWX_USERID")
+	chatID := os.Getenv("TEST_WORKWX_CHATID")
 
 	if corpID == "" {
 		fmt.Print("fatal: please set TEST_WORKWX_CORPID")
@@ -31,6 +32,10 @@ func main() {
 	}
 	if userID == "" {
 		fmt.Println("fatal: please set TEST_WORKWX_USERID")
+		os.Exit(1)
+	}
+	if chatID == "" {
+		fmt.Println("fatal: please set TEST_WORKWX_CHATID")
 		os.Exit(1)
 	}
 
@@ -51,4 +56,9 @@ func main() {
 		UserIDs: []string{userID},
 	}
 	_ = app.SendTextMessage(&to1, "testtest", false)
+
+	to2 := workwx.Recipient{
+		ChatID: chatID,
+	}
+	_ = app.SendTextMessage(&to2, "testtest", false)
 }

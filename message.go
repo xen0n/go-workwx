@@ -54,28 +54,46 @@ func (x *Recipient) isValidForAppchatSend() bool {
 	return x.ChatID != ""
 }
 
+const messageSendEndpoint = "/cgi-bin/message/send"
+const apichatSendEndpoint = "/cgi-bin/appchat/send"
+
 // SendTextMessage 发送文本消息
+//
+// 收件人参数如果仅设置了 `ChatID` 字段，则为【发送消息到群聊会话】接口调用；
+// 否则为单纯的【发送应用消息】接口调用。
 func (c *WorkwxApp) SendTextMessage(
 	recipient *Recipient,
 	content string,
 	isSafe bool,
 ) error {
+	isApichatSendRequest := false
 	if !recipient.isValidForMessageSend() {
-		// TODO: better error
-		return errors.New("recipient invalid for SendTextMessage")
+		if !recipient.isValidForAppchatSend() {
+			// TODO: better error
+			return errors.New("recipient invalid for SendTextMessage")
+		}
+
+		// 发送给群聊
+		isApichatSendRequest = true
+	}
+
+	apiPath := messageSendEndpoint
+	if isApichatSendRequest {
+		apiPath = apichatSendEndpoint
 	}
 
 	req := reqTextMessage{
 		ToUser:  recipient.UserIDs,
 		ToParty: recipient.PartyIDs,
 		ToTag:   recipient.TagIDs,
+		ChatID:  recipient.ChatID,
 		AgentID: c.AgentID,
 		Content: content,
 		IsSafe:  isSafe,
 	}
 
 	var resp respMessageSend
-	err := c.executeQyapiJSONPost("/cgi-bin/message/send", req, &resp, true)
+	err := c.executeQyapiJSONPost(apiPath, req, &resp, true)
 	if err != nil {
 		// TODO: error_chain
 		return err
