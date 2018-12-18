@@ -1,6 +1,7 @@
 package workwx
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -66,8 +67,11 @@ func (c *Workwx) WithApp(corpSecret string) *WorkwxApp {
 // impl Workwx
 //
 
-func (c *Workwx) composeQyapiURL(path string, req urlValuer) string {
-	values := req.IntoURLValues()
+func (c *Workwx) composeQyapiURL(path string, req interface{}) string {
+	values := url.Values{}
+	if valuer, ok := req.(urlValuer); ok {
+		values = valuer.IntoURLValues()
+	}
 
 	// TODO: refactor
 	base, err := url.Parse(c.qyapiHost)
@@ -86,6 +90,28 @@ func (c *Workwx) executeQyapiGet(path string, req urlValuer, respObj interface{}
 	url := c.composeQyapiURL(path, req)
 
 	resp, err := c.http.Get(url)
+	defer resp.Body.Close()
+
+	if err != nil {
+		// TODO: error_chain
+		return err
+	}
+
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(respObj)
+	if err != nil {
+		// TODO: error_chain
+		return err
+	}
+
+	return nil
+}
+
+func (c *Workwx) executeQyapiJSONPost(path string, req bodyer, respObj interface{}) error {
+	url := c.composeQyapiURL(path, req)
+	body := req.IntoBody()
+
+	resp, err := c.http.Post(url, "application/json", bytes.NewReader(body))
 	defer resp.Body.Close()
 
 	if err != nil {
