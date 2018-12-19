@@ -1,5 +1,7 @@
 # go-workwx
 
+[![GoDoc](http://godoc.org/github.com/xen0n/go-workwx?status.png)](http://godoc.org/github.com/xen0n/go-workwx)
+
 ```go
 import (
 	"github.com/xen0n/go-workwx" // package workwx
