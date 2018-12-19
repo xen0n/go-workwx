@@ -45,8 +45,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	c := workwx.Default()
-	c.CorpID = corpID
+	c := workwx.New(corpID)
 
 	app := c.WithApp(corpSecret, int64(agentID))
 	app.SpawnAccessTokenRefresher()
@@ -57,8 +56,10 @@ func main() {
 	}
 	_ = app.SendTextMessage(&to1, "testtest", false)
 
-	to2 := workwx.Recipient{
-		ChatID: chatID,
-	}
-	_ = app.SendTextMessage(&to2, "testtest", false)
+	/*
+		to2 := workwx.Recipient{
+			ChatID: chatID,
+		}
+		_ = app.SendTextMessage(&to2, "testtest", false)
+	*/
 }

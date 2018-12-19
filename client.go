@@ -15,8 +15,7 @@ const DefaultQYAPIHost = "https://qyapi.weixin.qq.com"
 
 // Workwx 企业微信客户端
 type Workwx struct {
-	qyapiHost string
-	http      *http.Client
+	opts options
 
 	// CorpID 企业 ID，必填
 	CorpID string
@@ -37,18 +36,21 @@ type WorkwxApp struct {
 	lastRefresh    time.Time
 }
 
-// Default 构造一个默认配置的 `Workwx`，自带独立 `http.Client`，需要自行设置 `CorpID`
-//
-// impl Default for Workwx
-func Default() *Workwx {
-	return WithHTTPClient(&http.Client{})
-}
+// New 构造一个 Workwx 客户端对象，需要提供企业 ID
+func New(corpID string, opts ...ctorOption) *Workwx {
+	optionsObj := options{
+		QYAPIHost: DefaultQYAPIHost,
+		HTTP:      &http.Client{},
+	}
 
-// WithHTTPClient 用给定的 `http.Client` 构造一个 `Workwx`，需要自行设置 `CorpID`
-func WithHTTPClient(client *http.Client) *Workwx {
+	for _, o := range opts {
+		o.ApplyTo(&optionsObj)
+	}
+
 	return &Workwx{
-		qyapiHost: DefaultQYAPIHost,
-		http:      client,
+		opts: optionsObj,
+
+		CorpID: corpID,
 	}
 }
 
@@ -77,10 +79,10 @@ func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
 	}
 
 	// TODO: refactor
-	base, err := url.Parse(c.qyapiHost)
+	base, err := url.Parse(c.opts.QYAPIHost)
 	if err != nil {
 		// TODO: error_chain
-		panic(fmt.Sprintf("qyapiHost invalid: host=%s err=%+v", c.qyapiHost, err))
+		panic(fmt.Sprintf("qyapiHost invalid: host=%s err=%+v", c.opts.QYAPIHost, err))
 	}
 
 	base.Path = path
@@ -93,7 +95,7 @@ func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interfac
 	url := c.composeQyapiURL(path, req)
 	urlStr := url.String()
 
-	resp, err := c.http.Get(urlStr)
+	resp, err := c.opts.HTTP.Get(urlStr)
 	defer resp.Body.Close()
 
 	if err != nil {
@@ -134,7 +136,7 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interf
 	urlStr := url.String()
 	body := req.IntoBody()
 
-	resp, err := c.http.Post(urlStr, "application/json", bytes.NewReader(body))
+	resp, err := c.opts.HTTP.Post(urlStr, "application/json", bytes.NewReader(body))
 	defer resp.Body.Close()
 
 	if err != nil {
