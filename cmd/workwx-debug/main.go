@@ -19,11 +19,11 @@ func main() {
 	chatID := os.Getenv("TEST_WORKWX_CHATID")
 
 	if corpID == "" {
-		fmt.Print("fatal: please set TEST_WORKWX_CORPID")
+		fmt.Println("fatal: please set TEST_WORKWX_CORPID")
 		os.Exit(1)
 	}
 	if corpSecret == "" {
-		fmt.Print("fatal: please set TEST_WORKWX_CORPSECRET")
+		fmt.Println("fatal: please set TEST_WORKWX_CORPSECRET")
 		os.Exit(1)
 	}
 	if agentIDStr == "" {
@@ -41,7 +41,7 @@ func main() {
 
 	agentID, err := strconv.Atoi(agentIDStr)
 	if err != nil {
-		fmt.Println("fatal: AgentID '%s' is not valid integer")
+		fmt.Printf("fatal: AgentID '%s' is not valid integer\n", agentIDStr)
 		os.Exit(1)
 	}
 
