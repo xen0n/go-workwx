@@ -1,5 +1,6 @@
 # go-workwx
 
+[![Travis Build Status](https://img.shields.io/travis/xen0n/go-workwx.svg)](https://travis-ci.org/xen0n/go-workwx)
 [![GoDoc](http://godoc.org/github.com/xen0n/go-workwx?status.svg)](http://godoc.org/github.com/xen0n/go-workwx)
 
 ```go
