@@ -34,10 +34,6 @@ func main() {
 		fmt.Println("fatal: please set TEST_WORKWX_USERID")
 		os.Exit(1)
 	}
-	if chatID == "" {
-		fmt.Println("fatal: please set TEST_WORKWX_CHATID")
-		os.Exit(1)
-	}
 
 	agentID, err := strconv.Atoi(agentIDStr)
 	if err != nil {
@@ -56,10 +52,10 @@ func main() {
 	}
 	_ = app.SendTextMessage(&to1, "testtest", false)
 
-	/*
+	if chatID != "" {
 		to2 := workwx.Recipient{
 			ChatID: chatID,
 		}
 		_ = app.SendTextMessage(&to2, "testtest", false)
-	*/
+	}
 }
