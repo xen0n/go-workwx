@@ -96,12 +96,11 @@ func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interfac
 	urlStr := url.String()
 
 	resp, err := c.opts.HTTP.Get(urlStr)
-	defer resp.Body.Close()
-
 	if err != nil {
 		// TODO: error_chain
 		return err
 	}
+	defer resp.Body.Close()
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(respObj)
@@ -137,12 +136,11 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interf
 	body := req.IntoBody()
 
 	resp, err := c.opts.HTTP.Post(urlStr, "application/json", bytes.NewReader(body))
-	defer resp.Body.Close()
-
 	if err != nil {
 		// TODO: error_chain
 		return err
 	}
+	defer resp.Body.Close()
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(respObj)
