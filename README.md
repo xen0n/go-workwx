@@ -30,7 +30,7 @@ Yet another Work Weixin client for Golang
 * [ ] 通讯录管理
 * [ ] 外部联系人管理
 * [ ] 应用管理
-* [ ] 消息发送
+* [x] 消息发送 (**部分支持**，见下)
 * [ ] 素材管理
 
 <details>
