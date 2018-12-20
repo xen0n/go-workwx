@@ -1,6 +1,8 @@
 package workwx_test
 
 import (
+	"net/http"
+
 	"github.com/xen0n/go-workwx"
 )
 
@@ -11,6 +13,14 @@ func ExampleWorkwx() {
 
 	client := workwx.New(corpID)
 
+	// there're advanced options
+	_ = workwx.New(
+		corpID,
+		workwx.WithQYAPIHost("http://localhost:8888"),
+		workwx.WithHTTPClient(&http.Client{}),
+	)
+
+	// work with individual apps
 	app := client.WithApp(corpSecret, agentID)
 	app.SpawnAccessTokenRefresher()
 
