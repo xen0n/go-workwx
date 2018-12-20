@@ -44,21 +44,22 @@ type respAccessToken struct {
 	ExpiresInSecs int64  `json:"expires_in"`
 }
 
-// reqTextMessage 文本消息发送请求
-type reqTextMessage struct {
+// reqMessage 消息发送请求
+type reqMessage struct {
 	ToUser  []string
 	ToParty []string
 	ToTag   []string
 	ChatID  string
 	AgentID int64
-	Content string
+	MsgType string
+	Content map[string]interface{}
 	IsSafe  bool
 }
 
 // IntoBody 转换为请求体的 []byte 类型
 //
-// impl bodyer for reqTextMessage
-func (x reqTextMessage) IntoBody() []byte {
+// impl bodyer for reqMessage
+func (x reqMessage) IntoBody() []byte {
 	// fuck
 	safeInt := 0
 	if x.IsSafe {
@@ -66,13 +67,13 @@ func (x reqTextMessage) IntoBody() []byte {
 	}
 
 	obj := map[string]interface{}{
-		"msgtype": "text",
+		"msgtype": x.MsgType,
 		"agentid": x.AgentID,
-		"text": map[string]string{
-			"content": x.Content,
-		},
-		"safe": safeInt,
+		"safe":    safeInt,
 	}
+
+	// msgtype polymorphism
+	obj[x.MsgType] = x.Content
 
 	// 复用这个结构体，因为是 package-private 的所以这么做没风险
 	if x.ChatID != "" {
