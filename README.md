@@ -35,6 +35,7 @@ Yet another Work Weixin client for Golang
 
 <details>
 <summary>通讯录管理 API</summary>
+
 * [ ] 成员管理
     - [ ] 创建成员
     - [ ] 读取成员
@@ -69,27 +70,33 @@ Yet another Work Weixin client for Golang
     - [ ] 部门变更通知
     - [ ] 标签变更通知
     - [ ] 异步任务完成通知
+
 </details>
 
 <details>
 <summary>外部联系人管理 API</summary>
+
 * [ ] 离职成员的外部联系人再分配
 * [ ] 成员对外信息
 * [ ] 获取外部联系人详情
+
 </details>
 
 <details>
 <summary>应用管理 API</summary>
+
 * [ ] 获取应用
 * [ ] 设置应用
 * [ ] 自定义菜单
     - [ ] 创建菜单
     - [ ] 获取菜单
     - [ ] 删除菜单
+
 </details>
 
 <details>
 <summary>消息发送 API</summary>
+
 * [x] 发送应用消息
 * [ ] 接收消息
 * [x] 发送消息到群聊会话
@@ -97,16 +104,19 @@ Yet another Work Weixin client for Golang
     - [ ] 修改群聊会话
     - [ ] 获取群聊会话
     - [x] 应用推送消息
-* 消息类型
-    - [x] 文本消息
-    - [ ] 图片消息
-    - [ ] 语音消息
-    - [ ] 视频消息
-    - [ ] 文件消息
-    - [ ] 文本卡片消息
-    - [ ] 图文消息
-    - [ ] 图文消息（mpnews）
-    - [x] markdown消息
+
+### 消息类型
+
+* [x] 文本消息
+* [ ] 图片消息
+* [ ] 语音消息
+* [ ] 视频消息
+* [ ] 文件消息
+* [ ] 文本卡片消息
+* [ ] 图文消息
+* [ ] 图文消息（mpnews）
+* [x] markdown消息
+
 </details>
 
 
