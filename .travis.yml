@@ -9,6 +9,8 @@ branches:
   only:
     - 'staging'
     - 'trying'
+    - 'develop'
+    - 'master'
 cache:
   - $GOPATH/pkg/dep
 before_install:
