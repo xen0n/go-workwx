@@ -4,6 +4,9 @@ import (
 	"net/http"
 )
 
+// DefaultQYAPIHost 默认企业微信 API Host
+const DefaultQYAPIHost = "https://qyapi.weixin.qq.com"
+
 type options struct {
 	QYAPIHost string
 	HTTP      *http.Client
@@ -11,6 +14,14 @@ type options struct {
 
 type ctorOption interface {
 	ApplyTo(*options)
+}
+
+// impl Default for options
+func defaultOptions() options {
+	return options{
+		QYAPIHost: DefaultQYAPIHost,
+		HTTP:      &http.Client{},
+	}
 }
 
 //
