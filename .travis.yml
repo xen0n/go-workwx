@@ -2,6 +2,12 @@ language: go
 go:
   - "1.11"
 go_import_path: github.com/xen0n/go-workwx
+branches:
+  # in spirit of https://bors.tech/documentation/getting-started/
+  # but allows develop/master/hotfix/tags etc. to be built
+  except:
+    - 'staging.tmp'
+    - 'trying.tmp'
 cache:
   - $GOPATH/pkg/dep
 before_install:
