@@ -13,5 +13,5 @@ type urlValuer interface {
 // bodyer 可转化为 API 请求体的 trait
 type bodyer interface {
 	// IntoBody 转换为请求体的 []byte 类型
-	IntoBody() []byte
+	IntoBody() ([]byte, error)
 }

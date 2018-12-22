@@ -3,11 +3,14 @@ go:
   - "1.11"
 go_import_path: github.com/xen0n/go-workwx
 branches:
-  # in spirit of https://bors.tech/documentation/getting-started/
-  # but allows develop/master/hotfix/tags etc. to be built
-  except:
-    - 'staging.tmp'
-    - 'trying.tmp'
+  # https://bors.tech/documentation/getting-started/
+  # unfortunately whitelisting is necessary because otherwise my own branches
+  # would get (repeatedly) built as well...
+  only:
+    - 'staging'
+    - 'trying'
+    - 'develop'
+    - 'master'
 cache:
   - $GOPATH/pkg/dep
 before_install:

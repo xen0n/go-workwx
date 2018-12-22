@@ -59,7 +59,7 @@ type reqMessage struct {
 // IntoBody 转换为请求体的 []byte 类型
 //
 // impl bodyer for reqMessage
-func (x reqMessage) IntoBody() []byte {
+func (x reqMessage) IntoBody() ([]byte, error) {
 	// fuck
 	safeInt := 0
 	if x.IsSafe {
@@ -86,11 +86,12 @@ func (x reqMessage) IntoBody() []byte {
 
 	result, err := json.Marshal(obj)
 	if err != nil {
-		// TODO: interface method signature
-		panic("should never happen unless OOM or similar bad things")
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
 	}
 
-	return result
+	return result, nil
 }
 
 // respMessageSend 消息发送响应
