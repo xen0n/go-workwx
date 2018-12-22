@@ -126,7 +126,11 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interf
 	}
 
 	urlStr := url.String()
-	body := req.IntoBody()
+	body, err := req.IntoBody()
+	if err != nil {
+		// TODO: error_chain
+		return err
+	}
 
 	resp, err := c.opts.HTTP.Post(urlStr, "application/json", bytes.NewReader(body))
 	if err != nil {
