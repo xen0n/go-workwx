@@ -33,6 +33,10 @@
   name = "github.com/smartystreets/goconvey"
   version = "1.6.3"
 
+[[constraint]]
+  name = "github.com/urfave/cli"
+  branch = "v2"
+
 [prune]
   go-tests = true
   unused-packages = true
