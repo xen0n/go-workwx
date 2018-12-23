@@ -15,18 +15,14 @@ func TestReqAccessToken(t *testing.T) {
 			CorpSecret: "bar",
 		}
 
-		c.Convey("它应该实现了 urlValuer", func() {
-			c.So(a, c.ShouldImplement, (*urlValuer)(nil))
+		c.Convey("序列化结果应该符合预期", func() {
+			v := a.IntoURLValues()
 
-			c.Convey("序列化结果应该符合预期", func() {
-				v := a.IntoURLValues()
-
-				expected := url.Values{
-					"corpid":     []string{"foo"},
-					"corpsecret": []string{"bar"},
-				}
-				c.So(v, c.ShouldResemble, expected)
-			})
+			expected := url.Values{
+				"corpid":     []string{"foo"},
+				"corpsecret": []string{"bar"},
+			}
+			c.So(v, c.ShouldResemble, expected)
 		})
 	})
 }
@@ -90,89 +86,85 @@ func TestReqMessage(t *testing.T) {
 			a.IsSafe = false
 		})
 
-		c.Convey("它应该实现了 bodyer", func() {
-			c.So(a, c.ShouldImplement, (*bodyer)(nil))
+		c.Convey("故意放一个不能 marshal 的 Content", func() {
+			a.Content = map[string]interface{}{
+				"heh": make(chan struct{}),
+			}
 
-			c.Convey("故意放一个不能 marshal 的 Content", func() {
-				a.Content = map[string]interface{}{
-					"heh": make(chan struct{}),
-				}
+			c.Convey("执行序列化", func() {
+				result, err := a.IntoBody()
 
-				c.Convey("执行序列化", func() {
-					result, err := a.IntoBody()
+				c.Convey("序列化应该失败", func() {
+					c.So(err, c.ShouldNotBeNil)
+					c.So(result, c.ShouldBeNil)
+				})
+			})
+		})
 
-					c.Convey("序列化应该失败", func() {
-						c.So(err, c.ShouldNotBeNil)
-						c.So(result, c.ShouldBeNil)
+		c.Convey("发给用户列表 & 设置为保密信息", func() {
+			a.ToUser = []string{"foo", "bar", "baz"}
+			a.IsSafe = true
+
+			c.Convey("执行序列化", func() {
+				result, err := a.IntoBody()
+
+				c.Convey("序列化应该成功", func() {
+					c.So(err, c.ShouldBeNil)
+
+					c.Convey("序列化结果应该符合预期", func() {
+						expectedPayload := []byte(`{
+								"touser": "foo|bar|baz",
+								"toparty": "",
+								"totag": "",
+								"msgtype": "text",
+								"agentid": 233,
+								"text": {"content": "test"},
+								"safe": 1
+								}`)
+						var expected map[string]interface{}
+						err := json.Unmarshal(expectedPayload, &expected)
+						c.So(err, c.ShouldBeNil)
+
+						var actual map[string]interface{}
+						err = json.Unmarshal(result, &actual)
+						c.So(err, c.ShouldBeNil)
+
+						// we're comparing JSON *outputs*
+						// so assertions.ShouldEqualJSON is not suitable
+						c.So(actual, c.ShouldResemble, expected)
 					})
 				})
 			})
+		})
 
-			c.Convey("发给用户列表 & 设置为保密信息", func() {
-				a.ToUser = []string{"foo", "bar", "baz"}
-				a.IsSafe = true
+		c.Convey("发给 chatid", func() {
+			a.ChatID = "quux"
 
-				c.Convey("执行序列化", func() {
-					result, err := a.IntoBody()
+			c.Convey("执行序列化", func() {
+				result, err := a.IntoBody()
 
-					c.Convey("序列化应该成功", func() {
+				c.Convey("序列化应该成功", func() {
+					c.So(err, c.ShouldBeNil)
+
+					c.Convey("序列化结果应该符合预期", func() {
+						expectedPayload := []byte(`{
+								"chatid": "quux",
+								"msgtype": "text",
+								"agentid": 233,
+								"text": {"content": "test"},
+								"safe": 0
+								}`)
+						var expected map[string]interface{}
+						err := json.Unmarshal(expectedPayload, &expected)
 						c.So(err, c.ShouldBeNil)
 
-						c.Convey("序列化结果应该符合预期", func() {
-							expectedPayload := []byte(`{
-									"touser": "foo|bar|baz",
-									"toparty": "",
-									"totag": "",
-									"msgtype": "text",
-									"agentid": 233,
-									"text": {"content": "test"},
-									"safe": 1
-									}`)
-							var expected map[string]interface{}
-							err := json.Unmarshal(expectedPayload, &expected)
-							c.So(err, c.ShouldBeNil)
-
-							var actual map[string]interface{}
-							err = json.Unmarshal(result, &actual)
-							c.So(err, c.ShouldBeNil)
-
-							// we're comparing JSON *outputs*
-							// so assertions.ShouldEqualJSON is not suitable
-							c.So(actual, c.ShouldResemble, expected)
-						})
-					})
-				})
-			})
-
-			c.Convey("发给 chatid", func() {
-				a.ChatID = "quux"
-
-				c.Convey("执行序列化", func() {
-					result, err := a.IntoBody()
-
-					c.Convey("序列化应该成功", func() {
+						var actual map[string]interface{}
+						err = json.Unmarshal(result, &actual)
 						c.So(err, c.ShouldBeNil)
 
-						c.Convey("序列化结果应该符合预期", func() {
-							expectedPayload := []byte(`{
-									"chatid": "quux",
-									"msgtype": "text",
-									"agentid": 233,
-									"text": {"content": "test"},
-									"safe": 0
-									}`)
-							var expected map[string]interface{}
-							err := json.Unmarshal(expectedPayload, &expected)
-							c.So(err, c.ShouldBeNil)
-
-							var actual map[string]interface{}
-							err = json.Unmarshal(result, &actual)
-							c.So(err, c.ShouldBeNil)
-
-							// we're comparing JSON *outputs*
-							// so assertions.ShouldEqualJSON is not suitable
-							c.So(actual, c.ShouldResemble, expected)
-						})
+						// we're comparing JSON *outputs*
+						// so assertions.ShouldEqualJSON is not suitable
+						c.So(actual, c.ShouldResemble, expected)
 					})
 				})
 			})
