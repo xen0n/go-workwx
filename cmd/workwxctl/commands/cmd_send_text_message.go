@@ -6,8 +6,8 @@ import (
 	"github.com/urfave/cli"
 )
 
-func cmdAccesstoken(c *cli.Context) error {
+func cmdSendTextMessage(c *cli.Context) error {
 	cfg := mustGetConfig(c)
-	fmt.Printf("accesstoken: cfg=%+v\n", cfg)
+	fmt.Printf("send-text-message: cfg=%+v\n", cfg)
 	return nil
 }

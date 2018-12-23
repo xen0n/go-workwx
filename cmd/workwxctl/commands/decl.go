@@ -33,9 +33,9 @@ func InitApp() *cli.App {
 		},
 		Commands: []*cli.Command{
 			{
-				Name:   "accesstoken",
-				Usage:  "获取 access token",
-				Action: cmdAccesstoken,
+				Name:   "send-text-message",
+				Usage:  "发送纯文本消息",
+				Action: cmdSendTextMessage,
 			},
 		},
 	}
