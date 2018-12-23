@@ -2,6 +2,7 @@ package commands
 
 import (
 	"github.com/urfave/cli"
+	"github.com/xen0n/go-workwx"
 )
 
 const (
@@ -39,4 +40,20 @@ func mustGetConfig(c *cli.Context) *cliOptions {
 
 		QYAPIHostOverride: c.String(flagQyapiHostOverride),
 	}
+}
+
+//
+// impl cliOptions
+//
+
+func (c *cliOptions) makeWorkwxClient() *workwx.Workwx {
+	if c.QYAPIHostOverride != "" {
+		// wtf think of a way to change this
+		return workwx.New(c.CorpID, workwx.WithQYAPIHost(c.QYAPIHostOverride))
+	}
+	return workwx.New(c.CorpID)
+}
+
+func (c *cliOptions) MakeWorkwxApp() *workwx.WorkwxApp {
+	return c.makeWorkwxClient().WithApp(c.CorpSecret, c.AgentID)
 }
