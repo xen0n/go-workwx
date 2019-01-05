@@ -38,7 +38,7 @@ Yet another Work Weixin client for Golang
 
 * [ ] 成员管理
     - [ ] 创建成员
-    - [ ] 读取成员
+    - [x] 读取成员 *NOTE: 成员对外信息暂未实现*
     - [ ] 更新成员
     - [ ] 删除成员
     - [ ] 批量删除成员
