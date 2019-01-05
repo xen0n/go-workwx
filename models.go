@@ -102,3 +102,38 @@ type respMessageSend struct {
 	InvalidParties string `json:"invalidparty"`
 	InvalidTags    string `json:"invalidtag"`
 }
+
+type reqUserGet struct {
+	UserID string
+}
+
+// IntoURLValues 转换为 url.Values 类型
+//
+// impl urlValuer for reqUserGet
+func (x reqUserGet) IntoURLValues() url.Values {
+	return url.Values{
+		"userid": {x.UserID},
+	}
+}
+
+// respUserGet 读取成员响应
+type respUserGet struct {
+	respCommon
+
+	UserID         string   `json:"userid"`
+	Name           string   `json:"name"`
+	DeptIDs        []int64  `json:"department"`
+	DeptOrder      []uint32 `json:"order"`
+	Position       string   `json:"position"`
+	Mobile         string   `json:"mobile"`
+	Gender         string   `json:"gender"`
+	Email          string   `json:"email"`
+	IsLeaderInDept []int    `json:"is_leader_in_dept"`
+	AvatarURL      string   `json:"avatar"`
+	Telephone      string   `json:"telephone"`
+	IsEnabled      int      `json:"enable"`
+	Alias          string   `json:"alias"`
+	Status         int      `json:"status"`
+	QRCodeURL      string   `json:"qr_code"`
+	// TODO: extattr external_profile external_position
+}
