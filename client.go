@@ -84,8 +84,33 @@ func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
 	return base
 }
 
-func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interface{}) error {
+func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withAccessToken bool) *url.URL {
 	url := c.composeQyapiURL(path, req)
+
+	if !withAccessToken {
+		return url
+	}
+
+	// intensive mutex juggling action
+	c.tokenMu.RLock()
+	if c.accessToken == "" {
+		c.tokenMu.RUnlock() // RWMutex doesn't like recursive locking
+		// TODO: what to do with the possible error?
+		_ = c.syncAccessToken()
+		c.tokenMu.RLock()
+	}
+	tokenToUse := c.accessToken
+	c.tokenMu.RUnlock()
+
+	q := url.Query()
+	q.Set("access_token", tokenToUse)
+	url.RawQuery = q.Encode()
+
+	return url
+}
+
+func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interface{}, withAccessToken bool) error {
+	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	urlStr := url.String()
 
 	resp, err := c.opts.HTTP.Get(urlStr)
@@ -106,26 +131,9 @@ func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interfac
 }
 
 func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interface{}, withAccessToken bool) error {
-	url := c.composeQyapiURL(path, req)
-
-	if withAccessToken {
-		// intensive mutex juggling action
-		c.tokenMu.RLock()
-		if c.accessToken == "" {
-			c.tokenMu.RUnlock() // RWMutex doesn't like recursive locking
-			// TODO: what to do with the possible error?
-			_ = c.syncAccessToken()
-			c.tokenMu.RLock()
-		}
-		tokenToUse := c.accessToken
-		c.tokenMu.RUnlock()
-
-		q := url.Query()
-		q.Set("access_token", tokenToUse)
-		url.RawQuery = q.Encode()
-	}
-
+	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	urlStr := url.String()
+
 	body, err := req.IntoBody()
 	if err != nil {
 		// TODO: error_chain

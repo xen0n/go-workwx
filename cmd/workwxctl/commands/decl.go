@@ -33,6 +33,11 @@ func InitApp() *cli.App {
 		},
 		Commands: []*cli.Command{
 			{
+				Name:   "user-get",
+				Usage:  "读取成员",
+				Action: cmdUserGet,
+			},
+			{
 				Name:   "send-text-message",
 				Usage:  "发送纯文本消息",
 				Action: cmdSendTextMessage,
