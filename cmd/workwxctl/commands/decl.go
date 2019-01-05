@@ -36,6 +36,32 @@ func InitApp() *cli.App {
 				Name:   "send-text-message",
 				Usage:  "发送纯文本消息",
 				Action: cmdSendTextMessage,
+				Flags: []cli.Flag{
+					&cli.StringSliceFlag{
+						Name:    flagToUser,
+						Aliases: []string{flagToUserShort},
+						Usage:   "收信用户 ID (可指定多次)",
+					},
+					&cli.StringSliceFlag{
+						Name:    flagToParty,
+						Aliases: []string{flagToPartyShort},
+						Usage:   "收信部门 ID (可指定多次)",
+					},
+					&cli.StringSliceFlag{
+						Name:    flagToTag,
+						Aliases: []string{flagToTagShort},
+						Usage:   "收信标签 ID (可指定多次)",
+					},
+					&cli.StringFlag{
+						Name:    flagToChat,
+						Aliases: []string{flagToChatShort},
+						Usage:   "收信群聊 chatid (不可与其他收信人选项同时指定)",
+					},
+					&cli.BoolFlag{
+						Name:  flagSafe,
+						Usage: "作为保密消息发送",
+					},
+				},
 			},
 		},
 	}

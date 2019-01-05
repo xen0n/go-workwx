@@ -10,6 +10,16 @@ const (
 	flagCorpSecret        = "corpsecret"
 	flagAgentID           = "agentid"
 	flagQyapiHostOverride = "qyapi-host-override"
+
+	flagSafe         = "safe"
+	flagToUser       = "to-user"
+	flagToUserShort  = "u"
+	flagToParty      = "to-party"
+	flagToPartyShort = "p"
+	flagToTag        = "to-tag"
+	flagToTagShort   = "t"
+	flagToChat       = "to-chat"
+	flagToChatShort  = "c"
 )
 
 type cliOptions struct {
