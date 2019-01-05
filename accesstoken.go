@@ -58,7 +58,7 @@ func (c *WorkwxApp) accessTokenRefresher() {
 		}
 
 		waitUntilTime := c.lastRefresh.Add(c.tokenExpiresIn).Add(-refreshTimeWindow)
-		waitDuration := waitUntilTime.Sub(time.Now())
+		waitDuration := time.Until(waitUntilTime)
 
 		if waitDuration < minRefreshDuration {
 			waitDuration = minRefreshDuration
