@@ -109,8 +109,8 @@ func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withA
 	return url
 }
 
-func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interface{}) error {
-	url := c.composeQyapiURL(path, req)
+func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interface{}, withAccessToken bool) error {
+	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	urlStr := url.String()
 
 	resp, err := c.opts.HTTP.Get(urlStr)

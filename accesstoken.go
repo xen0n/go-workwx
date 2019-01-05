@@ -14,7 +14,7 @@ func (c *WorkwxApp) getAccessToken() (respAccessToken, error) {
 	}
 
 	var resp respAccessToken
-	err := c.executeQyapiGet("/cgi-bin/gettoken", req, &resp)
+	err := c.executeQyapiGet("/cgi-bin/gettoken", req, &resp, false)
 	if err != nil {
 		// TODO: error_chain
 		return respAccessToken{}, err
