@@ -51,7 +51,7 @@ Yet another Work Weixin client for Golang
     - [ ] 创建部门
     - [ ] 更新部门
     - [ ] 删除部门
-    - [ ] 获取部门列表
+    - [x] 获取部门列表
 * [ ] 标签管理
     - [ ] 创建标签
     - [ ] 更新标签名字

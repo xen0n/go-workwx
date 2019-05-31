@@ -38,6 +38,11 @@ func InitApp() *cli.App {
 				Action: cmdUserGet,
 			},
 			{
+				Name:   "dept-list",
+				Usage:  "获取部门列表",
+				Action: cmdDeptList,
+			},
+			{
 				Name:   "send-text-message",
 				Usage:  "发送纯文本消息",
 				Action: cmdSendTextMessage,

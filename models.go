@@ -3,6 +3,7 @@ package workwx
 import (
 	"encoding/json"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -136,4 +137,30 @@ type respUserGet struct {
 	Status         int      `json:"status"`
 	QRCodeURL      string   `json:"qr_code"`
 	// TODO: extattr external_profile external_position
+}
+
+type reqDeptList struct {
+	HaveID bool
+	ID     int64
+}
+
+// IntoURLValues 转换为 url.Values 类型
+//
+// impl urlValuer for reqDeptList
+func (x reqDeptList) IntoURLValues() url.Values {
+	if !x.HaveID {
+		return url.Values{}
+	}
+
+	return url.Values{
+		"id": {strconv.FormatInt(x.ID, 10)},
+	}
+}
+
+// respDeptList 部门列表响应
+type respDeptList struct {
+	respCommon
+
+	// TODO: 不要懒惰，把 API 层的类型写好
+	Department []*DeptInfo `json:"department"`
 }
