@@ -22,7 +22,9 @@ check_gofmt() {
     fi
 }
 
-check_gofmt .
+# exclude vendored files
+# TODO: write this more elegantly
+check_gofmt *.go cmd
 
 
 # staticcheck for known problems
