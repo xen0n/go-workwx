@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 )
@@ -9,6 +11,15 @@ import (
 func main() {
 	// TODO: error handling
 	filename := os.Args[1]
+	var destFilename string
+	if len(os.Args) == 3 {
+		destFilename = os.Args[2]
+	} else {
+		// blindly append `.go` so the result looks like `foo.md.go`
+		destFilename = filename + ".go"
+	}
+
+	emitToStdout := destFilename == "-"
 
 	file, err := os.Open(filename)
 	if err != nil {
@@ -34,8 +45,25 @@ func main() {
 		return // unreachable
 	}
 
+	var sink io.Writer
+	if emitToStdout {
+		sink = os.Stdout
+	} else {
+		file, err := os.Create(destFilename)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "open '%s' for writing failed: %+v\n", destFilename, err)
+			os.Exit(1)
+			return // unreachable
+		}
+		bufWriter := bufio.NewWriter(file)
+		sink = bufWriter
+		defer func() {
+			bufWriter.Flush()
+			file.Close()
+		}()
+	}
 	em := &goEmitter{
-		Sink: os.Stdout,
+		Sink: sink,
 	}
 
 	err = em.EmitCode(&hir)
