@@ -34,25 +34,14 @@ func (x *mdContentNode) displayType() string {
 type mdTocNode struct {
 	*mdContentNode
 
+	Level       int
 	TocChildren []*mdTocNode
 }
 
 func (x *mdTocNode) sealedForMdNode() {}
 
 func (x *mdTocNode) displayType() string {
-	var sb strings.Builder
-
-	sb.WriteString("T<")
-	sb.WriteString(x.This.Type.String())
-
-	switch x.This.Type {
-	case blackfriday.Heading:
-		fmt.Fprintf(&sb, "<%d>", x.This.HeadingData.Level)
-	}
-
-	sb.WriteRune('>')
-
-	return sb.String()
+	return fmt.Sprintf("T<%s<%d>>", x.This.Type.String(), x.Level)
 }
 
 func isTocNode(n mdNode) bool {

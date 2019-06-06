@@ -77,6 +77,7 @@ func doReshape(
 		thisNodeContent := makeContentNode(root)
 		stack = append(stack, &mdTocNode{
 			mdContentNode: thisNodeContent,
+			Level:         lvl,
 		})
 
 	default:
