@@ -31,6 +31,14 @@ func (x *mdContentNode) displayType() string {
 	return sb.String()
 }
 
+func (x *mdContentNode) ThisText() string {
+	var sb strings.Builder
+	for _, n := range x.ThisContent {
+		sb.Write(n.This.Literal)
+	}
+	return sb.String()
+}
+
 type mdTocNode struct {
 	*mdContentNode
 

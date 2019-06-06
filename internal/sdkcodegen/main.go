@@ -26,5 +26,13 @@ func main() {
 	}
 
 	mdRoot := parseDocument(content)
-	analyzeDocument(mdRoot)
+
+	hir, err := analyzeDocument(mdRoot)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "syntax error in spec: %+v\n", err)
+		os.Exit(1)
+		return // unreachable
+	}
+
+	fmt.Printf("%+v\n", hir)
 }
