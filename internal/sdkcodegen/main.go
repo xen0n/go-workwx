@@ -34,5 +34,21 @@ func main() {
 		return // unreachable
 	}
 
-	fmt.Printf("%+v\n", hir)
+	em := &goEmitter{
+		Sink: os.Stdout,
+	}
+
+	err = em.EmitCode(&hir)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "code emission failed: %+v\n", err)
+		os.Exit(1)
+		return // unreachable
+	}
+
+	err = em.Finalize()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "finalization failed: %+v\n", err)
+		os.Exit(1)
+		return // unreachable
+	}
 }
