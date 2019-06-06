@@ -48,7 +48,7 @@ func analyzeH1(doc *mdTocNode) (topic, error) {
 	result := topic{}
 	for _, n := range doc.TocChildren {
 		// fmt.Printf("H2: %s\n", n.ThisText())
-		title := n.ThisText()
+		title := n.ThisInnerText()
 		title = strings.TrimSpace(title)
 
 		switch title {
@@ -96,13 +96,13 @@ func analyzeH3Model(doc *mdTocNode) (apiModel, error) {
 	// model metadata
 	var docSb strings.Builder
 	for _, n := range doc.ThisContent {
-		switch n.This.Type {
+		switch n.ThisType() {
 		case blackfriday.Code:
 			// ident
-			result.ident = string(n.This.Literal)
+			result.ident = n.ThisLit()
 
 		case blackfriday.Text:
-			docSb.Write(n.This.Literal)
+			docSb.WriteString(n.ThisLit())
 
 		default:
 			// ignore
@@ -114,7 +114,7 @@ func analyzeH3Model(doc *mdTocNode) (apiModel, error) {
 	// currently only one table is allowed
 	seenTable := false
 	for _, n := range doc.Content {
-		switch n.This.Type {
+		switch n.ThisType() {
 		case blackfriday.Table:
 			if seenTable {
 				return empty, errMultipleModelTables
@@ -144,14 +144,14 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 
 	// TODO: disallow multiple header rows
 	for _, n := range tbl.ThisContent {
-		switch n.This.Type {
+		switch n.ThisType() {
 		case blackfriday.TableHead:
 			// only look at the first row
 			tr := n.ThisContent[0]
 
 			// parse out the column titles
 			for i, td := range tr.ThisContent {
-				colTitle := strings.ToLower(td.ThisText())
+				colTitle := strings.ToLower(td.ThisInnerText())
 				switch colTitle {
 				case "name":
 					idxIdent = i
@@ -173,9 +173,9 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 				for i, td := range tr.ThisContent {
 					if i == idxIdent {
 						for _, n2 := range td.ThisContent {
-							switch n2.This.Type {
+							switch n2.ThisType() {
 							case blackfriday.Code:
-								field.ident = string(n2.This.Literal)
+								field.ident = n2.ThisLit()
 
 							default:
 								// ignored
@@ -185,9 +185,9 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 
 					if i == idxType {
 						for _, n2 := range td.ThisContent {
-							switch n2.This.Type {
+							switch n2.ThisType() {
 							case blackfriday.Code:
-								field.typ = string(n2.This.Literal)
+								field.typ = n2.ThisLit()
 
 							default:
 								// ignored
@@ -197,7 +197,7 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 
 					if i == idxDesc {
 						// I'm too lazy
-						field.doc = td.ThisText()
+						field.doc = td.ThisInnerText()
 					}
 				}
 

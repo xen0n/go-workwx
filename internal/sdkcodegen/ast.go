@@ -25,13 +25,21 @@ func (x *mdContentNode) displayType() string {
 	var sb strings.Builder
 
 	sb.WriteString("C<")
-	sb.WriteString(x.This.Type.String())
+	sb.WriteString(x.ThisType().String())
 	sb.WriteRune('>')
 
 	return sb.String()
 }
 
-func (x *mdContentNode) ThisText() string {
+func (x *mdContentNode) ThisType() blackfriday.NodeType {
+	return x.This.Type
+}
+
+func (x *mdContentNode) ThisLit() string {
+	return string(x.This.Literal)
+}
+
+func (x *mdContentNode) ThisInnerText() string {
 	var sb strings.Builder
 	for _, n := range x.ThisContent {
 		sb.Write(n.This.Literal)
@@ -49,7 +57,7 @@ type mdTocNode struct {
 func (x *mdTocNode) sealedForMdNode() {}
 
 func (x *mdTocNode) displayType() string {
-	return fmt.Sprintf("T<%s<%d>>", x.This.Type.String(), x.Level)
+	return fmt.Sprintf("T<%s<%d>>", x.ThisType().String(), x.Level)
 }
 
 func isTocNode(n mdNode) bool {
