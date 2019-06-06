@@ -8,12 +8,11 @@ import (
 	"gopkg.in/russross/blackfriday.v2"
 )
 
-func parseDocument(content []byte) {
+func parseDocument(content []byte) *mdTocNode {
 	md := blackfriday.New(blackfriday.WithExtensions(blackfriday.CommonExtensions))
 	root := md.Parse(content)
 
-	mdRoot := reshapeMarkdownAST(root)
-	dumpToctree(mdRoot)
+	return reshapeMarkdownAST(root)
 }
 
 // Reshape the blackfriday AST into something more workable.

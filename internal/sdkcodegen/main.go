@@ -25,5 +25,6 @@ func main() {
 		return // unreachable
 	}
 
-	parseDocument(content)
+	mdRoot := parseDocument(content)
+	analyzeDocument(mdRoot)
 }
