@@ -206,8 +206,30 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 					}
 
 					if i == idxDesc {
-						// I'm too lazy
-						field.doc = td.ThisInnerText()
+						var sb strings.Builder
+
+						for _, n2 := range td.ThisContent {
+							switch n2.ThisType() {
+							case blackfriday.Text:
+								sb.WriteString(n2.ThisLit())
+							case blackfriday.HTMLSpan:
+								span := n2.ThisLit()
+
+								// very dirty way of translating <br>'s
+								if strings.HasPrefix(span, "<br") {
+									sb.WriteRune('\n')
+								} else {
+									// TODO: strip off tags?
+									sb.WriteString(span)
+								}
+
+							default:
+								// strip off all format
+								sb.WriteString(n2.ThisLit())
+							}
+						}
+
+						field.doc = sb.String()
 					}
 
 					if i == idxTagJson {
