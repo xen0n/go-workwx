@@ -167,14 +167,11 @@ func (e *goEmitter) emitAPICall(x *apiCall) error {
 		panic("unimplemented")
 	}
 
-	// TODO
-	needsAccessToken := true
-
 	// TODO: override the receiver of method
 	e.emitDoc(ident, x.doc)
 	e.e("func (c *WorkwxApp) %s(req %s) (%s, error) {\n", ident, x.reqType, x.respType)
 	e.e("var resp %s\n", x.respType)
-	e.e("err := c.%s(\"%s\", req, &resp, %v)\n", execMethodName, x.httpURI, needsAccessToken)
+	e.e("err := c.%s(\"%s\", req, &resp, %v)\n", execMethodName, x.httpURI, x.needsAccessToken)
 	e.e("if err != nil {\n")
 	// TODO: error_chain
 	e.e("return %s{}, err\n", x.respType)

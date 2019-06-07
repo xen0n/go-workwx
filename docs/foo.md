@@ -28,6 +28,7 @@ type reqBar struct{}
 
 ## API calls
 
-Name|Request Type|Response Type|URL
-:---|------------|-------------|:--
-`execUserGet`|`reqUserGet`|`respUserGet`|`GET /cgi-bin/user/get`
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
+`execUserGet`|`reqUserGet`|`respUserGet`|Y|`GET /cgi-bin/user/get`
+`getAccessToken`|`reqAccessToken`|`respAccessToken`|N|`GET /cgi-bin/accesstoken`

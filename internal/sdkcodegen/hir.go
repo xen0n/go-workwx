@@ -47,6 +47,8 @@ type apiCall struct {
 	reqType  string
 	respType string
 
+	needsAccessToken bool
+
 	httpMethod string
 	httpURI    string
 }
