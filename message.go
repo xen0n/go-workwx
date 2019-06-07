@@ -4,9 +4,6 @@ import (
 	"errors"
 )
 
-const messageSendEndpoint = "/cgi-bin/message/send"
-const apichatSendEndpoint = "/cgi-bin/appchat/send"
-
 // SendTextMessage 发送文本消息
 //
 // 收件人参数如果仅设置了 `ChatID` 字段，则为【发送消息到群聊会话】接口调用；
@@ -54,11 +51,6 @@ func (c *WorkwxApp) sendMessage(
 		isApichatSendRequest = true
 	}
 
-	apiPath := messageSendEndpoint
-	if isApichatSendRequest {
-		apiPath = apichatSendEndpoint
-	}
-
 	req := reqMessage{
 		ToUser:  recipient.UserIDs,
 		ToParty: recipient.PartyIDs,
@@ -71,12 +63,18 @@ func (c *WorkwxApp) sendMessage(
 	}
 
 	var resp respMessageSend
-	err := c.executeQyapiJSONPost(apiPath, req, &resp, true)
+	var err error
+	if isApichatSendRequest {
+		resp, err = c.execAppchatSend(req)
+	} else {
+		resp, err = c.execMessageSend(req)
+	}
+
 	if err != nil {
-		// TODO: error_chain
 		return err
 	}
 
 	// TODO: what to do with resp?
+	_ = resp
 	return nil
 }
