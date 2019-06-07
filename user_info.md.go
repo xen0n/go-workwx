@@ -47,3 +47,13 @@ type UserDeptInfo struct {
 	// IsLeader 在所在的部门内是否为上级
 	IsLeader bool
 }
+
+func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
+	var resp respUserGet
+	err := c.executeQyapiGet("/cgi-bin/user/get", req, &resp, true)
+	if err != nil {
+		return respUserGet{}, err
+	}
+
+	return resp, nil
+}

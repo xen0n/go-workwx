@@ -13,3 +13,13 @@ type DeptInfo struct {
 	// Order 在父部门中的次序值。order值大的排序靠前。值范围是[0, 2^32)
 	Order uint32 `json:"order"`
 }
+
+func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
+	var resp respDeptList
+	err := c.executeQyapiGet("/cgi-bin/department/list", req, &resp, true)
+	if err != nil {
+		return respDeptList{}, err
+	}
+
+	return resp, nil
+}
