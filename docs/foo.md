@@ -17,3 +17,11 @@ Name|Type|Doc|JSON
 :---|:---|:--|:---
 `ID`|`int64`|ID|`id`
 `Foos`|`[]*FooTy`|foos|`foos`
+
+```go
+type respBar = BarTy
+```
+
+```go
+type reqBar struct{}
+```

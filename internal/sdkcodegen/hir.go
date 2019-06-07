@@ -23,6 +23,10 @@ type apiModel struct {
 	doc    string
 	vis    visibility
 	fields []apiModelField
+
+	// TODO: retain source order
+	// map[languageTag][]snippet
+	inlineCodeSections map[string][]string
 }
 
 type apiModelField struct {

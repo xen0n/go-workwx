@@ -84,6 +84,17 @@ func (e *goEmitter) emitModel(x *apiModel) error {
 
 	e.e("}\n")
 
+	golangSnippets := x.inlineCodeSections["go"]
+	if len(golangSnippets) > 0 {
+		e.e("\n")
+
+		for _, s := range golangSnippets {
+			e.e("%s\n", s)
+		}
+
+		e.e("\n")
+	}
+
 	return nil
 }
 

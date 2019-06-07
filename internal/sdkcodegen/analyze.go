@@ -90,7 +90,8 @@ func analyzeH3Model(doc *mdTocNode) (apiModel, error) {
 	}
 
 	result := apiModel{
-		vis: visibilityPublic,
+		vis:                visibilityPublic,
+		inlineCodeSections: make(map[string][]string),
 	}
 
 	// model metadata
@@ -126,6 +127,10 @@ func analyzeH3Model(doc *mdTocNode) (apiModel, error) {
 				return empty, err
 			}
 			result.fields = fields
+
+		case blackfriday.CodeBlock:
+			lang := string(n.This.CodeBlockData.Info)
+			result.inlineCodeSections[lang] = append(result.inlineCodeSections[lang], string(n.This.Literal))
 
 		default:
 			// ignore for now
