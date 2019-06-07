@@ -8,19 +8,10 @@ import (
 
 // getAccessToken 获取 access token
 func (c *WorkwxApp) getAccessToken() (respAccessToken, error) {
-	req := reqAccessToken{
+	return c.execGetAccessToken(reqAccessToken{
 		CorpID:     c.CorpID,
 		CorpSecret: c.CorpSecret,
-	}
-
-	var resp respAccessToken
-	err := c.executeQyapiGet("/cgi-bin/gettoken", req, &resp, false)
-	if err != nil {
-		// TODO: error_chain
-		return respAccessToken{}, err
-	}
-
-	return resp, nil
+	})
 }
 
 // syncAccessToken 同步该客户端实例的 access token
