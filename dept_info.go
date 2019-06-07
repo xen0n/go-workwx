@@ -1,21 +1,5 @@
 package workwx
 
-// DeptInfo 部门信息
-type DeptInfo struct {
-	// ID 部门 ID
-	ID int64
-	// Name 成员名称
-	Name string
-	// ParentID 父亲部门id。根部门为1
-	ParentID int64
-	// Order 在父部门中的次序值。order值大的排序靠前。值范围是[0, 2^32)
-	Order uint32
-}
-
-//
-//
-//
-
 const deptListEndpoint = "/cgi-bin/department/list"
 
 // ListAllDepts 获取全量组织架构。
