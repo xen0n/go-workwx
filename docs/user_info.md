@@ -22,6 +22,35 @@ Name|Type|Doc
 
 <!-- TODO: extattr external_profile external_position -->
 
+```go
+// UserGender 用户性别
+type UserGender int
+
+const (
+	// UserGenderUnspecified 性别未定义
+	UserGenderUnspecified UserGender = 0
+	// UserGenderMale 男性
+	UserGenderMale UserGender = 1
+	// UserGenderFemale 女性
+	UserGenderFemale UserGender = 2
+)
+
+// UserStatus 用户激活信息
+//
+// 已激活代表已激活企业微信或已关注微工作台（原企业号）。
+// 未激活代表既未激活企业微信又未关注微工作台（原企业号）。
+type UserStatus int
+
+const (
+	// UserStatusActivated 已激活
+	UserStatusActivated UserStatus = 1
+	// UserStatusDeactivated 已禁用
+	UserStatusDeactivated UserStatus = 2
+	// UserStatusUnactivated 未激活
+	UserStatusUnactivated UserStatus = 4
+)
+```
+
 ### `UserDeptInfo` 用户部门信息
 
 Name|Type|Doc
@@ -29,3 +58,9 @@ Name|Type|Doc
 `DeptID`|`int64`|部门 ID
 `Order`|`uint32`|部门内的排序值，默认为0，数值越大排序越前面
 `IsLeader`|`bool`|在所在的部门内是否为上级
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
+`execUserGet`|`reqUserGet`|`respUserGet`|+|`GET /cgi-bin/user/get`

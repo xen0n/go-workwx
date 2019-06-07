@@ -38,6 +38,33 @@ type UserInfo struct {
 	QRCodeURL string
 }
 
+// UserGender 用户性别
+type UserGender int
+
+const (
+	// UserGenderUnspecified 性别未定义
+	UserGenderUnspecified UserGender = 0
+	// UserGenderMale 男性
+	UserGenderMale UserGender = 1
+	// UserGenderFemale 女性
+	UserGenderFemale UserGender = 2
+)
+
+// UserStatus 用户激活信息
+//
+// 已激活代表已激活企业微信或已关注微工作台（原企业号）。
+// 未激活代表既未激活企业微信又未关注微工作台（原企业号）。
+type UserStatus int
+
+const (
+	// UserStatusActivated 已激活
+	UserStatusActivated UserStatus = 1
+	// UserStatusDeactivated 已禁用
+	UserStatusDeactivated UserStatus = 2
+	// UserStatusUnactivated 未激活
+	UserStatusUnactivated UserStatus = 4
+)
+
 // UserDeptInfo 用户部门信息
 type UserDeptInfo struct {
 	// DeptID 部门 ID
@@ -46,4 +73,14 @@ type UserDeptInfo struct {
 	Order uint32
 	// IsLeader 在所在的部门内是否为上级
 	IsLeader bool
+}
+
+func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
+	var resp respUserGet
+	err := c.executeQyapiGet("/cgi-bin/user/get", req, &resp, true)
+	if err != nil {
+		return respUserGet{}, err
+	}
+
+	return resp, nil
 }

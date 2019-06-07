@@ -8,6 +8,7 @@ type hir struct {
 // An API topic being described.
 type topic struct {
 	models []apiModel
+	calls  []apiCall
 }
 
 type visibility int
@@ -35,4 +36,19 @@ type apiModelField struct {
 	typ   string
 	vis   visibility
 	tags  map[string]string
+}
+
+// An API call.
+type apiCall struct {
+	ident string
+	doc   string
+	vis   visibility
+
+	reqType  string
+	respType string
+
+	needsAccessToken bool
+
+	httpMethod string
+	httpURI    string
 }

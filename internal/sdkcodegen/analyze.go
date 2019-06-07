@@ -16,6 +16,12 @@ var (
 
 	errMultipleModelTables    = errors.New("only one table allowed per model")
 	errUnknownFieldTableTitle = errors.New("unknown column title of field table")
+
+	errUnknownAPICallTableTitle = errors.New("unknown column title of api call table")
+	errInvalidAPICallURLSpec    = errors.New("invalid API call URL spec")
+	errUnknownAPICallHTTPMethod = errors.New("unknown HTTP method for API call")
+
+	errUnknownBooleanSpec = errors.New("unknown text for boolean value")
 )
 
 func analyzeDocument(doc *mdTocNode) (hir, error) {
@@ -58,6 +64,13 @@ func analyzeH1(doc *mdTocNode) (topic, error) {
 				return empty, err
 			}
 			result.models = models
+
+		case "API calls":
+			calls, err := analyzeH2Calls(n)
+			if err != nil {
+				return empty, err
+			}
+			result.calls = calls
 
 		default:
 			return empty, errUnknownTopicChild
@@ -251,4 +264,193 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 	}
 
 	return result, nil
+}
+
+func analyzeH2Calls(doc *mdTocNode) ([]apiCall, error) {
+	if doc.Level != 2 {
+		return nil, errTopicChildNotH2
+	}
+
+	result := []apiCall{}
+	for _, n := range doc.Content {
+		switch n.ThisType() {
+		case blackfriday.Table:
+			calls, err := analyzeAPICallsTable(n)
+			if err != nil {
+				return nil, err
+			}
+			result = append(result, calls...)
+
+		default:
+			// ignored
+			// TODO: allow inline code snippets here too
+		}
+	}
+
+	return result, nil
+}
+
+func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
+	// initially mark the columns as non-existent
+	var idxIdent int = -1
+	var idxReqType int = -1
+	var idxRespType int = -1
+	var idxURL int = -1
+	var idxAK int = -1
+
+	result := make([]apiCall, 0)
+
+	// TODO: disallow multiple header rows
+	for _, n := range tbl.ThisContent {
+		switch n.ThisType() {
+		case blackfriday.TableHead:
+			// only look at the first row
+			tr := n.ThisContent[0]
+
+			// parse out the column titles
+			for i, td := range tr.ThisContent {
+				colTitle := strings.ToLower(td.ThisInnerText())
+				switch colTitle {
+				case "name":
+					idxIdent = i
+				case "request type":
+					idxReqType = i
+				case "response type":
+					idxRespType = i
+				case "url":
+					idxURL = i
+				case "access token":
+					idxAK = i
+				default:
+					return nil, errUnknownFieldTableTitle
+				}
+			}
+
+		case blackfriday.TableBody:
+			for _, tr := range n.ThisContent {
+				row := apiCallRow{}
+
+				for i, td := range tr.ThisContent {
+					if i == idxIdent {
+						for _, n2 := range td.ThisContent {
+							switch n2.ThisType() {
+							case blackfriday.Code:
+								row.ident = n2.ThisLit()
+
+							default:
+								// ignored
+							}
+						}
+					}
+
+					if i == idxReqType {
+						for _, n2 := range td.ThisContent {
+							switch n2.ThisType() {
+							case blackfriday.Code:
+								row.reqType = n2.ThisLit()
+
+							default:
+								// ignored
+							}
+						}
+					}
+
+					if i == idxRespType {
+						for _, n2 := range td.ThisContent {
+							switch n2.ThisType() {
+							case blackfriday.Code:
+								row.respType = n2.ThisLit()
+
+							default:
+								// ignored
+							}
+						}
+					}
+
+					if i == idxURL {
+						for _, n2 := range td.ThisContent {
+							switch n2.ThisType() {
+							case blackfriday.Code:
+								row.urlSpec = n2.ThisLit()
+
+							default:
+								// ignored
+							}
+						}
+					}
+
+					if i == idxAK {
+						row.akSpec = td.ThisInnerText()
+					}
+				}
+
+				call, err := parseAPICallRow(row)
+				if err != nil {
+					return nil, err
+				}
+
+				result = append(result, call)
+			}
+		}
+	}
+
+	return result, nil
+}
+
+type apiCallRow struct {
+	ident    string
+	reqType  string
+	respType string
+	urlSpec  string
+	akSpec   string
+}
+
+func parseAPICallRow(x apiCallRow) (apiCall, error) {
+	empty := apiCall{}
+
+	urlSpecParts := strings.Split(x.urlSpec, " ")
+	if len(urlSpecParts) != 2 {
+		return empty, errInvalidAPICallURLSpec
+	}
+
+	httpMeth := urlSpecParts[0]
+	url := urlSpecParts[1]
+
+	switch httpMeth {
+	case "GET", "POST":
+		// do nothing
+
+	default:
+		return empty, errUnknownAPICallHTTPMethod
+	}
+
+	ak, err := parseBool(x.akSpec)
+	if err != nil {
+		return empty, err
+	}
+
+	return apiCall{
+		ident: x.ident,
+		doc:   "",
+		vis:   visibilityPrivate,
+
+		reqType:  x.reqType,
+		respType: x.respType,
+
+		needsAccessToken: ak,
+
+		httpMethod: httpMeth,
+		httpURI:    url,
+	}, nil
+}
+
+func parseBool(x string) (bool, error) {
+	switch strings.ToLower(x) {
+	case "y", "yes", "+":
+		return true, nil
+	case "n", "no", "-":
+		return false, nil
+	default:
+		return false, errUnknownBooleanSpec
+	}
 }
