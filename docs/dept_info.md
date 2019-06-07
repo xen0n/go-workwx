@@ -10,9 +10,3 @@ Name|JSON|Type|Doc
 `Name`|`name`|`string`|部门名称
 `ParentID`|`parent_id`|`int64`|父亲部门id。根部门为1
 `Order`|`order`|`uint32`|在父部门中的次序值。order值大的排序靠前。值范围是[0, 2^32)
-
-## API calls
-
-Name|Request Type|Response Type|Access Token|URL
-:---|------------|-------------|------------|:--
-`execDeptList`|`reqDeptList`|`respDeptList`|+|`GET /cgi-bin/department/list`
