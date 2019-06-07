@@ -187,7 +187,15 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 					vis:  visibilityPublic,
 					tags: make(map[string]string),
 				}
+
+				isTODO := false
 				for i, td := range tr.ThisContent {
+					// skip any row that contains a TODO cell
+					if td.ThisInnerText() == "TODO" {
+						isTODO = true
+						break
+					}
+
 					if i == idxIdent {
 						for _, n2 := range td.ThisContent {
 							switch n2.ThisType() {
@@ -250,6 +258,10 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 							}
 						}
 					}
+				}
+
+				if isTODO {
+					continue
 				}
 
 				result = append(result, field)
@@ -324,7 +336,14 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 			for _, tr := range n.ThisContent {
 				row := apiCallRow{}
 
+				isTODO := false
 				for i, td := range tr.ThisContent {
+					// skip any row that contains a TODO cell
+					if td.ThisInnerText() == "TODO" {
+						isTODO = true
+						break
+					}
+
 					if i == idxIdent {
 						for _, n2 := range td.ThisContent {
 							switch n2.ThisType() {
@@ -376,6 +395,10 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 					if i == idxAK {
 						row.akSpec = td.ThisInnerText()
 					}
+				}
+
+				if isTODO {
+					continue
 				}
 
 				call, err := parseAPICallRow(row)
