@@ -58,9 +58,3 @@ Name|Type|Doc
 `DeptID`|`int64`|部门 ID
 `Order`|`uint32`|部门内的排序值，默认为0，数值越大排序越前面
 `IsLeader`|`bool`|在所在的部门内是否为上级
-
-## API calls
-
-Name|Request Type|Response Type|Access Token|URL
-:---|------------|-------------|------------|:--
-`execUserGet`|`reqUserGet`|`respUserGet`|+|`GET /cgi-bin/user/get`
