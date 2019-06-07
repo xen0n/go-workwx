@@ -149,10 +149,10 @@ func analyzeH3Model(doc *mdTocNode) (apiModel, error) {
 
 func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 	// initially mark the columns as non-existent
-	var idxIdent int = -1
-	var idxType int = -1
-	var idxDesc int = -1
-	var idxTagJson int = -1
+	idxIdent := -1
+	idxType := -1
+	idxDesc := -1
+	idxTagJSON := -1
 
 	result := make([]apiModelField, 0)
 
@@ -174,7 +174,7 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 				case "doc":
 					idxDesc = i
 				case "json":
-					idxTagJson = i
+					idxTagJSON = i
 				default:
 					return nil, errUnknownFieldTableTitle
 				}
@@ -239,7 +239,7 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 						field.doc = sb.String()
 					}
 
-					if i == idxTagJson {
+					if i == idxTagJSON {
 						for _, n2 := range td.ThisContent {
 							switch n2.ThisType() {
 							case blackfriday.Code:
@@ -286,11 +286,11 @@ func analyzeH2Calls(doc *mdTocNode) ([]apiCall, error) {
 
 func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 	// initially mark the columns as non-existent
-	var idxIdent int = -1
-	var idxReqType int = -1
-	var idxRespType int = -1
-	var idxURL int = -1
-	var idxAK int = -1
+	idxIdent := -1
+	idxReqType := -1
+	idxRespType := -1
+	idxURL := -1
+	idxAK := -1
 
 	result := make([]apiCall, 0)
 
@@ -316,7 +316,7 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 				case "access token":
 					idxAK = i
 				default:
-					return nil, errUnknownFieldTableTitle
+					return nil, errUnknownAPICallTableTitle
 				}
 			}
 
