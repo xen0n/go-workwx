@@ -31,18 +31,12 @@ const (
 //
 //
 
-const userGetEndpoint = "/cgi-bin/user/get"
-
 // GetUser 读取成员
 func (c *WorkwxApp) GetUser(userid string) (*UserInfo, error) {
-	req := reqUserGet{
+	resp, err := c.execUserGet(reqUserGet{
 		UserID: userid,
-	}
-
-	var resp respUserGet
-	err := c.executeQyapiGet(userGetEndpoint, req, &resp, true)
+	})
 	if err != nil {
-		// TODO: error_chain
 		return nil, err
 	}
 
