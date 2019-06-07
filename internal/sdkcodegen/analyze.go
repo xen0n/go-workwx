@@ -136,9 +136,10 @@ func analyzeH3Model(doc *mdTocNode) (apiModel, error) {
 }
 
 func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
-	var idxIdent int
-	var idxType int
-	var idxDesc int
+	// initially mark the columns as non-existent
+	var idxIdent int = -1
+	var idxType int = -1
+	var idxDesc int = -1
 
 	result := make([]apiModelField, 0)
 
