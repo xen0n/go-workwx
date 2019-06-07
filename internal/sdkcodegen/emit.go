@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go/format"
 	"io"
+	"strings"
 )
 
 type emitter interface {
@@ -69,10 +70,7 @@ func (e *goEmitter) emitModel(x *apiModel) error {
 	// TODO: normalize ident according to visibility
 	ident := x.ident
 
-	if len(x.doc) > 0 {
-		// TODO: multi-line docstring
-		e.e("// %s %s\n", ident, x.doc)
-	}
+	e.emitDoc(ident, x.doc)
 	e.e("type %s struct {\n", ident)
 
 	for i := range x.fields {
@@ -102,10 +100,7 @@ func (e *goEmitter) emitModelField(x *apiModelField) error {
 	// TODO: normalize ident according to visibility
 	ident := x.ident
 
-	if len(x.doc) > 0 {
-		// TODO: multi-line docstring
-		e.e("// %s %s\n", ident, x.doc)
-	}
+	e.emitDoc(ident, x.doc)
 	e.e("%s %s", ident, x.typ)
 
 	if len(x.tags) > 0 {
@@ -125,6 +120,26 @@ func (e *goEmitter) emitModelField(x *apiModelField) error {
 		e.e("`")
 	}
 	e.e("\n")
+
+	return nil
+}
+
+func (e *goEmitter) emitDoc(ident string, doc string) error {
+	if len(doc) == 0 {
+		return nil
+	}
+
+	lines := strings.Split(doc, "\n")
+	e.e("// %s %s\n", ident, lines[0])
+
+	if len(lines) == 1 {
+		return nil
+	}
+
+	e.e("//\n")
+	for _, l := range lines[1:] {
+		e.e("// %s\n", l)
+	}
 
 	return nil
 }
