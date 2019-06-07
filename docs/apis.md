@@ -48,6 +48,40 @@ Name|Request Type|Response Type|Access Token|URL
 `execTagDeleteUsers`|TODO|TODO|+|`POST /cgi/bin/tag/deltagusers`
 `execTagList`|TODO|TODO|+|`GET /cgi/bin/tag/list`
 
+# 异步批量接口
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
+
+# 身份验证
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
+
+# 应用管理
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
+`execAgentGet`|TODO|TODO|+|`GET /cgi-bin/agent/get`
+`execAgentList`|TODO|TODO|+|`GET /cgi-bin/agent/list`
+`execAgentSet`|TODO|TODO|+|`POST /cgi-bin/agent/set`
+
+# 应用管理 - 自定义菜单
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
+`execMenuCreate`|TODO|TODO|+|`POST /cgi-bin/menu/create`
+`execMenuGet`|TODO|TODO|+|`GET /cgi-bin/menu/get`
+`execMenuDelete`|TODO|TODO|+|`GET /cgi-bin/menu/delete`
+
 # 消息推送
 
 ## API calls
@@ -56,3 +90,36 @@ Name|Request Type|Response Type|Access Token|URL
 :---|------------|-------------|------------|:--
 `execMessageSend`|`reqMessage`|`respMessageSend`|+|`POST /cgi-bin/message/send`
 `execAppchatSend`|`reqMessage`|`respMessageSend`|+|`POST /cgi-bin/appchat/send`
+
+# 素材管理
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
+`execMediaUpload`|TODO|TODO|+|`POST(file) /cgi-bin/media/upload`
+`execMediaUploadImg`|TODO|TODO|+|`POST(file) /cgi-bin/media/uploadimg`
+`execMediaGet`|TODO|TODO|+|`GET /cgi-bin/media/get`
+`execMediaGetJSSDK`|TODO|TODO|+|`GET /cgi-bin/media/get/jssdk`
+
+# OA 数据接口
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
+`execCorpGetOpenApprovalData`|TODO|TODO|+|`POST /cgi-bin/corp/getopenapprovaldata`
+
+# 企业支付
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
+
+# 电子发票
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL
+:---|------------|-------------|------------|:--
