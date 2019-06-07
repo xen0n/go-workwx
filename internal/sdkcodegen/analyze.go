@@ -8,11 +8,10 @@ import (
 )
 
 var (
-	errOnlyOneTopicAllowed = errors.New("only one topic allowed per document")
-	errToplevelTopicNotH1  = errors.New("the top-level topic must be h1")
-	errTopicChildNotH2     = errors.New("the children sections of a topic must be h2")
-	errUnknownTopicChild   = errors.New("unknown child section of topic")
-	errModelDefNotH3       = errors.New("model definition header must be h3")
+	errToplevelTopicNotH1 = errors.New("the top-level topic must be h1")
+	errTopicChildNotH2    = errors.New("the children sections of a topic must be h2")
+	errUnknownTopicChild  = errors.New("unknown child section of topic")
+	errModelDefNotH3      = errors.New("model definition header must be h3")
 
 	errMultipleModelTables    = errors.New("only one table allowed per model")
 	errUnknownFieldTableTitle = errors.New("unknown column title of field table")
@@ -26,11 +25,6 @@ var (
 
 func analyzeDocument(doc *mdTocNode) (hir, error) {
 	empty := hir{}
-
-	// currently only 1 topic is allowed per md file
-	if len(doc.TocChildren) != 1 {
-		return empty, errOnlyOneTopicAllowed
-	}
 
 	result := hir{}
 	for _, n := range doc.TocChildren {
