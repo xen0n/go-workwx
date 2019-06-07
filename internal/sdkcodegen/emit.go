@@ -63,6 +63,15 @@ func (e *goEmitter) emitTopic(x *topic) error {
 		}
 		e.e("\n")
 	}
+
+	for i := range x.calls {
+		err := e.emitAPICall(&x.calls[i])
+		if err != nil {
+			return err
+		}
+		e.e("\n")
+	}
+
 	return nil
 }
 
@@ -140,6 +149,40 @@ func (e *goEmitter) emitDoc(ident string, doc string) error {
 	for _, l := range lines[1:] {
 		e.e("// %s\n", l)
 	}
+
+	return nil
+}
+
+func (e *goEmitter) emitAPICall(x *apiCall) error {
+	ident := x.ident
+
+	var execMethodName string
+	switch x.httpMethod {
+	case "GET":
+		execMethodName = "executeQyapiGet"
+	case "POST":
+		// only JSON posts are supported now
+		execMethodName = "executeQyapiJSONPost"
+	default:
+		panic("unimplemented")
+	}
+
+	// TODO
+	needsAccessToken := true
+
+	// TODO: override the receiver of method
+	e.emitDoc(ident, x.doc)
+	e.e("func (c *WorkwxApp) %s(req %s) (%s, error) {\n", ident, x.reqType, x.respType)
+	e.e("var resp %s\n", x.respType)
+	e.e("err := c.%s(\"%s\", req, &resp, %v)\n", execMethodName, x.httpURI, needsAccessToken)
+	e.e("if err != nil {\n")
+	// TODO: error_chain
+	e.e("return %s{}, err\n", x.respType)
+	e.e("}\n")
+	e.e("\n")
+	e.e("return resp, nil\n")
+	e.e("}\n")
+	e.e("\n")
 
 	return nil
 }

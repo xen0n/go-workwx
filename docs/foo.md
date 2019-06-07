@@ -25,3 +25,9 @@ type respBar = BarTy
 ```go
 type reqBar struct{}
 ```
+
+## API calls
+
+Name|Request Type|Response Type|URL
+:---|------------|-------------|:--
+`execUserGet`|`reqUserGet`|`respUserGet`|`GET /cgi-bin/user/get`
