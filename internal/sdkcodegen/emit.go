@@ -95,7 +95,25 @@ func (e *goEmitter) emitModelField(x *apiModelField) error {
 		// TODO: multi-line docstring
 		e.e("// %s %s\n", ident, x.doc)
 	}
-	e.e("%s %s\n", ident, x.typ)
+	e.e("%s %s", ident, x.typ)
+
+	if len(x.tags) > 0 {
+		e.e("`")
+
+		isFirst := true
+		for k, v := range x.tags {
+			if isFirst {
+				isFirst = false
+			} else {
+				e.e(" ")
+			}
+
+			e.e("%s:\"%s\"", k, v)
+		}
+
+		e.e("`")
+	}
+	e.e("\n")
 
 	return nil
 }

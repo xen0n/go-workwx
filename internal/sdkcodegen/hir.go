@@ -30,4 +30,5 @@ type apiModelField struct {
 	doc   string
 	typ   string
 	vis   visibility
+	tags  map[string]string
 }

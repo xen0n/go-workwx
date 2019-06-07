@@ -140,6 +140,7 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 	var idxIdent int = -1
 	var idxType int = -1
 	var idxDesc int = -1
+	var idxTagJson int = -1
 
 	result := make([]apiModelField, 0)
 
@@ -160,6 +161,8 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 					idxType = i
 				case "doc":
 					idxDesc = i
+				case "json":
+					idxTagJson = i
 				default:
 					return nil, errUnknownFieldTableTitle
 				}
@@ -169,7 +172,8 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 			// parse the fields
 			for _, tr := range n.ThisContent {
 				field := apiModelField{
-					vis: visibilityPublic,
+					vis:  visibilityPublic,
+					tags: make(map[string]string),
 				}
 				for i, td := range tr.ThisContent {
 					if i == idxIdent {
@@ -199,6 +203,18 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 					if i == idxDesc {
 						// I'm too lazy
 						field.doc = td.ThisInnerText()
+					}
+
+					if i == idxTagJson {
+						for _, n2 := range td.ThisContent {
+							switch n2.ThisType() {
+							case blackfriday.Code:
+								field.tags["json"] = n2.ThisLit()
+
+							default:
+								// ignored
+							}
+						}
 					}
 				}
 

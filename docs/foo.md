@@ -13,7 +13,7 @@ Name|Type|Doc
 
 ### `BarTy` type for bar
 
-Name|Type|Doc
-:---|:---|:--
-`ID`|`int64`|ID
-`Foos`|`[]*FooTy`|foos
+Name|Type|Doc|JSON
+:---|:---|:--|:---
+`ID`|`int64`|ID|`id`
+`Foos`|`[]*FooTy`|foos|`foos`
