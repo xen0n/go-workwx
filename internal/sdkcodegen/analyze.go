@@ -8,11 +8,10 @@ import (
 )
 
 var (
-	errOnlyOneTopicAllowed = errors.New("only one topic allowed per document")
-	errToplevelTopicNotH1  = errors.New("the top-level topic must be h1")
-	errTopicChildNotH2     = errors.New("the children sections of a topic must be h2")
-	errUnknownTopicChild   = errors.New("unknown child section of topic")
-	errModelDefNotH3       = errors.New("model definition header must be h3")
+	errToplevelTopicNotH1 = errors.New("the top-level topic must be h1")
+	errTopicChildNotH2    = errors.New("the children sections of a topic must be h2")
+	errUnknownTopicChild  = errors.New("unknown child section of topic")
+	errModelDefNotH3      = errors.New("model definition header must be h3")
 
 	errMultipleModelTables    = errors.New("only one table allowed per model")
 	errUnknownFieldTableTitle = errors.New("unknown column title of field table")
@@ -26,11 +25,6 @@ var (
 
 func analyzeDocument(doc *mdTocNode) (hir, error) {
 	empty := hir{}
-
-	// currently only 1 topic is allowed per md file
-	if len(doc.TocChildren) != 1 {
-		return empty, errOnlyOneTopicAllowed
-	}
 
 	result := hir{}
 	for _, n := range doc.TocChildren {
@@ -155,10 +149,10 @@ func analyzeH3Model(doc *mdTocNode) (apiModel, error) {
 
 func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 	// initially mark the columns as non-existent
-	var idxIdent int = -1
-	var idxType int = -1
-	var idxDesc int = -1
-	var idxTagJson int = -1
+	idxIdent := -1
+	idxType := -1
+	idxDesc := -1
+	idxTagJSON := -1
 
 	result := make([]apiModelField, 0)
 
@@ -180,7 +174,7 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 				case "doc":
 					idxDesc = i
 				case "json":
-					idxTagJson = i
+					idxTagJSON = i
 				default:
 					return nil, errUnknownFieldTableTitle
 				}
@@ -193,7 +187,15 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 					vis:  visibilityPublic,
 					tags: make(map[string]string),
 				}
+
+				isTODO := false
 				for i, td := range tr.ThisContent {
+					// skip any row that contains a TODO cell
+					if td.ThisInnerText() == "TODO" {
+						isTODO = true
+						break
+					}
+
 					if i == idxIdent {
 						for _, n2 := range td.ThisContent {
 							switch n2.ThisType() {
@@ -245,7 +247,7 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 						field.doc = sb.String()
 					}
 
-					if i == idxTagJson {
+					if i == idxTagJSON {
 						for _, n2 := range td.ThisContent {
 							switch n2.ThisType() {
 							case blackfriday.Code:
@@ -256,6 +258,10 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 							}
 						}
 					}
+				}
+
+				if isTODO {
+					continue
 				}
 
 				result = append(result, field)
@@ -292,11 +298,11 @@ func analyzeH2Calls(doc *mdTocNode) ([]apiCall, error) {
 
 func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 	// initially mark the columns as non-existent
-	var idxIdent int = -1
-	var idxReqType int = -1
-	var idxRespType int = -1
-	var idxURL int = -1
-	var idxAK int = -1
+	idxIdent := -1
+	idxReqType := -1
+	idxRespType := -1
+	idxURL := -1
+	idxAK := -1
 
 	result := make([]apiCall, 0)
 
@@ -322,7 +328,7 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 				case "access token":
 					idxAK = i
 				default:
-					return nil, errUnknownFieldTableTitle
+					return nil, errUnknownAPICallTableTitle
 				}
 			}
 
@@ -330,7 +336,14 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 			for _, tr := range n.ThisContent {
 				row := apiCallRow{}
 
+				isTODO := false
 				for i, td := range tr.ThisContent {
+					// skip any row that contains a TODO cell
+					if td.ThisInnerText() == "TODO" {
+						isTODO = true
+						break
+					}
+
 					if i == idxIdent {
 						for _, n2 := range td.ThisContent {
 							switch n2.ThisType() {
@@ -382,6 +395,10 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 					if i == idxAK {
 						row.akSpec = td.ThisInnerText()
 					}
+				}
+
+				if isTODO {
+					continue
 				}
 
 				call, err := parseAPICallRow(row)
