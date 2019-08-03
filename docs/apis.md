@@ -88,6 +88,9 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
+`execAppchatCreate`|TODO|TODO|+|`POST /cgi-bin/appchat/create`|[创建群聊会话](https://work.weixin.qq.com/api/doc#90000/90135/90245)
+`execAppchatUpdate`|TODO|TODO|+|`POST /cgi-bin/appchat/update`|[修改群聊会话](https://work.weixin.qq.com/api/doc#90000/90135/90246)
+`execAppchatGet`|TODO|TODO|+|`GET /cgi-bin/appchat/get`|[获取群聊会话](https://work.weixin.qq.com/api/doc#90000/90135/90247)
 `execMessageSend`|`reqMessage`|`respMessageSend`|+|`POST /cgi-bin/message/send`|[发送应用消息](https://work.weixin.qq.com/api/doc#90000/90135/90236)
 `execAppchatSend`|`reqMessage`|`respMessageSend`|+|`POST /cgi-bin/appchat/send`|[应用推送消息](https://work.weixin.qq.com/api/doc#90000/90135/90248)
 
