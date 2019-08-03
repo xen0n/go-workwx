@@ -280,6 +280,7 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 	idxRespType := -1
 	idxURL := -1
 	idxAK := -1
+	idxDoc := -1
 
 	result := make([]apiCall, 0)
 
@@ -305,7 +306,7 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 				case "access token":
 					idxAK = i
 				case "doc":
-					// FIXME forgot to check for this
+					idxDoc = i
 				default:
 					return nil, errUnknownAPICallTableTitle
 				}
@@ -374,6 +375,10 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 					if i == idxAK {
 						row.akSpec = td.ThisInnerText()
 					}
+
+					if i == idxDoc {
+						row.doc = td.ThisInnerText()
+					}
 				}
 
 				if isTODO {
@@ -395,6 +400,7 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 
 type apiCallRow struct {
 	ident    string
+	doc      string
 	reqType  string
 	respType string
 	urlSpec  string
@@ -427,7 +433,7 @@ func parseAPICallRow(x apiCallRow) (apiCall, error) {
 
 	return apiCall{
 		ident: x.ident,
-		doc:   "",
+		doc:   x.doc,
 		vis:   visibilityPrivate,
 
 		reqType:  x.reqType,
