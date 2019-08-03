@@ -42,7 +42,24 @@ func (x *mdContentNode) ThisLit() string {
 func (x *mdContentNode) ThisInnerText() string {
 	var sb strings.Builder
 	for _, n := range x.ThisContent {
-		sb.Write(n.This.Literal)
+		switch n.ThisType() {
+		case blackfriday.Text:
+			sb.WriteString(n.ThisLit())
+		case blackfriday.HTMLSpan:
+			span := n.ThisLit()
+
+			// very dirty way of translating <br>'s
+			if strings.HasPrefix(span, "<br") {
+				sb.WriteRune('\n')
+			} else {
+				// TODO: strip off tags?
+				sb.WriteString(span)
+			}
+
+		default:
+			// strip off all format
+			sb.WriteString(n.ThisLit())
+		}
 	}
 	return sb.String()
 }
