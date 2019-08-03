@@ -3,7 +3,7 @@ package commands
 import (
 	"fmt"
 
-	"github.com/urfave/cli"
+	"gopkg.in/urfave/cli.v2"
 )
 
 func cmdUserGet(c *cli.Context) error {

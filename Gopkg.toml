@@ -27,15 +27,19 @@
 
 [[constraint]]
   name = "github.com/cenkalti/backoff"
-  version = "2.1.0"
+  version = "3.0.0"
 
 [[constraint]]
   name = "github.com/smartystreets/goconvey"
   version = "1.6.3"
 
 [[constraint]]
-  name = "github.com/urfave/cli"
+  name = "gopkg.in/russross/blackfriday.v2"
+  version = "2.0.1"
+
+[[constraint]]
   branch = "v2"
+  name = "gopkg.in/urfave/cli.v2"
 
 [prune]
   go-tests = true

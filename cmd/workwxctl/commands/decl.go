@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"github.com/urfave/cli"
+	"gopkg.in/urfave/cli.v2"
 )
 
 // InitApp defines the workwxctl CLI.
