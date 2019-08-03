@@ -1,3 +1,6 @@
+# for easier development outside global GOPATH
+/.gopath
+
 # library has no lockfile
 /Gopkg.lock
 
