@@ -304,6 +304,8 @@ func analyzeAPICallsTable(tbl *mdContentNode) ([]apiCall, error) {
 					idxURL = i
 				case "access token":
 					idxAK = i
+				case "doc":
+					// FIXME forgot to check for this
 				default:
 					return nil, errUnknownAPICallTableTitle
 				}
