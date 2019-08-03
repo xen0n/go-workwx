@@ -37,7 +37,8 @@ func WithQYAPIHost(host string) ctorOption {
 	return &withQYAPIHost{x: host}
 }
 
-// impl ctorOption for withQYAPIHost
+var _ ctorOption = (*withQYAPIHost)(nil)
+
 func (x *withQYAPIHost) ApplyTo(y *options) {
 	y.QYAPIHost = x.x
 }
@@ -55,7 +56,8 @@ func WithHTTPClient(client *http.Client) ctorOption {
 	return &withHTTPClient{x: client}
 }
 
-// impl ctorOption for withHTTPClient
+var _ ctorOption = (*withHTTPClient)(nil)
+
 func (x *withHTTPClient) ApplyTo(y *options) {
 	y.HTTP = x.x
 }

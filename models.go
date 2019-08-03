@@ -12,9 +12,9 @@ type reqAccessToken struct {
 	CorpSecret string
 }
 
+var _ urlValuer = reqAccessToken{}
+
 // IntoURLValues 转换为 url.Values 类型
-//
-// impl urlValuer for reqAccessToken
 func (x reqAccessToken) IntoURLValues() url.Values {
 	return url.Values{
 		"corpid":     {x.CorpID},
@@ -57,9 +57,9 @@ type reqMessage struct {
 	IsSafe  bool
 }
 
+var _ bodyer = reqMessage{}
+
 // IntoBody 转换为请求体的 []byte 类型
-//
-// impl bodyer for reqMessage
 func (x reqMessage) IntoBody() ([]byte, error) {
 	// fuck
 	safeInt := 0
@@ -108,9 +108,9 @@ type reqUserGet struct {
 	UserID string
 }
 
+var _ urlValuer = reqUserGet{}
+
 // IntoURLValues 转换为 url.Values 类型
-//
-// impl urlValuer for reqUserGet
 func (x reqUserGet) IntoURLValues() url.Values {
 	return url.Values{
 		"userid": {x.UserID},
@@ -144,9 +144,9 @@ type reqDeptList struct {
 	ID     int64
 }
 
+var _ urlValuer = reqDeptList{}
+
 // IntoURLValues 转换为 url.Values 类型
-//
-// impl urlValuer for reqDeptList
 func (x reqDeptList) IntoURLValues() url.Values {
 	if !x.HaveID {
 		return url.Values{}
