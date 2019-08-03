@@ -41,6 +41,11 @@ func (x *mdContentNode) ThisLit() string {
 
 func (x *mdContentNode) ThisInnerText() string {
 	var sb strings.Builder
+
+	// write self
+	sb.WriteString(x.ThisLit())
+
+	// descend into children if there're any
 	for _, n := range x.ThisContent {
 		switch n.ThisType() {
 		case blackfriday.Text:
@@ -59,8 +64,15 @@ func (x *mdContentNode) ThisInnerText() string {
 		default:
 			// strip off all format
 			sb.WriteString(n.ThisLit())
+
+			// recurse into children if there're any
+			for _, n2 := range n.ThisContent {
+				// TODO: share a buffer
+				sb.WriteString(n2.ThisInnerText())
+			}
 		}
 	}
+
 	return sb.String()
 }
 
