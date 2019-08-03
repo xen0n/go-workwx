@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
+	"mime/multipart"
 	"net/url"
 	"sync"
 	"time"
@@ -146,6 +148,42 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interf
 		return err
 	}
 	defer resp.Body.Close()
+
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(respObj)
+	if err != nil {
+		// TODO: error_chain
+		return err
+	}
+
+	return nil
+}
+
+func (c *WorkwxApp) executeQyapiMediaUpload(
+	path string,
+	req mediaUploader,
+	respObj interface{},
+	withAccessToken bool,
+) error {
+	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
+	urlStr := url.String()
+
+	m := req.getMedia()
+
+	r, w := io.Pipe()
+	mw := multipart.NewWriter(w)
+
+	go func() {
+		defer w.Close()
+		// TODO: error inside goroutine?
+		m.writeTo(mw)
+	}()
+
+	resp, err := c.opts.HTTP.Post(urlStr, mw.FormDataContentType(), r)
+	if err != nil {
+		// TODO: error_chain
+		return err
+	}
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(respObj)
