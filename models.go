@@ -164,3 +164,50 @@ type respDeptList struct {
 	// TODO: 不要懒惰，把 API 层的类型写好
 	Department []*DeptInfo `json:"department"`
 }
+
+// reqAppchatGet 获取群聊会话请求
+type reqAppchatGet struct {
+	ChatID string
+}
+
+var _ urlValuer = reqAppchatGet{}
+
+// IntoURLValues 转换为 url.Values 类型
+func (x reqAppchatGet) IntoURLValues() url.Values {
+	return url.Values{
+		"chatid": {x.ChatID},
+	}
+}
+
+// respAppchatGet 获取群聊会话响应
+type respAppchatGet struct {
+	respCommon
+
+	ChatInfo *ChatInfo `json:"chat_info"`
+}
+
+// reqAppchatCreate 创建群聊会话请求
+type reqAppchatCreate struct {
+	ChatInfo *ChatInfo
+}
+
+var _ bodyer = reqAppchatCreate{}
+
+// IntoBody 转换为请求体的 []byte 类型
+func (x reqAppchatCreate) IntoBody() ([]byte, error) {
+	result, err := json.Marshal(x.ChatInfo)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respAppchatCreate 创建群聊会话响应
+type respAppchatCreate struct {
+	respCommon
+
+	ChatID string `json:"chatid"`
+}

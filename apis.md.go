@@ -35,6 +35,28 @@ func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
 	return resp, nil
 }
 
+// execAppchatCreate 创建群聊会话
+func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, error) {
+	var resp respAppchatCreate
+	err := c.executeQyapiJSONPost("/cgi-bin/appchat/create", req, &resp, true)
+	if err != nil {
+		return respAppchatCreate{}, err
+	}
+
+	return resp, nil
+}
+
+// execAppchatGet 获取群聊会话
+func (c *WorkwxApp) execAppchatGet(req reqAppchatGet) (respAppchatGet, error) {
+	var resp respAppchatGet
+	err := c.executeQyapiGet("/cgi-bin/appchat/get", req, &resp, true)
+	if err != nil {
+		return respAppchatGet{}, err
+	}
+
+	return resp, nil
+}
+
 // execMessageSend 发送应用消息
 func (c *WorkwxApp) execMessageSend(req reqMessage) (respMessageSend, error) {
 	var resp respMessageSend

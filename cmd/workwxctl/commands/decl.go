@@ -43,6 +43,11 @@ func InitApp() *cli.App {
 				Action: cmdDeptList,
 			},
 			{
+				Name:   "appchat-get",
+				Usage:  "获取群聊会话",
+				Action: cmdAppchatGet,
+			},
+			{
 				Name:   "send-text-message",
 				Usage:  "发送纯文本消息",
 				Action: cmdSendTextMessage,
