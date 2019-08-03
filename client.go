@@ -37,7 +37,7 @@ func New(corpID string, opts ...ctorOption) *Workwx {
 	optionsObj := defaultOptions()
 
 	for _, o := range opts {
-		o.ApplyTo(&optionsObj)
+		o.applyTo(&optionsObj)
 	}
 
 	return &Workwx{

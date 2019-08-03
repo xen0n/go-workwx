@@ -13,7 +13,7 @@ type options struct {
 }
 
 type ctorOption interface {
-	ApplyTo(*options)
+	applyTo(*options)
 }
 
 // impl Default for options
@@ -39,7 +39,7 @@ func WithQYAPIHost(host string) ctorOption {
 
 var _ ctorOption = (*withQYAPIHost)(nil)
 
-func (x *withQYAPIHost) ApplyTo(y *options) {
+func (x *withQYAPIHost) applyTo(y *options) {
 	y.QYAPIHost = x.x
 }
 
@@ -58,6 +58,6 @@ func WithHTTPClient(client *http.Client) ctorOption {
 
 var _ ctorOption = (*withHTTPClient)(nil)
 
-func (x *withHTTPClient) ApplyTo(y *options) {
+func (x *withHTTPClient) applyTo(y *options) {
 	y.HTTP = x.x
 }
