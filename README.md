@@ -31,7 +31,7 @@ Yet another Work Weixin client for Golang
 * [ ] 外部联系人管理
 * [ ] 应用管理
 * [x] 消息发送 (**部分支持**，见下)
-* [ ] 素材管理
+* [x] 素材管理 (**部分支持**, 见下)
 
 <details>
 <summary>通讯录管理 API</summary>
@@ -116,6 +116,16 @@ Yet another Work Weixin client for Golang
 * [ ] 图文消息
 * [ ] 图文消息（mpnews）
 * [x] markdown消息
+
+</details>
+
+<details>
+<summary>素材管理 API</summary>
+
+* [x] 上传临时素材
+* [x] 上传永久图片
+* [ ] 获取临时素材
+* [ ] 获取高清语音素材
 
 </details>
 
