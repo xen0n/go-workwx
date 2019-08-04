@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"mime/multipart"
 	"net/url"
 	"sync"
 	"time"
@@ -68,7 +69,7 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
 	values := url.Values{}
 	if valuer, ok := req.(urlValuer); ok {
-		values = valuer.IntoURLValues()
+		values = valuer.intoURLValues()
 	}
 
 	// TODO: refactor
@@ -134,7 +135,7 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interf
 	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	urlStr := url.String()
 
-	body, err := req.IntoBody()
+	body, err := req.intoBody()
 	if err != nil {
 		// TODO: error_chain
 		return err
@@ -146,6 +147,47 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interf
 		return err
 	}
 	defer resp.Body.Close()
+
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(respObj)
+	if err != nil {
+		// TODO: error_chain
+		return err
+	}
+
+	return nil
+}
+
+func (c *WorkwxApp) executeQyapiMediaUpload(
+	path string,
+	req mediaUploader,
+	respObj interface{},
+	withAccessToken bool,
+) error {
+	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
+	urlStr := url.String()
+
+	m := req.getMedia()
+
+	// FIXME: use streaming upload to conserve memory!
+	buf := bytes.Buffer{}
+	mw := multipart.NewWriter(&buf)
+
+	err := m.writeTo(mw)
+	if err != nil {
+		return err
+	}
+
+	err = mw.Close()
+	if err != nil {
+		return err
+	}
+
+	resp, err := c.opts.HTTP.Post(urlStr, mw.FormDataContentType(), &buf)
+	if err != nil {
+		// TODO: error_chain
+		return err
+	}
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(respObj)

@@ -14,8 +14,7 @@ type reqAccessToken struct {
 
 var _ urlValuer = reqAccessToken{}
 
-// IntoURLValues 转换为 url.Values 类型
-func (x reqAccessToken) IntoURLValues() url.Values {
+func (x reqAccessToken) intoURLValues() url.Values {
 	return url.Values{
 		"corpid":     {x.CorpID},
 		"corpsecret": {x.CorpSecret},
@@ -59,8 +58,7 @@ type reqMessage struct {
 
 var _ bodyer = reqMessage{}
 
-// IntoBody 转换为请求体的 []byte 类型
-func (x reqMessage) IntoBody() ([]byte, error) {
+func (x reqMessage) intoBody() ([]byte, error) {
 	// fuck
 	safeInt := 0
 	if x.IsSafe {
@@ -110,8 +108,7 @@ type reqUserGet struct {
 
 var _ urlValuer = reqUserGet{}
 
-// IntoURLValues 转换为 url.Values 类型
-func (x reqUserGet) IntoURLValues() url.Values {
+func (x reqUserGet) intoURLValues() url.Values {
 	return url.Values{
 		"userid": {x.UserID},
 	}
@@ -146,8 +143,7 @@ type reqDeptList struct {
 
 var _ urlValuer = reqDeptList{}
 
-// IntoURLValues 转换为 url.Values 类型
-func (x reqDeptList) IntoURLValues() url.Values {
+func (x reqDeptList) intoURLValues() url.Values {
 	if !x.HaveID {
 		return url.Values{}
 	}
@@ -172,8 +168,7 @@ type reqAppchatGet struct {
 
 var _ urlValuer = reqAppchatGet{}
 
-// IntoURLValues 转换为 url.Values 类型
-func (x reqAppchatGet) IntoURLValues() url.Values {
+func (x reqAppchatGet) intoURLValues() url.Values {
 	return url.Values{
 		"chatid": {x.ChatID},
 	}
@@ -193,8 +188,7 @@ type reqAppchatCreate struct {
 
 var _ bodyer = reqAppchatCreate{}
 
-// IntoBody 转换为请求体的 []byte 类型
-func (x reqAppchatCreate) IntoBody() ([]byte, error) {
+func (x reqAppchatCreate) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x.ChatInfo)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
@@ -210,4 +204,55 @@ type respAppchatCreate struct {
 	respCommon
 
 	ChatID string `json:"chatid"`
+}
+
+// reqMediaUpload 临时素材上传请求
+type reqMediaUpload struct {
+	Type  string
+	Media *Media
+}
+
+var _ urlValuer = reqMediaUpload{}
+var _ mediaUploader = reqMediaUpload{}
+
+func (x reqMediaUpload) intoURLValues() url.Values {
+	return url.Values{
+		"type": {x.Type},
+	}
+}
+
+func (x reqMediaUpload) getMedia() *Media {
+	return x.Media
+}
+
+// respMediaUpload 临时素材上传响应
+type respMediaUpload struct {
+	respCommon
+
+	Type      string `json:"type"`
+	MediaID   string `json:"media_id"`
+	CreatedAt string `json:"created_at"`
+}
+
+// reqMediaUploadImg 永久图片素材上传请求
+type reqMediaUploadImg struct {
+	Media *Media
+}
+
+var _ urlValuer = reqMediaUploadImg{}
+var _ mediaUploader = reqMediaUploadImg{}
+
+func (x reqMediaUploadImg) intoURLValues() url.Values {
+	return url.Values{}
+}
+
+func (x reqMediaUploadImg) getMedia() *Media {
+	return x.Media
+}
+
+// respMediaUploadImg 永久图片素材上传响应
+type respMediaUploadImg struct {
+	respCommon
+
+	URL string `json:"url"`
 }

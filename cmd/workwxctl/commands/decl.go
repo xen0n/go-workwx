@@ -30,6 +30,11 @@ func InitApp() *cli.App {
 				Usage:   "使用 `HOST` 覆盖默认企业微信 API 地址",
 				EnvVars: []string{"WORKWXCTL_QYAPI_HOST_OVERRIDE"},
 			},
+			&cli.StringFlag{
+				Name:    flagTLSKeyLogFile,
+				Usage:   "将 HTTPS 会话所用密钥写入 `LOGFILE` 以便 Wireshark 等工具读取",
+				EnvVars: []string{"WORKWXCTL_TLS_KEY_LOGFILE"},
+			},
 		},
 		Commands: []*cli.Command{
 			{
@@ -48,10 +53,14 @@ func InitApp() *cli.App {
 				Action: cmdAppchatGet,
 			},
 			{
-				Name:   "send-text-message",
-				Usage:  "发送纯文本消息",
-				Action: cmdSendTextMessage,
+				Name:   "send-message",
+				Usage:  "发送消息",
+				Action: cmdSendMessage,
 				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  flagMessageType,
+						Usage: "发送消息的类型: text, image, voice, video, file, textcard, news, mpnews, markdown",
+					},
 					&cli.StringSliceFlag{
 						Name:    flagToUser,
 						Aliases: []string{flagToUserShort},
@@ -75,6 +84,59 @@ func InitApp() *cli.App {
 					&cli.BoolFlag{
 						Name:  flagSafe,
 						Usage: "作为保密消息发送",
+					},
+
+					// 发消息参数
+					&cli.StringFlag{
+						Name:  flagMediaID,
+						Usage: "图片媒体文件id，可以调用上传临时素材接口获取",
+					},
+					&cli.StringFlag{
+						Name:  flagThumbMediaID,
+						Usage: "图文消息缩略图的media_id, 可以通过素材管理接口获得。",
+					},
+					&cli.StringFlag{
+						Name:  flagAuthor,
+						Usage: "图文消息的作者，不超过64个字节",
+					},
+					&cli.StringFlag{
+						Name:  flagDescription,
+						Usage: "描述，不超过512个字节，超过会自动截断",
+					},
+					&cli.StringFlag{
+						Name:  flagTitle,
+						Usage: "标题，不超过128个字节，超过会自动截断",
+					},
+					&cli.StringFlag{
+						Name:  flagURL,
+						Usage: "点击后跳转的链接。",
+					},
+					&cli.StringFlag{
+						Name:  flagPicURL,
+						Usage: "图文消息的图片链接，支持JPG、PNG格式，较好的效果为大图1068*455，小图150*150。",
+					},
+					&cli.StringFlag{
+						Name:  flagButtonText,
+						Usage: "按钮文字。 默认为“详情”， 不超过4个文字，超过自动截断。",
+					},
+					&cli.StringFlag{
+						Name:  flagSourceContentURL,
+						Usage: "图文消息点击“阅读原文”之后的页面链接",
+					},
+					&cli.StringFlag{
+						Name:  flagDigest,
+						Usage: "图文消息的描述，不超过512个字节，超过会自动截断",
+					},
+				},
+			},
+			{
+				Name:   "upload-temp-media",
+				Usage:  "上传临时素材",
+				Action: cmdUploadTempMedia,
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  flagMediaType,
+						Usage: "媒体文件类型，分别有图片（image）、语音（voice）、视频（video），普通文件(file)",
 					},
 				},
 			},
