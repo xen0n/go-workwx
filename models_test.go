@@ -16,7 +16,7 @@ func TestReqAccessToken(t *testing.T) {
 		}
 
 		c.Convey("序列化结果应该符合预期", func() {
-			v := a.IntoURLValues()
+			v := a.intoURLValues()
 
 			expected := url.Values{
 				"corpid":     []string{"foo"},
@@ -92,7 +92,7 @@ func TestReqMessage(t *testing.T) {
 			}
 
 			c.Convey("执行序列化", func() {
-				result, err := a.IntoBody()
+				result, err := a.intoBody()
 
 				c.Convey("序列化应该失败", func() {
 					c.So(err, c.ShouldNotBeNil)
@@ -106,7 +106,7 @@ func TestReqMessage(t *testing.T) {
 			a.IsSafe = true
 
 			c.Convey("执行序列化", func() {
-				result, err := a.IntoBody()
+				result, err := a.intoBody()
 
 				c.Convey("序列化应该成功", func() {
 					c.So(err, c.ShouldBeNil)
@@ -141,7 +141,7 @@ func TestReqMessage(t *testing.T) {
 			a.ChatID = "quux"
 
 			c.Convey("执行序列化", func() {
-				result, err := a.IntoBody()
+				result, err := a.intoBody()
 
 				c.Convey("序列化应该成功", func() {
 					c.So(err, c.ShouldBeNil)

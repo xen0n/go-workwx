@@ -70,7 +70,7 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
 	values := url.Values{}
 	if valuer, ok := req.(urlValuer); ok {
-		values = valuer.IntoURLValues()
+		values = valuer.intoURLValues()
 	}
 
 	// TODO: refactor
@@ -136,7 +136,7 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interf
 	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	urlStr := url.String()
 
-	body, err := req.IntoBody()
+	body, err := req.intoBody()
 	if err != nil {
 		// TODO: error_chain
 		return err
