@@ -44,6 +44,7 @@ const (
 	apiMethodUnknown apiMethod = iota
 	apiMethodGET
 	apiMethodPOSTJSON
+	apiMethodPOSTMedia
 )
 
 // An API call.

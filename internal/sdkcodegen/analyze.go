@@ -460,6 +460,8 @@ func parseAPIMethod(x string) (apiMethod, error) {
 		return apiMethodGET, nil
 	case "POST":
 		return apiMethodPOSTJSON, nil
+	case "POST(file)":
+		return apiMethodPOSTMedia, nil
 	default:
 		return apiMethodUnknown, errUnknownAPICallHTTPMethod
 	}

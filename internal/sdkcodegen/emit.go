@@ -161,8 +161,9 @@ func (e *goEmitter) emitAPICall(x *apiCall) error {
 	case apiMethodGET:
 		execMethodName = "executeQyapiGet"
 	case apiMethodPOSTJSON:
-		// only JSON posts are supported now
 		execMethodName = "executeQyapiJSONPost"
+	case apiMethodPOSTMedia:
+		execMethodName = "executeQyapiMediaUpload"
 	default:
 		panic("unimplemented")
 	}
