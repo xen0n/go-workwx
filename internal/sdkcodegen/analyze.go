@@ -418,12 +418,9 @@ func parseAPICallRow(x apiCallRow) (apiCall, error) {
 	httpMeth := urlSpecParts[0]
 	url := urlSpecParts[1]
 
-	switch httpMeth {
-	case "GET", "POST":
-		// do nothing
-
-	default:
-		return empty, errUnknownAPICallHTTPMethod
+	meth, err := parseAPIMethod(httpMeth)
+	if err != nil {
+		return empty, err
 	}
 
 	ak, err := parseBool(x.akSpec)
@@ -441,8 +438,8 @@ func parseAPICallRow(x apiCallRow) (apiCall, error) {
 
 		needsAccessToken: ak,
 
-		httpMethod: httpMeth,
-		httpURI:    url,
+		method:  meth,
+		httpURI: url,
 	}, nil
 }
 
@@ -454,5 +451,16 @@ func parseBool(x string) (bool, error) {
 		return false, nil
 	default:
 		return false, errUnknownBooleanSpec
+	}
+}
+
+func parseAPIMethod(x string) (apiMethod, error) {
+	switch x {
+	case "GET":
+		return apiMethodGET, nil
+	case "POST":
+		return apiMethodPOSTJSON, nil
+	default:
+		return apiMethodUnknown, errUnknownAPICallHTTPMethod
 	}
 }

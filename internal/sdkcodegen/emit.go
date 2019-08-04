@@ -157,10 +157,10 @@ func (e *goEmitter) emitAPICall(x *apiCall) error {
 	ident := x.ident
 
 	var execMethodName string
-	switch x.httpMethod {
-	case "GET":
+	switch x.method {
+	case apiMethodGET:
 		execMethodName = "executeQyapiGet"
-	case "POST":
+	case apiMethodPOSTJSON:
 		// only JSON posts are supported now
 		execMethodName = "executeQyapiJSONPost"
 	default:

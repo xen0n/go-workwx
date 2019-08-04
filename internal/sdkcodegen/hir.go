@@ -38,6 +38,14 @@ type apiModelField struct {
 	tags  map[string]string
 }
 
+type apiMethod int
+
+const (
+	apiMethodUnknown apiMethod = iota
+	apiMethodGET
+	apiMethodPOSTJSON
+)
+
 // An API call.
 type apiCall struct {
 	ident string
@@ -49,6 +57,6 @@ type apiCall struct {
 
 	needsAccessToken bool
 
-	httpMethod string
-	httpURI    string
+	method  apiMethod
+	httpURI string
 }
