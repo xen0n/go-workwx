@@ -30,6 +30,11 @@ func InitApp() *cli.App {
 				Usage:   "使用 `HOST` 覆盖默认企业微信 API 地址",
 				EnvVars: []string{"WORKWXCTL_QYAPI_HOST_OVERRIDE"},
 			},
+			&cli.StringFlag{
+				Name:    flagTLSKeyLogFile,
+				Usage:   "将 HTTPS 会话所用密钥写入 `LOGFILE` 以便 Wireshark 等工具读取",
+				EnvVars: []string{"WORKWXCTL_TLS_KEY_LOGFILE"},
+			},
 		},
 		Commands: []*cli.Command{
 			{
