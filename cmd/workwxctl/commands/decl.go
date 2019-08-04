@@ -53,9 +53,9 @@ func InitApp() *cli.App {
 				Action: cmdAppchatGet,
 			},
 			{
-				Name:   "send-text-message",
+				Name:   "send-message",
 				Usage:  "发送纯文本消息",
-				Action: cmdSendTextMessage,
+				Action: cmdSendMessage,
 				Flags: []cli.Flag{
 					&cli.StringSliceFlag{
 						Name:    flagToUser,

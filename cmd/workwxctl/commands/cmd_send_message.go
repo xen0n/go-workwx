@@ -5,7 +5,7 @@ import (
 	"gopkg.in/urfave/cli.v2"
 )
 
-func cmdSendTextMessage(c *cli.Context) error {
+func cmdSendMessage(c *cli.Context) error {
 	cfg := mustGetConfig(c)
 	isSafe := c.Bool(flagSafe)
 	toUsers := c.StringSlice(flagToUser)
