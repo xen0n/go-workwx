@@ -177,6 +177,7 @@ func (c *WorkwxApp) executeQyapiMediaUpload(
 		defer w.Close()
 		// TODO: error inside goroutine?
 		m.writeTo(mw)
+		mw.Close()
 	}()
 
 	resp, err := c.opts.HTTP.Post(urlStr, mw.FormDataContentType(), r)
