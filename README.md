@@ -30,7 +30,7 @@ Yet another Work Weixin client for Golang
 * [ ] 通讯录管理
 * [ ] 外部联系人管理
 * [ ] 应用管理
-* [x] 消息发送 (**部分支持**，见下)
+* [x] 消息发送
 * [x] 素材管理 (**部分支持**, 见下)
 
 <details>
@@ -108,13 +108,13 @@ Yet another Work Weixin client for Golang
 ### 消息类型
 
 * [x] 文本消息
-* [ ] 图片消息
-* [ ] 语音消息
-* [ ] 视频消息
-* [ ] 文件消息
-* [ ] 文本卡片消息
-* [ ] 图文消息
-* [ ] 图文消息（mpnews）
+* [x] 图片消息
+* [x] 语音消息
+* [x] 视频消息
+* [x] 文件消息
+* [x] 文本卡片消息
+* [x] 图文消息
+* [x] 图文消息（mpnews）
 * [x] markdown消息
 
 </details>
