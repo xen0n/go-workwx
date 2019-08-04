@@ -12,6 +12,7 @@ func cmdSendMessage(c *cli.Context) error {
 	toParties := c.StringSlice(flagToParty)
 	toTags := c.StringSlice(flagToTag)
 	toChat := c.String(flagToChat)
+	content := c.Args().Get(0)
 
 	app := cfg.MakeWorkwxApp()
 
@@ -21,7 +22,7 @@ func cmdSendMessage(c *cli.Context) error {
 		TagIDs:   toTags,
 		ChatID:   toChat,
 	}
-	err := app.SendTextMessage(&recipient, c.Args().Get(0), isSafe)
+	err := app.SendTextMessage(&recipient, content, isSafe)
 
 	return err
 }
