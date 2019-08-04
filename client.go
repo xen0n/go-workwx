@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"mime/multipart"
 	"net/url"
 	"sync"
@@ -170,17 +169,21 @@ func (c *WorkwxApp) executeQyapiMediaUpload(
 
 	m := req.getMedia()
 
-	r, w := io.Pipe()
-	mw := multipart.NewWriter(w)
+	// FIXME: use streaming upload to conserve memory!
+	buf := bytes.Buffer{}
+	mw := multipart.NewWriter(&buf)
 
-	go func() {
-		defer w.Close()
-		// TODO: error inside goroutine?
-		m.writeTo(mw)
-		mw.Close()
-	}()
+	err := m.writeTo(mw)
+	if err != nil {
+		return err
+	}
 
-	resp, err := c.opts.HTTP.Post(urlStr, mw.FormDataContentType(), r)
+	err = mw.Close()
+	if err != nil {
+		return err
+	}
+
+	resp, err := c.opts.HTTP.Post(urlStr, mw.FormDataContentType(), &buf)
 	if err != nil {
 		// TODO: error_chain
 		return err
