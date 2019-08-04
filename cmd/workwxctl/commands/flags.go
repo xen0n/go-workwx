@@ -16,6 +16,7 @@ const (
 	flagQyapiHostOverride = "qyapi-host-override"
 	flagTLSKeyLogFile     = "tls-key-logfile"
 
+	flagMessageType  = "message-type"
 	flagSafe         = "safe"
 	flagToUser       = "to-user"
 	flagToUserShort  = "u"

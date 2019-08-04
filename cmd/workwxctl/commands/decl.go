@@ -54,9 +54,13 @@ func InitApp() *cli.App {
 			},
 			{
 				Name:   "send-message",
-				Usage:  "发送纯文本消息",
+				Usage:  "发送消息",
 				Action: cmdSendMessage,
 				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  flagMessageType,
+						Usage: "发送消息的类型: text, image, voice, video, file, textcard, news, mpnews, markdown",
+					},
 					&cli.StringSliceFlag{
 						Name:    flagToUser,
 						Aliases: []string{flagToUserShort},
