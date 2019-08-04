@@ -100,8 +100,8 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
-`execMediaUpload`|TODO|TODO|+|`POST(file) /cgi-bin/media/upload`|[上传临时素材](https://work.weixin.qq.com/api/doc#90000/90135/90253)
-`execMediaUploadImg`|TODO|TODO|+|`POST(file) /cgi-bin/media/uploadimg`|[上传永久图片](https://work.weixin.qq.com/api/doc#90000/90135/90256)
+`execMediaUpload`|`reqMediaUpload`|`respMediaUpload`|+|`POST(file) /cgi-bin/media/upload`|[上传临时素材](https://work.weixin.qq.com/api/doc#90000/90135/90253)
+`execMediaUploadImg`|`reqMediaUploadImg`|`respMediaUploadImg`|+|`POST(file) /cgi-bin/media/uploadimg`|[上传永久图片](https://work.weixin.qq.com/api/doc#90000/90135/90256)
 `execMediaGet`|TODO|TODO|+|`GET /cgi-bin/media/get`|[获取临时素材](https://work.weixin.qq.com/api/doc#90000/90135/90254)
 `execMediaGetJSSDK`|TODO|TODO|+|`GET /cgi-bin/media/get/jssdk`|[获取高清语音素材](https://work.weixin.qq.com/api/doc#90000/90135/90255)
 

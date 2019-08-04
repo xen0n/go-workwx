@@ -205,3 +205,54 @@ type respAppchatCreate struct {
 
 	ChatID string `json:"chatid"`
 }
+
+// reqMediaUpload 临时素材上传请求
+type reqMediaUpload struct {
+	Type  string
+	Media *Media
+}
+
+var _ urlValuer = reqMediaUpload{}
+var _ mediaUploader = reqMediaUpload{}
+
+func (x reqMediaUpload) intoURLValues() url.Values {
+	return url.Values{
+		"type": {x.Type},
+	}
+}
+
+func (x reqMediaUpload) getMedia() *Media {
+	return x.Media
+}
+
+// respMediaUpload 临时素材上传响应
+type respMediaUpload struct {
+	respCommon
+
+	Type      string `json:"type"`
+	MediaID   string `json:"media_id"`
+	CreatedAt string `json:"created_at"`
+}
+
+// reqMediaUploadImg 永久图片素材上传请求
+type reqMediaUploadImg struct {
+	Media *Media
+}
+
+var _ urlValuer = reqMediaUploadImg{}
+var _ mediaUploader = reqMediaUploadImg{}
+
+func (x reqMediaUploadImg) intoURLValues() url.Values {
+	return url.Values{}
+}
+
+func (x reqMediaUploadImg) getMedia() *Media {
+	return x.Media
+}
+
+// respMediaUploadImg 永久图片素材上传响应
+type respMediaUploadImg struct {
+	respCommon
+
+	URL string `json:"url"`
+}

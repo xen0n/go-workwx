@@ -78,3 +78,25 @@ func (c *WorkwxApp) execAppchatSend(req reqMessage) (respMessageSend, error) {
 
 	return resp, nil
 }
+
+// execMediaUpload 上传临时素材
+func (c *WorkwxApp) execMediaUpload(req reqMediaUpload) (respMediaUpload, error) {
+	var resp respMediaUpload
+	err := c.executeQyapiMediaUpload("/cgi-bin/media/upload", req, &resp, true)
+	if err != nil {
+		return respMediaUpload{}, err
+	}
+
+	return resp, nil
+}
+
+// execMediaUploadImg 上传永久图片
+func (c *WorkwxApp) execMediaUploadImg(req reqMediaUploadImg) (respMediaUploadImg, error) {
+	var resp respMediaUploadImg
+	err := c.executeQyapiMediaUpload("/cgi-bin/media/uploadimg", req, &resp, true)
+	if err != nil {
+		return respMediaUploadImg{}, err
+	}
+
+	return resp, nil
+}
