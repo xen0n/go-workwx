@@ -14,7 +14,6 @@ type reqAccessToken struct {
 
 var _ urlValuer = reqAccessToken{}
 
-// intoURLValues 转换为 url.Values 类型
 func (x reqAccessToken) intoURLValues() url.Values {
 	return url.Values{
 		"corpid":     {x.CorpID},
@@ -59,7 +58,6 @@ type reqMessage struct {
 
 var _ bodyer = reqMessage{}
 
-// intoBody 转换为请求体的 []byte 类型
 func (x reqMessage) intoBody() ([]byte, error) {
 	// fuck
 	safeInt := 0
@@ -110,7 +108,6 @@ type reqUserGet struct {
 
 var _ urlValuer = reqUserGet{}
 
-// intoURLValues 转换为 url.Values 类型
 func (x reqUserGet) intoURLValues() url.Values {
 	return url.Values{
 		"userid": {x.UserID},
@@ -146,7 +143,6 @@ type reqDeptList struct {
 
 var _ urlValuer = reqDeptList{}
 
-// intoURLValues 转换为 url.Values 类型
 func (x reqDeptList) intoURLValues() url.Values {
 	if !x.HaveID {
 		return url.Values{}
@@ -172,7 +168,6 @@ type reqAppchatGet struct {
 
 var _ urlValuer = reqAppchatGet{}
 
-// intoURLValues 转换为 url.Values 类型
 func (x reqAppchatGet) intoURLValues() url.Values {
 	return url.Values{
 		"chatid": {x.ChatID},
@@ -193,7 +188,6 @@ type reqAppchatCreate struct {
 
 var _ bodyer = reqAppchatCreate{}
 
-// intoBody 转换为请求体的 []byte 类型
 func (x reqAppchatCreate) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x.ChatInfo)
 	if err != nil {
