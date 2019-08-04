@@ -27,6 +27,17 @@ const (
 	flagToChat       = "to-chat"
 	flagToChatShort  = "c"
 
+	flagMediaID          = "media-id"
+	flagThumbMediaID     = "thumb-media-id"
+	flagDescription      = "desc"
+	flagTitle            = "title"
+	flagAuthor           = "author"
+	flagURL              = "url"
+	flagPicURL           = "pic-url"
+	flagButtonText       = "button-text"
+	flagSourceContentURL = "source-content-url"
+	flagDigest           = "digest"
+
 	flagMediaType = "media-type"
 )
 

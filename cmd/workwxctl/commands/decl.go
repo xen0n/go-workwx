@@ -85,6 +85,48 @@ func InitApp() *cli.App {
 						Name:  flagSafe,
 						Usage: "作为保密消息发送",
 					},
+
+					// 发消息参数
+					&cli.StringFlag{
+						Name:  flagMediaID,
+						Usage: "图片媒体文件id，可以调用上传临时素材接口获取",
+					},
+					&cli.StringFlag{
+						Name:  flagThumbMediaID,
+						Usage: "图文消息缩略图的media_id, 可以通过素材管理接口获得。",
+					},
+					&cli.StringFlag{
+						Name:  flagAuthor,
+						Usage: "图文消息的作者，不超过64个字节",
+					},
+					&cli.StringFlag{
+						Name:  flagDescription,
+						Usage: "描述，不超过512个字节，超过会自动截断",
+					},
+					&cli.StringFlag{
+						Name:  flagTitle,
+						Usage: "标题，不超过128个字节，超过会自动截断",
+					},
+					&cli.StringFlag{
+						Name:  flagURL,
+						Usage: "点击后跳转的链接。",
+					},
+					&cli.StringFlag{
+						Name:  flagPicURL,
+						Usage: "图文消息的图片链接，支持JPG、PNG格式，较好的效果为大图1068*455，小图150*150。",
+					},
+					&cli.StringFlag{
+						Name:  flagButtonText,
+						Usage: "按钮文字。 默认为“详情”， 不超过4个文字，超过自动截断。",
+					},
+					&cli.StringFlag{
+						Name:  flagSourceContentURL,
+						Usage: "图文消息点击“阅读原文”之后的页面链接",
+					},
+					&cli.StringFlag{
+						Name:  flagDigest,
+						Usage: "图文消息的描述，不超过512个字节，超过会自动截断",
+					},
 				},
 			},
 			{
