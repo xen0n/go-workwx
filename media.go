@@ -20,6 +20,7 @@ type Media struct {
 	stream   io.Reader
 }
 
+// NewMediaFromFile 从操作系统级文件创建一个欲上传的素材对象
 func NewMediaFromFile(f *os.File) (*Media, error) {
 	stat, err := f.Stat()
 	if err != nil {
@@ -33,6 +34,7 @@ func NewMediaFromFile(f *os.File) (*Media, error) {
 	}, nil
 }
 
+// NewMediaFromBuffer 从内存创建一个欲上传的素材对象
 func NewMediaFromBuffer(filename string, buf []byte) (*Media, error) {
 	stream := bytes.NewReader(buf)
 	return &Media{
