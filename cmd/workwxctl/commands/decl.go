@@ -78,6 +78,17 @@ func InitApp() *cli.App {
 					},
 				},
 			},
+			{
+				Name:   "upload-temp-media",
+				Usage:  "上传临时素材",
+				Action: cmdUploadTempMedia,
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  flagMediaType,
+						Usage: "媒体文件类型，分别有图片（image）、语音（voice）、视频（video），普通文件(file)",
+					},
+				},
+			},
 		},
 	}
 }

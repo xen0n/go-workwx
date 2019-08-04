@@ -20,6 +20,8 @@ const (
 	flagToTagShort   = "t"
 	flagToChat       = "to-chat"
 	flagToChatShort  = "c"
+
+	flagMediaType = "media-type"
 )
 
 type cliOptions struct {
