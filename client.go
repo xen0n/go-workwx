@@ -34,7 +34,7 @@ type WorkwxApp struct {
 }
 
 // New 构造一个 Workwx 客户端对象，需要提供企业 ID
-func New(corpID string, opts ...ctorOption) *Workwx {
+func New(corpID string, opts ...CtorOption) *Workwx {
 	optionsObj := defaultOptions()
 
 	for _, o := range opts {

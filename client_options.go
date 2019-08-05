@@ -12,7 +12,8 @@ type options struct {
 	HTTP      *http.Client
 }
 
-type ctorOption interface {
+// CtorOption 客户端对象构造参数
+type CtorOption interface {
 	applyTo(*options)
 }
 
@@ -33,11 +34,11 @@ type withQYAPIHost struct {
 }
 
 // WithQYAPIHost 覆盖默认企业微信 API 域名
-func WithQYAPIHost(host string) ctorOption {
+func WithQYAPIHost(host string) CtorOption {
 	return &withQYAPIHost{x: host}
 }
 
-var _ ctorOption = (*withQYAPIHost)(nil)
+var _ CtorOption = (*withQYAPIHost)(nil)
 
 func (x *withQYAPIHost) applyTo(y *options) {
 	y.QYAPIHost = x.x
@@ -52,11 +53,11 @@ type withHTTPClient struct {
 }
 
 // WithHTTPClient 使用给定的 http.Client 作为 HTTP 客户端
-func WithHTTPClient(client *http.Client) ctorOption {
+func WithHTTPClient(client *http.Client) CtorOption {
 	return &withHTTPClient{x: client}
 }
 
-var _ ctorOption = (*withHTTPClient)(nil)
+var _ CtorOption = (*withHTTPClient)(nil)
 
 func (x *withHTTPClient) applyTo(y *options) {
 	y.HTTP = x.x
