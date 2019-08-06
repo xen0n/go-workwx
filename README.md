@@ -10,9 +10,15 @@ import (
 )
 ```
 
-Yet another Work Weixin client for Golang
+A Work Weixin (a.k.a.  Wechat Work) client SDK for Golang, that happens to be
+battle-tested and pretty serious about its types.
 
-又一个 Golang 企业微信客户端
+In production since late 2018, pushing all kinds of notifications and alerts
+in at least 2 of Qiniu's internal systems.
+
+一个 Golang 企业微信客户端 SDK；碰巧在生产环境试炼过，还对类型很严肃。
+
+自 2018 年末以来，在七牛至少 2 个内部系统运转至今，推送各种通知、告警。
 
 
 > English translation TODO for now, as the service covered here is not available
@@ -23,15 +29,40 @@ Yet another Work Weixin client for Golang
 
 工作中需要用 Go 实现一个简单的消息推送，想着找个开源库算了，然而现有唯一的开源企业微信 Golang SDK 代码质量不佳。只好自己写一个。
 
+*Update*: 自从这个库写出来，已经过了很久；现在（2019.08）已经有三四个同类项目了。
+不过看了看这些“竞品”，发现自己这个库的类型设计、公开接口、access token 处理等方面还不赖。
+为什么人们总是喜欢写死请求 `Host`、用全局量、为拆包而拆包甚至不惜公开内部方法呢？
+
 
 ## Features
 
-* [x] access token 刷新
-* [ ] 通讯录管理
+* 包名短
+* 支持覆盖 API `Host`，用于自己拦一层网关、临时调试等等奇葩需求
+* 支持使用自定义 `http.Client`
+* access token 处理靠谱
+    - 你可以直接就做 API 调用，会自动请求 access token
+    - 你也可以一行代码起一个后台 access token 刷新 goroutine
+    - 自带指数退避重试
+* 严肃对待类型、公开接口
+    - 公开暴露接口最小化，两步构造出 `WorkwxApp` 对象，然后直接用
+    - 刻意不暴露企业微信原始接口请求、响应类型
+    - 后续可能会做一个 `lowlevel` 包暴露裸的 API 接口，但很可能不做
+    - 不为多态而多态，宁可 SDK 内部重复代码，也保证一个接口一类动作，下游用户 static dispatch
+    - 个别数据模型做了调整甚至重做（如 `UserInfo`、`Recipient`），以鼓励 idiomatic Go 风格
+    - *几乎*不会越俎代庖，一言不合 `panic`。**现存的少数一些情况都是要修掉的。**
+* 自带一个 `workwxctl` 命令行小工具帮助调试
+    - 用起来不爽提 issue 让我知道你在想啥
+
+详情看 godoc 文档，还提供 Examples 小段代码可以参考。
+
+
+## Supported APIs
+
+* [x] 通讯录管理 (**部分支持**，见下)
 * [ ] 外部联系人管理
 * [ ] 应用管理
-* [x] 消息发送
-* [x] 素材管理 (**部分支持**, 见下)
+* [x] 消息发送 (除接收消息、修改群聊会话外全部支持)
+* [x] 素材管理 (**支持上传**, 见下)
 
 <details>
 <summary>通讯录管理 API</summary>
