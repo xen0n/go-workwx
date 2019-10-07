@@ -9,8 +9,8 @@ import (
 // getAccessToken 获取 access token
 func (c *WorkwxApp) getAccessToken() (respAccessToken, error) {
 	return c.execGetAccessToken(reqAccessToken{
-		CorpID:     c.CorpID,
-		CorpSecret: c.CorpSecret,
+		CorpID:     c.corpID,
+		CorpSecret: c.corpSecret,
 	})
 }
 

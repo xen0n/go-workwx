@@ -213,7 +213,7 @@ func (c *WorkwxApp) sendMessage(
 		ToParty: recipient.PartyIDs,
 		ToTag:   recipient.TagIDs,
 		ChatID:  recipient.ChatID,
-		AgentID: c.AgentID,
+		AgentID: c.agentID,
 		MsgType: msgtype,
 		Content: content,
 		IsSafe:  isSafe,

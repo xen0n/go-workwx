@@ -14,18 +14,18 @@ import (
 type Workwx struct {
 	opts options
 
-	// CorpID 企业 ID，必填
-	CorpID string
+	// corpID 企业 ID，必填
+	corpID string
 }
 
 // WorkwxApp 企业微信客户端（分应用）
 type WorkwxApp struct {
 	*Workwx
 
-	// CorpSecret 应用的凭证密钥，必填
-	CorpSecret string
-	// AgentID 应用 ID，必填
-	AgentID int64
+	// corpSecret 应用的凭证密钥，必填
+	corpSecret string
+	// agentID 应用 ID，必填
+	agentID int64
 
 	tokenMu        *sync.RWMutex
 	accessToken    string
@@ -44,7 +44,7 @@ func New(corpID string, opts ...CtorOption) *Workwx {
 	return &Workwx{
 		opts: optionsObj,
 
-		CorpID: corpID,
+		corpID: corpID,
 	}
 }
 
@@ -53,8 +53,8 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 	return &WorkwxApp{
 		Workwx: c,
 
-		CorpSecret: corpSecret,
-		AgentID:    agentID,
+		corpSecret: corpSecret,
+		agentID:    agentID,
 
 		tokenMu:     &sync.RWMutex{},
 		accessToken: "",

@@ -11,7 +11,7 @@ func TestWorkwxCtor(t *testing.T) {
 		a := New("testcorpid")
 
 		c.Convey("corpid 应该正确设置了", func() {
-			c.So(a.CorpID, c.ShouldEqual, "testcorpid")
+			c.So(a.corpID, c.ShouldEqual, "testcorpid")
 		})
 	})
 }
