@@ -1,6 +1,7 @@
 language: go
 go:
   - "1.12.x"
+  - "1.13.x"
 go_import_path: github.com/xen0n/go-workwx
 branches:
   # https://bors.tech/documentation/getting-started/
