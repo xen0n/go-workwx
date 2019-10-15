@@ -1,9 +1,12 @@
+//+build sdkcodegen !go1.13
+
 package main
 
 import (
 	"errors"
 	"strings"
 
+	// this is not currently go1.13-compatible sadly
 	"gopkg.in/russross/blackfriday.v2"
 )
 
