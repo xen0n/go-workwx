@@ -1,3 +1,5 @@
+//+build sdkcodegen !go1.13
+
 package main
 
 import (
