@@ -15,6 +15,7 @@ branches:
 cache:
   - $GOPATH/pkg/dep
 before_install:
+  - export GO111MODULE=on
   - go get -u -v honnef.co/go/tools/cmd/staticcheck
 install:
   - go install -v ./...
