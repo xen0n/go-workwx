@@ -1,4 +1,4 @@
-//+build sdkcodegen !go1.13
+//+build sdkcodegen
 
 package main
 

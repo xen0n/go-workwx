@@ -1,4 +1,4 @@
-//+build sdkcodegen !go1.13
+//+build sdkcodegen
 
 package main
 
@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gopkg.in/russross/blackfriday.v2"
+	"github.com/russross/blackfriday"
 )
 
 type mdNode interface {

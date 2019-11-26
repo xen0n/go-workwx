@@ -1,4 +1,4 @@
-//+build sdkcodegen !go1.13
+//+build sdkcodegen
 
 package main
 
@@ -7,7 +7,7 @@ import (
 	"io"
 	"strings"
 
-	"gopkg.in/russross/blackfriday.v2"
+	"github.com/russross/blackfriday"
 )
 
 func parseDocument(content []byte) *mdTocNode {
