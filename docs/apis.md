@@ -18,7 +18,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execUserDelete`|TODO|TODO|+|`GET /cgi/bin/user/delete`|[删除成员](https://work.weixin.qq.com/api/doc#90000/90135/90198)
 `execUserBatchDelete`|TODO|TODO|+|`POST /cgi/bin/user/batchdelete`|[批量删除成员](https://work.weixin.qq.com/api/doc#90000/90135/90199)
 `execUserSimpleList`|TODO|TODO|+|`GET /cgi-bin/user/simplelist`|[获取部门成员](https://work.weixin.qq.com/api/doc#90000/90135/90200)
-`execUserList`|TODO|TODO|+|`GET /cgi-bin/user/list`|[获取部门成员详情](https://work.weixin.qq.com/api/doc#90000/90135/90201)
+`execUserList`|`reqUserList`|`respUserList`|+|`GET /cgi-bin/user/list`|[获取部门成员详情](https://work.weixin.qq.com/api/doc#90000/90135/90201)
 `execUserConvertToOpenID`|TODO|TODO|+|`POST /cgi-bin/user/convert_to_openid`|[userid与openid互换](https://work.weixin.qq.com/api/doc#90000/90135/90202)
 `execUserAuthSucc`|TODO|TODO|+|`GET /cgi-bin/user/authsucc`|[二次验证](https://work.weixin.qq.com/api/doc#90000/90135/90203)
 `execUserBatchInvite`|TODO|TODO|+|`POST /cgi-bin/batch/invite`|[邀请成员](https://work.weixin.qq.com/api/doc#90000/90135/90975)

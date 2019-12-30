@@ -24,6 +24,17 @@ func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	return resp, nil
 }
 
+// execUserList 获取部门成员详情
+func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
+	var resp respUserList
+	err := c.executeQyapiGet("/cgi-bin/user/list", req, &resp, true)
+	if err != nil {
+		return respUserList{}, err
+	}
+
+	return resp, nil
+}
+
 // execDeptList 获取部门列表
 func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
 	var resp respDeptList
