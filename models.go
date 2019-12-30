@@ -114,7 +114,7 @@ func (x reqUserGet) intoURLValues() url.Values {
 	}
 }
 
-// 用户接口 响应中的成员详细信息
+// respUserDetail 成员详细信息的公共字段
 type respUserDetail struct {
 	UserID         string   `json:"userid"`
 	Name           string   `json:"name"`

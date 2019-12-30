@@ -74,7 +74,7 @@ in at least 2 of Qiniu's internal systems.
     - [ ] 删除成员
     - [ ] 批量删除成员
     - [ ] 获取部门成员
-    - [ ] 获取部门成员详情
+    - [x] 获取部门成员详情
     - [ ] userid与openid互换
     - [ ] 二次验证
     - [ ] 邀请成员
