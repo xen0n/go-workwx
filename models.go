@@ -114,10 +114,8 @@ func (x reqUserGet) intoURLValues() url.Values {
 	}
 }
 
-// respUserGet 读取成员响应
-type respUserGet struct {
-	respCommon
-
+// respUserDetail 成员详细信息的公共字段
+type respUserDetail struct {
 	UserID         string   `json:"userid"`
 	Name           string   `json:"name"`
 	DeptIDs        []int64  `json:"department"`
@@ -134,6 +132,40 @@ type respUserGet struct {
 	Status         int      `json:"status"`
 	QRCodeURL      string   `json:"qr_code"`
 	// TODO: extattr external_profile external_position
+}
+
+// respUserGet 读取成员响应
+type respUserGet struct {
+	respCommon
+
+	respUserDetail
+}
+
+// reqUserList 部门成员请求
+type reqUserList struct {
+	DeptID     int64
+	FetchChild bool
+}
+
+var _ urlValuer = reqUserList{}
+
+func (x reqUserList) intoURLValues() url.Values {
+	var fetchChild int64
+	if x.FetchChild {
+		fetchChild = 1
+	}
+
+	return url.Values{
+		"department_id": {strconv.FormatInt(x.DeptID, 10)},
+		"fetch_child":   {strconv.FormatInt(fetchChild, 10)},
+	}
+}
+
+// respUsersByDeptID 部门成员详情响应
+type respUserList struct {
+	respCommon
+
+	Users []*respUserDetail `json:"userlist"`
 }
 
 type reqDeptList struct {

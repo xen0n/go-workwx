@@ -36,7 +36,7 @@ func mustFromGenderStr(x string) UserGender {
 	return UserGender(n)
 }
 
-func (x respUserGet) intoUserInfo() UserInfo {
+func (x respUserDetail) intoUserInfo() UserInfo {
 	deptInfo := reshapeDeptInfo(x.DeptIDs, x.DeptOrder, x.IsLeaderInDept)
 
 	return UserInfo{

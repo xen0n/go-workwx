@@ -1,4 +1,4 @@
-//+build sdkcodegen !go1.13
+//+build sdkcodegen
 
 package main
 
@@ -6,8 +6,7 @@ import (
 	"errors"
 	"strings"
 
-	// this is not currently go1.13-compatible sadly
-	"gopkg.in/russross/blackfriday.v2"
+	"github.com/russross/blackfriday"
 )
 
 var (
