@@ -2,6 +2,7 @@ language: go
 go:
   - "1.12.x"
   - "1.13.x"
+  - "1.14.x"
 go_import_path: github.com/xen0n/go-workwx
 branches:
   # https://bors.tech/documentation/getting-started/
@@ -13,7 +14,8 @@ branches:
     - 'develop'
     - 'master'
 cache:
-  - $GOPATH/pkg/dep
+  - $HOME/.cache/go-build
+  - $GOPATH/pkg/mod
 before_install:
   - export GO111MODULE=on
   - go get -u -v honnef.co/go/tools/cmd/staticcheck
