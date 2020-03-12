@@ -73,18 +73,17 @@ func TestWorkwxEncryptor(t *testing.T) {
 	})
 
 	c.Convey("round-trip", t, func() {
-		msg := []byte("foobarbaz123456788")
+		original := WorkwxPayload{
+			Msg:       []byte("foobarbaz123456788"),
+			ReceiveID: []byte("ww6a112864f8022910"),
+		}
 
-		encrypted, err := enc.Encrypt(msg)
+		encrypted, err := enc.Encrypt(&original)
 		c.So(err, c.ShouldBeNil)
 
 		decrypted, err := enc.Decrypt([]byte(encrypted))
 		c.So(err, c.ShouldBeNil)
 
-		expected := WorkwxPayload{
-			Msg:       []byte("foobarbaz123456788"),
-			ReceiveID: []byte{},
-		}
-		c.So(decrypted, c.ShouldResemble, expected)
+		c.So(decrypted, c.ShouldResemble, original)
 	})
 }

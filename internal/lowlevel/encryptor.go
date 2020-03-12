@@ -73,9 +73,8 @@ func (e *WorkwxEncryptor) Decrypt(base64Msg []byte) (WorkwxPayload, error) {
 	}, nil
 }
 
-func (e *WorkwxEncryptor) prepareBufForEncryption(msg []byte) ([]byte, error) {
-	// TODO: what about ReceiveID?
-	resultMsgLen := 16 + 4 + len(msg)
+func (e *WorkwxEncryptor) prepareBufForEncryption(payload *WorkwxPayload) ([]byte, error) {
+	resultMsgLen := 16 + 4 + len(payload.Msg) + len(payload.ReceiveID)
 
 	// allocate buffer
 	buf := make([]byte, 16, resultMsgLen)
@@ -87,14 +86,15 @@ func (e *WorkwxEncryptor) prepareBufForEncryption(msg []byte) ([]byte, error) {
 	}
 
 	buf = buf[:cap(buf)] // grow to full capacity
-	binary.BigEndian.PutUint32(buf[16:], uint32(len(msg)))
-	copy(buf[20:], msg)
+	binary.BigEndian.PutUint32(buf[16:], uint32(len(payload.Msg)))
+	copy(buf[20:], payload.Msg)
+	copy(buf[20+len(payload.Msg):], payload.ReceiveID)
 
 	return pkcs7Pad(buf), nil
 }
 
-func (e *WorkwxEncryptor) Encrypt(msg []byte) (string, error) {
-	buf, err := e.prepareBufForEncryption(msg)
+func (e *WorkwxEncryptor) Encrypt(payload *WorkwxPayload) (string, error) {
+	buf, err := e.prepareBufForEncryption(payload)
 	if err != nil {
 		return "", err
 	}
