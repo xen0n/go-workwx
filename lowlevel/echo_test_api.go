@@ -2,6 +2,7 @@ package lowlevel
 
 import (
 	"errors"
+	"net/http"
 	"net/url"
 	"strconv"
 )
@@ -73,4 +74,52 @@ func (x URLValuesEchoTestAdapter) ParseEchoTestAPIArgs() (EchoTestAPIArgs, error
 		Nonce:        nonce,
 		EchoStr:      echoStr,
 	}, nil
+}
+
+type HTTPEchoTestAPIHandler struct {
+	token     string
+	encryptor *WorkwxEncryptor
+}
+
+var _ http.Handler = (*HTTPEchoTestAPIHandler)(nil)
+
+func NewHTTPEchoTestAPIHandler(
+	token string,
+	encodingAESKey string,
+) (*HTTPEchoTestAPIHandler, error) {
+	enc, err := NewWorkwxEncryptor(encodingAESKey)
+	if err != nil {
+		return nil, err
+	}
+
+	return &HTTPEchoTestAPIHandler{
+		token:     token,
+		encryptor: enc,
+	}, nil
+}
+
+func (h *HTTPEchoTestAPIHandler) ServeHTTP(
+	wr http.ResponseWriter,
+	r *http.Request,
+) {
+	if !VerifyURLSignature(h.token, r.URL) {
+		wr.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	adapter := URLValuesEchoTestAdapter(r.URL.Query())
+	args, err := adapter.ParseEchoTestAPIArgs()
+	if err != nil {
+		wr.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	payload, err := h.encryptor.Decrypt([]byte(args.EchoStr))
+	if err != nil {
+		wr.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	wr.WriteHeader(http.StatusOK)
+	wr.Write(payload.Msg)
 }
