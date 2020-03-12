@@ -34,12 +34,6 @@ func NewWorkwxEncryptor(encodingAESKey string) (*WorkwxEncryptor, error) {
 	}, nil
 }
 
-func pkcs7Unpad(x []byte) []byte {
-	// last byte is number of suffix bytes to remove
-	n := int(x[len(x)-1])
-	return x[:len(x)-n]
-}
-
 func (e *WorkwxEncryptor) Decrypt(base64Msg []byte) (WorkwxPayload, error) {
 	// base64 decode
 	buflen := base64.StdEncoding.DecodedLen(len(base64Msg))
