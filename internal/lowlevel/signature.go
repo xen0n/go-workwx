@@ -51,24 +51,29 @@ func VerifySignature(token string, x ToMsgSignature) bool {
 	return eq != 0
 }
 
-// VerifyURLSignature 校验一个 URL 的签名是否完好
+// VerifyHTTPRequestSignature 校验一个 HTTP 请求的签名是否完好
 //
 // 这是 VerifySignature 的简单包装。
-func VerifyURLSignature(token string, x *url.URL) bool {
+func VerifyHTTPRequestSignature(token string, url *url.URL, body string) bool {
 	// XXX seems this is a memcpy...
-	wrapped := URLWithSignature(*x)
+	wrapped := httpRequestWithSignature{
+		url:  url,
+		body: body,
+	}
 	return VerifySignature(token, &wrapped)
 }
 
-// URLWithSignature 为 url.URL 类型适配签名校验逻辑
-type URLWithSignature url.URL
+// httpRequestWithSignature 为 HTTP 请求适配签名校验逻辑
+type httpRequestWithSignature struct {
+	url  *url.URL
+	body string
+}
 
-var _ ToMsgSignature = (*URLWithSignature)(nil)
+var _ ToMsgSignature = (*httpRequestWithSignature)(nil)
 
 // GetMsgSignature 取请求上携带的签名串
-func (u *URLWithSignature) GetMsgSignature() (string, bool) {
-	inner := (*url.URL)(u)
-	l := inner.Query()["msg_signature"]
+func (u *httpRequestWithSignature) GetMsgSignature() (string, bool) {
+	l := u.url.Query()["msg_signature"]
 	if len(l) != 1 {
 		return "", false
 	}
@@ -77,14 +82,16 @@ func (u *URLWithSignature) GetMsgSignature() (string, bool) {
 }
 
 // GetParamValues 取所有请求参数值（不必有序）
-func (u *URLWithSignature) GetParamValues() ([]string, bool) {
-	inner := (*url.URL)(u)
+func (u *httpRequestWithSignature) GetParamValues() ([]string, bool) {
 	result := make([]string, 0)
-	for k, l := range inner.Query() {
+	for k, l := range u.url.Query() {
 		if k == "msg_signature" {
 			continue
 		}
 		result = append(result, l...)
+	}
+	if len(u.body) > 0 {
+		result = append(result, u.body)
 	}
 	return result, true
 }

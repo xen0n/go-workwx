@@ -102,7 +102,7 @@ func (h *HTTPEchoTestAPIHandler) ServeHTTP(
 	wr http.ResponseWriter,
 	r *http.Request,
 ) {
-	if !VerifyURLSignature(h.token, r.URL) {
+	if !VerifyHTTPRequestSignature(h.token, r.URL, "") {
 		wr.WriteHeader(http.StatusBadRequest)
 		return
 	}

@@ -21,7 +21,7 @@ func TestMakeDevMsgSignature(t *testing.T) {
 	})
 }
 
-func TestVerifyURLSignature(t *testing.T) {
+func TestVerifyHTTPRequestSignature(t *testing.T) {
 	token := "kjr2TKI8umCBfVF3wAHk8JiPwma5VBme"
 
 	c.Convey("带有完好签名的 URL 应该能通过校验", t, func() {
@@ -29,7 +29,20 @@ func TestVerifyURLSignature(t *testing.T) {
 		u, err := url.Parse(s)
 		c.So(err, c.ShouldBeNil)
 
-		ok := VerifyURLSignature(token, u)
+		ok := VerifyHTTPRequestSignature(token, u, "")
+		c.So(ok, c.ShouldBeTrue)
+	})
+
+	c.Convey("带请求体的正常请求也应该能通过校验", t, func() {
+		token2 := "kz7Yx62CH8SaLN"
+		encodingAESKey := "cD0d7jx4tYvVtzqrmh3Dm3QFCXe6f8SlHoMtMh3qQEP"
+		_ = encodingAESKey
+		s := "http://test.example.com/?msg_signature=a44d1b7dc3dc4b02edd99dc32afa6a26be7c92f6&timestamp=1583995625&nonce=1584392382"
+		body := "fyVN9BUnH6xNl0/VCHTCg6XGxxvoFdyZ7VQbAbBcQ79dVccYvdIyJYZSMMhkPy8LPaoe+V27qjoQ553fXavmrPOgxzHrKKf3YIu63pB4/nN0LY4S+GzUFi/LLFj1TI1sOh0q2jT5u1nYz5G3HFNLd3DFUvJVLtZl8mVMwUOzBpzKZhhmCvIJLVlvym9tt+VYwG06MSbmnf9AzYFKhm1BIy+95Q824ilY6Wy8l+vkFqEdASl2k83jMXvlkVRSB3hmNptWTbq8ygDdLtkCyA4UEiZvfTskqqVkbYwLptRl/1F+DVL9SH/TWt2j3dCm4rzY5jQG+fA+2xh2Kk+OrVgafqtQCfhjq8C38A2IwCcg2BONKk8s5ijFxQoszmXvJQ3zLYbjzRWQ40xhryDyPNNse7/slKVW2QMBEUPNOxUcX9k="
+		u, err := url.Parse(s)
+		c.So(err, c.ShouldBeNil)
+
+		ok := VerifyHTTPRequestSignature(token2, u, body)
 		c.So(ok, c.ShouldBeTrue)
 	})
 
@@ -38,7 +51,7 @@ func TestVerifyURLSignature(t *testing.T) {
 		u, err := url.Parse(s)
 		c.So(err, c.ShouldBeNil)
 
-		ok := VerifyURLSignature(token, u)
+		ok := VerifyHTTPRequestSignature(token, u, "")
 		c.So(ok, c.ShouldBeFalse)
 	})
 }
