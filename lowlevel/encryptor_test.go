@@ -1,0 +1,87 @@
+package lowlevel
+
+import (
+	"testing"
+
+	c "github.com/smartystreets/goconvey/convey"
+)
+
+func TestMakeDevMsgSignature(t *testing.T) {
+	c.Convey("签名的计算应该跟官方的测试工具一样", t, func() {
+		values := []string{
+			"kjr2TKI8umCBfVF3wAHk8JiPwma5VBme",
+			"6KmUQuPVu7UhjyVqRdbo5SfcRqaHvbUlKSHFvBV2ZuR6TIlKsygcfeSd1GDplg1C5KSKr6UPHCaC/nIX3ZNt9w==",
+			"VHh7ymSeb0jc4lSb",
+			"1583940690",
+		}
+		devMsgSignature := makeDevMsgSignature(values...)
+		msgSignature := "1ba3cb09c0d2c2b3ed6900d37f91a6efae6cb011"
+		c.So(devMsgSignature, c.ShouldEqual, msgSignature)
+	})
+}
+
+func TestWorkwxEncryptorCtor(t *testing.T) {
+	c.Convey("合法的 EncodingAESKey 可以构造出非空的 encryptor", t, func() {
+		encodingAESKey := "4Ma3YBrSBbX2aez8MJpXGBne5LSDwgGqHbhM9WPYIws"
+		enc, err := NewWorkwxEncryptor(encodingAESKey)
+		c.So(err, c.ShouldBeNil)
+		c.So(enc, c.ShouldNotBeNil)
+	})
+
+	c.Convey("非法的 EncodingAESKey 不能成功构造 encryptor", t, func() {
+		c.Convey("长度不对", func() {
+			c.Convey("空值", func() {
+				encodingAESKey := ""
+				enc, err := NewWorkwxEncryptor(encodingAESKey)
+				c.So(err, c.ShouldNotBeNil)
+				c.So(enc, c.ShouldBeNil)
+			})
+			c.Convey("len = 42", func() {
+				encodingAESKey := "123456789012345678901234567890123456789012"
+				enc, err := NewWorkwxEncryptor(encodingAESKey)
+				c.So(err, c.ShouldNotBeNil)
+				c.So(enc, c.ShouldBeNil)
+			})
+			c.Convey("len = 44", func() {
+				encodingAESKey := "12345678901234567890123456789012345678901234"
+				enc, err := NewWorkwxEncryptor(encodingAESKey)
+				c.So(err, c.ShouldNotBeNil)
+				c.So(enc, c.ShouldBeNil)
+			})
+		})
+
+		c.Convey("非法的 Base64", func() {
+			c.Convey("多余的 '='", func() {
+				encodingAESKey := "4Ma3YBrSBbX2aez8MJpXGBne5LSDwgGqHbhM9WPYIw="
+				enc, err := NewWorkwxEncryptor(encodingAESKey)
+				c.So(err, c.ShouldNotBeNil)
+				c.So(enc, c.ShouldBeNil)
+			})
+			c.Convey("非法字符", func() {
+				encodingAESKey := "4Ma3YBrSBbX2aez8MJpXGBne5LSDwgGqHbhM9WPYIw$"
+				enc, err := NewWorkwxEncryptor(encodingAESKey)
+				c.So(err, c.ShouldNotBeNil)
+				c.So(enc, c.ShouldBeNil)
+			})
+		})
+	})
+}
+
+func TestWorkwxEncryptorDecrypt(t *testing.T) {
+	c.Convey("解密", t, func() {
+		encodingAESKey := "4Ma3YBrSBbX2aez8MJpXGBne5LSDwgGqHbhM9WPYIws"
+		enc, err := NewWorkwxEncryptor(encodingAESKey)
+		c.So(err, c.ShouldBeNil)
+		c.So(enc, c.ShouldNotBeNil)
+
+		base64EncryptedMsg := []byte("6KmUQuPVu7UhjyVqRdbo5SfcRqaHvbUlKSHFvBV2ZuR6TIlKsygcfeSd1GDplg1C5KSKr6UPHCaC/nIX3ZNt9w==")
+		payload, err := enc.Decrypt(base64EncryptedMsg)
+		c.So(err, c.ShouldBeNil)
+
+		expected := WorkwxPayload{
+			Msg:       []byte("94966531020182955848408"),
+			ReceiveID: []byte("ww6a112864f8022910"),
+		}
+		c.So(payload, c.ShouldResemble, expected)
+	})
+}
