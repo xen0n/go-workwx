@@ -3,7 +3,7 @@ package workwx
 import (
 	"time"
 
-	"github.com/cenkalti/backoff"
+	"github.com/cenkalti/backoff/v4"
 )
 
 // getAccessToken 获取 access token

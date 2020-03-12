@@ -7,7 +7,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/russross/blackfriday"
+	"github.com/russross/blackfriday/v2"
 )
 
 func parseDocument(content []byte) *mdTocNode {
