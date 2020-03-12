@@ -10,9 +10,7 @@ import (
 
 func makeDevMsgSignature(paramValues ...string) string {
 	tmp := make([]string, len(paramValues))
-	for i, x := range paramValues {
-		tmp[i] = x
-	}
+	copy(tmp, paramValues)
 
 	sort.Strings(tmp)
 
