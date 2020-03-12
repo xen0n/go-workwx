@@ -20,9 +20,28 @@ type WorkwxEncryptor struct {
 	entropySource io.Reader
 }
 
+type WorkwxEncryptorOption interface {
+	applyTo(x *WorkwxEncryptor)
+}
+
+type customEntropySource struct {
+	inner io.Reader
+}
+
+func WithEntropySource(e io.Reader) WorkwxEncryptorOption {
+	return &customEntropySource{inner: e}
+}
+
+func (o *customEntropySource) applyTo(x *WorkwxEncryptor) {
+	x.entropySource = o.inner
+}
+
 var errMalformedEncodingAESKey = errors.New("malformed EncodingAESKey")
 
-func NewWorkwxEncryptor(encodingAESKey string) (*WorkwxEncryptor, error) {
+func NewWorkwxEncryptor(
+	encodingAESKey string,
+	opts ...WorkwxEncryptorOption,
+) (*WorkwxEncryptor, error) {
 	aesKey, err := base64.StdEncoding.DecodeString(encodingAESKey + "=")
 	if err != nil {
 		return nil, err
@@ -32,10 +51,15 @@ func NewWorkwxEncryptor(encodingAESKey string) (*WorkwxEncryptor, error) {
 		return nil, errMalformedEncodingAESKey
 	}
 
-	return &WorkwxEncryptor{
+	obj := WorkwxEncryptor{
 		aesKey:        aesKey,
-		entropySource: rand.Reader, // TODO: allow customizing this
-	}, nil
+		entropySource: rand.Reader,
+	}
+	for _, o := range opts {
+		o.applyTo(&obj)
+	}
+
+	return &obj, nil
 }
 
 func (e *WorkwxEncryptor) Decrypt(base64Msg []byte) (WorkwxPayload, error) {
