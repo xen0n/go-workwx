@@ -3,9 +3,11 @@ package lowlevel
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/rand"
 	"encoding/base64"
 	"encoding/binary"
 	"errors"
+	"io"
 )
 
 type WorkwxPayload struct {
@@ -14,7 +16,8 @@ type WorkwxPayload struct {
 }
 
 type WorkwxEncryptor struct {
-	aesKey []byte
+	aesKey        []byte
+	entropySource io.Reader
 }
 
 var errMalformedEncodingAESKey = errors.New("malformed EncodingAESKey")
@@ -30,7 +33,8 @@ func NewWorkwxEncryptor(encodingAESKey string) (*WorkwxEncryptor, error) {
 	}
 
 	return &WorkwxEncryptor{
-		aesKey: aesKey,
+		aesKey:        aesKey,
+		entropySource: rand.Reader, // TODO: allow customizing this
 	}, nil
 }
 
@@ -67,4 +71,45 @@ func (e *WorkwxEncryptor) Decrypt(base64Msg []byte) (WorkwxPayload, error) {
 		Msg:       msg,
 		ReceiveID: receiveID,
 	}, nil
+}
+
+func (e *WorkwxEncryptor) prepareBufForEncryption(msg []byte) ([]byte, error) {
+	// TODO: what about ReceiveID?
+	resultMsgLen := 16 + 4 + len(msg)
+
+	// allocate buffer
+	buf := make([]byte, 16, resultMsgLen)
+
+	// add random prefix
+	_, err := io.ReadFull(e.entropySource, buf) // len(buf) == 16 at this moment
+	if err != nil {
+		return nil, err
+	}
+
+	buf = buf[:cap(buf)] // grow to full capacity
+	binary.BigEndian.PutUint32(buf[16:], uint32(len(msg)))
+	copy(buf[20:], msg)
+
+	return pkcs7Pad(buf), nil
+}
+
+func (e *WorkwxEncryptor) Encrypt(msg []byte) (string, error) {
+	buf, err := e.prepareBufForEncryption(msg)
+	if err != nil {
+		return "", err
+	}
+
+	// init cipher
+	block, err := aes.NewCipher(e.aesKey)
+	if err != nil {
+		return "", err
+	}
+
+	iv := e.aesKey[:16]
+	state := cipher.NewCBCEncrypter(block, iv)
+
+	// encrypt in-place as we own the buffer
+	state.CryptBlocks(buf, buf)
+
+	return base64.StdEncoding.EncodeToString(buf), nil
 }
