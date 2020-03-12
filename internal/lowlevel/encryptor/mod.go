@@ -1,4 +1,4 @@
-package lowlevel
+package encryptor
 
 import (
 	"crypto/aes"
@@ -8,6 +8,8 @@ import (
 	"encoding/binary"
 	"errors"
 	"io"
+
+	"github.com/xen0n/go-workwx/internal/lowlevel/pkcs7"
 )
 
 type WorkwxPayload struct {
@@ -83,7 +85,7 @@ func (e *WorkwxEncryptor) Decrypt(base64Msg []byte) (WorkwxPayload, error) {
 
 	// decrypt in-place in the allocated temp buffer
 	state.CryptBlocks(buf, buf)
-	buf = pkcs7Unpad(buf)
+	buf = pkcs7.Unpad(buf)
 
 	// assemble decrypted payload
 	// drop the 16-byte random prefix
@@ -114,7 +116,7 @@ func (e *WorkwxEncryptor) prepareBufForEncryption(payload *WorkwxPayload) ([]byt
 	copy(buf[20:], payload.Msg)
 	copy(buf[20+len(payload.Msg):], payload.ReceiveID)
 
-	return pkcs7Pad(buf), nil
+	return pkcs7.Pad(buf), nil
 }
 
 func (e *WorkwxEncryptor) Encrypt(payload *WorkwxPayload) (string, error) {

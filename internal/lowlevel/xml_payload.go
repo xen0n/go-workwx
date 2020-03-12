@@ -9,6 +9,8 @@ import (
 	"net/url"
 	"strconv"
 	"time"
+
+	"github.com/xen0n/go-workwx/internal/lowlevel/encryptor"
 )
 
 type xmlRxPayload struct {
@@ -43,7 +45,7 @@ func (DefaultTimeSource) GetCurrentTimestamp() time.Time {
 
 type PayloadProcessor struct {
 	token         string
-	encryptor     *WorkwxEncryptor
+	encryptor     *encryptor.WorkwxEncryptor
 	entropySource io.Reader
 	timeSource    TimeSource
 }
@@ -59,7 +61,7 @@ func NewPayloadProcessor(
 	token string,
 	encodingAESKey string,
 ) (*PayloadProcessor, error) {
-	enc, err := NewWorkwxEncryptor(encodingAESKey)
+	enc, err := encryptor.NewWorkwxEncryptor(encodingAESKey)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +108,7 @@ func (p *PayloadProcessor) HandleIncomingMsg(
 }
 
 func (p *PayloadProcessor) MakeOutgoingMessage(msg []byte) ([]byte, error) {
-	workwxPayload := WorkwxPayload{
+	workwxPayload := encryptor.WorkwxPayload{
 		Msg:       msg,
 		ReceiveID: nil,
 	}

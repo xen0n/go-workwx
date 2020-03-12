@@ -1,4 +1,4 @@
-package lowlevel
+package encryptor
 
 import (
 	"testing"

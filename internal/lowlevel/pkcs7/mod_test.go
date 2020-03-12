@@ -1,4 +1,4 @@
-package lowlevel
+package pkcs7
 
 import (
 	"testing"
@@ -16,7 +16,7 @@ func TestPKCS7Pad(t *testing.T) {
 				32, 32, 32, 32, 32, 32, 32, 32,
 				32, 32, 32, 32, 32, 32, 32, 32,
 			}
-			y := pkcs7Pad(x)
+			y := Pad(x)
 			c.So(y, c.ShouldResemble, expectedY)
 		})
 
@@ -28,7 +28,7 @@ func TestPKCS7Pad(t *testing.T) {
 				31, 31, 31, 31, 31, 31, 31, 31,
 				31, 31, 31, 31, 31, 31, 31, 31,
 			}
-			y := pkcs7Pad(x)
+			y := Pad(x)
 			c.So(y, c.ShouldResemble, expectedY)
 		})
 
@@ -40,7 +40,7 @@ func TestPKCS7Pad(t *testing.T) {
 				48, 49, 50, 51, 52, 53, 54, 55,
 				56, 57, 97, 98, 99, 100, 101, 1,
 			}
-			y := pkcs7Pad(x)
+			y := Pad(x)
 			c.So(y, c.ShouldResemble, expectedY)
 		})
 
@@ -56,14 +56,14 @@ func TestPKCS7Pad(t *testing.T) {
 				32, 32, 32, 32, 32, 32, 32, 32,
 				32, 32, 32, 32, 32, 32, 32, 32,
 			}
-			y := pkcs7Pad(x)
+			y := Pad(x)
 			c.So(y, c.ShouldResemble, expectedY)
 		})
 
 		c.Convey("function should have no side-effect", func() {
 			x := []byte("foobar")
 			expectedX := []byte("foobar")
-			_ = pkcs7Pad(x)
+			_ = Pad(x)
 			c.So(x, c.ShouldResemble, expectedX)
 		})
 	})
