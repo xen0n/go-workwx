@@ -79,50 +79,25 @@ func (x URLValuesForEchoTestAPI) ToEchoTestAPIArgs() (EchoTestAPIArgs, error) {
 	}, nil
 }
 
-type HTTPEchoTestAPIHandler struct {
-	token     string
-	encryptor *encryptor.WorkwxEncryptor
-}
-
-var _ http.Handler = (*HTTPEchoTestAPIHandler)(nil)
-
-func NewHTTPEchoTestAPIHandler(
+func doEchoTest(
+	url *url.URL,
 	token string,
-	encodingAESKey string,
-) (*HTTPEchoTestAPIHandler, error) {
-	enc, err := encryptor.NewWorkwxEncryptor(encodingAESKey)
-	if err != nil {
-		return nil, err
+	encryptor *encryptor.WorkwxEncryptor,
+) (statusCode int, body []byte) {
+	if !signature.VerifyHTTPRequestSignature(token, url, "") {
+		return http.StatusBadRequest, nil
 	}
 
-	return &HTTPEchoTestAPIHandler{
-		token:     token,
-		encryptor: enc,
-	}, nil
-}
-
-func (h *HTTPEchoTestAPIHandler) ServeHTTP(
-	wr http.ResponseWriter,
-	r *http.Request,
-) {
-	if !signature.VerifyHTTPRequestSignature(h.token, r.URL, "") {
-		wr.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	adapter := URLValuesForEchoTestAPI(r.URL.Query())
+	adapter := URLValuesForEchoTestAPI(url.Query())
 	args, err := adapter.ToEchoTestAPIArgs()
 	if err != nil {
-		wr.WriteHeader(http.StatusBadRequest)
-		return
+		return http.StatusBadRequest, nil
 	}
 
-	payload, err := h.encryptor.Decrypt([]byte(args.EchoStr))
+	payload, err := encryptor.Decrypt([]byte(args.EchoStr))
 	if err != nil {
-		wr.WriteHeader(http.StatusBadRequest)
-		return
+		return http.StatusBadRequest, nil
 	}
 
-	wr.WriteHeader(http.StatusOK)
-	wr.Write(payload.Msg)
+	return http.StatusOK, payload.Msg
 }
