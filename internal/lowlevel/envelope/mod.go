@@ -13,23 +13,23 @@ import (
 	"github.com/xen0n/go-workwx/internal/lowlevel/signature"
 )
 
-type EnvelopeProcessor struct {
+type Processor struct {
 	token         string
 	encryptor     *encryptor.WorkwxEncryptor
 	entropySource io.Reader
 	timeSource    TimeSource
 }
 
-func NewEnvelopeProcessor(
+func NewProcessor(
 	token string,
 	encodingAESKey string,
-) (*EnvelopeProcessor, error) {
+) (*Processor, error) {
 	enc, err := encryptor.NewWorkwxEncryptor(encodingAESKey)
 	if err != nil {
 		return nil, err
 	}
 
-	return &EnvelopeProcessor{
+	return &Processor{
 		token:         token,
 		encryptor:     enc,
 		entropySource: rand.Reader,         // TODO: support customization
@@ -39,7 +39,7 @@ func NewEnvelopeProcessor(
 
 var errInvalidSignature = errors.New("invalid signature")
 
-func (p *EnvelopeProcessor) HandleIncomingMsg(
+func (p *Processor) HandleIncomingMsg(
 	url *url.URL,
 	body []byte,
 ) (Envelope, error) {
@@ -70,7 +70,7 @@ func (p *EnvelopeProcessor) HandleIncomingMsg(
 	}, nil
 }
 
-func (p *EnvelopeProcessor) MakeOutgoingEnvelope(msg []byte) ([]byte, error) {
+func (p *Processor) MakeOutgoingEnvelope(msg []byte) ([]byte, error) {
 	workwxPayload := encryptor.WorkwxPayload{
 		Msg:       msg,
 		ReceiveID: nil,

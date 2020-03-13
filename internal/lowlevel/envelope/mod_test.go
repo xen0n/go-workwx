@@ -9,10 +9,10 @@ import (
 	c "github.com/smartystreets/goconvey/convey"
 )
 
-func TestEnvelopeProcessor(t *testing.T) {
+func TestProcessor(t *testing.T) {
 	token := "kz7Yx62CH8SaLN"
 	encodingAESKey := "cD0d7jx4tYvVtzqrmh3Dm3QFCXe6f8SlHoMtMh3qQEP"
-	pr, err := NewEnvelopeProcessor(token, encodingAESKey)
+	pr, err := NewProcessor(token, encodingAESKey)
 	if err != nil {
 		panic(err)
 	}
