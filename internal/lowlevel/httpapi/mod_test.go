@@ -13,7 +13,7 @@ func TestLowlevelHandler(t *testing.T) {
 	c.Convey("E2E HTTP handler tests", t, func() {
 		token := "kjr2TKI8umCBfVF3wAHk8JiPwma5VBme"
 		encodingAESKey := "4Ma3YBrSBbX2aez8MJpXGBne5LSDwgGqHbhM9WPYIws"
-		handler, err := NewLowlevelHandler(token, encodingAESKey)
+		handler, err := NewLowlevelHandler(token, encodingAESKey, nil)
 		c.So(err, c.ShouldBeNil)
 		c.So(handler, c.ShouldNotBeNil)
 
