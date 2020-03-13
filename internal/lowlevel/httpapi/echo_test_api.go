@@ -10,8 +10,8 @@ import (
 	"github.com/xen0n/go-workwx/internal/lowlevel/signature"
 )
 
-type EchoTestAPIArgsAdapter interface {
-	ParseEchoTestAPIArgs() (EchoTestAPIArgs, error)
+type ToEchoTestAPIArgs interface {
+	ToEchoTestAPIArgs() (EchoTestAPIArgs, error)
 }
 
 type EchoTestAPIArgs struct {
@@ -21,13 +21,13 @@ type EchoTestAPIArgs struct {
 	EchoStr      string
 }
 
-type URLValuesEchoTestAdapter url.Values
+type URLValuesForEchoTestAPI url.Values
 
-var _ EchoTestAPIArgsAdapter = URLValuesEchoTestAdapter{}
+var _ ToEchoTestAPIArgs = URLValuesForEchoTestAPI{}
 
 var errMalformedArgs = errors.New("malformed arguments for echo test API")
 
-func (x URLValuesEchoTestAdapter) ParseEchoTestAPIArgs() (EchoTestAPIArgs, error) {
+func (x URLValuesForEchoTestAPI) ToEchoTestAPIArgs() (EchoTestAPIArgs, error) {
 	var msgSignature string
 	{
 		l := x["msg_signature"]
@@ -110,8 +110,8 @@ func (h *HTTPEchoTestAPIHandler) ServeHTTP(
 		return
 	}
 
-	adapter := URLValuesEchoTestAdapter(r.URL.Query())
-	args, err := adapter.ParseEchoTestAPIArgs()
+	adapter := URLValuesForEchoTestAPI(r.URL.Query())
+	args, err := adapter.ToEchoTestAPIArgs()
 	if err != nil {
 		wr.WriteHeader(http.StatusBadRequest)
 		return
