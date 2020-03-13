@@ -1,4 +1,4 @@
-package lowlevel
+package signature
 
 import (
 	"net/url"
@@ -15,7 +15,7 @@ func TestMakeDevMsgSignature(t *testing.T) {
 			"VHh7ymSeb0jc4lSb",
 			"1583940690",
 		}
-		devMsgSignature := makeDevMsgSignature(values...)
+		devMsgSignature := MakeDevMsgSignature(values...)
 		msgSignature := "1ba3cb09c0d2c2b3ed6900d37f91a6efae6cb011"
 		c.So(devMsgSignature, c.ShouldEqual, msgSignature)
 	})

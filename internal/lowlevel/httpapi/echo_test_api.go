@@ -1,4 +1,4 @@
-package lowlevel
+package httpapi
 
 import (
 	"errors"
@@ -7,10 +7,11 @@ import (
 	"strconv"
 
 	"github.com/xen0n/go-workwx/internal/lowlevel/encryptor"
+	"github.com/xen0n/go-workwx/internal/lowlevel/signature"
 )
 
-type EchoTestAPIArgsAdapter interface {
-	ParseEchoTestAPIArgs() (EchoTestAPIArgs, error)
+type ToEchoTestAPIArgs interface {
+	ToEchoTestAPIArgs() (EchoTestAPIArgs, error)
 }
 
 type EchoTestAPIArgs struct {
@@ -20,13 +21,13 @@ type EchoTestAPIArgs struct {
 	EchoStr      string
 }
 
-type URLValuesEchoTestAdapter url.Values
+type URLValuesForEchoTestAPI url.Values
 
-var _ EchoTestAPIArgsAdapter = URLValuesEchoTestAdapter{}
+var _ ToEchoTestAPIArgs = URLValuesForEchoTestAPI{}
 
 var errMalformedArgs = errors.New("malformed arguments for echo test API")
 
-func (x URLValuesEchoTestAdapter) ParseEchoTestAPIArgs() (EchoTestAPIArgs, error) {
+func (x URLValuesForEchoTestAPI) ToEchoTestAPIArgs() (EchoTestAPIArgs, error) {
 	var msgSignature string
 	{
 		l := x["msg_signature"]
@@ -78,50 +79,25 @@ func (x URLValuesEchoTestAdapter) ParseEchoTestAPIArgs() (EchoTestAPIArgs, error
 	}, nil
 }
 
-type HTTPEchoTestAPIHandler struct {
-	token     string
-	encryptor *encryptor.WorkwxEncryptor
-}
-
-var _ http.Handler = (*HTTPEchoTestAPIHandler)(nil)
-
-func NewHTTPEchoTestAPIHandler(
+func doEchoTest(
+	url *url.URL,
 	token string,
-	encodingAESKey string,
-) (*HTTPEchoTestAPIHandler, error) {
-	enc, err := encryptor.NewWorkwxEncryptor(encodingAESKey)
+	encryptor *encryptor.WorkwxEncryptor,
+) (statusCode int, body []byte) {
+	if !signature.VerifyHTTPRequestSignature(token, url, "") {
+		return http.StatusBadRequest, nil
+	}
+
+	adapter := URLValuesForEchoTestAPI(url.Query())
+	args, err := adapter.ToEchoTestAPIArgs()
 	if err != nil {
-		return nil, err
+		return http.StatusBadRequest, nil
 	}
 
-	return &HTTPEchoTestAPIHandler{
-		token:     token,
-		encryptor: enc,
-	}, nil
-}
-
-func (h *HTTPEchoTestAPIHandler) ServeHTTP(
-	wr http.ResponseWriter,
-	r *http.Request,
-) {
-	if !VerifyHTTPRequestSignature(h.token, r.URL, "") {
-		wr.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	adapter := URLValuesEchoTestAdapter(r.URL.Query())
-	args, err := adapter.ParseEchoTestAPIArgs()
+	payload, err := encryptor.Decrypt([]byte(args.EchoStr))
 	if err != nil {
-		wr.WriteHeader(http.StatusBadRequest)
-		return
+		return http.StatusBadRequest, nil
 	}
 
-	payload, err := h.encryptor.Decrypt([]byte(args.EchoStr))
-	if err != nil {
-		wr.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	wr.WriteHeader(http.StatusOK)
-	wr.Write(payload.Msg)
+	return http.StatusOK, payload.Msg
 }

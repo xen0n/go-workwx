@@ -1,4 +1,4 @@
-package lowlevel
+package signature
 
 import (
 	"crypto/sha1"
@@ -8,7 +8,7 @@ import (
 	"sort"
 )
 
-func makeDevMsgSignature(paramValues ...string) string {
+func MakeDevMsgSignature(paramValues ...string) string {
 	tmp := make([]string, len(paramValues))
 	copy(tmp, paramValues)
 
@@ -46,7 +46,7 @@ func VerifySignature(token string, x ToMsgSignature) bool {
 		return false
 	}
 
-	devMsgSignature := makeDevMsgSignature(append(paramValues, token)...)
+	devMsgSignature := MakeDevMsgSignature(append(paramValues, token)...)
 	eq := subtle.ConstantTimeCompare([]byte(msgSignature), []byte(devMsgSignature))
 	return eq != 0
 }
