@@ -2,6 +2,8 @@ package workwx
 
 import (
 	"encoding/xml"
+	"fmt"
+	"strings"
 	"time"
 )
 
@@ -54,6 +56,26 @@ func fromEnvelope(body []byte) (*RxMessage, error) {
 	}
 
 	return &obj, nil
+}
+
+func (m *RxMessage) String() string {
+	var sb strings.Builder
+
+	_, _ = fmt.Fprintf(
+		&sb,
+		"RxMessage { FromUserID: %#v, SendTime: %d, MsgType: %#v, MsgID: %d, AgentID: %d, ",
+		m.FromUserID,
+		m.SendTime.UnixNano(),
+		m.MsgType,
+		m.MsgID,
+		m.AgentID,
+	)
+
+	m.extras.formatInto(&sb)
+
+	sb.WriteString(" }")
+
+	return sb.String()
 }
 
 // Text 如果消息为文本类型，则拿出相应的消息参数，否则返回 nil, false

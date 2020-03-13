@@ -17,6 +17,7 @@ func TestRxMessage(t *testing.T) {
 			msg, err := fromEnvelope(body)
 			c.So(err, c.ShouldBeNil)
 			c.So(msg, c.ShouldNotBeNil)
+			c.So(msg.String(), c.ShouldEqual, `RxMessage { FromUserID: "foobar", SendTime: 1583995625000000000, MsgType: "text", MsgID: 2018405441, AgentID: 1000002, Content: "x123" }`)
 			c.So(msg.FromUserID, c.ShouldEqual, "foobar")
 			c.So(msg.SendTime, c.ShouldEqual, time.Date(2020, 3, 12, 14, 47, 5, 0, cst))
 			c.So(msg.MsgType, c.ShouldEqual, msgTypeText)

@@ -3,11 +3,12 @@ package workwx
 import (
 	"encoding/xml"
 	"fmt"
+	"io"
 )
 
-// NOTE: 这是一个封闭的 enum
+// NOTE: 这顺便就构成了一个封闭的 enum
 type messageKind interface {
-	sealedForMessageKind()
+	formatInto(io.Writer)
 }
 
 func extractMessageExtras(ty string, body []byte) (messageKind, error) {
@@ -75,7 +76,9 @@ type TextMessageExtras interface {
 
 var _ TextMessageExtras = (*rxTextMessageSpecifics)(nil)
 
-func (*rxTextMessageSpecifics) sealedForMessageKind() {}
+func (r *rxTextMessageSpecifics) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(w, "Content: %#v", r.Content)
+}
 
 func (r *rxTextMessageSpecifics) GetContent() string {
 	return r.Content
@@ -96,7 +99,9 @@ type ImageMessageExtras interface {
 
 var _ ImageMessageExtras = (*rxImageMessageSpecifics)(nil)
 
-func (*rxImageMessageSpecifics) sealedForMessageKind() {}
+func (r *rxImageMessageSpecifics) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(w, "PicURL: %#v, MediaID: %#v", r.PicURL, r.MediaID)
+}
 
 func (r *rxImageMessageSpecifics) GetPicURL() string {
 	return r.PicURL
@@ -121,7 +126,9 @@ type VoiceMessageExtras interface {
 
 var _ VoiceMessageExtras = (*rxVoiceMessageSpecifics)(nil)
 
-func (*rxVoiceMessageSpecifics) sealedForMessageKind() {}
+func (r *rxVoiceMessageSpecifics) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(w, "MediaID: %#v, Format: %#v", r.MediaID, r.Format)
+}
 
 func (r *rxVoiceMessageSpecifics) GetMediaID() string {
 	return r.MediaID
@@ -148,7 +155,9 @@ type VideoMessageExtras interface {
 
 var _ VideoMessageExtras = (*rxVideoMessageSpecifics)(nil)
 
-func (*rxVideoMessageSpecifics) sealedForMessageKind() {}
+func (r *rxVideoMessageSpecifics) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(w, "MediaID: %#v, ThumbMediaID: %#v", r.MediaID, r.ThumbMediaID)
+}
 
 func (r *rxVideoMessageSpecifics) GetMediaID() string {
 	return r.MediaID
@@ -180,7 +189,16 @@ type LocationMessageExtras interface {
 
 var _ LocationMessageExtras = (*rxLocationMessageSpecifics)(nil)
 
-func (*rxLocationMessageSpecifics) sealedForMessageKind() {}
+func (r *rxLocationMessageSpecifics) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"Latitude: %#v, Longitude: %#v, Scale: %d, Label: %#v",
+		r.Lat,
+		r.Lon,
+		r.Scale,
+		r.Label,
+	)
+}
 
 func (r *rxLocationMessageSpecifics) GetLatitude() float64 {
 	return r.Lat
@@ -217,7 +235,16 @@ type LinkMessageExtras interface {
 
 var _ LinkMessageExtras = (*rxLinkMessageSpecifics)(nil)
 
-func (*rxLinkMessageSpecifics) sealedForMessageKind() {}
+func (r *rxLinkMessageSpecifics) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"Title: %#v, Description: %#v, URL: %#v, PicURL: %#v",
+		r.Title,
+		r.Description,
+		r.URL,
+		r.PicURL,
+	)
+}
 
 func (r *rxLinkMessageSpecifics) GetTitle() string {
 	return r.Title
