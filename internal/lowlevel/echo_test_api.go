@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+
+	"github.com/xen0n/go-workwx/internal/lowlevel/encryptor"
 )
 
 type EchoTestAPIArgsAdapter interface {
@@ -78,7 +80,7 @@ func (x URLValuesEchoTestAdapter) ParseEchoTestAPIArgs() (EchoTestAPIArgs, error
 
 type HTTPEchoTestAPIHandler struct {
 	token     string
-	encryptor *WorkwxEncryptor
+	encryptor *encryptor.WorkwxEncryptor
 }
 
 var _ http.Handler = (*HTTPEchoTestAPIHandler)(nil)
@@ -87,7 +89,7 @@ func NewHTTPEchoTestAPIHandler(
 	token string,
 	encodingAESKey string,
 ) (*HTTPEchoTestAPIHandler, error) {
-	enc, err := NewWorkwxEncryptor(encodingAESKey)
+	enc, err := encryptor.NewWorkwxEncryptor(encodingAESKey)
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +104,7 @@ func (h *HTTPEchoTestAPIHandler) ServeHTTP(
 	wr http.ResponseWriter,
 	r *http.Request,
 ) {
-	if !VerifyURLSignature(h.token, r.URL) {
+	if !VerifyHTTPRequestSignature(h.token, r.URL, "") {
 		wr.WriteHeader(http.StatusBadRequest)
 		return
 	}

@@ -1,4 +1,4 @@
-package lowlevel
+package encryptor
 
 import (
 	"testing"
@@ -53,13 +53,14 @@ func TestWorkwxEncryptorCtor(t *testing.T) {
 	})
 }
 
-func TestWorkwxEncryptorDecrypt(t *testing.T) {
-	c.Convey("解密", t, func() {
-		encodingAESKey := "4Ma3YBrSBbX2aez8MJpXGBne5LSDwgGqHbhM9WPYIws"
-		enc, err := NewWorkwxEncryptor(encodingAESKey)
-		c.So(err, c.ShouldBeNil)
-		c.So(enc, c.ShouldNotBeNil)
+func TestWorkwxEncryptor(t *testing.T) {
+	encodingAESKey := "4Ma3YBrSBbX2aez8MJpXGBne5LSDwgGqHbhM9WPYIws"
+	enc, err := NewWorkwxEncryptor(encodingAESKey)
+	if err != nil {
+		panic(err)
+	}
 
+	c.Convey("解密", t, func() {
 		base64EncryptedMsg := []byte("6KmUQuPVu7UhjyVqRdbo5SfcRqaHvbUlKSHFvBV2ZuR6TIlKsygcfeSd1GDplg1C5KSKr6UPHCaC/nIX3ZNt9w==")
 		payload, err := enc.Decrypt(base64EncryptedMsg)
 		c.So(err, c.ShouldBeNil)
@@ -69,5 +70,20 @@ func TestWorkwxEncryptorDecrypt(t *testing.T) {
 			ReceiveID: []byte("ww6a112864f8022910"),
 		}
 		c.So(payload, c.ShouldResemble, expected)
+	})
+
+	c.Convey("round-trip", t, func() {
+		original := WorkwxPayload{
+			Msg:       []byte("foobarbaz123456788"),
+			ReceiveID: []byte("ww6a112864f8022910"),
+		}
+
+		encrypted, err := enc.Encrypt(&original)
+		c.So(err, c.ShouldBeNil)
+
+		decrypted, err := enc.Decrypt([]byte(encrypted))
+		c.So(err, c.ShouldBeNil)
+
+		c.So(decrypted, c.ShouldResemble, original)
 	})
 }
