@@ -29,31 +29,31 @@ func NewLowlevelHandler(
 }
 
 func (h *LowlevelHandler) ServeHTTP(
-	wr http.ResponseWriter,
+	rw http.ResponseWriter,
 	r *http.Request,
 ) {
 	switch r.Method {
 	case http.MethodGet:
 		// 测试回调模式请求
-		h.echoTestHandler(wr, r)
+		h.echoTestHandler(rw, r)
 
 	case http.MethodPost:
 		// TODO
-		wr.WriteHeader(http.StatusNotImplemented)
+		rw.WriteHeader(http.StatusNotImplemented)
 
 	default:
 		// unhandled request method
-		wr.WriteHeader(http.StatusNotImplemented)
+		rw.WriteHeader(http.StatusNotImplemented)
 	}
 }
 
 func (h *LowlevelHandler) echoTestHandler(
-	wr http.ResponseWriter,
+	rw http.ResponseWriter,
 	r *http.Request,
 ) {
 	statusCode, body := doEchoTest(r.URL, h.token, h.encryptor)
-	wr.WriteHeader(statusCode)
+	rw.WriteHeader(statusCode)
 	if body != nil {
-		wr.Write(body)
+		rw.Write(body)
 	}
 }
