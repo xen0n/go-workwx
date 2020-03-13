@@ -8,7 +8,6 @@ import (
 	"math/big"
 	"net/url"
 	"strconv"
-	"time"
 
 	"github.com/xen0n/go-workwx/internal/lowlevel/encryptor"
 	"github.com/xen0n/go-workwx/internal/lowlevel/signature"
@@ -30,18 +29,6 @@ type xmlTxEnvelope struct {
 	MsgSignature cdataNode `xml:"MsgSignature"`
 	Timestamp    int64     `xml:"Timestamp"`
 	Nonce        cdataNode `xml:"Nonce"`
-}
-
-type TimeSource interface {
-	GetCurrentTimestamp() time.Time
-}
-
-type DefaultTimeSource struct{}
-
-var _ TimeSource = DefaultTimeSource{}
-
-func (DefaultTimeSource) GetCurrentTimestamp() time.Time {
-	return time.Now()
 }
 
 type EnvelopeProcessor struct {
