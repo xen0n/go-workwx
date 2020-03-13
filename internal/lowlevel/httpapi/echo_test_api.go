@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/xen0n/go-workwx/internal/lowlevel/encryptor"
 	"github.com/xen0n/go-workwx/internal/lowlevel/signature"
 )
 
@@ -79,25 +78,30 @@ func (x URLValuesForEchoTestAPI) ToEchoTestAPIArgs() (EchoTestAPIArgs, error) {
 	}, nil
 }
 
-func doEchoTest(
-	url *url.URL,
-	token string,
-	encryptor *encryptor.WorkwxEncryptor,
-) (statusCode int, body []byte) {
-	if !signature.VerifyHTTPRequestSignature(token, url, "") {
-		return http.StatusBadRequest, nil
+func (h *LowlevelHandler) echoTestHandler(
+	rw http.ResponseWriter,
+	r *http.Request,
+) {
+	url := r.URL
+
+	if !signature.VerifyHTTPRequestSignature(h.token, url, "") {
+		rw.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	adapter := URLValuesForEchoTestAPI(url.Query())
 	args, err := adapter.ToEchoTestAPIArgs()
 	if err != nil {
-		return http.StatusBadRequest, nil
+		rw.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
-	payload, err := encryptor.Decrypt([]byte(args.EchoStr))
+	payload, err := h.encryptor.Decrypt([]byte(args.EchoStr))
 	if err != nil {
-		return http.StatusBadRequest, nil
+		rw.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
-	return http.StatusOK, payload.Msg
+	rw.WriteHeader(http.StatusOK)
+	rw.Write(payload.Msg)
 }

@@ -57,14 +57,3 @@ func (h *LowlevelHandler) ServeHTTP(
 		rw.WriteHeader(http.StatusNotImplemented)
 	}
 }
-
-func (h *LowlevelHandler) echoTestHandler(
-	rw http.ResponseWriter,
-	r *http.Request,
-) {
-	statusCode, body := doEchoTest(r.URL, h.token, h.encryptor)
-	rw.WriteHeader(statusCode)
-	if body != nil {
-		rw.Write(body)
-	}
-}
