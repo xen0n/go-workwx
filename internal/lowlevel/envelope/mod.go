@@ -23,18 +23,28 @@ type Processor struct {
 func NewProcessor(
 	token string,
 	encodingAESKey string,
+	opts ...ProcessorOption,
 ) (*Processor, error) {
-	enc, err := encryptor.NewWorkwxEncryptor(encodingAESKey)
+	obj := Processor{
+		token:         token,
+		encryptor:     nil, // XXX init later
+		entropySource: rand.Reader,
+		timeSource:    DefaultTimeSource{},
+	}
+	for _, o := range opts {
+		o.applyTo(&obj)
+	}
+
+	enc, err := encryptor.NewWorkwxEncryptor(
+		encodingAESKey,
+		encryptor.WithEntropySource(obj.entropySource),
+	)
 	if err != nil {
 		return nil, err
 	}
+	obj.encryptor = enc
 
-	return &Processor{
-		token:         token,
-		encryptor:     enc,
-		entropySource: rand.Reader,         // TODO: support customization
-		timeSource:    DefaultTimeSource{}, // TODO: ditto
-	}, nil
+	return &obj, nil
 }
 
 var errInvalidSignature = errors.New("invalid signature")
