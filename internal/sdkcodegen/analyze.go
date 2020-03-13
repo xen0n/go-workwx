@@ -155,6 +155,7 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 	idxType := -1
 	idxDesc := -1
 	idxTagJSON := -1
+	idxTagXML := -1
 
 	result := make([]apiModelField, 0)
 
@@ -177,6 +178,8 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 					idxDesc = i
 				case "json":
 					idxTagJSON = i
+				case "xml":
+					idxTagXML = i
 				default:
 					return nil, errUnknownFieldTableTitle
 				}
@@ -231,6 +234,18 @@ func analyzeModelFieldTable(tbl *mdContentNode) ([]apiModelField, error) {
 							switch n2.ThisType() {
 							case blackfriday.Code:
 								field.tags["json"] = n2.ThisLit()
+
+							default:
+								// ignored
+							}
+						}
+					}
+
+					if i == idxTagXML {
+						for _, n2 := range td.ThisContent {
+							switch n2.ThisType() {
+							case blackfriday.Code:
+								field.tags["xml"] = n2.ThisLit()
 
 							default:
 								// ignored
