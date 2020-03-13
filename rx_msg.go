@@ -14,7 +14,7 @@ type RxMessage struct {
 	// SendTime 消息发送时间
 	SendTime time.Time
 	// MsgType 消息类型
-	MsgType string
+	MsgType MessageType
 	// MsgID 消息 ID
 	MsgID int64
 	// AgentID 企业应用 ID，可在应用的设置页面查看

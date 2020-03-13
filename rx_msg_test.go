@@ -20,7 +20,7 @@ func TestRxMessage(t *testing.T) {
 			c.So(msg.String(), c.ShouldEqual, `RxMessage { FromUserID: "foobar", SendTime: 1583995625000000000, MsgType: "text", MsgID: 2018405441, AgentID: 1000002, Content: "x123" }`)
 			c.So(msg.FromUserID, c.ShouldEqual, "foobar")
 			c.So(msg.SendTime, c.ShouldEqual, time.Date(2020, 3, 12, 14, 47, 5, 0, cst))
-			c.So(msg.MsgType, c.ShouldEqual, msgTypeText)
+			c.So(msg.MsgType, c.ShouldEqual, MessageTypeText)
 			c.So(msg.MsgID, c.ShouldEqual, 2018405441)
 			c.So(msg.AgentID, c.ShouldEqual, 1000002)
 

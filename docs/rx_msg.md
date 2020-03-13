@@ -9,28 +9,31 @@ Name|XML|Type|Doc
 `ToUserName`|`ToUserName`|`string`|企业微信CorpID
 `FromUserName`|`FromUserName`|`string`|成员UserID
 `CreateTime`|`CreateTime`|`int64`|消息创建时间（整型）
-`MsgType`|`MsgType`|`string`|消息类型
+`MsgType`|`MsgType`|`MessageType`|消息类型
 `MsgID`|`MsgId`|`int64`|消息id，64位整型
 `AgentID`|`AgentID`|`int64`|企业应用的id，整型。可在应用的设置页面查看
 
 ```go
-// msgTypeText 文本消息
-const msgTypeText = "text"
+// MessageType 消息类型
+type MessageType string
 
-// msgTypeImage 图片消息
-const msgTypeImage = "image"
+// MessageTypeText 文本消息
+const MessageTypeText MessageType = "text"
 
-// msgTypeVoice 语音消息
-const msgTypeVoice = "voice"
+// MessageTypeImage 图片消息
+const MessageTypeImage MessageType = "image"
 
-// msgTypeVideo 视频消息
-const msgTypeVideo = "video"
+// MessageTypeVoice 语音消息
+const MessageTypeVoice MessageType = "voice"
 
-// msgTypeLocation 位置消息
-const msgTypeLocation = "location"
+// MessageTypeVideo 视频消息
+const MessageTypeVideo MessageType = "video"
 
-// msgTypeLink 链接消息
-const msgTypeLink = "link"
+// MessageTypeLocation 位置消息
+const MessageTypeLocation MessageType = "location"
+
+// MessageTypeLink 链接消息
+const MessageTypeLink MessageType = "link"
 ```
 
 ### `rxTextMessageSpecifics` 接收的文本消息，特有字段

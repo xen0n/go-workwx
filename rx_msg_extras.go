@@ -11,9 +11,9 @@ type messageKind interface {
 	formatInto(io.Writer)
 }
 
-func extractMessageExtras(ty string, body []byte) (messageKind, error) {
+func extractMessageExtras(ty MessageType, body []byte) (messageKind, error) {
 	switch ty {
-	case msgTypeText:
+	case MessageTypeText:
 		var x rxTextMessageSpecifics
 		err := xml.Unmarshal(body, &x)
 		if err != nil {
@@ -21,7 +21,7 @@ func extractMessageExtras(ty string, body []byte) (messageKind, error) {
 		}
 		return &x, nil
 
-	case msgTypeImage:
+	case MessageTypeImage:
 		var x rxImageMessageSpecifics
 		err := xml.Unmarshal(body, &x)
 		if err != nil {
@@ -29,7 +29,7 @@ func extractMessageExtras(ty string, body []byte) (messageKind, error) {
 		}
 		return &x, nil
 
-	case msgTypeVoice:
+	case MessageTypeVoice:
 		var x rxVoiceMessageSpecifics
 		err := xml.Unmarshal(body, &x)
 		if err != nil {
@@ -37,7 +37,7 @@ func extractMessageExtras(ty string, body []byte) (messageKind, error) {
 		}
 		return &x, nil
 
-	case msgTypeVideo:
+	case MessageTypeVideo:
 		var x rxVideoMessageSpecifics
 		err := xml.Unmarshal(body, &x)
 		if err != nil {
@@ -45,7 +45,7 @@ func extractMessageExtras(ty string, body []byte) (messageKind, error) {
 		}
 		return &x, nil
 
-	case msgTypeLocation:
+	case MessageTypeLocation:
 		var x rxLocationMessageSpecifics
 		err := xml.Unmarshal(body, &x)
 		if err != nil {
@@ -53,7 +53,7 @@ func extractMessageExtras(ty string, body []byte) (messageKind, error) {
 		}
 		return &x, nil
 
-	case msgTypeLink:
+	case MessageTypeLink:
 		var x rxLinkMessageSpecifics
 		err := xml.Unmarshal(body, &x)
 		if err != nil {
