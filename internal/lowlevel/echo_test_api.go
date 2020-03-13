@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/xen0n/go-workwx/internal/lowlevel/encryptor"
+	"github.com/xen0n/go-workwx/internal/lowlevel/signature"
 )
 
 type EchoTestAPIArgsAdapter interface {
@@ -104,7 +105,7 @@ func (h *HTTPEchoTestAPIHandler) ServeHTTP(
 	wr http.ResponseWriter,
 	r *http.Request,
 ) {
-	if !VerifyHTTPRequestSignature(h.token, r.URL, "") {
+	if !signature.VerifyHTTPRequestSignature(h.token, r.URL, "") {
 		wr.WriteHeader(http.StatusBadRequest)
 		return
 	}

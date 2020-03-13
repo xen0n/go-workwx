@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/xen0n/go-workwx/internal/lowlevel/encryptor"
+	"github.com/xen0n/go-workwx/internal/lowlevel/signature"
 )
 
 type xmlRxEnvelope struct {
@@ -88,7 +89,7 @@ func (p *EnvelopeProcessor) HandleIncomingMsg(
 	}
 
 	// check signature
-	if !VerifyHTTPRequestSignature(p.token, url, x.Encrypt) {
+	if !signature.VerifyHTTPRequestSignature(p.token, url, x.Encrypt) {
 		return Envelope{}, errInvalidSignature
 	}
 
@@ -123,7 +124,7 @@ func (p *EnvelopeProcessor) MakeOutgoingEnvelope(msg []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	msgSignature := makeDevMsgSignature(
+	msgSignature := signature.MakeDevMsgSignature(
 		p.token,
 		strconv.FormatInt(ts, 10),
 		nonce,
