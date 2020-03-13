@@ -9,10 +9,10 @@ import (
 	c "github.com/smartystreets/goconvey/convey"
 )
 
-func TestPayloadProcessor(t *testing.T) {
+func TestEnvelopeProcessor(t *testing.T) {
 	token := "kz7Yx62CH8SaLN"
 	encodingAESKey := "cD0d7jx4tYvVtzqrmh3Dm3QFCXe6f8SlHoMtMh3qQEP"
-	pr, err := NewPayloadProcessor(token, encodingAESKey)
+	pr, err := NewEnvelopeProcessor(token, encodingAESKey)
 	if err != nil {
 		panic(err)
 	}
@@ -26,7 +26,7 @@ func TestPayloadProcessor(t *testing.T) {
 		payload, err := pr.HandleIncomingMsg(u, []byte(body))
 		c.So(err, c.ShouldBeNil)
 
-		expected := MessagePayload{
+		expected := Envelope{
 			ToUserName: "ww6a112864f8022910",
 			AgentID:    "1000002",
 			Msg:        []byte("<xml><ToUserName><![CDATA[ww6a112864f8022910]]></ToUserName><FromUserName><![CDATA[foobar]]></FromUserName><CreateTime>1583995625</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[x123]]></Content><MsgId>2018405441</MsgId><AgentID>1000002</AgentID></xml>"),
@@ -38,7 +38,7 @@ func TestPayloadProcessor(t *testing.T) {
 	c.Convey("被动响应包应该能正常组装", t, func() {
 		originalMsg := []byte("foobarbazquux123321")
 
-		out, err := pr.MakeOutgoingMessage(originalMsg)
+		out, err := pr.MakeOutgoingEnvelope(originalMsg)
 		c.So(err, c.ShouldBeNil)
 
 		// 重新解出数据

@@ -13,7 +13,7 @@ import (
 	"github.com/xen0n/go-workwx/internal/lowlevel/encryptor"
 )
 
-type xmlRxPayload struct {
+type xmlRxEnvelope struct {
 	ToUserName string `xml:"ToUserName"`
 	AgentID    string `xml:"AgentID"`
 	Encrypt    string `xml:"Encrypt"`
@@ -23,7 +23,7 @@ type cdataNode struct {
 	CData string `xml:",cdata"`
 }
 
-type xmlTxPayload struct {
+type xmlTxEnvelope struct {
 	XMLName      xml.Name  `xml:"xml"`
 	Encrypt      cdataNode `xml:"Encrypt"`
 	MsgSignature cdataNode `xml:"MsgSignature"`
@@ -43,30 +43,30 @@ func (DefaultTimeSource) GetCurrentTimestamp() time.Time {
 	return time.Now()
 }
 
-type PayloadProcessor struct {
+type EnvelopeProcessor struct {
 	token         string
 	encryptor     *encryptor.WorkwxEncryptor
 	entropySource io.Reader
 	timeSource    TimeSource
 }
 
-type MessagePayload struct {
+type Envelope struct {
 	ToUserName string
 	AgentID    string
 	Msg        []byte
 	ReceiveID  []byte
 }
 
-func NewPayloadProcessor(
+func NewEnvelopeProcessor(
 	token string,
 	encodingAESKey string,
-) (*PayloadProcessor, error) {
+) (*EnvelopeProcessor, error) {
 	enc, err := encryptor.NewWorkwxEncryptor(encodingAESKey)
 	if err != nil {
 		return nil, err
 	}
 
-	return &PayloadProcessor{
+	return &EnvelopeProcessor{
 		token:         token,
 		encryptor:     enc,
 		entropySource: rand.Reader,         // TODO: support customization
@@ -76,30 +76,30 @@ func NewPayloadProcessor(
 
 var errInvalidSignature = errors.New("invalid signature")
 
-func (p *PayloadProcessor) HandleIncomingMsg(
+func (p *EnvelopeProcessor) HandleIncomingMsg(
 	url *url.URL,
 	body []byte,
-) (MessagePayload, error) {
+) (Envelope, error) {
 	// xml unmarshal
-	var x xmlRxPayload
+	var x xmlRxEnvelope
 	err := xml.Unmarshal(body, &x)
 	if err != nil {
-		return MessagePayload{}, err
+		return Envelope{}, err
 	}
 
 	// check signature
 	if !VerifyHTTPRequestSignature(p.token, url, x.Encrypt) {
-		return MessagePayload{}, errInvalidSignature
+		return Envelope{}, errInvalidSignature
 	}
 
 	// decrypt message
 	msg, err := p.encryptor.Decrypt([]byte(x.Encrypt))
 	if err != nil {
-		return MessagePayload{}, err
+		return Envelope{}, err
 	}
 
-	// assemble payload to return
-	return MessagePayload{
+	// assemble envelope to return
+	return Envelope{
 		ToUserName: x.ToUserName,
 		AgentID:    x.AgentID,
 		Msg:        msg.Msg,
@@ -107,7 +107,7 @@ func (p *PayloadProcessor) HandleIncomingMsg(
 	}, nil
 }
 
-func (p *PayloadProcessor) MakeOutgoingMessage(msg []byte) ([]byte, error) {
+func (p *EnvelopeProcessor) MakeOutgoingEnvelope(msg []byte) ([]byte, error) {
 	workwxPayload := encryptor.WorkwxPayload{
 		Msg:       msg,
 		ReceiveID: nil,
@@ -130,7 +130,7 @@ func (p *PayloadProcessor) MakeOutgoingMessage(msg []byte) ([]byte, error) {
 		encryptedMsg,
 	)
 
-	payload := xmlTxPayload{
+	envelope := xmlTxEnvelope{
 		XMLName: xml.Name{},
 		Encrypt: cdataNode{
 			CData: encryptedMsg,
@@ -144,7 +144,7 @@ func (p *PayloadProcessor) MakeOutgoingMessage(msg []byte) ([]byte, error) {
 		},
 	}
 
-	result, err := xml.Marshal(payload)
+	result, err := xml.Marshal(envelope)
 	if err != nil {
 		return nil, err
 	}
