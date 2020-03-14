@@ -46,13 +46,10 @@ func (e *goEmitter) Init(retrieveTime time.Time) error {
 	e.e("// 我也懒得帮他们想，反正有文档，就先这样吧\n")
 	e.e("type ErrCode = int64\n")
 	e.e("\n")
-	e.e("const (\n")
 	return nil
 }
 
 func (e *goEmitter) Finalize() error {
-	e.e(")\n")
-
 	result, err := format.Source(e.buf.Bytes())
 	if err != nil {
 		return err
@@ -75,7 +72,7 @@ func (e *goEmitter) EmitErrCode(code int64, desc string, solution string) error 
 	doc := fmt.Sprintf("%s\n排查方法: %s", desc, solution)
 
 	e.emitDoc(ident, doc)
-	e.e("%s ErrCode = %d\n", ident, code)
+	e.e("const %s ErrCode = %d\n", ident, code)
 
 	return nil
 }
