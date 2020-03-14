@@ -37,6 +37,17 @@ func (x *respCommon) IsOK() bool {
 	return x.ErrCode == 0
 }
 
+func (x *respCommon) TryIntoErr() error {
+	if x.IsOK() {
+		return nil
+	}
+
+	return &WorkwxClientError{
+		Code: x.ErrCode,
+		Msg:  x.ErrMsg,
+	}
+}
+
 type respAccessToken struct {
 	respCommon
 
