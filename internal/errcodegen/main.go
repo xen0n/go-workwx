@@ -21,9 +21,9 @@ var absoluteLinkRegexp = regexp.MustCompile(`<a href="(http[^"]+)">([^<]+)</a>`)
 
 var absoluteLinkReplace = "[$2]($1)"
 
-var anchorLinkRegexp = regexp.MustCompile(`<a href="(#[^"]+)">([^<]+)</a>`)
+var anchorLinkRegexp = regexp.MustCompile(`<a href="#([^"]+)">([^<]+)</a>`)
 
-var anchorLinkReplace = fmt.Sprintf("[$2](%s$1)", errcodeDocURL)
+var anchorLinkReplace = fmt.Sprintf("[$2](%s#$1)", errcodeDocURL)
 
 func die(format string, a ...interface{}) {
 	fmt.Fprintf(os.Stderr, format, a...)
