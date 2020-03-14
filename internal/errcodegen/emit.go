@@ -39,11 +39,12 @@ func (e *goEmitter) Init() error {
 	e.e("// 全局错误码文档: %s\n", errcodeDocURL)
 	e.e("type ErrCode = int64\n")
 	e.e("\n")
+	e.e("const (\n")
 	e.e("// NOTE: 关于错误码的名字为何如此无聊:\n")
 	e.e("//\n")
 	e.e("// 官方没有给出每个错误码对应的标识符，数量太多了\n")
 	e.e("// 我也懒得帮他们想，反正有文档，就先这样吧\n")
-	e.e("const (\n")
+	e.e("\n")
 	return nil
 }
 
