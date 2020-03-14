@@ -179,6 +179,9 @@ func (e *goEmitter) emitAPICall(x *apiCall) error {
 	// TODO: error_chain
 	e.e("return %s{}, err\n", x.respType)
 	e.e("}\n")
+	e.e("if bizErr := resp.TryIntoErr(); bizErr != nil {\n")
+	e.e("return %s{}, bizErr\n", x.respType)
+	e.e("}\n")
 	e.e("\n")
 	e.e("return resp, nil\n")
 	e.e("}\n")

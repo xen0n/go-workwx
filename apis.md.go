@@ -9,6 +9,9 @@ func (c *WorkwxApp) execGetAccessToken(req reqAccessToken) (respAccessToken, err
 	if err != nil {
 		return respAccessToken{}, err
 	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAccessToken{}, bizErr
+	}
 
 	return resp, nil
 }
@@ -19,6 +22,9 @@ func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	err := c.executeQyapiGet("/cgi-bin/user/get", req, &resp, true)
 	if err != nil {
 		return respUserGet{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserGet{}, bizErr
 	}
 
 	return resp, nil
@@ -31,6 +37,9 @@ func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
 	if err != nil {
 		return respUserList{}, err
 	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserList{}, bizErr
+	}
 
 	return resp, nil
 }
@@ -41,6 +50,9 @@ func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
 	err := c.executeQyapiGet("/cgi-bin/department/list", req, &resp, true)
 	if err != nil {
 		return respDeptList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDeptList{}, bizErr
 	}
 
 	return resp, nil
@@ -53,6 +65,9 @@ func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, 
 	if err != nil {
 		return respAppchatCreate{}, err
 	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAppchatCreate{}, bizErr
+	}
 
 	return resp, nil
 }
@@ -63,6 +78,9 @@ func (c *WorkwxApp) execAppchatGet(req reqAppchatGet) (respAppchatGet, error) {
 	err := c.executeQyapiGet("/cgi-bin/appchat/get", req, &resp, true)
 	if err != nil {
 		return respAppchatGet{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAppchatGet{}, bizErr
 	}
 
 	return resp, nil
@@ -75,6 +93,9 @@ func (c *WorkwxApp) execMessageSend(req reqMessage) (respMessageSend, error) {
 	if err != nil {
 		return respMessageSend{}, err
 	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respMessageSend{}, bizErr
+	}
 
 	return resp, nil
 }
@@ -85,6 +106,9 @@ func (c *WorkwxApp) execAppchatSend(req reqMessage) (respMessageSend, error) {
 	err := c.executeQyapiJSONPost("/cgi-bin/appchat/send", req, &resp, true)
 	if err != nil {
 		return respMessageSend{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respMessageSend{}, bizErr
 	}
 
 	return resp, nil
@@ -97,6 +121,9 @@ func (c *WorkwxApp) execMediaUpload(req reqMediaUpload) (respMediaUpload, error)
 	if err != nil {
 		return respMediaUpload{}, err
 	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respMediaUpload{}, bizErr
+	}
 
 	return resp, nil
 }
@@ -107,6 +134,9 @@ func (c *WorkwxApp) execMediaUploadImg(req reqMediaUploadImg) (respMediaUploadIm
 	err := c.executeQyapiMediaUpload("/cgi-bin/media/uploadimg", req, &resp, true)
 	if err != nil {
 		return respMediaUploadImg{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respMediaUploadImg{}, bizErr
 	}
 
 	return resp, nil
