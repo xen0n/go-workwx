@@ -5,6 +5,7 @@ package workwx
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
+// 文档爬取时间: 2020-03-14 13:01:54 +0800
 type ErrCode = int64
 
 const (
@@ -28,6 +29,10 @@ const (
 	// ErrCode40003 无效的UserID
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40003)
+	//
+	// 不合法的UserID。确认：
+	// 1）有效的UserID需要满足：长度1~64字符，由英文字母、数字、中划线、下划线以及点号构成。
+	// 2）除了创建用户，其余使用UserID的接口，还要保证UserID必须在通讯录中存在。
 	ErrCode40003 ErrCode = 40003
 	// ErrCode40004 不合法的媒体文件类型
 	//
@@ -44,6 +49,10 @@ const (
 	// ErrCode40007 不合法的media_id参数
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40007)
+	//
+	// 不合法的媒体文件。确认：
+	// 1）媒体文件ID的获取方式，是否存在。注：上传临时素材生成的medida_id，有效期是3天。
+	// 2）媒体文件类型应符合接口要求（比如发送图片消息，此时不能用音频文件的media_id）。
 	ErrCode40007 ErrCode = 40007
 	// ErrCode40008 不合法的msgtype参数
 	//
@@ -64,6 +73,11 @@ const (
 	// ErrCode40014 不合法的access_token
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40014)
+	//
+	// access_token参数错误。确认：
+	// 1）access_token的获取方式
+	// 2）access_token是否已过期
+	// 可以重新获取一次access_token解决
 	ErrCode40014 ErrCode = 40014
 	// ErrCode40016 不合法的按钮个数
 	//
@@ -112,6 +126,10 @@ const (
 	// ErrCode40029 不合法的oauth_code
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40029)
+	//
+	// oauth_code参数错误。确认：
+	// 1）code只能消费一次，不能重复消费。比如说，是否存在多个服务器同时消费同一code情况。
+	// 2）code需要在有效期间消费（5分钟），过期会自动失效。
 	ErrCode40029 ErrCode = 40029
 	// ErrCode40031 不合法的UserID列表
 	//
@@ -120,6 +138,10 @@ const (
 	// ErrCode40032 不合法的UserID列表长度
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40032)
+	//
+	// 不合法的UserID列表长度。确认：
+	// 1）[发消息接口](https://work.weixin.qq.com/api/doc/90000/90139/90313#10167)，最多指定1000人。
+	// 2）[批量删除成员接口](https://work.weixin.qq.com/api/doc/90000/90139/90313#10060)，最多指定200人。
 	ErrCode40032 ErrCode = 40032
 	// ErrCode40033 不合法的请求字符
 	//
@@ -128,6 +150,12 @@ const (
 	// ErrCode40035 不合法的参数
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40035)
+	//
+	// 不合法的参数。确认：
+	// 1）userlist和partylist不能同时为空
+	// 2）userlist包含的成员个数不能大于1000
+	// 3）partylist包含的部门个数不能大于100
+	// 4）指定的userlist和partylist为数组格式，不是字符串格式。比如说， “userlist”:[ “user1”,”user2”]，而不是 “userlist”: “user1|user2”
 	ErrCode40035 ErrCode = 40035
 	// ErrCode40039 不合法的url长度
 	//
@@ -140,14 +168,26 @@ const (
 	// ErrCode40054 不合法的子菜单url域名
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40054 40055)
+	//
+	// 菜单设置URL不合法。确认：
+	// 1）链接需要带上协议头。以 http:// 或者 https:// 开头。比如：https://work.weixin.qq.com
+	// 2）微信支付的链接，必须以 weixin://wxpay/bizpayurl 开头
 	ErrCode40054 ErrCode = 40054
 	// ErrCode40055 不合法的菜单url域名
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40054 40055)
+	//
+	// 菜单设置URL不合法。确认：
+	// 1）链接需要带上协议头。以 http:// 或者 https:// 开头。比如：https://work.weixin.qq.com
+	// 2）微信支付的链接，必须以 weixin://wxpay/bizpayurl 开头
 	ErrCode40055 ErrCode = 40055
 	// ErrCode40056 不合法的agentid
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40056)
+	//
+	// agentid不合法。确认：
+	// 1）agentid为整型数字
+	// 2）在web管理端存在该应用
 	ErrCode40056 ErrCode = 40056
 	// ErrCode40057 不合法的callbackurl或者callbackurl验证失败
 	//
@@ -164,6 +204,10 @@ const (
 	// ErrCode40063 参数为空
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40063)
+	//
+	// 必填的参数缺少，需要参照具体API接口说明。同时确认：
+	// 1）Http请求方法，是否正确。比如说接口要求以Post方法，就不能使用Get方式
+	// 2）Http请求参数，是否正确。比如说，接口内容要求json结构体，就不能以url参数传递或者form-data方式。
 	ErrCode40063 ErrCode = 40063
 	// ErrCode40066 不合法的部门列表
 	//
@@ -176,6 +220,10 @@ const (
 	// ErrCode40070 指定的标签范围结点全部无效
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40070)
+	//
+	// 指定的标签范围结点全部无效。确认：
+	// 1）指定的参数格式是否正确。比如，”userlist”:[ “user1”]，而不是指定为 “userlist” : “user1”。
+	// 2）指定的成员或者部门，是否存在于通讯录中。
 	ErrCode40070 ErrCode = 40070
 	// ErrCode40071 不合法的标签名字
 	//
@@ -208,6 +256,11 @@ const (
 	// ErrCode40082 不合法的suite_token
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40082)
+	//
+	// suite_token参数错误。确认：
+	// 1）suite_token的获取方式
+	// 2）suite_token是否已过期
+	// 可以重新获取一次suite_token解决
 	ErrCode40082 ErrCode = 40082
 	// ErrCode40083 不合法的suite_id
 	//
@@ -216,6 +269,11 @@ const (
 	// ErrCode40084 不合法的permanent_code参数
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40084)
+	//
+	// 不合法的永久授权码。确认：
+	// 1）是否填写有误
+	// 2）企业是否已取消授权该套件
+	// 3）永久授权码不能跨服务商使用
 	ErrCode40084 ErrCode = 40084
 	// ErrCode40085 不合法的的suite_ticket参数
 	//
@@ -240,6 +298,10 @@ const (
 	// ErrCode40092 导入文件存在不合法的内容
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40092)
+	//
+	// 导入文件存在不合法的内容。确认：
+	// 1）不允许上传空文件
+	// 2）文件内容缺少必填字段，比如：手机/邮箱，姓名，UserID或者部门。
 	ErrCode40092 ErrCode = 40092
 	// ErrCode40093 不合法的jsapi_ticket参数
 	//
@@ -316,6 +378,10 @@ const (
 	// ErrCode41019 缺少 department 参数
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：41019)
+	//
+	// 缺少 department 参数。确认：
+	// 1）创建成员接口，成员所属部门是必填信息。
+	// 2）所属部门是数字数组格式，不是字符串。如：”department: [1, 2]
 	ErrCode41019 ErrCode = 41019
 	// ErrCode41017 缺少tagid参数
 	//
@@ -516,6 +582,10 @@ const (
 	// ErrCode45002 消息内容大小超过限制
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：45002)
+	//
+	// 消息内容大小超过限制。确认：
+	// 1）文本消息类型：最长不超过2048个字节。
+	// 2）图文消息类型：最长不超过666k个字节
 	ErrCode45002 ErrCode = 45002
 	// ErrCode45004 应用description参数长度不符合系统限制
 	//
@@ -532,6 +602,18 @@ const (
 	// ErrCode45009 接口调用超过限制
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：45009)
+	//
+	// 接口调用超过限制。
+	// 1) 具体频率策略，参考：[主动调用频率限制](https://work.weixin.qq.com/api/doc/90000/90139/90313#10785)
+	// 2) 频率拦截时长一般与调用的限制时长相同，比如说是分钟级别的限制，则在中频率后的1分钟后自动解除。小时、天、以及月份，也是以此类推。
+	// 3) 我们对接口调用的频率限制是比较宽松的。对于接口中频率的调用，考虑以下优化：
+	//
+	// * 接口实现时，仅系统失败需要重试。其余错误码，应该排查下调用失败原因
+	// * 发消息应该控制合理调用，对于单个成员来说，一天收到大量的推送，体验是不好的
+	//
+	// 4) 部分频率拦截，可自助解封，访问：[频率自助解封工具](https://open.work.weixin.qq.com/wwopen/devtool/checkCorpSpamBlock)
+	// 5) 发送应用消息的频率拦截，可用api接口查询各个应用消息发送统计，访问：[查询应用消息发送统计](https://open.work.weixin.qq.com/api/doc/90000/90135/92369)
+	//
 	ErrCode45009 ErrCode = 45009
 	// ErrCode45022 应用name参数长度不符合系统限制
 	//
@@ -540,6 +622,11 @@ const (
 	// ErrCode45024 帐号数量超过上限
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：45024)
+	//
+	// 帐号数量超过上限。请确认：
+	// 1）通讯录是否有无效或者无用的帐号，可以删除，让出额度
+	// 2）提高帐号上限，可以提交重新认证或者申请扩容
+	//
 	ErrCode45024 ErrCode = 45024
 	// ErrCode45026 触发删除用户数的保护
 	//
@@ -548,6 +635,9 @@ const (
 	// ErrCode45029 回包大小超过上限
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：45029)
+	//
+	// 回包大小超过上限。请确认：
+	// 1）/cgi-bin/user/list：由于通讯录组织架构庞大，建议按部门分别拉取，同时不要指定fetch_child=1。
 	ErrCode45029 ErrCode = 45029
 	// ErrCode45032 图文消息author参数长度超过限制
 	//
@@ -556,6 +646,9 @@ const (
 	// ErrCode45033 接口并发调用超过限制
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：45033)
+	//
+	// 接口并发调用超过限制。出现这种拦截限制，一般是开发者的程序有bug，导致对同一份资源有过高的并发且持续不断的请求，例如对一个media_id一直持续不断请求“获取临时素材”接口。
+	//
 	ErrCode45033 ErrCode = 45033
 	// ErrCode46003 菜单未设置
 	//
@@ -568,6 +661,11 @@ const (
 	// ErrCode48002 API接口无权限调用
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：48002)
+	//
+	// API接口无权限调用。请确认：
+	// 1）写通讯录接口，只能由通讯录同步助手的access_token来调用。同时需要保证通讯录同步功能是开启的。
+	// 2）通讯录同步助手的access_token，仅用于同步通讯录，不能用于发消息
+	// 3）设置应用可见范围，仅支持注册定制化安装情况，详情见：[设置授权应用可见范围](https://work.weixin.qq.com/api/doc/90000/90139/90313#11729/设置授权应用可见范围)
 	ErrCode48002 ErrCode = 48002
 	// ErrCode48003 不合法的suite_id
 	//
@@ -588,6 +686,18 @@ const (
 	// ErrCode50001 redirect_url未登记可信域名
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：50001)
+	//
+	// redirect_url未登记可信域名。请确认：
+	// 1）颁发code的场景在哪个应用点击的。消费code使用的access_token是否有该应用权限。（通过[查询access_token权限](https://open.work.weixin.qq.com/devtool/query)可确认）
+	// 2）secret的获取来源
+	//
+	// * 来源于应用：url的域名，需设置到应用可信域名中。
+	// * 来源于通讯录同步助手：仅可同步通讯录，不可用于发消息或者消费code
+	// * 来源于第三方套件授权：套件中至少有一个应用，设置了该url域名为可信域名
+	// * 来源于管理组：管理组配置的应用列表，至少有一个应用设置了该url域名为可信域名
+	//
+	// 3）url填写的域名，必须与设置的可信域名 **完全匹配**（包括端口号）。比如：填可信域名填qq.com，访问url域名为www.qq.com，就不匹配；或者可信域名填www.qq.com，访问url域名为www.qq.com:8008，也不匹配。
+	//
 	ErrCode50001 ErrCode = 50001
 	// ErrCode50002 成员不在权限范围
 	//
@@ -596,6 +706,10 @@ const (
 	// ErrCode50003 应用已禁用
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：50003)
+	//
+	// 应用禁用之后，将无法再调用api，可在”管理端-应用管理”重新启用该应用。
+	// <img src="https://p.qpic.cn/pic_wework/1283325914/090fad19ebf740ce78b1e49f2cc0f0f8d1791c3262b8e946/0" style="width:800px;"/>
+	//
 	ErrCode50003 ErrCode = 50003
 	// ErrCode60001 部门长度不符合限制
 	//
@@ -632,10 +746,27 @@ const (
 	// ErrCode60010 部门存在循环关系
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：60010)
+	//
+	// 部门存在循环关系。请确认：
+	// 1）创建部门和更新部门时，指定的parentid参数不能是 部门id 或者 子部门id
+	//
 	ErrCode60010 ErrCode = 60010
 	// ErrCode60011 指定的成员/部门/标签参数无权限
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：60011)
+	//
+	// 指定的成员/部门/标签参数无权限。请确认：
+	// 1) 变更通讯录接口，需要有通讯录编辑权限。
+	//
+	// * 普通应用的secret仅有只读权限，可使用通讯录同步助手的secret同步。
+	//
+	// 2) 其它接口，需要满足配置的通讯录范围。
+	//
+	// * 成员：通讯录同步助手access_token可指定任意成员id；应用access_token仅能指定可见范围配置的成员，以及部门/标签包含的成员（递归展开）
+	// * 部门：通讯录同步助手access_token可指定任意部门id；应用access_token仅能指定可见范围配置的部门id(创建或移动部门，还需要具有父部门的管理权限)，标签包括的部门id，以及上述部门的子部门id
+	// * 标签：通讯录同步助手access_token可指定超级管理组及通讯录同步助手创建的标签；应用access_token仅能由应用API创建的标签
+	//
+	//
 	ErrCode60011 ErrCode = 60011
 	// ErrCode60012 不允许删除默认应用
 	//
@@ -644,6 +775,11 @@ const (
 	// ErrCode60020 访问ip不在白名单之中
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：60020)
+	//
+	// 访问ip不在白名单之中。请确认：
+	// 1）请确认访问ip是否在服务商白名单IP列表。
+	// 登录 [服务商管理后台](https://open.work.weixin.qq.com/wwopen/login)，在“服务商信息” - “基本信息” - “IP白名单”配置
+	//
 	ErrCode60020 ErrCode = 60020
 	// ErrCode60021 userid不在应用可见范围内
 	//
@@ -788,6 +924,9 @@ const (
 	// ErrCode72023 发票已被其他公众号锁定
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：72023)
+	//
+	// 一般为发票已进入后续报销流程，报销企业公众号/企业微信/App锁定了发票。
+	//
 	ErrCode72023 ErrCode = 72023
 	// ErrCode72024 发票状态错误
 	//
@@ -800,6 +939,11 @@ const (
 	// ErrCode80001 可信域名不正确，或者无ICP备案
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：80001)
+	//
+	// 可信域名不正确，或者可信域名没有ICP备案。请确认：
+	// 1）可信域名，只支持全域名匹配，无法通过配置父域来让所有子域都成为可信域名。
+	// 2）可信域名，不支持IP地址、端口号及短链域名。
+	// 3）如果确认域名已经通过ICP备案，但依然提示这个错误，请尝试重新设置。
 	ErrCode80001 ErrCode = 80001
 	// ErrCode81001 部门下的结点数超过限制（3W）
 	//
@@ -816,6 +960,11 @@ const (
 	// ErrCode81011 无权限操作标签
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：81011)
+	//
+	// 无权限操作标签。请确认：
+	// 1）除了通讯录同步助手和通讯录应用，其他应用和管理组都只能操作自己创建的标签。
+	// 2）通讯录同步助手或者通讯录应用，除了能管理自己的标签，还能操作超级管理组创建的标签。
+	//
 	ErrCode81011 ErrCode = 81011
 	// ErrCode81012 缺失可见范围
 	//
@@ -824,6 +973,12 @@ const (
 	// ErrCode81013 UserID、部门ID、标签ID全部非法或无权限
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：81013)
+	//
+	// UserID、部门ID、标签ID全部非法或无权限。一般有以下两种原因：
+	// 1）成员、部门或标签已被删除，此种情况需要调整调用接口的接收人参数。
+	// 2）成员、部门或标签被移出应用的可见范围，可在管理端将接收人添加到应用的可见范围内。
+	// <img src="https://p.qpic.cn/pic_wework/1283325914/4e48eb5ea14e98977a1687c6cceab0d61ad57eea9af062f0/0" style="width:800px;"/>
+	//
 	ErrCode81013 ErrCode = 81013
 	// ErrCode81014 标签添加成员，单次添加user或party过多
 	//
@@ -860,6 +1015,10 @@ const (
 	// ErrCode82001 指定的成员/部门/标签全部为空
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：82001)
+	//
+	// 指定的成员/部门/标签全部为空。请确认：
+	// 参数是否有传递，且至少有一个参数非空。
+	//
 	ErrCode82001 ErrCode = 82001
 	// ErrCode82002 不合法的PartyID列表长度
 	//
@@ -872,6 +1031,11 @@ const (
 	// ErrCode84014 成员票据过期
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：84014)
+	//
+	// 成员票据过期。确认：
+	// 1）user_ticket 有时效性，有效时长由expires_in指定。参考接口：[根据code获取成员信息](https://work.weixin.qq.com/api/doc/90000/90139/90313#10028/根据code获取成员信息)
+	// 2）若需再次获取用户详情，需要用户重新点击链接后，根据新的code获取新的user_ticket
+	//
 	ErrCode84014 ErrCode = 84014
 	// ErrCode84015 成员票据无效
 	//
@@ -900,6 +1064,10 @@ const (
 	// ErrCode84024 无注册信息
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：84024)
+	//
+	// 无注册信息。可能是以下两种情况：
+	// 1）注册流程未完成。
+	// 2）注册成功已超过24小时。
 	ErrCode84024 ErrCode = 84024
 	// ErrCode84025 不符合的state参数
 	//
@@ -1232,6 +1400,10 @@ const (
 	// ErrCode85005 可信域名未通过所有权校验
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：85005)
+	//
+	// 域名未通过所有权校验，仅oauth2生效，jssdk功能将受限，请根据调用者身份按以下不同方式完成校验：
+	// 1）若调用者是企业应用，请登录企业微信管理端，进入应用详情，按照指引完成域名的所有权校验。
+	// 2）若调用者是第三方服务，请登录企业微信服务管理端，进入第三方应用详情，按照指引完成域名的所有权校验。
 	ErrCode85005 ErrCode = 85005
 	// ErrCode86001 参数 chatid 不合法
 	//
@@ -1300,6 +1472,10 @@ const (
 	// ErrCode86216 存在非法会话成员ID
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：86216)
+	//
+	// 存在非法会话成员ID。确认：
+	// 1）添加会话成员时，指定的成员ID不存在通讯录
+	// 2）删除会话成员时，指定的成员ID不存在于会话中
 	ErrCode86216 ErrCode = 86216
 	// ErrCode86217 会话发送者不在会话成员列表中
 	//
@@ -1308,6 +1484,10 @@ const (
 	// ErrCode86220 指定的会话参数不合法
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：86220)
+	//
+	// 指定的会话参数不合法。请确认：
+	// 1）参数 type 只能指定 single/group
+	// 2）参数 msgtype 只能指定 text/image/file/voice/link
 	ErrCode86220 ErrCode = 86220
 	// ErrCode86224 不是受限群，不允许使用该接口
 	//
@@ -1684,6 +1864,10 @@ const (
 	// ErrCode91040 获取ticket的类型无效
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：91040)
+	//
+	// 获取ticket的类型无效。jsapi ticket可以通过以下几种获取：
+	// 1）[获取jsapi_ticket](https://work.weixin.qq.com/api/doc/90000/90139/90313#10029/获取jsapi_ticket)。这里参数只需要传access_token，不需要带其余的参数，比如type=jsapi
+	// 2）[获取电子发票ticket](https://work.weixin.qq.com/api/doc/90000/90139/90313#10029/获取电子发票ticket)。需要同时指定access_token及type，同时type=wx_card是固定的。
 	ErrCode91040 ErrCode = 91040
 	// ErrCode93004 机器人被停用
 	//
@@ -1724,6 +1908,10 @@ const (
 	// ErrCode301002 无权限操作指定的应用
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：301002)
+	//
+	// 无权限操作指定的应用。access_token来源需要有指定应用的权限。
+	// 比如说，[发消息接口](https://work.weixin.qq.com/api/doc/90000/90139/90313#10167) 指定了参数 “agentid”: 14，但使用的 access_token 是通过应用agentid: 100032 生成的调用凭证，这种就会报该错误码。
+	// access_token的权限查询，可在 [错误码查询工具](https://open.work.weixin.qq.com/devtool/query) 确认。
 	ErrCode301002 ErrCode = 301002
 	// ErrCode301005 不允许删除创建者
 	//
@@ -1776,6 +1964,10 @@ const (
 	// ErrCode301036 不允许更新该用户的userid
 	//
 	// 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：301036)
+	//
+	// 不允许更新该用户的userid。确认：
+	// 只有当userid由系统自动生成时，才被允许修改一次
+	// 比如，邀请关注时用户提交登记信息，审批通过后系统会自动分配userid，此时可修改userid
 	ErrCode301036 ErrCode = 301036
 	// ErrCode302003 批量导入任务的文件中userid有重复
 	//

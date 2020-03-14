@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -25,6 +26,8 @@ var anchorLinkRegexp = regexp.MustCompile(`<a href="#([^"]+)">([^<]+)</a>`)
 
 var anchorLinkReplace = fmt.Sprintf("[$2](%s#$1)", errcodeDocURL)
 
+var h5Regexp = regexp.MustCompile(`<h5[^>]*>.*</h5>`)
+
 func die(format string, a ...interface{}) {
 	fmt.Fprintf(os.Stderr, format, a...)
 	os.Exit(1)
@@ -34,6 +37,7 @@ func die(format string, a ...interface{}) {
 func main() {
 	// get the fresh documentation!
 	var doc *goquery.Document
+	var retrieveTime time.Time
 	{
 		resp, err := http.Get(errcodeDocURL)
 		if err != nil {
@@ -51,6 +55,7 @@ func main() {
 		}
 
 		doc = tmp
+		retrieveTime = time.Now()
 	}
 
 	// prepare to emit code
@@ -72,7 +77,7 @@ func main() {
 		Sink: sink,
 	}
 
-	err := em.Init()
+	err := em.Init(retrieveTime)
 	if err != nil {
 		die("code emission init failed: %+v\n", err)
 	}
@@ -97,6 +102,38 @@ func main() {
 			die("failed to get html out of td: %+v\n", err)
 		}
 
+		// is there any anchor link to different sections of the same doc?
+		var anchorRefs []string
+		{
+			for _, groups := range anchorLinkRegexp.FindAllStringSubmatch(solutionHtml, -1) {
+				anchorName := groups[1]
+				if !strings.HasPrefix(anchorName, "10649/") {
+					// seems only this format is reference to same doc
+					continue
+				}
+				anchorName = anchorName[6:]
+				anchorRefs = append(anchorRefs, anchorName)
+			}
+		}
+
+		// resolve the referenced section and paste the content into solution
+		// for users' convenience
+		//
+		// document structure like this: li > h5 > a[name="错误码：xxxxx"]
+		// we want the innerHTML of li
+		if len(anchorRefs) > 0 {
+			for _, anchor := range anchorRefs {
+				a := doc.Find(fmt.Sprintf(`a[name="%s"]`, anchor)).First()
+				li := a.Parent().Parent()
+				liHtml, err := li.Html()
+				if err != nil {
+					die("failed to get html out of li: %+v\n", err)
+				}
+				solutionHtml += "\n\n"
+				solutionHtml += h5Regexp.ReplaceAllString(liHtml, "")
+			}
+		}
+
 		// resolve links
 		tmp := solutionHtml
 		tmp = absoluteLinkRegexp.ReplaceAllString(tmp, absoluteLinkReplace)
@@ -106,6 +143,15 @@ func main() {
 		// this is VERY crude but working so...
 		tmp = strings.ReplaceAll(tmp, "&lt;", "<")
 		tmp = strings.ReplaceAll(tmp, "&gt;", ">")
+		tmp = strings.ReplaceAll(tmp, "<br/>", "\n")
+		tmp = strings.ReplaceAll(tmp, "<p>", "")
+		tmp = strings.ReplaceAll(tmp, "</p>", "")
+		tmp = strings.ReplaceAll(tmp, "<ul>", "")
+		tmp = strings.ReplaceAll(tmp, "</ul>", "")
+		tmp = strings.ReplaceAll(tmp, "<li>", "* ")
+		tmp = strings.ReplaceAll(tmp, "</li>", "\n")
+		tmp = strings.ReplaceAll(tmp, "<strong>", "**")
+		tmp = strings.ReplaceAll(tmp, "</strong>", "**")
 		solution := tmp
 
 		err = em.EmitErrCode(code, descStr, solution)
