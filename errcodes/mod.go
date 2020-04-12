@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-03-14 13:23:48 +0800
+// 文档爬取时间: 2020-04-12 16:38:16 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -165,8 +165,8 @@ const ErrCode40031 ErrCode = 40031
 // 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：40032)
 //
 // 不合法的UserID列表长度。确认：
-// 1）[发消息接口](https://work.weixin.qq.com/api/doc/90000/90139/90313#10167)，最多指定1000人。
-// 2）[批量删除成员接口](https://work.weixin.qq.com/api/doc/90000/90139/90313#10060)，最多指定200人。
+// 1）[发消息接口](https://open.work.weixin.qq.com/api/doc#10167)，最多指定1000人。
+// 2）[批量删除成员接口](https://open.work.weixin.qq.com/api/doc#10060)，最多指定200人。
 const ErrCode40032 ErrCode = 40032
 
 // ErrCode40033 不合法的请求字符
@@ -732,7 +732,7 @@ const ErrCode45008 ErrCode = 45008
 // 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：45009)
 //
 // 接口调用超过限制。
-// 1) 具体频率策略，参考：[主动调用频率限制](https://work.weixin.qq.com/api/doc/90000/90139/90313#10785)
+// 1) 具体频率策略，参考：[主动调用频率限制](https://open.work.weixin.qq.com/api/doc#10785)
 // 2) 频率拦截时长一般与调用的限制时长相同，比如说是分钟级别的限制，则在中频率后的1分钟后自动解除。小时、天、以及月份，也是以此类推。
 // 3) 我们对接口调用的频率限制是比较宽松的。对于接口中频率的调用，考虑以下优化：
 //
@@ -802,7 +802,7 @@ const ErrCode46004 ErrCode = 46004
 // API接口无权限调用。请确认：
 // 1）写通讯录接口，只能由通讯录同步助手的access_token来调用。同时需要保证通讯录同步功能是开启的。
 // 2）通讯录同步助手的access_token，仅用于同步通讯录，不能用于发消息
-// 3）设置应用可见范围，仅支持注册定制化安装情况，详情见：[设置授权应用可见范围](https://work.weixin.qq.com/api/doc/90000/90139/90313#11729/设置授权应用可见范围)
+// 3）设置应用可见范围，仅支持注册定制化安装情况，详情见：[设置授权应用可见范围](https://open.work.weixin.qq.com/api/doc#14936)
 const ErrCode48002 ErrCode = 48002
 
 // ErrCode48003 不合法的suite_id
@@ -1033,6 +1033,36 @@ const ErrCode60136 ErrCode = 60136
 // 排查方法: 同一个家校通讯录中，家长的手机号不能重复。建议更换手机号，或者更新已有的手机记录。
 const ErrCode60137 ErrCode = 60137
 
+// ErrCode60203 不合法的模版ID
+//
+// 排查方法: -
+const ErrCode60203 ErrCode = 60203
+
+// ErrCode60204 模版状态不可用
+//
+// 排查方法: -
+const ErrCode60204 ErrCode = 60204
+
+// ErrCode60205 模版关键词不匹配
+//
+// 排查方法: -
+const ErrCode60205 ErrCode = 60205
+
+// ErrCode60206 该种类型的消息只支持第三方独立应用使用
+//
+// 排查方法: -
+const ErrCode60206 ErrCode = 60206
+
+// ErrCode60207 第三方独立应用只允许发送模板消息
+//
+// 排查方法: -
+const ErrCode60207 ErrCode = 60207
+
+// ErrCode60208 第三方独立应用不支持指定@all，不支持参数toparty和totag
+//
+// 排查方法: -
+const ErrCode60208 ErrCode = 60208
+
 // ErrCode65000 学校已经迁移
 //
 // 排查方法: -
@@ -1246,7 +1276,7 @@ const ErrCode82003 ErrCode = 82003
 // 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：84014)
 //
 // 成员票据过期。确认：
-// 1）user_ticket 有时效性，有效时长由expires_in指定。参考接口：[根据code获取成员信息](https://work.weixin.qq.com/api/doc/90000/90139/90313#10028/根据code获取成员信息)
+// 1）user_ticket 有时效性，有效时长由expires_in指定。参考接口：[根据code获取成员信息](https://open.work.weixin.qq.com/api/doc#10028/根据code获取成员信息)
 // 2）若需再次获取用户详情，需要用户重新点击链接后，根据新的code获取新的user_ticket
 //
 const ErrCode84014 ErrCode = 84014
@@ -2177,6 +2207,11 @@ const ErrCode90357 ErrCode = 90357
 // 排查方法: -
 const ErrCode90358 ErrCode = 90358
 
+// ErrCode90359 预支单与下单者企业不匹配
+//
+// 排查方法: -
+const ErrCode90359 ErrCode = 90359
+
 // ErrCode90456 必须指定组织者
 //
 // 排查方法: -
@@ -2277,13 +2312,48 @@ const ErrCode90474 ErrCode = 90474
 // 排查方法: -
 const ErrCode90475 ErrCode = 90475
 
+// ErrCode90500 群主并未离职
+//
+// 排查方法: -
+const ErrCode90500 ErrCode = 90500
+
+// ErrCode90501 该群不是客户群
+//
+// 排查方法: -
+const ErrCode90501 ErrCode = 90501
+
+// ErrCode90502 群主已经离职
+//
+// 排查方法: -
+const ErrCode90502 ErrCode = 90502
+
+// ErrCode90503 满人 & 99个微信成员，没办法踢，要客户端确认
+//
+// 排查方法: -
+const ErrCode90503 ErrCode = 90503
+
+// ErrCode90504 群主没变
+//
+// 排查方法: -
+const ErrCode90504 ErrCode = 90504
+
+// ErrCode90507 离职群正在继承处理中
+//
+// 排查方法: -
+const ErrCode90507 ErrCode = 90507
+
+// ErrCode90508 离职群已经继承
+//
+// 排查方法: -
+const ErrCode90508 ErrCode = 90508
+
 // ErrCode91040 获取ticket的类型无效
 //
 // 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：91040)
 //
 // 获取ticket的类型无效。jsapi ticket可以通过以下几种获取：
-// 1）[获取jsapi_ticket](https://work.weixin.qq.com/api/doc/90000/90139/90313#10029/获取jsapi_ticket)。这里参数只需要传access_token，不需要带其余的参数，比如type=jsapi
-// 2）[获取电子发票ticket](https://work.weixin.qq.com/api/doc/90000/90139/90313#10029/获取电子发票ticket)。需要同时指定access_token及type，同时type=wx_card是固定的。
+// 1）[获取jsapi_ticket](https://open.work.weixin.qq.com/api/doc#10029/获取jsapi_ticket)。这里参数只需要传access_token，不需要带其余的参数，比如type=jsapi
+// 2）[获取电子发票ticket](https://open.work.weixin.qq.com/api/doc#10029/获取电子发票ticket)。需要同时指定access_token及type，同时type=wx_card是固定的。
 const ErrCode91040 ErrCode = 91040
 
 // ErrCode93004 机器人被停用
@@ -2336,7 +2406,7 @@ const ErrCode94008 ErrCode = 94008
 // 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：301002)
 //
 // 无权限操作指定的应用。access_token来源需要有指定应用的权限。
-// 比如说，[发消息接口](https://work.weixin.qq.com/api/doc/90000/90139/90313#10167) 指定了参数 “agentid”: 14，但使用的 access_token 是通过应用agentid: 100032 生成的调用凭证，这种就会报该错误码。
+// 比如说，[发消息接口](https://open.work.weixin.qq.com/api/doc#10167) 指定了参数 “agentid”: 14，但使用的 access_token 是通过应用agentid: 100032 生成的调用凭证，这种就会报该错误码。
 // access_token的权限查询，可在 [错误码查询工具](https://open.work.weixin.qq.com/devtool/query) 确认。
 const ErrCode301002 ErrCode = 301002
 
