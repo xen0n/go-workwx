@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-04-12 16:38:16 +0800
+// 文档爬取时间: 2020-04-15 13:17:55 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -784,6 +784,11 @@ const ErrCode45032 ErrCode = 45032
 // 接口并发调用超过限制。出现这种拦截限制，一般是开发者的程序有bug，导致对同一份资源有过高的并发且持续不断的请求，例如对一个media_id一直持续不断请求“获取临时素材”接口。
 //
 const ErrCode45033 ErrCode = 45033
+
+// ErrCode46004 url必须有协议头
+//
+// 排查方法: 在url前面加上协议头 http:// 或 https://
+const ErrCode46004 ErrCode = 46004
 
 // ErrCode46003 菜单未设置
 //
