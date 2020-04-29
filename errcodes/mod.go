@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-04-15 13:17:55 +0800
+// 文档爬取时间: 2020-04-29 11:41:56 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -785,10 +785,10 @@ const ErrCode45032 ErrCode = 45032
 //
 const ErrCode45033 ErrCode = 45033
 
-// ErrCode46004 url必须有协议头
+// ErrCode45034 url必须有协议头
 //
 // 排查方法: 在url前面加上协议头 http:// 或 https://
-const ErrCode46004 ErrCode = 46004
+const ErrCode45034 ErrCode = 45034
 
 // ErrCode46003 菜单未设置
 //
