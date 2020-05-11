@@ -14,6 +14,7 @@ func parseDocument(content []byte) *mdTocNode {
 	md := blackfriday.New(blackfriday.WithExtensions(blackfriday.CommonExtensions))
 
 	// normalize to LF line ending for correct parsing
+	// https://github.com/russross/blackfriday/issues/423
 	normalizedContent := normalizeEOL(content)
 
 	root := md.Parse(normalizedContent)
