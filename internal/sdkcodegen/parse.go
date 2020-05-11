@@ -12,7 +12,11 @@ import (
 
 func parseDocument(content []byte) *mdTocNode {
 	md := blackfriday.New(blackfriday.WithExtensions(blackfriday.CommonExtensions))
-	root := md.Parse(content)
+
+	// normalize to LF line ending for correct parsing
+	normalizedContent := normalizeEOL(content)
+
+	root := md.Parse(normalizedContent)
 
 	return reshapeMarkdownAST(root)
 }
