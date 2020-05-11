@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-04-29 11:41:56 +0800
+// 文档爬取时间: 2020-05-11 15:18:18 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -2718,6 +2718,66 @@ const ErrCode600044 ErrCode = 600044
 //
 // 排查方法: -
 const ErrCode600045 ErrCode = 600045
+
+// ErrCode600046 操作id和用户userid不匹配
+//
+// 排查方法: -
+const ErrCode600046 ErrCode = 600046
+
+// ErrCode600047 secretno的status非法
+//
+// 排查方法: 请确认是否是使用统一初始secretno的设备，如果是无有正确执行换secretno的流程
+const ErrCode600047 ErrCode = 600047
+
+// ErrCode600048 无效的指纹算法
+//
+// 排查方法: -
+const ErrCode600048 ErrCode = 600048
+
+// ErrCode600049 无效的人脸识别算法
+//
+// 排查方法: -
+const ErrCode600049 ErrCode = 600049
+
+// ErrCode600050 无效的算法长度
+//
+// 排查方法: -
+const ErrCode600050 ErrCode = 600050
+
+// ErrCode600051 设备过期
+//
+// 排查方法: -
+const ErrCode600051 ErrCode = 600051
+
+// ErrCode600052 无效的文件分块
+//
+// 排查方法: -
+const ErrCode600052 ErrCode = 600052
+
+// ErrCode600053 该链接已经激活
+//
+// 排查方法: -
+const ErrCode600053 ErrCode = 600053
+
+// ErrCode600054 该链接已经订阅
+//
+// 排查方法: -
+const ErrCode600054 ErrCode = 600054
+
+// ErrCode600055 无效的用户类型
+//
+// 排查方法: -
+const ErrCode600055 ErrCode = 600055
+
+// ErrCode600056 无效的健康状态
+//
+// 排查方法: -
+const ErrCode600056 ErrCode = 600056
+
+// ErrCode600057 缺少体温参数
+//
+// 排查方法: -
+const ErrCode600057 ErrCode = 600057
 
 // ErrCode610001 永久二维码超过每个员工5000的限制
 //
