@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-05-11 15:18:18 +0800
+// 文档爬取时间: 2020-05-19 17:14:29 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -808,6 +808,7 @@ const ErrCode46004 ErrCode = 46004
 // 1）写通讯录接口，只能由通讯录同步助手的access_token来调用。同时需要保证通讯录同步功能是开启的。
 // 2）通讯录同步助手的access_token，仅用于同步通讯录，不能用于发消息
 // 3）设置应用可见范围，仅支持注册定制化安装情况，详情见：[设置授权应用可见范围](https://open.work.weixin.qq.com/api/doc#14936)
+// 4）客户联系相关的接口，只能由系统应用“客户联系”，或配置到“可调用应用”列表中的自建应用的access_token来调用。
 const ErrCode48002 ErrCode = 48002
 
 // ErrCode48003 不合法的suite_id
