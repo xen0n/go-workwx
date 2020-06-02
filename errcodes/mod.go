@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-05-19 17:14:29 +0800
+// 文档爬取时间: 2020-06-02 16:53:16 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -359,9 +359,9 @@ const ErrCode40091 ErrCode = 40091
 // 2）文件内容缺少必填字段，比如：手机/邮箱，姓名，UserID或者部门。
 const ErrCode40092 ErrCode = 40092
 
-// ErrCode40093 不合法的jsapi_ticket参数
+// ErrCode40093 jsapi签名错误
 //
-// 排查方法: ticket已失效，或者拼写错误
+// 排查方法: 请检查用于签名的jsapi_ticket是否是正确的，是否过期。可以通过获取相应jsapi_ticket接口获取当前的jsapi_ticket跟用于签名的jsapi_ticket比对是否一致，若jsapi_ticket还在有效期内，当前获取到的jsapi_ticket是一致的。若jsapi_ticket没问题，请检查用于签名的url参数是不是正确的， url（当前网页的URL， 不包含#及其后面部分）。
 const ErrCode40093 ErrCode = 40093
 
 // ErrCode40094 不合法的URL
@@ -627,6 +627,11 @@ const ErrCode42007 ErrCode = 42007
 //
 // 排查方法: suite_access_token有时效性，需要重新获取一次
 const ErrCode42009 ErrCode = 42009
+
+// ErrCode42012 jsapi_ticket不可用，一般是没有正确调用接口来创建jsapi_ticket
+//
+// 排查方法: 如果是agentConfig使用，请特别注意是否是使用”[获取应用身份的ticket](https://work.weixin.qq.com/api/doc/90000/90139/90313#10029/获取应用的jsapi_ticket)“来获取jsapi_ticket
+const ErrCode42012 ErrCode = 42012
 
 // ErrCode42013 小程序未登陆或登录态已经过期
 //
