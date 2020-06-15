@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-06-02 16:53:16 +0800
+// 文档爬取时间: 2020-06-15 15:19:50 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -2366,6 +2366,11 @@ const ErrCode90508 ErrCode = 90508
 // 1）[获取jsapi_ticket](https://open.work.weixin.qq.com/api/doc#10029/获取jsapi_ticket)。这里参数只需要传access_token，不需要带其余的参数，比如type=jsapi
 // 2）[获取电子发票ticket](https://open.work.weixin.qq.com/api/doc#10029/获取电子发票ticket)。需要同时指定access_token及type，同时type=wx_card是固定的。
 const ErrCode91040 ErrCode = 91040
+
+// ErrCode93000 机器人webhookurl不合法或者机器人已经被移除出群
+//
+// 排查方法: -
+const ErrCode93000 ErrCode = 93000
 
 // ErrCode93004 机器人被停用
 //
