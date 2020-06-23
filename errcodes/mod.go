@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-06-15 15:19:50 +0800
+// 文档爬取时间: 2020-06-23 18:09:38 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -2367,6 +2367,21 @@ const ErrCode90508 ErrCode = 90508
 // 2）[获取电子发票ticket](https://open.work.weixin.qq.com/api/doc#10029/获取电子发票ticket)。需要同时指定access_token及type，同时type=wx_card是固定的。
 const ErrCode91040 ErrCode = 91040
 
+// ErrCode92000 成员不在应用可见范围之内
+//
+// 排查方法: -
+const ErrCode92000 ErrCode = 92000
+
+// ErrCode92001 应用没有敏感信息权限
+//
+// 排查方法: -
+const ErrCode92001 ErrCode = 92001
+
+// ErrCode92002 不允许跨企业调用
+//
+// 排查方法: -
+const ErrCode92002 ErrCode = 92002
+
 // ErrCode93000 机器人webhookurl不合法或者机器人已经被移除出群
 //
 // 排查方法: -
@@ -2376,6 +2391,11 @@ const ErrCode93000 ErrCode = 93000
 //
 // 排查方法: -
 const ErrCode93004 ErrCode = 93004
+
+// ErrCode93008 不在群里
+//
+// 排查方法: -
+const ErrCode93008 ErrCode = 93008
 
 // ErrCode94000 应用未开启工作台自定义模式
 //
