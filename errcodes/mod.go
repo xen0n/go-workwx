@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-06-23 18:09:38 +0800
+// 文档爬取时间: 2020-08-03 18:17:37 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -379,9 +379,9 @@ const ErrCode40096 ErrCode = 40096
 // 排查方法: 离职成员外部联系人转移接口要求转出用户必须已经离职
 const ErrCode40097 ErrCode = 40097
 
-// ErrCode40098 接替成员尚未实名认证
+// ErrCode40098 成员尚未实名认证
 //
-// 排查方法: 离职成员外部联系人转移接口要求接替成员已实名认证
+// 排查方法: 确认传入的userid是已经过实名认证成员的
 const ErrCode40098 ErrCode = 40098
 
 // ErrCode40099 接替成员的外部联系人数量已达上限
@@ -403,6 +403,21 @@ const ErrCode40102 ErrCode = 40102
 //
 // 排查方法: 请确认上传的内容是否为合法的图片内容
 const ErrCode40123 ErrCode = 40123
+
+// ErrCode40124 推广活动里的sn禁止绑定
+//
+// 排查方法: -
+const ErrCode40124 ErrCode = 40124
+
+// ErrCode40125 无效的openuserid参数
+//
+// 排查方法: -
+const ErrCode40125 ErrCode = 40125
+
+// ErrCode40126 企业标签个数达到上限，最多为3000个
+//
+// 排查方法: -
+const ErrCode40126 ErrCode = 40126
 
 // ErrCode41001 缺少access_token参数
 //
@@ -814,6 +829,7 @@ const ErrCode46004 ErrCode = 46004
 // 2）通讯录同步助手的access_token，仅用于同步通讯录，不能用于发消息
 // 3）设置应用可见范围，仅支持注册定制化安装情况，详情见：[设置授权应用可见范围](https://open.work.weixin.qq.com/api/doc#14936)
 // 4）客户联系相关的接口，只能由系统应用“客户联系”，或配置到“可调用应用”列表中的自建应用的access_token来调用。
+// 5) 小程序应用仅支持发送[小程序通知消息](https://work.weixin.qq.com/api/doc/90000/90135/90236#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%9A%E7%9F%A5%E6%B6%88%E6%81%AF)，暂不支持文本、图片、语音、视频、图文等其他类型的消息。
 const ErrCode48002 ErrCode = 48002
 
 // ErrCode48003 不合法的suite_id
