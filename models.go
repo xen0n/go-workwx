@@ -179,6 +179,28 @@ type respUserList struct {
 	Users []*respUserDetail `json:"userlist"`
 }
 
+// reqUserIDByMobile 手机号获取 userid 请求
+type reqUserIDByMobile struct {
+	Mobile string `json:"mobile"`
+}
+
+var _ bodyer = reqUserIDByMobile{}
+
+func (x reqUserIDByMobile) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+// respUserIDByMobile 手机号获取 userid 响应
+type respUserIDByMobile struct {
+	respCommon
+
+	UserID string `json:"userid"`
+}
+
 type reqDeptList struct {
 	HaveID bool
 	ID     int64
