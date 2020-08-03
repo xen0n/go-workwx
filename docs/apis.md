@@ -22,6 +22,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execUserConvertToOpenID`|TODO|TODO|+|`POST /cgi-bin/user/convert_to_openid`|[userid与openid互换](https://work.weixin.qq.com/api/doc#90000/90135/90202)
 `execUserAuthSucc`|TODO|TODO|+|`GET /cgi-bin/user/authsucc`|[二次验证](https://work.weixin.qq.com/api/doc#90000/90135/90203)
 `execUserBatchInvite`|TODO|TODO|+|`POST /cgi-bin/batch/invite`|[邀请成员](https://work.weixin.qq.com/api/doc#90000/90135/90975)
+`execUserIDByMobile`|`reqUserIDByMobile`|`respUserIDByMobile`|+|`POST /cgi-bin/user/getuserid`|[手机号获取userid](https://work.weixin.qq.com/api/doc/90001/90143/91693)
 
 # 部门管理
 

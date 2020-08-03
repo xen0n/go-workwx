@@ -30,3 +30,14 @@ func (c *WorkwxApp) ListUsersByDeptID(deptID int64, fetchChild bool) ([]*UserInf
 	}
 	return users, nil
 }
+
+// GetUserIDByMobile 通过手机号获取 userid
+func (c *WorkwxApp) GetUserIDByMobile(mobile string) (string, error) {
+	resp, err := c.execUserIDByMobile(reqUserIDByMobile{
+		Mobile: mobile,
+	})
+	if err != nil {
+		return "", err
+	}
+	return resp.UserID, nil
+}

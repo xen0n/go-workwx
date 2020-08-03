@@ -44,6 +44,20 @@ func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
 	return resp, nil
 }
 
+// execUserIDByMobile 手机号获取userid
+func (c *WorkwxApp) execUserIDByMobile(req reqUserIDByMobile) (respUserIDByMobile, error) {
+	var resp respUserIDByMobile
+	err := c.executeQyapiJSONPost("/cgi-bin/user/getuserid", req, &resp, true)
+	if err != nil {
+		return respUserIDByMobile{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserIDByMobile{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execDeptList 获取部门列表
 func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
 	var resp respDeptList
