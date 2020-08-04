@@ -1,6 +1,7 @@
 package workwx
 
 import (
+	"context"
 	"time"
 
 	"github.com/cenkalti/backoff/v4"
@@ -34,28 +35,31 @@ func (c *WorkwxApp) syncAccessToken() error {
 	return nil
 }
 
-func (c *WorkwxApp) accessTokenRefresher() {
+func (c *WorkwxApp) accessTokenRefresher(ctx context.Context) {
 	const refreshTimeWindow = 30 * time.Minute
 	const minRefreshDuration = 5 * time.Second
 
-	// TODO: context cancellation
+	var waitDuration time.Duration = 0
 	for {
-		retryer := backoff.NewExponentialBackOff()
-		err := backoff.Retry(c.syncAccessToken, retryer)
-		if err != nil {
-			// wtf
-			// TODO: logging
-			_ = err
+		select {
+		case <-time.After(waitDuration):
+			retryer := backoff.WithContext(backoff.NewExponentialBackOff(), ctx)
+			err := backoff.Retry(c.syncAccessToken, retryer)
+			if err != nil {
+				// wtf
+				// TODO: logging
+				_ = err
+			}
+
+			waitUntilTime := c.lastRefresh.Add(c.tokenExpiresIn).Add(-refreshTimeWindow)
+			waitDuration = time.Until(waitUntilTime)
+
+			if waitDuration < minRefreshDuration {
+				waitDuration = minRefreshDuration
+			}
+		case <-ctx.Done():
+			return
 		}
-
-		waitUntilTime := c.lastRefresh.Add(c.tokenExpiresIn).Add(-refreshTimeWindow)
-		waitDuration := time.Until(waitUntilTime)
-
-		if waitDuration < minRefreshDuration {
-			waitDuration = minRefreshDuration
-		}
-
-		time.Sleep(waitDuration)
 	}
 }
 
@@ -63,5 +67,14 @@ func (c *WorkwxApp) accessTokenRefresher() {
 //
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnAccessTokenRefresher() {
-	go c.accessTokenRefresher()
+	ctx := context.Background()
+	c.SpawnAccessTokenRefresherWithContext(ctx)
+}
+
+// SpawnAccessTokenRefresherWithContext 启动该 app 的 access token 刷新 goroutine
+// 可以通过 context cancellation 停止此 goroutine
+//
+// NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
+func (c *WorkwxApp) SpawnAccessTokenRefresherWithContext(ctx context.Context) {
+	go c.accessTokenRefresher(ctx)
 }
