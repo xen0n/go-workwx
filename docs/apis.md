@@ -63,6 +63,16 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 
+# 外部联系人管理 - 客户管理
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execExternalContactList`|`reqExternalContactList`|`respExternalContactList`|+|`GET /cgi-bin/externalcontact/list`|[获取客户列表](https://work.weixin.qq.com/api/doc/90000/90135/92113)
+`execExternalContactGet`|`reqExternalContactGet`|`respExternalContactGet`|+|`GET /cgi-bin/externalcontact/get`|[获取客户详情](https://work.weixin.qq.com/api/doc/90000/90135/92114)
+`execExternalContactRemark`|`reqExternalContactRemark`|`respExternalContactRemark`|+|`POST /cgi-bin/externalcontact/remark`|[修改客户备注信息](https://work.weixin.qq.com/api/doc/90000/90135/92115)
+
 # 应用管理
 
 ## API calls

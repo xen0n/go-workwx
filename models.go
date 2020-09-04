@@ -321,3 +321,70 @@ type respMediaUploadImg struct {
 
 	URL string `json:"url"`
 }
+
+// reqExternalContactList 获取客户列表
+type reqExternalContactList struct {
+	UserID string `json:"userid"`
+}
+
+var _ urlValuer = reqExternalContactList{}
+
+func (x reqExternalContactList) intoURLValues() url.Values {
+	return url.Values{
+		"userid": {x.UserID},
+	}
+}
+
+// respExternalContactList 获取客户列表
+type respExternalContactList struct {
+	respCommon
+
+	ExternalUserID []string `json:"external_userid"`
+}
+
+// reqExternalContactGet 获取客户详情
+type reqExternalContactGet struct {
+	ExternalUserID string `json:"external_userid"`
+}
+
+var _ urlValuer = reqExternalContactGet{}
+
+func (x reqExternalContactGet) intoURLValues() url.Values {
+	return url.Values{
+		"external_userid": {x.ExternalUserID},
+	}
+}
+
+// respExternalContactGet 获取客户详情
+type respExternalContactGet struct {
+	respCommon
+	ExternalContactInfo
+}
+
+type ExternalContactInfo struct {
+	ExternalContact ExternalContact `json:"external_contact"`
+	FollowUser      []FollowUser    `json:"follow_user"`
+}
+
+// reqExternalContactRemark 获取客户详情
+type reqExternalContactRemark struct {
+	Remark *ExternalContactRemark
+}
+
+var _ bodyer = reqExternalContactRemark{}
+
+func (x reqExternalContactRemark) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x.Remark)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactRemark 获取客户详情
+type respExternalContactRemark struct {
+	respCommon
+}

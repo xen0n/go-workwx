@@ -109,8 +109,11 @@ in at least 2 of Qiniu's internal systems.
 <summary>外部联系人管理 API</summary>
 
 * [ ] 离职成员的外部联系人再分配
-* [ ] 成员对外信息
-* [ ] 获取外部联系人详情
+* [x] 成员对外信息
+* [x] 客户管理
+    - [x] 获取客户列表
+    - [x] 获取客户详情
+    - [x] 修改客户备注信息
 
 </details>
 
