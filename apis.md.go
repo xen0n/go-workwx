@@ -72,6 +72,48 @@ func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
 	return resp, nil
 }
 
+// execExternalContactList 获取客户列表
+func (c *WorkwxApp) execExternalContactList(req reqExternalContactList) (respExternalContactList, error) {
+	var resp respExternalContactList
+	err := c.executeQyapiGet("/cgi-bin/externalcontact/list", req, &resp, true)
+	if err != nil {
+		return respExternalContactList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execExternalContactGet 获取客户详情
+func (c *WorkwxApp) execExternalContactGet(req reqExternalContactGet) (respExternalContactGet, error) {
+	var resp respExternalContactGet
+	err := c.executeQyapiGet("/cgi-bin/externalcontact/get", req, &resp, true)
+	if err != nil {
+		return respExternalContactGet{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactGet{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execExternalContactRemark 修改客户备注信息
+func (c *WorkwxApp) execExternalContactRemark(req reqExternalContactRemark) (respExternalContactRemark, error) {
+	var resp respExternalContactRemark
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/remark", req, &resp, true)
+	if err != nil {
+		return respExternalContactRemark{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactRemark{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execAppchatCreate 创建群聊会话
 func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, error) {
 	var resp respAppchatCreate

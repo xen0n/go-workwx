@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-08-03 19:17:09 +0800
+// 文档爬取时间: 2020-09-04 10:23:09 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -418,6 +418,11 @@ const ErrCode40125 ErrCode = 40125
 //
 // 排查方法: -
 const ErrCode40126 ErrCode = 40126
+
+// ErrCode40127 不支持的uri schema
+//
+// 排查方法: 检查uri链接的schema是否符合参数要求
+const ErrCode40127 ErrCode = 40127
 
 // ErrCode41001 缺少access_token参数
 //
@@ -1192,7 +1197,7 @@ const ErrCode72037 ErrCode = 72037
 //
 // 排查方法: [查看帮助](https://work.weixin.qq.com/api/doc/90000/90139/90313#10649/错误码：80001)
 //
-// 可信域名不正确，或者可信域名没有ICP备案。请确认：
+// 可信域名不正确，未校验域名所有权归属或者可信域名没有ICP备案。请确认：
 // 1）可信域名，只支持全域名匹配，无法通过配置父域来让所有子域都成为可信域名。
 // 2）可信域名，不支持IP地址、端口号及短链域名。
 // 3）如果确认域名已经通过ICP备案，但依然提示这个错误，请尝试重新设置。
@@ -2338,6 +2343,11 @@ const ErrCode90474 ErrCode = 90474
 //
 // 排查方法: -
 const ErrCode90475 ErrCode = 90475
+
+// ErrCode90479 不允许操作用户创建的日程
+//
+// 排查方法: -
+const ErrCode90479 ErrCode = 90479
 
 // ErrCode90500 群主并未离职
 //
