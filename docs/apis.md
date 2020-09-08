@@ -5,6 +5,8 @@
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execGetAccessToken`|`reqAccessToken`|`respAccessToken`|-|`GET /cgi-bin/gettoken`|[获取access_token](https://work.weixin.qq.com/api/doc#90000/90135/91039)
+`execGetJsApiTicket`|`reqJsApiTicket`|`respJsApiTicket`|+|`GET /cgi-bin/get_jsapi_ticket`|[获取企业的jsapi_ticket](https://open.work.weixin.qq.com/api/doc/90000/90136/90506)
+`execGetJsApiTicketAgentConfig`|`reqJsApiTicketAgentConfig`|`respJsApiTicket`|+|`GET /cgi-bin/ticket/get`|[获取应用的jsapi_ticket](https://open.work.weixin.qq.com/api/doc/90000/90136/90506)
 
 # 成员管理
 

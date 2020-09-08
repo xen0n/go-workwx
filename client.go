@@ -25,12 +25,16 @@ type WorkwxApp struct {
 	// CorpSecret 应用的凭证密钥，必填
 	CorpSecret string
 	// AgentID 应用 ID，必填
-	AgentID int64
-
-	tokenMu        *sync.RWMutex
-	accessToken    string
-	tokenExpiresIn time.Duration
-	lastRefresh    time.Time
+	AgentID                int64
+	accessToken            *token
+	jsApiTicket            *token
+	jsApiTicketAgentConfig *token
+}
+type token struct {
+	mutex       *sync.RWMutex
+	value       string
+	expiresIn   time.Duration
+	lastRefresh time.Time
 }
 
 // New 构造一个 Workwx 客户端对象，需要提供企业 ID
@@ -56,9 +60,9 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 		CorpSecret: corpSecret,
 		AgentID:    agentID,
 
-		tokenMu:     &sync.RWMutex{},
-		accessToken: "",
-		lastRefresh: time.Time{},
+		accessToken:            &token{mutex: &sync.RWMutex{}},
+		jsApiTicket:            &token{mutex: &sync.RWMutex{}},
+		jsApiTicketAgentConfig: &token{mutex: &sync.RWMutex{}},
 	}
 }
 
@@ -92,19 +96,8 @@ func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withA
 		return url
 	}
 
-	// intensive mutex juggling action
-	c.tokenMu.RLock()
-	if c.accessToken == "" {
-		c.tokenMu.RUnlock() // RWMutex doesn't like recursive locking
-		// TODO: what to do with the possible error?
-		_ = c.syncAccessToken()
-		c.tokenMu.RLock()
-	}
-	tokenToUse := c.accessToken
-	c.tokenMu.RUnlock()
-
 	q := url.Query()
-	q.Set("access_token", tokenToUse)
+	q.Set("access_token", c.getToken(accessToken))
 	url.RawQuery = q.Encode()
 
 	return url
