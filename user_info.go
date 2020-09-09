@@ -41,3 +41,14 @@ func (c *WorkwxApp) GetUserIDByMobile(mobile string) (string, error) {
 	}
 	return resp.UserID, nil
 }
+
+// GetUserInfoByCode 获取访问用户身份，根据code获取成员信息
+func (c *WorkwxApp) GetUserInfoByCode(code string) (*UserIdentityInfo, error) {
+	resp, err := c.execUserInfoGet(reqUserInfoGet{
+		Code: code,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &resp.UserIdentityInfo, nil
+}

@@ -72,6 +72,20 @@ func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
 	return resp, nil
 }
 
+// execUserInfoGet 获取访问用户身份
+func (c *WorkwxApp) execUserInfoGet(req reqUserInfoGet) (respUserInfoGet, error) {
+	var resp respUserInfoGet
+	err := c.executeQyapiGet("/cgi-bin/user/getuserinfo", req, &resp, true)
+	if err != nil {
+		return respUserInfoGet{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserInfoGet{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execExternalContactList 获取客户列表
 func (c *WorkwxApp) execExternalContactList(req reqExternalContactList) (respExternalContactList, error) {
 	var resp respExternalContactList
