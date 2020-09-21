@@ -16,6 +16,10 @@ type rxMessageCommon struct {
 	MsgID int64 `xml:"MsgId"`
 	// AgentID 企业应用的id，整型。可在应用的设置页面查看
 	AgentID int64 `xml:"AgentID"`
+	// Event 事件类型 MsgType为event存在
+	Event EventType `xml:"Event"`
+	// ChangeType 变更类型 Event为change_external_contact存在
+	ChangeType ChangeType `xml:"ChangeType"`
 }
 
 // MessageType 消息类型
@@ -38,6 +42,39 @@ const MessageTypeLocation MessageType = "location"
 
 // MessageTypeLink 链接消息
 const MessageTypeLink MessageType = "link"
+
+// MessageTypeEvent 事件消息
+const MessageTypeEvent MessageType = "event"
+
+// EventType 事件类型
+type EventType string
+
+// EventTypeChangeExternalContact 企业客户事件
+const EventTypeChangeExternalContact EventType = "change_external_contact"
+
+// EventTypeChangeExternalChat 客户群变更事件
+const EventTypeChangeExternalChat EventType = "change_external_chat"
+
+// ChangeType 变更类型
+type ChangeType string
+
+// ChangeTypeAddExternalContact 添加企业客户事件
+const ChangeTypeAddExternalContact ChangeType = "add_external_contact"
+
+// ChangeTypeEditExternalContact 编辑企业客户事件
+const ChangeTypeEditExternalContact ChangeType = "edit_external_contact"
+
+// ChangeTypeAddHalfExternalContact 外部联系人免验证添加成员事件
+const ChangeTypeAddHalfExternalContact ChangeType = "add_half_external_contact"
+
+// ChangeTypeDelExternalContact 删除企业客户事件
+const ChangeTypeDelExternalContact ChangeType = "del_external_contact"
+
+// ChangeTypeDelFollowUser 删除跟进成员事件
+const ChangeTypeDelFollowUser ChangeType = "del_follow_user"
+
+// ChangeTypeTransferFail 客户接替失败事件
+const ChangeTypeTransferFail ChangeType = "transfer_fail"
 
 // rxTextMessageSpecifics 接收的文本消息，特有字段
 type rxTextMessageSpecifics struct {
@@ -93,4 +130,76 @@ type rxLinkMessageSpecifics struct {
 	URL string `xml:"Url"`
 	// PicURL 封面缩略图的url
 	PicURL string `xml:"PicUrl"`
+}
+
+// rxEventAddExternalContact 接收的事件消息，添加企业客户事件
+type rxEventAddExternalContact struct {
+	// UserID 企业服务人员的UserID
+	UserID string `xml:"UserID"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+	// State 添加此用户的「联系我」方式配置的state参数，可用于识别添加此用户的渠道
+	State string `xml:"State"`
+	// WelcomeCode 欢迎语code，可用于发送欢迎语
+	WelcomeCode string `xml:"WelcomeCode"`
+}
+
+// rxEventEditExternalContact 接收的事件消息，编辑企业客户事件
+type rxEventEditExternalContact struct {
+	// UserID 企业服务人员的UserID
+	UserID string `xml:"UserID"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+	// State 添加此用户的「联系我」方式配置的state参数，可用于识别添加此用户的渠道
+	State string `xml:"State"`
+}
+
+// rxEventAddHalfExternalContact 接收的事件消息，外部联系人免验证添加成员事件
+type rxEventAddHalfExternalContact struct {
+	// UserID 企业服务人员的UserID
+	UserID string `xml:"UserID"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+	// State 添加此用户的「联系我」方式配置的state参数，可用于识别添加此用户的渠道
+	State string `xml:"State"`
+	// WelcomeCode 欢迎语code，可用于发送欢迎语
+	WelcomeCode string `xml:"WelcomeCode"`
+}
+
+// rxEventDelExternalContact 接收的事件消息，删除企业客户事件
+type rxEventDelExternalContact struct {
+	// UserID 企业服务人员的UserID
+	UserID string `xml:"UserID"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+}
+
+// rxEventDelFollowUser 接收的事件消息，删除跟进成员事件
+type rxEventDelFollowUser struct {
+	// UserID 企业服务人员的UserID
+	UserID string `xml:"UserID"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+}
+
+// rxEventTransferFail 接收的事件消息，客户接替失败事件
+type rxEventTransferFail struct {
+	// FailReason 接替失败的原因, customer_refused-客户拒绝， customer_limit_exceed-接替成员的客户数达到上限
+	FailReason string `xml:"FailReason"`
+	// UserID 企业服务人员的UserID
+	UserID string `xml:"UserID"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+}
+
+// rxEventChangeExternalChat 接收的事件消息，客户群变更事件
+type rxEventChangeExternalChat struct {
+	// ToUserName 企业微信CorpID
+	ToUserName string `xml:"ToUserName"`
+	// FromUserName 此事件该值固定为sys，表示该消息由系统生成
+	FromUserName string `xml:"FromUserName"`
+	// FailReason 接替失败的原因, customer_refused-客户拒绝， customer_limit_exceed-接替成员的客户数达到上限
+	FailReason string `xml:"FailReason"`
+	// ChatId 群ID
+	ChatId string `xml:"ChatId"`
 }

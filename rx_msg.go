@@ -19,6 +19,10 @@ type RxMessage struct {
 	MsgID int64
 	// AgentID 企业应用 ID，可在应用的设置页面查看
 	AgentID int64
+	// Event 事件类型 MsgType为event存在
+	Event EventType
+	// ChangeType 变更类型 Event为change_external_contact存在
+	ChangeType ChangeType
 
 	extras messageKind
 }
@@ -32,7 +36,7 @@ func fromEnvelope(body []byte) (*RxMessage, error) {
 	}
 
 	// deal with polymorphic message types
-	extras, err := extractMessageExtras(common.MsgType, body)
+	extras, err := extractMessageExtras(common, body)
 	if err != nil {
 		return nil, err
 	}
@@ -50,6 +54,8 @@ func fromEnvelope(body []byte) (*RxMessage, error) {
 			MsgType:    common.MsgType,
 			MsgID:      common.MsgID,
 			AgentID:    common.AgentID,
+			Event:      common.Event,
+			ChangeType: common.ChangeType,
 
 			extras: extras,
 		}
@@ -63,12 +69,14 @@ func (m *RxMessage) String() string {
 
 	_, _ = fmt.Fprintf(
 		&sb,
-		"RxMessage { FromUserID: %#v, SendTime: %d, MsgType: %#v, MsgID: %d, AgentID: %d, ",
+		"RxMessage { FromUserID: %#v, SendTime: %d, MsgType: %#v, MsgID: %d, AgentID: %d, Event: %#v, ChangeType: %#v, ",
 		m.FromUserID,
 		m.SendTime.UnixNano(),
 		m.MsgType,
 		m.MsgID,
 		m.AgentID,
+		m.Event,
+		m.ChangeType,
 	)
 
 	m.extras.formatInto(&sb)
@@ -111,5 +119,47 @@ func (m *RxMessage) Location() (LocationMessageExtras, bool) {
 // Link 如果消息为链接类型，则拿出相应的消息参数，否则返回 nil, false
 func (m *RxMessage) Link() (LinkMessageExtras, bool) {
 	y, ok := m.extras.(LinkMessageExtras)
+	return y, ok
+}
+
+// EventAddExternalContact 如果消息为添加企业客户事件，则拿出相应的消息参数，否则返回 nil, false
+func (m *RxMessage) EventAddExternalContact() (EventAddExternalContact, bool) {
+	y, ok := m.extras.(EventAddExternalContact)
+	return y, ok
+}
+
+// EventEditExternalContact 如果消息为编辑企业客户事件，则拿出相应的消息参数，否则返回 nil, false
+func (m *RxMessage) EventEditExternalContact() (EventEditExternalContact, bool) {
+	y, ok := m.extras.(EventEditExternalContact)
+	return y, ok
+}
+
+// EventDelExternalContact 如果消息为删除企业客户事件，则拿出相应的消息参数，否则返回 nil, false
+func (m *RxMessage) EventDelExternalContact() (EventDelExternalContact, bool) {
+	y, ok := m.extras.(EventDelExternalContact)
+	return y, ok
+}
+
+// EventDelFollowUser 如果消息为删除跟进成员事件，则拿出相应的消息参数，否则返回 nil, false
+func (m *RxMessage) EventDelFollowUser() (EventDelFollowUser, bool) {
+	y, ok := m.extras.(EventDelFollowUser)
+	return y, ok
+}
+
+// EventAddHalfExternalContact 如果消息为外部联系人免验证添加成员事件，则拿出相应的消息参数，否则返回 nil, false
+func (m *RxMessage) EventAddHalfExternalContact() (EventAddHalfExternalContact, bool) {
+	y, ok := m.extras.(EventAddHalfExternalContact)
+	return y, ok
+}
+
+// EventTransferFail 如果消息为客户接替失败事件，则拿出相应的消息参数，否则返回 nil, false
+func (m *RxMessage) EventTransferFail() (EventTransferFail, bool) {
+	y, ok := m.extras.(EventTransferFail)
+	return y, ok
+}
+
+// EventChangeExternalChat 如果消息为客户群变更事件，则拿出相应的消息参数，否则返回 nil, false
+func (m *RxMessage) EventChangeExternalChat() (EventChangeExternalChat, bool) {
+	y, ok := m.extras.(EventChangeExternalChat)
 	return y, ok
 }
