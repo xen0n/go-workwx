@@ -114,6 +114,21 @@ in at least 2 of Qiniu's internal systems.
     - [x] 获取客户列表
     - [x] 获取客户详情
     - [x] 修改客户备注信息
+* [x] 变更回调通知
+    - [x] 添加企业客户事件
+    - [x] 编辑企业客户事件
+    - [x] 外部联系人免验证添加成员事件
+    - [x] 删除企业客户事件
+    - [x] 删除跟进成员事件
+    - [x] 客户接替失败事件
+    - [x] 客户群变更事件
+
+</details>
+
+<details>
+<summary>身份验证 API</summary>
+
+* [x] 获取访问用户身份
 
 </details>
 

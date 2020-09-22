@@ -388,3 +388,23 @@ func (x reqExternalContactRemark) intoBody() ([]byte, error) {
 type respExternalContactRemark struct {
 	respCommon
 }
+
+// reqUserInfoGet 获取访问用户身份
+type reqUserInfoGet struct {
+	// 通过成员授权获取到的code，最大为512字节。每次成员授权带上的code将不一样，code只能使用一次，5分钟未被使用自动过期。
+	Code string
+}
+
+var _ urlValuer = reqUserInfoGet{}
+
+func (x reqUserInfoGet) intoURLValues() url.Values {
+	return url.Values{
+		"code": {x.Code},
+	}
+}
+
+// respUserInfoGet 部门列表响应
+type respUserInfoGet struct {
+	respCommon
+	UserIdentityInfo
+}

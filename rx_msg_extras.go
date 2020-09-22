@@ -11,8 +11,8 @@ type messageKind interface {
 	formatInto(io.Writer)
 }
 
-func extractMessageExtras(ty MessageType, body []byte) (messageKind, error) {
-	switch ty {
+func extractMessageExtras(common rxMessageCommon, body []byte) (messageKind, error) {
+	switch common.MsgType {
 	case MessageTypeText:
 		var x rxTextMessageSpecifics
 		err := xml.Unmarshal(body, &x)
@@ -61,9 +61,76 @@ func extractMessageExtras(ty MessageType, body []byte) (messageKind, error) {
 		}
 		return &x, nil
 
-	}
+	case MessageTypeEvent:
+		switch common.Event {
+		case EventTypeChangeExternalContact:
+			switch common.ChangeType {
+			case ChangeTypeAddExternalContact:
+				var x rxEventAddExternalContact
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
 
-	return nil, fmt.Errorf("unknown message type '%s'", ty)
+			case ChangeTypeEditExternalContact:
+				var x rxEventEditExternalContact
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
+
+			case ChangeTypeDelExternalContact:
+				var x rxEventDelExternalContact
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
+
+			case ChangeTypeDelFollowUser:
+				var x rxEventDelFollowUser
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
+
+			case ChangeTypeAddHalfExternalContact:
+				var x rxEventAddHalfExternalContact
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
+
+			case ChangeTypeTransferFail:
+				var x rxEventTransferFail
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
+
+			default:
+				return nil, fmt.Errorf("unknown change type '%s'", common.ChangeType)
+			}
+		case EventTypeChangeExternalChat:
+			var x rxEventChangeExternalChat
+			err := xml.Unmarshal(body, &x)
+			if err != nil {
+				return nil, err
+			}
+			return &x, nil
+
+		default:
+			return nil, fmt.Errorf("unknown event '%s'", common.Event)
+		}
+
+	default:
+		return nil, fmt.Errorf("unknown message type '%s'", common.MsgType)
+	}
 }
 
 // TextMessageExtras 文本消息的参数。
@@ -260,4 +327,275 @@ func (r *rxLinkMessageSpecifics) GetURL() string {
 
 func (r *rxLinkMessageSpecifics) GetPicURL() string {
 	return r.PicURL
+}
+
+// EventAddExternalContact 添加企业客户事件的参数。
+type EventAddExternalContact interface {
+	messageKind
+
+	// GetUserID 企业服务人员的UserID
+	GetUserID() string
+
+	// GetExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	GetExternalUserID() string
+
+	// GetState 添加此用户的「联系我」方式配置的state参数，可用于识别添加此用户的渠道
+	GetState() string
+
+	// GetWelcomeCode 欢迎语code，可用于发送欢迎语
+	GetWelcomeCode() string
+}
+
+var _ EventAddExternalContact = (*rxEventAddExternalContact)(nil)
+
+func (r *rxEventAddExternalContact) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"UserID: %#v, ExternalUserID: %#v, State: %#v, WelcomeCode: %#v",
+		r.UserID,
+		r.ExternalUserID,
+		r.State,
+		r.WelcomeCode,
+	)
+}
+
+func (r *rxEventAddExternalContact) GetUserID() string {
+	return r.UserID
+}
+
+func (r *rxEventAddExternalContact) GetExternalUserID() string {
+	return r.ExternalUserID
+}
+
+func (r *rxEventAddExternalContact) GetState() string {
+	return r.State
+}
+
+func (r *rxEventAddExternalContact) GetWelcomeCode() string {
+	return r.WelcomeCode
+}
+
+// EventEditExternalContact 编辑企业客户事件的参数。
+type EventEditExternalContact interface {
+	messageKind
+
+	// GetUserID 企业服务人员的UserID
+	GetUserID() string
+
+	// GetExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	GetExternalUserID() string
+
+	// GetState 添加此用户的「联系我」方式配置的state参数，可用于识别添加此用户的渠道
+	GetState() string
+}
+
+var _ EventEditExternalContact = (*rxEventEditExternalContact)(nil)
+
+func (r *rxEventEditExternalContact) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"UserID: %#v, ExternalUserID: %#v, State: %#v",
+		r.UserID,
+		r.ExternalUserID,
+		r.State,
+	)
+}
+
+func (r *rxEventEditExternalContact) GetUserID() string {
+	return r.UserID
+}
+
+func (r *rxEventEditExternalContact) GetExternalUserID() string {
+	return r.ExternalUserID
+}
+
+func (r *rxEventEditExternalContact) GetState() string {
+	return r.State
+}
+
+// EventAddHalfExternalContact 外部联系人免验证添加成员事件。
+type EventAddHalfExternalContact interface {
+	messageKind
+
+	// GetUserID 企业服务人员的UserID
+	GetUserID() string
+
+	// GetExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	GetExternalUserID() string
+
+	// GetState 添加此用户的「联系我」方式配置的state参数，可用于识别添加此用户的渠道
+	GetState() string
+}
+
+var _ EventAddHalfExternalContact = (*rxEventAddHalfExternalContact)(nil)
+
+func (r *rxEventAddHalfExternalContact) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"UserID: %#v, ExternalUserID: %#v, State: %#v, WelcomeCode: %#v",
+		r.UserID,
+		r.ExternalUserID,
+		r.State,
+		r.WelcomeCode,
+	)
+}
+
+func (r *rxEventAddHalfExternalContact) GetUserID() string {
+	return r.UserID
+}
+
+func (r *rxEventAddHalfExternalContact) GetExternalUserID() string {
+	return r.ExternalUserID
+}
+
+func (r *rxEventAddHalfExternalContact) GetState() string {
+	return r.State
+}
+
+func (r *rxEventAddHalfExternalContact) GetWelcomeCode() string {
+	return r.WelcomeCode
+}
+
+// EventDelExternalContact 删除企业客户事件
+type EventDelExternalContact interface {
+	messageKind
+
+	// GetUserID 企业服务人员的UserID
+	GetUserID() string
+
+	// GetExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	GetExternalUserID() string
+}
+
+var _ EventDelExternalContact = (*rxEventDelExternalContact)(nil)
+
+func (r *rxEventDelExternalContact) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"UserID: %#v, ExternalUserID: %#v",
+		r.UserID,
+		r.ExternalUserID,
+	)
+}
+
+func (r *rxEventDelExternalContact) GetUserID() string {
+	return r.UserID
+}
+
+func (r *rxEventDelExternalContact) GetExternalUserID() string {
+	return r.ExternalUserID
+}
+
+// EventDelFollowUser 删除跟进成员事件
+type EventDelFollowUser interface {
+	messageKind
+
+	// GetUserID 企业服务人员的UserID
+	GetUserID() string
+
+	// GetExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	GetExternalUserID() string
+}
+
+var _ EventDelFollowUser = (*rxEventDelFollowUser)(nil)
+
+func (r *rxEventDelFollowUser) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"UserID: %#v, ExternalUserID: %#v",
+		r.UserID,
+		r.ExternalUserID,
+	)
+}
+
+func (r *rxEventDelFollowUser) GetUserID() string {
+	return r.UserID
+}
+
+func (r *rxEventDelFollowUser) GetExternalUserID() string {
+	return r.ExternalUserID
+}
+
+// EventTransferFail 客户接替失败事件
+type EventTransferFail interface {
+	messageKind
+
+	// GetUserID 企业服务人员的UserID
+	GetUserID() string
+
+	// GetExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	GetExternalUserID() string
+
+	// GetFailReason 接替失败的原因, customer_refused-客户拒绝， customer_limit_exceed-接替成员的客户数达到上限
+	GetFailReason() string
+}
+
+var _ EventTransferFail = (*rxEventTransferFail)(nil)
+
+func (r *rxEventTransferFail) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"UserID: %#v, ExternalUserID: %#v, FailReason: %#v",
+		r.UserID,
+		r.ExternalUserID,
+		r.FailReason,
+	)
+}
+
+func (r *rxEventTransferFail) GetUserID() string {
+	return r.UserID
+}
+
+func (r *rxEventTransferFail) GetExternalUserID() string {
+	return r.ExternalUserID
+}
+
+func (r *rxEventTransferFail) GetFailReason() string {
+	return r.FailReason
+}
+
+// EventChangeExternalChat 客户群变更事件
+type EventChangeExternalChat interface {
+	messageKind
+
+	// GetChatID 群ID
+	GetChatID() string
+
+	// GetToUserName 企业微信CorpID
+	GetToUserName() string
+
+	// GetFromUserName 此事件该值固定为sys，表示该消息由系统生成
+	GetFromUserName() string
+
+	// GetFailReason 接替失败的原因, customer_refused-客户拒绝， customer_limit_exceed-接替成员的客户数达到上限
+	GetFailReason() string
+}
+
+var _ EventChangeExternalChat = (*rxEventChangeExternalChat)(nil)
+
+func (r *rxEventChangeExternalChat) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"ChatID: %#v, ToUserName: %#v, FromUserName: %#v, FailReason: %#v",
+		r.ChatID,
+		r.ToUserName,
+		r.FromUserName,
+		r.FailReason,
+	)
+}
+
+func (r *rxEventChangeExternalChat) GetChatID() string {
+	return r.ChatID
+}
+
+func (r *rxEventChangeExternalChat) GetToUserName() string {
+	return r.ToUserName
+}
+
+func (r *rxEventChangeExternalChat) GetFromUserName() string {
+	return r.FromUserName
+}
+
+func (r *rxEventChangeExternalChat) GetFailReason() string {
+	return r.FailReason
 }

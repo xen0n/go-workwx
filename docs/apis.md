@@ -62,6 +62,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
+`execUserInfoGet`|`reqUserInfoGet`|`respUserInfoGet`|+|`GET /cgi-bin/user/getuserinfo`|[获取访问用户身份](https://work.weixin.qq.com/api/doc/90000/90135/91023)
 
 # 外部联系人管理 - 客户管理
 
