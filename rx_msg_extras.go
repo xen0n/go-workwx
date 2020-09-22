@@ -558,8 +558,8 @@ func (r *rxEventTransferFail) GetFailReason() string {
 type EventChangeExternalChat interface {
 	messageKind
 
-	// GetChatId 群ID
-	GetChatId() string
+	// GetChatID 群ID
+	GetChatID() string
 
 	// GetToUserName 企业微信CorpID
 	GetToUserName() string
@@ -576,16 +576,16 @@ var _ EventChangeExternalChat = (*rxEventChangeExternalChat)(nil)
 func (r *rxEventChangeExternalChat) formatInto(w io.Writer) {
 	_, _ = fmt.Fprintf(
 		w,
-		"ChatId: %#v, ToUserName: %#v, FromUserName: %#v, FailReason: %#v",
-		r.ChatId,
+		"ChatID: %#v, ToUserName: %#v, FromUserName: %#v, FailReason: %#v",
+		r.ChatID,
 		r.ToUserName,
 		r.FromUserName,
 		r.FailReason,
 	)
 }
 
-func (r *rxEventChangeExternalChat) GetChatId() string {
-	return r.ChatId
+func (r *rxEventChangeExternalChat) GetChatID() string {
+	return r.ChatID
 }
 
 func (r *rxEventChangeExternalChat) GetToUserName() string {

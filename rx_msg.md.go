@@ -200,6 +200,6 @@ type rxEventChangeExternalChat struct {
 	FromUserName string `xml:"FromUserName"`
 	// FailReason 接替失败的原因, customer_refused-客户拒绝， customer_limit_exceed-接替成员的客户数达到上限
 	FailReason string `xml:"FailReason"`
-	// ChatId 群ID
-	ChatId string `xml:"ChatId"`
+	// ChatID 群ID
+	ChatID string `xml:"ChatId"`
 }

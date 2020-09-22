@@ -172,4 +172,4 @@ Name|XML|Type|Doc
 `ToUserName`|`ToUserName`|`string`|企业微信CorpID
 `FromUserName`|`FromUserName`|`string`|此事件该值固定为sys，表示该消息由系统生成
 `FailReason`|`FailReason`|`string`|接替失败的原因, customer_refused-客户拒绝， customer_limit_exceed-接替成员的客户数达到上限
-`ChatId`|`ChatId`|`string`|群ID
+`ChatID`|`ChatId`|`string`|群ID
