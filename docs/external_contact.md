@@ -151,3 +151,33 @@ Name|JSON|Type|Doc
 `RemarkCompany`|`remark_company`|`string`| 此用户对外部联系人备注的所属公司名称，最多20个字符，remark_company只在此外部联系人为微信用户时有效。
 `RemarkMobiles`|`remark_mobiles`|`[]string`| 此用户对外部联系人备注的手机号，如果填写了remark_mobiles，将会覆盖旧的备注手机号。如果要清除所有备注手机号,请在remark_mobiles填写一个空字符串(“”)。
 `RemarkPicMediaid`|`remark_pic_mediaid`|`string`| 备注图片的mediaid，remark_pic_mediaid可以通过素材管理接口获得。
+
+### `ExternalContactCorpTag` 企业客户标签
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`ID`|`id`|`string`| 标签id
+`Name`|`name`|`string`| 标签名称
+`CreateTime`|`create_time`|`int`| 标签创建时间
+`Order`|`order`|`uint32`| 标签排序的次序值，order值大的排序靠前。有效的值范围是[0, 2^32)
+`Deleted`|`deleted`|`bool`| 标签是否已经被删除，只在指定tag_id进行查询时返回
+
+### `ExternalContactCorpTagGroup` 企业客户标签
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`GroupID`|`group_id`|`string`| 标签组id
+`GroupName`|`group_name`|`string`| 标签组名称
+`CreateTime`|`create_time`|`int`| 标签组创建时间
+`Order`|`order`|`uint32`| 标签组排序的次序值，order值大的排序靠前。有效的值范围是[0, 2^32)
+`Deleted`|`deleted`|`bool`| 标签组是否已经被删除，只在指定tag_id进行查询时返回
+`Tag`|`tag`|`[]ExternalContactCorpTag`| 标签组内的标签列表
+
+### `ExternalContactMarkTag` 企业标记客户标签
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`UserID`|`userid`|`string`| 添加外部联系人的userid
+`ExternalUserID`|`external_userid`|`string`| 外部联系人userid
+`AddTag`|`add_tag`|`[]string`| 要标记的标签列表
+`RemoveTag`|`remove_tag`|`[]string`| 要移除的标签列表
