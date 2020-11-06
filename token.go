@@ -2,30 +2,41 @@ package workwx
 
 import (
 	"context"
+	"sync"
 	"time"
 
 	"github.com/cenkalti/backoff/v4"
 )
 
-type tokenType string
+type tokenInfo struct {
+	token     string
+	expiresIn time.Duration
+}
 
-const accessToken = tokenType("accessToken")
-const jsApiTicket = tokenType("jsApiTicket")
-const jsApiTicketAgentConfig = tokenType("jsApiTicketAgentConfig")
+type token struct {
+	mutex *sync.RWMutex
+	tokenInfo
+	lastRefresh  time.Time
+	getTokenFunc func() (tokenInfo, error)
+}
 
 // getAccessToken 获取 access token
-func (c *WorkwxApp) getAccessToken() (respAccessToken, error) {
-	return c.execGetAccessToken(reqAccessToken{
+func (c *WorkwxApp) getAccessToken() (tokenInfo, error) {
+	get, err := c.execGetAccessToken(reqAccessToken{
 		CorpID:     c.CorpID,
 		CorpSecret: c.CorpSecret,
 	})
+	if err != nil {
+		return tokenInfo{}, err
+	}
+	return tokenInfo{token: get.AccessToken, expiresIn: time.Duration(get.ExpiresInSecs)}, nil
 }
 
 // syncAccessToken 同步该客户端实例的 access token
 //
 // 会拿 `mutex` 写锁
 func (c *WorkwxApp) syncAccessToken() error {
-	return c.syncToken(accessToken)
+	return c.accessToken.syncToken()
 }
 
 // SpawnAccessTokenRefresher 启动该 app 的 access token 刷新 goroutine
@@ -41,24 +52,28 @@ func (c *WorkwxApp) SpawnAccessTokenRefresher() {
 //
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnAccessTokenRefresherWithContext(ctx context.Context) {
-	go c.tokenRefresher(ctx, accessToken)
+	go c.accessToken.tokenRefresher(ctx)
 }
 
 // GetJsApiTicket 获取 jsapi_ticket
 func (c *WorkwxApp) GetJsApiTicket() (string, error) {
-	return c.getToken(jsApiTicket), nil
+	return c.jsApiTicket.getToken(), nil
 }
 
 // getJsApiTicket 获取 jsapi_ticket
-func (c *WorkwxApp) getJsApiTicket() (respJsApiTicket, error) {
-	return c.execGetJsApiTicket(reqJsApiTicket{})
+func (c *WorkwxApp) getJsApiTicket() (tokenInfo, error) {
+	get, err := c.execGetJsApiTicket(reqJsApiTicket{})
+	if err != nil {
+		return tokenInfo{}, err
+	}
+	return tokenInfo{token: get.Ticket, expiresIn: time.Duration(get.ExpiresInSecs)}, nil
 }
 
 // syncJsApiTicket 同步该客户端实例的 jsapi_ticket
 //
 // 会拿 `mutex` 写锁
 func (c *WorkwxApp) syncJsApiTicket() error {
-	return c.syncToken(jsApiTicket)
+	return c.jsApiTicket.syncToken()
 }
 
 // SpawnJsApiTicketRefresher 启动该 app 的 jsapi_ticket 刷新 goroutine
@@ -74,24 +89,28 @@ func (c *WorkwxApp) SpawnJsApiTicketRefresher() {
 //
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnJsApiTicketRefresherWithContext(ctx context.Context) {
-	go c.tokenRefresher(ctx, jsApiTicket)
+	go c.jsApiTicket.tokenRefresher(ctx)
 }
 
 // GetJsApiTicketAgentConfig 获取 jsapi_ticket_agent_config
 func (c *WorkwxApp) GetJsApiTicketAgentConfig() (string, error) {
-	return c.getToken(jsApiTicketAgentConfig), nil
+	return c.jsApiTicketAgentConfig.getToken(), nil
 }
 
 // getJsApiTicketAgentConfig 获取 jsapi_ticket_agent_config
-func (c *WorkwxApp) getJsApiTicketAgentConfig() (respJsApiTicket, error) {
-	return c.execGetJsApiTicketAgentConfig(reqJsApiTicketAgentConfig{})
+func (c *WorkwxApp) getJsApiTicketAgentConfig() (tokenInfo, error) {
+	get, err := c.execGetJsApiTicketAgentConfig(reqJsApiTicketAgentConfig{})
+	if err != nil {
+		return tokenInfo{}, err
+	}
+	return tokenInfo{token: get.Ticket, expiresIn: time.Duration(get.ExpiresInSecs)}, nil
 }
 
 // syncJsApiTicket 同步该客户端实例的 jsapi_ticket
 //
 // 会拿 `mutex` 写锁
 func (c *WorkwxApp) syncJsApiTicketAgentConfig() error {
-	return c.syncToken(jsApiTicketAgentConfig)
+	return c.jsApiTicketAgentConfig.syncToken()
 }
 
 // SpawnJsApiTicketAgentConfigRefresher 启动该 app 的 jsapi_ticket_agent_config 刷新 goroutine
@@ -107,75 +126,42 @@ func (c *WorkwxApp) SpawnJsApiTicketAgentConfigRefresher() {
 //
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnJsApiTicketAgentConfigRefresherWithContext(ctx context.Context) {
-	go c.tokenRefresher(ctx, jsApiTicketAgentConfig)
+	go c.jsApiTicketAgentConfig.tokenRefresher(ctx)
 }
 
-func (c *WorkwxApp) getToken(tokenType tokenType) string {
-	token := &token{}
-	switch tokenType {
-	case accessToken:
-		token = c.accessToken
-	case jsApiTicket:
-		token = c.jsApiTicket
-	case jsApiTicketAgentConfig:
-		token = c.jsApiTicketAgentConfig
-	}
+func (t *token) setGetTokenFunc(f func() (tokenInfo, error)) {
+	t.getTokenFunc = f
+}
+
+func (t *token) getToken() string {
 	// intensive mutex juggling action
-	token.mutex.RLock()
-	if token.value == "" {
-		token.mutex.RUnlock() // RWMutex doesn't like recursive locking
+	t.mutex.RLock()
+	if t.token == "" {
+		t.mutex.RUnlock() // RWMutex doesn't like recursive locking
 		// TODO: what to do with the possible error?
-		_ = c.syncToken(tokenType)
-		token.mutex.RLock()
+		_ = t.syncToken()
+		t.mutex.RLock()
 	}
-	tokenToUse := token.value
-	token.mutex.RUnlock()
+	tokenToUse := t.token
+	t.mutex.RUnlock()
 	return tokenToUse
 }
 
-func (c *WorkwxApp) syncToken(tokenType tokenType) error {
-	var (
-		token            = &token{}
-		tok              string
-		tokExpiresInSecs int64
-	)
-	switch tokenType {
-	case accessToken:
-		getAccessToken, err := c.getAccessToken()
-		if err != nil {
-			return err
-		}
-		tok = getAccessToken.AccessToken
-		tokExpiresInSecs = getAccessToken.ExpiresInSecs
-		token = c.accessToken
-	case jsApiTicket:
-		getJsApiTicket, err := c.getJsApiTicket()
-		if err != nil {
-			return err
-		}
-		tok = getJsApiTicket.Ticket
-		tokExpiresInSecs = getJsApiTicket.ExpiresInSecs
-		token = c.jsApiTicket
-	case jsApiTicketAgentConfig:
-		getJsApiTicketAgentConfig, err := c.getJsApiTicketAgentConfig()
-		if err != nil {
-			return err
-		}
-		tok = getJsApiTicketAgentConfig.Ticket
-		tokExpiresInSecs = getJsApiTicketAgentConfig.ExpiresInSecs
-		token = c.jsApiTicketAgentConfig
+func (t *token) syncToken() error {
+	get, err := t.getTokenFunc()
+	if err != nil {
+		return err
 	}
+	t.mutex.Lock()
+	defer t.mutex.Unlock()
 
-	token.mutex.Lock()
-	defer token.mutex.Unlock()
-
-	token.value = tok
-	token.expiresIn = time.Duration(tokExpiresInSecs) * time.Second
-	token.lastRefresh = time.Now()
+	t.token = get.token
+	t.expiresIn = get.expiresIn * time.Second
+	t.lastRefresh = time.Now()
 	return nil
 }
 
-func (c *WorkwxApp) tokenRefresher(ctx context.Context, tokenType tokenType) {
+func (t *token) tokenRefresher(ctx context.Context) {
 	const refreshTimeWindow = 30 * time.Minute
 	const minRefreshDuration = 5 * time.Second
 
@@ -184,32 +170,13 @@ func (c *WorkwxApp) tokenRefresher(ctx context.Context, tokenType tokenType) {
 		select {
 		case <-time.After(waitDuration):
 			retryer := backoff.WithContext(backoff.NewExponentialBackOff(), ctx)
-			switch tokenType {
-			case accessToken:
-				if err := backoff.Retry(c.syncAccessToken, retryer); err != nil {
-					// TODO: logging
-					_ = err
-				}
-
-				waitUntilTime := c.accessToken.lastRefresh.Add(c.accessToken.expiresIn).Add(-refreshTimeWindow)
-				waitDuration = time.Until(waitUntilTime)
-			case jsApiTicket:
-				if err := backoff.Retry(c.syncJsApiTicket, retryer); err != nil {
-					// TODO: logging
-					_ = err
-				}
-
-				waitUntilTime := c.jsApiTicket.lastRefresh.Add(c.jsApiTicket.expiresIn).Add(-refreshTimeWindow)
-				waitDuration = time.Until(waitUntilTime)
-			case jsApiTicketAgentConfig:
-				if err := backoff.Retry(c.syncJsApiTicketAgentConfig, retryer); err != nil {
-					// TODO: logging
-					_ = err
-				}
-
-				waitUntilTime := c.jsApiTicket.lastRefresh.Add(c.jsApiTicket.expiresIn).Add(-refreshTimeWindow)
-				waitDuration = time.Until(waitUntilTime)
+			if err := backoff.Retry(t.syncToken, retryer); err != nil {
+				// TODO: logging
+				_ = err
 			}
+
+			waitUntilTime := t.lastRefresh.Add(t.expiresIn).Add(-refreshTimeWindow)
+			waitDuration = time.Until(waitUntilTime)
 			if waitDuration < minRefreshDuration {
 				waitDuration = minRefreshDuration
 			}

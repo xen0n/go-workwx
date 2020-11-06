@@ -7,7 +7,6 @@ import (
 	"mime/multipart"
 	"net/url"
 	"sync"
-	"time"
 )
 
 // Workwx 企业微信客户端
@@ -30,12 +29,6 @@ type WorkwxApp struct {
 	jsApiTicket            *token
 	jsApiTicketAgentConfig *token
 }
-type token struct {
-	mutex       *sync.RWMutex
-	value       string
-	expiresIn   time.Duration
-	lastRefresh time.Time
-}
 
 // New 构造一个 Workwx 客户端对象，需要提供企业 ID
 func New(corpID string, opts ...CtorOption) *Workwx {
@@ -54,7 +47,7 @@ func New(corpID string, opts ...CtorOption) *Workwx {
 
 // WithApp 构造本企业下某自建 app 的客户端
 func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
-	return &WorkwxApp{
+	app := WorkwxApp{
 		Workwx: c,
 
 		CorpSecret: corpSecret,
@@ -64,6 +57,10 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 		jsApiTicket:            &token{mutex: &sync.RWMutex{}},
 		jsApiTicketAgentConfig: &token{mutex: &sync.RWMutex{}},
 	}
+	app.accessToken.setGetTokenFunc(app.getAccessToken)
+	app.jsApiTicket.setGetTokenFunc(app.getJsApiTicket)
+	app.jsApiTicketAgentConfig.setGetTokenFunc(app.getJsApiTicketAgentConfig)
+	return &app
 }
 
 //
@@ -97,7 +94,7 @@ func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withA
 	}
 
 	q := url.Query()
-	q.Set("access_token", c.getToken(accessToken))
+	q.Set("access_token", c.accessToken.getToken())
 	url.RawQuery = q.Encode()
 
 	return url
