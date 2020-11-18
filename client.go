@@ -26,8 +26,8 @@ type WorkwxApp struct {
 	// AgentID 应用 ID，必填
 	AgentID                int64
 	accessToken            *token
-	jsApiTicket            *token
-	jsApiTicketAgentConfig *token
+	jsapiTicket            *token
+	jsapiTicketAgentConfig *token
 }
 
 // New 构造一个 Workwx 客户端对象，需要提供企业 ID
@@ -54,18 +54,14 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 		AgentID:    agentID,
 
 		accessToken:            &token{mutex: &sync.RWMutex{}},
-		jsApiTicket:            &token{mutex: &sync.RWMutex{}},
-		jsApiTicketAgentConfig: &token{mutex: &sync.RWMutex{}},
+		jsapiTicket:            &token{mutex: &sync.RWMutex{}},
+		jsapiTicketAgentConfig: &token{mutex: &sync.RWMutex{}},
 	}
 	app.accessToken.setGetTokenFunc(app.getAccessToken)
-	app.jsApiTicket.setGetTokenFunc(app.getJsApiTicket)
-	app.jsApiTicketAgentConfig.setGetTokenFunc(app.getJsApiTicketAgentConfig)
+	app.jsapiTicket.setGetTokenFunc(app.getJSAPITicket)
+	app.jsapiTicketAgentConfig.setGetTokenFunc(app.getJSAPITicketAgentConfig)
 	return &app
 }
-
-//
-// impl WorkwxApp
-//
 
 func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
 	values := url.Values{}

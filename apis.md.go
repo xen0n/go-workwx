@@ -16,29 +16,29 @@ func (c *WorkwxApp) execGetAccessToken(req reqAccessToken) (respAccessToken, err
 	return resp, nil
 }
 
-// execGetJsApiTicket 获取企业的jsapi_ticket
-func (c *WorkwxApp) execGetJsApiTicket(req reqJsApiTicket) (respJsApiTicket, error) {
-	var resp respJsApiTicket
+// execGetJSAPITicket 获取企业的jsapi_ticket
+func (c *WorkwxApp) execGetJSAPITicket(req reqJSAPITicket) (respJSAPITicket, error) {
+	var resp respJSAPITicket
 	err := c.executeQyapiGet("/cgi-bin/get_jsapi_ticket", req, &resp, true)
 	if err != nil {
-		return respJsApiTicket{}, err
+		return respJSAPITicket{}, err
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respJsApiTicket{}, bizErr
+		return respJSAPITicket{}, bizErr
 	}
 
 	return resp, nil
 }
 
-// execGetJsApiTicketAgentConfig 获取应用的jsapi_ticket
-func (c *WorkwxApp) execGetJsApiTicketAgentConfig(req reqJsApiTicketAgentConfig) (respJsApiTicket, error) {
-	var resp respJsApiTicket
+// execGetJSAPITicketAgentConfig 获取应用的jsapi_ticket
+func (c *WorkwxApp) execGetJSAPITicketAgentConfig(req reqJSAPITicketAgentConfig) (respJSAPITicket, error) {
+	var resp respJSAPITicket
 	err := c.executeQyapiGet("/cgi-bin/ticket/get", req, &resp, true)
 	if err != nil {
-		return respJsApiTicket{}, err
+		return respJSAPITicket{}, err
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respJsApiTicket{}, bizErr
+		return respJSAPITicket{}, bizErr
 	}
 
 	return resp, nil
