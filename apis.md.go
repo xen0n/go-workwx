@@ -16,6 +16,34 @@ func (c *WorkwxApp) execGetAccessToken(req reqAccessToken) (respAccessToken, err
 	return resp, nil
 }
 
+// execGetJSAPITicket 获取企业的jsapi_ticket
+func (c *WorkwxApp) execGetJSAPITicket(req reqJSAPITicket) (respJSAPITicket, error) {
+	var resp respJSAPITicket
+	err := c.executeQyapiGet("/cgi-bin/get_jsapi_ticket", req, &resp, true)
+	if err != nil {
+		return respJSAPITicket{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respJSAPITicket{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetJSAPITicketAgentConfig 获取应用的jsapi_ticket
+func (c *WorkwxApp) execGetJSAPITicketAgentConfig(req reqJSAPITicketAgentConfig) (respJSAPITicket, error) {
+	var resp respJSAPITicket
+	err := c.executeQyapiGet("/cgi-bin/ticket/get", req, &resp, true)
+	if err != nil {
+		return respJSAPITicket{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respJSAPITicket{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserGet 读取成员
 func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	var resp respUserGet

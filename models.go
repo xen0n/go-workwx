@@ -55,6 +55,31 @@ type respAccessToken struct {
 	ExpiresInSecs int64  `json:"expires_in"`
 }
 
+type reqJSAPITicketAgentConfig struct{}
+
+var _ urlValuer = reqJSAPITicketAgentConfig{}
+
+func (x reqJSAPITicketAgentConfig) intoURLValues() url.Values {
+	return url.Values{
+		"type": {"agent_config"},
+	}
+}
+
+type reqJSAPITicket struct{}
+
+var _ urlValuer = reqJSAPITicket{}
+
+func (x reqJSAPITicket) intoURLValues() url.Values {
+	return url.Values{}
+}
+
+type respJSAPITicket struct {
+	respCommon
+
+	Ticket        string `json:"ticket"`
+	ExpiresInSecs int64  `json:"expires_in"`
+}
+
 // reqMessage 消息发送请求
 type reqMessage struct {
 	ToUser  []string
