@@ -177,3 +177,45 @@ type ExternalContactRemark struct {
 	// RemarkPicMediaid 备注图片的mediaid，remark_pic_mediaid可以通过素材管理接口获得。
 	RemarkPicMediaid string `json:"remark_pic_mediaid"`
 }
+
+// ExternalContactCorpTag 企业客户标签
+type ExternalContactCorpTag struct {
+	// ID 标签id
+	ID string `json:"id"`
+	// Name 标签名称
+	Name string `json:"name"`
+	// CreateTime 标签创建时间
+	CreateTime int `json:"create_time"`
+	// Order 标签排序的次序值，order值大的排序靠前。有效的值范围是[0, 2^32)
+	Order uint32 `json:"order"`
+	// Deleted 标签是否已经被删除，只在指定tag_id进行查询时返回
+	Deleted bool `json:"deleted"`
+}
+
+// ExternalContactCorpTagGroup 企业客户标签
+type ExternalContactCorpTagGroup struct {
+	// GroupID 标签组id
+	GroupID string `json:"group_id"`
+	// GroupName 标签组名称
+	GroupName string `json:"group_name"`
+	// CreateTime 标签组创建时间
+	CreateTime int `json:"create_time"`
+	// Order 标签组排序的次序值，order值大的排序靠前。有效的值范围是[0, 2^32)
+	Order uint32 `json:"order"`
+	// Deleted 标签组是否已经被删除，只在指定tag_id进行查询时返回
+	Deleted bool `json:"deleted"`
+	// Tag 标签组内的标签列表
+	Tag []ExternalContactCorpTag `json:"tag"`
+}
+
+// ExternalContactMarkTag 企业标记客户标签
+type ExternalContactMarkTag struct {
+	// UserID 添加外部联系人的userid
+	UserID string `json:"userid"`
+	// ExternalUserID 外部联系人userid
+	ExternalUserID string `json:"external_userid"`
+	// AddTag 要标记的标签列表
+	AddTag []string `json:"add_tag"`
+	// RemoveTag 要移除的标签列表
+	RemoveTag []string `json:"remove_tag"`
+}

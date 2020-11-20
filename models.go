@@ -433,3 +433,129 @@ type respUserInfoGet struct {
 	respCommon
 	UserIdentityInfo
 }
+
+// reqExternalContactListCorpTags 获取企业标签库
+type reqExternalContactListCorpTags struct {
+	// 要查询的标签id，如果不填则获取该企业的所有客户标签，目前暂不支持标签组id
+	TagIDs []string `json:"tag_id"`
+}
+
+var _ bodyer = reqExternalContactListCorpTags{}
+
+func (x reqExternalContactListCorpTags) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactListCorpTags 获取企业标签库
+type respExternalContactListCorpTags struct {
+	respCommon
+	// 标签组列表
+	TagGroup []ExternalContactCorpTagGroup `json:"tag_group"`
+}
+
+// reqExternalContactAddCorpTag 添加企业客户标签
+type reqExternalContactAddCorpTag struct {
+	ExternalContactCorpTagGroup
+}
+
+var _ bodyer = reqExternalContactAddCorpTag{}
+
+func (x reqExternalContactAddCorpTag) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x.ExternalContactCorpTagGroup)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactAddCorpTag 添加企业客户标签
+type respExternalContactAddCorpTag struct {
+	respCommon
+	// 标签组列表
+	TagGroup []ExternalContactCorpTagGroup `json:"tag_group"`
+}
+
+// reqExternalContactEditCorpTag 编辑企业客户标签
+type reqExternalContactEditCorpTag struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Order uint32 `json:"order"`
+}
+
+var _ bodyer = reqExternalContactEditCorpTag{}
+
+func (x reqExternalContactEditCorpTag) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactEditCorpTag 编辑企业客户标签
+type respExternalContactEditCorpTag struct {
+	respCommon
+}
+
+// reqExternalContactDelCorpTag 删除企业客户标签
+type reqExternalContactDelCorpTag struct {
+	TagID   []string `json:"tag_id"`
+	GroupID []string `json:"group_id"`
+}
+
+var _ bodyer = reqExternalContactDelCorpTag{}
+
+func (x reqExternalContactDelCorpTag) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// reqExternalContactDelCorpTag 删除企业客户标签
+type respExternalContactDelCorpTag struct {
+	respCommon
+}
+
+// reqExternalContactMarkTag 编辑企业客户标签
+type reqExternalContactMarkTag struct {
+	UserID         string   `json:"userid"`
+	ExternalUserID string   `json:"external_userid"`
+	AddTag         []string `json:"add_tag"`
+	RemoveTag      []string `json:"remove_tag"`
+}
+
+var _ bodyer = reqExternalContactMarkTag{}
+
+func (x reqExternalContactMarkTag) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// reqExternalContactMarkTag 编辑企业客户标签
+type respExternalContactMarkTag struct {
+	respCommon
+}

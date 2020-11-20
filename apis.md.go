@@ -156,6 +156,76 @@ func (c *WorkwxApp) execExternalContactRemark(req reqExternalContactRemark) (res
 	return resp, nil
 }
 
+// execExternalContactListCorpTags 获取企业标签库
+func (c *WorkwxApp) execExternalContactListCorpTags(req reqExternalContactListCorpTags) (respExternalContactListCorpTags, error) {
+	var resp respExternalContactListCorpTags
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/get_corp_tag_list", req, &resp, true)
+	if err != nil {
+		return respExternalContactListCorpTags{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactListCorpTags{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execExternalContactAddCorpTag 添加企业客户标签
+func (c *WorkwxApp) execExternalContactAddCorpTag(req reqExternalContactAddCorpTag) (respExternalContactAddCorpTag, error) {
+	var resp respExternalContactAddCorpTag
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/add_corp_tag", req, &resp, true)
+	if err != nil {
+		return respExternalContactAddCorpTag{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactAddCorpTag{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execExternalContactEditCorpTag 编辑企业客户标签
+func (c *WorkwxApp) execExternalContactEditCorpTag(req reqExternalContactEditCorpTag) (respExternalContactEditCorpTag, error) {
+	var resp respExternalContactEditCorpTag
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/edit_corp_tag", req, &resp, true)
+	if err != nil {
+		return respExternalContactEditCorpTag{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactEditCorpTag{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execExternalContactDelCorpTag 删除企业客户标签
+func (c *WorkwxApp) execExternalContactDelCorpTag(req reqExternalContactDelCorpTag) (respExternalContactDelCorpTag, error) {
+	var resp respExternalContactDelCorpTag
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/del_corp_tag", req, &resp, true)
+	if err != nil {
+		return respExternalContactDelCorpTag{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactDelCorpTag{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execExternalContactMarkTag 标记客户企业标签
+func (c *WorkwxApp) execExternalContactMarkTag(req reqExternalContactMarkTag) (respExternalContactMarkTag, error) {
+	var resp respExternalContactMarkTag
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/mark_tag", req, &resp, true)
+	if err != nil {
+		return respExternalContactMarkTag{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactMarkTag{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execAppchatCreate 创建群聊会话
 func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, error) {
 	var resp respAppchatCreate
