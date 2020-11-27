@@ -44,6 +44,20 @@ func (c *WorkwxApp) execGetJSAPITicketAgentConfig(req reqJSAPITicketAgentConfig)
 	return resp, nil
 }
 
+// execJSCode2Session 临时登录凭证校验code2Session
+func (c *WorkwxApp) execJSCode2Session(req reqJSCode2Session) (respJSCode2Session, error) {
+	var resp respJSCode2Session
+	err := c.executeQyapiGet("/cgi-bin/miniprogram/jscode2session", req, &resp, true)
+	if err != nil {
+		return respJSCode2Session{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respJSCode2Session{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserGet 读取成员
 func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	var resp respUserGet

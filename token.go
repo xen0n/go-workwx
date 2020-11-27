@@ -164,3 +164,12 @@ func (t *token) tokenRefresher(ctx context.Context) {
 		}
 	}
 }
+
+// JSCode2Session 临时登录凭证校验
+func (c *WorkwxApp) JSCode2Session(jscode string) (*JSCodeSession, error) {
+	resp, err := c.execJSCode2Session(reqJSCode2Session{JSCode: jscode})
+	if err != nil {
+		return nil, err
+	}
+	return &resp.JSCodeSession, nil
+}
