@@ -103,5 +103,6 @@ func (h *LowlevelHandler) echoTestHandler(
 	}
 
 	rw.WriteHeader(http.StatusOK)
-	rw.Write(payload.Msg)
+	// No way to signal failure with the typical HTTP handler method signature
+	_, _ = rw.Write(payload.Msg)
 }
