@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-09-04 10:23:09 +0800
+// 文档爬取时间: 2020-11-29 01:42:42 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -424,6 +424,26 @@ const ErrCode40126 ErrCode = 40126
 // 排查方法: 检查uri链接的schema是否符合参数要求
 const ErrCode40127 ErrCode = 40127
 
+// ErrCode40128 客户转接过于频繁（90天内只允许转接一次，同一个客户最多只能转接两次）
+//
+// 排查方法: -
+const ErrCode40128 ErrCode = 40128
+
+// ErrCode40129 当前客户正在转接中
+//
+// 排查方法: -
+const ErrCode40129 ErrCode = 40129
+
+// ErrCode40130 原跟进人与接手人一样，不可继承
+//
+// 排查方法: -
+const ErrCode40130 ErrCode = 40130
+
+// ErrCode40131 handover_userid 并不是外部联系人的跟进人
+//
+// 排查方法: -
+const ErrCode40131 ErrCode = 40131
+
 // ErrCode41001 缺少access_token参数
 //
 // 排查方法: -
@@ -795,6 +815,7 @@ const ErrCode45026 ErrCode = 45026
 //
 // 回包大小超过上限。请确认：
 // 1）/cgi-bin/user/list：由于通讯录组织架构庞大，建议按部门分别拉取，同时不要指定fetch_child=1。
+//
 const ErrCode45029 ErrCode = 45029
 
 // ErrCode45032 图文消息author参数长度超过限制
@@ -1174,6 +1195,11 @@ const ErrCode65014 ErrCode = 65014
 //
 // 排查方法: 添加学校部门，需满足层级关机，班级需要以年级为父部门
 const ErrCode65015 ErrCode = 65015
+
+// ErrCode65018 家长人数达到上限
+//
+// 排查方法: 未验证的学校\企业最多可添加2000名家长，验证过的学校\企业最多可添加20000名家长
+const ErrCode65018 ErrCode = 65018
 
 // ErrCode72023 发票已被其他公众号锁定
 //
@@ -2244,6 +2270,11 @@ const ErrCode90358 ErrCode = 90358
 // 排查方法: -
 const ErrCode90359 ErrCode = 90359
 
+// ErrCode90381 参数 refunded_credit_orderid 不合法
+//
+// 排查方法: -
+const ErrCode90381 ErrCode = 90381
+
 // ErrCode90456 必须指定组织者
 //
 // 排查方法: -
@@ -2850,3 +2881,153 @@ const ErrCode610003 ErrCode = 610003
 //
 // 排查方法: 请在管理端后台 客户联系->配置->配置使用范围配置该用户
 const ErrCode610004 ErrCode = 610004
+
+// ErrCode640001 微盘不存在当前空间
+//
+// 排查方法: 判断spaceid是否填错
+const ErrCode640001 ErrCode = 640001
+
+// ErrCode640002 文件不存在
+//
+// 排查方法: 判断fileid是否填错
+const ErrCode640002 ErrCode = 640002
+
+// ErrCode640003 文件已删除
+//
+// 排查方法: 判断fileid对应的文件是否已经被删除
+const ErrCode640003 ErrCode = 640003
+
+// ErrCode640004 无权限访问
+//
+// 排查方法: 判断当前用户是否有访问
+const ErrCode640004 ErrCode = 640004
+
+// ErrCode640005 成员不在空间内
+//
+// 排查方法: 判断当前成员是否在空间内
+const ErrCode640005 ErrCode = 640005
+
+// ErrCode640006 超出当前成员拥有的容量
+//
+// 排查方法: 判断当前用户的个人容量是否超出了限制
+const ErrCode640006 ErrCode = 640006
+
+// ErrCode640007 超出微盘的容量
+//
+// 排查方法: 在管理端查看微盘的容量是否要满了
+const ErrCode640007 ErrCode = 640007
+
+// ErrCode640008 没有空间权限
+//
+// 排查方法: 判断当前userid是否有空间权限
+const ErrCode640008 ErrCode = 640008
+
+// ErrCode640009 非法文件名
+//
+// 排查方法: 判断file_name字段是否为空
+const ErrCode640009 ErrCode = 640009
+
+// ErrCode640010 超出空间的最大成员数
+//
+// 排查方法: 判断当前空间的成员数是否超过了管理端设置的空间最大成员数
+const ErrCode640010 ErrCode = 640010
+
+// ErrCode640011 json格式不匹配
+//
+// 排查方法: 判断是否的json格式是否有误
+const ErrCode640011 ErrCode = 640011
+
+// ErrCode640012 非法的userid
+//
+// 排查方法: 判断userid字段是否设置错误
+const ErrCode640012 ErrCode = 640012
+
+// ErrCode640013 非法的departmentid
+//
+// 排查方法: 判断departmentid字段是否设置错误
+const ErrCode640013 ErrCode = 640013
+
+// ErrCode640014 空间没有有效的管理员
+//
+// 排查方法: 判断当前空间是否没有有效的管理员
+const ErrCode640014 ErrCode = 640014
+
+// ErrCode640015 不支持设置预览权限
+//
+// 排查方法: 文件预览权限只有VIP用户才能设置
+const ErrCode640015 ErrCode = 640015
+
+// ErrCode640016 不支持设置文件水印
+//
+// 排查方法: 文件水印只有VIP用户才能设置
+const ErrCode640016 ErrCode = 640016
+
+// ErrCode640017 微盘管理端未开通API 权限
+//
+// 排查方法: 在微盘管理端进行打开
+const ErrCode640017 ErrCode = 640017
+
+// ErrCode640018 微盘管理端未设置编辑权限
+//
+// 排查方法: 在微盘管理端进行打开编辑权限
+const ErrCode640018 ErrCode = 640018
+
+// ErrCode640019 API 调用次数超出限制
+//
+// 排查方法: 免费版：1000次/企业/月; 付费版：100,000次/企业/月
+const ErrCode640019 ErrCode = 640019
+
+// ErrCode640020 非法的权限类型
+//
+// 排查方法: 普通文件：可下载、仅预览; 微文档：可编辑、仅浏览
+const ErrCode640020 ErrCode = 640020
+
+// ErrCode640021 非法的fatherid
+//
+// 排查方法: fatherid应该为：文件所在的目录fileid, 在根目录时为fileid（判断当前字段是否为空）
+const ErrCode640021 ErrCode = 640021
+
+// ErrCode640022 非法的文件内容的base64
+//
+// 排查方法: 文件内容base64，判断本字段是否为空
+const ErrCode640022 ErrCode = 640022
+
+// ErrCode640023 非法的权限范围
+//
+// 排查方法: auth_scope应该为三个中的其中一个：1:指定人 2:企业内 3:企业外
+const ErrCode640023 ErrCode = 640023
+
+// ErrCode640024 非法的fileid
+//
+// 排查方法: 判断fileid字段是否为空
+const ErrCode640024 ErrCode = 640024
+
+// ErrCode640025 非法的space_name
+//
+// 排查方法: 判断space_name字段是否空
+const ErrCode640025 ErrCode = 640025
+
+// ErrCode640026 非法的spaceid
+//
+// 排查方法: 判断spaceid字段是否空
+const ErrCode640026 ErrCode = 640026
+
+// ErrCode640027 参数错误
+//
+// 排查方法: 判断输入的参数是否有误
+const ErrCode640027 ErrCode = 640027
+
+// ErrCode640028 空间设置了关闭成员邀请链接
+//
+// 排查方法: 查看空间的安全设置的成员邀请链接按钮是否处于关闭状态
+const ErrCode640028 ErrCode = 640028
+
+// ErrCode640029 只支持下载普通文件，不支持下载文件夹等其他非文件实体类型
+//
+// 排查方法: 检查fileid对应的文件是否为普通文件
+const ErrCode640029 ErrCode = 640029
+
+// ErrCode844001 非法的output_file_format
+//
+// 排查方法: 判断输出文件格式是否正确
+const ErrCode844001 ErrCode = 844001
