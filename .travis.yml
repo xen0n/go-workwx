@@ -18,9 +18,9 @@ cache:
   - $GOPATH/pkg/mod
 before_install:
   - export GO111MODULE=on
-  - go get -u -v honnef.co/go/tools/cmd/staticcheck
+  - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.33.0
+  - ./ci/run-lint.sh
 install:
   - go install -v ./...
 script:
-  - ./ci/run-lint.sh
   - go test -v ./...
