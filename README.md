@@ -36,6 +36,7 @@ in at least 2 of Qiniu's internal systems.
 
 ## Features
 
+* 支持最近 3 个 Go 版本
 * 包名短
 * 支持覆盖 API `Host`，用于自己拦一层网关、临时调试等等奇葩需求
 * 支持使用自定义 `http.Client`
