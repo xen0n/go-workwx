@@ -10,6 +10,7 @@ import (
 )
 
 func TestProcessor(t *testing.T) {
+	//nolint: gosec  // randomly generated for test purposes only
 	token := "kz7Yx62CH8SaLN"
 	encodingAESKey := "cD0d7jx4tYvVtzqrmh3Dm3QFCXe6f8SlHoMtMh3qQEP"
 	pr, err := NewProcessor(token, encodingAESKey)

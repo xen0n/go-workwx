@@ -1,7 +1,7 @@
 package signature
 
 import (
-	"crypto/sha1"
+	"crypto/sha1" //nolint: gosec  // this is part of vendor API spec
 	"crypto/subtle"
 	"fmt"
 	"net/url"
@@ -14,6 +14,7 @@ func MakeDevMsgSignature(paramValues ...string) string {
 
 	sort.Strings(tmp)
 
+	//nolint: gosec  // this is part of vendor API spec
 	state := sha1.New()
 	for _, x := range tmp {
 		_, _ = state.Write([]byte(x))

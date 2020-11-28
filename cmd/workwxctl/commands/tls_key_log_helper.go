@@ -13,6 +13,7 @@ import (
 // newTransportWithKeyLog initializes a HTTP Transport with KeyLogWriter
 func newTransportWithKeyLog(keyLog io.Writer) *http.Transport {
 	transport := &http.Transport{
+		//nolint: gosec  // this transport is delibrately made to be a side channel
 		TLSClientConfig: &tls.Config{KeyLogWriter: keyLog, InsecureSkipVerify: true},
 
 		// Copy of http.DefaultTransport

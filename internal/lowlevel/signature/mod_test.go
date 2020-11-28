@@ -22,6 +22,7 @@ func TestMakeDevMsgSignature(t *testing.T) {
 }
 
 func TestVerifyHTTPRequestSignature(t *testing.T) {
+	//nolint: gosec  // randomly generated for test purposes only
 	token := "kjr2TKI8umCBfVF3wAHk8JiPwma5VBme"
 
 	c.Convey("带有完好签名的 URL 应该能通过校验", t, func() {
@@ -34,6 +35,7 @@ func TestVerifyHTTPRequestSignature(t *testing.T) {
 	})
 
 	c.Convey("带请求体的正常请求也应该能通过校验", t, func() {
+		//nolint: gosec  // randomly generated for test purposes only
 		token2 := "kz7Yx62CH8SaLN"
 		encodingAESKey := "cD0d7jx4tYvVtzqrmh3Dm3QFCXe6f8SlHoMtMh3qQEP"
 		_ = encodingAESKey
