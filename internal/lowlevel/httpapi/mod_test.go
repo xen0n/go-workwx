@@ -11,6 +11,7 @@ import (
 
 func TestLowlevelHandler(t *testing.T) {
 	c.Convey("E2E HTTP handler tests", t, func() {
+		//nolint: gosec  // randomly generated for test purposes only
 		token := "kjr2TKI8umCBfVF3wAHk8JiPwma5VBme"
 		encodingAESKey := "4Ma3YBrSBbX2aez8MJpXGBne5LSDwgGqHbhM9WPYIws"
 		handler, err := NewLowlevelHandler(token, encodingAESKey, nil)
