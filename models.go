@@ -37,10 +37,46 @@ func (x *respCommon) IsOK() bool {
 	return x.ErrCode == 0
 }
 
+func (x *respCommon) TryIntoErr() error {
+	if x.IsOK() {
+		return nil
+	}
+
+	return &WorkwxClientError{
+		Code: x.ErrCode,
+		Msg:  x.ErrMsg,
+	}
+}
+
 type respAccessToken struct {
 	respCommon
 
 	AccessToken   string `json:"access_token"`
+	ExpiresInSecs int64  `json:"expires_in"`
+}
+
+type reqJSAPITicketAgentConfig struct{}
+
+var _ urlValuer = reqJSAPITicketAgentConfig{}
+
+func (x reqJSAPITicketAgentConfig) intoURLValues() url.Values {
+	return url.Values{
+		"type": {"agent_config"},
+	}
+}
+
+type reqJSAPITicket struct{}
+
+var _ urlValuer = reqJSAPITicket{}
+
+func (x reqJSAPITicket) intoURLValues() url.Values {
+	return url.Values{}
+}
+
+type respJSAPITicket struct {
+	respCommon
+
+	Ticket        string `json:"ticket"`
 	ExpiresInSecs int64  `json:"expires_in"`
 }
 
@@ -168,6 +204,28 @@ type respUserList struct {
 	Users []*respUserDetail `json:"userlist"`
 }
 
+// reqUserIDByMobile 手机号获取 userid 请求
+type reqUserIDByMobile struct {
+	Mobile string `json:"mobile"`
+}
+
+var _ bodyer = reqUserIDByMobile{}
+
+func (x reqUserIDByMobile) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+// respUserIDByMobile 手机号获取 userid 响应
+type respUserIDByMobile struct {
+	respCommon
+
+	UserID string `json:"userid"`
+}
+
 type reqDeptList struct {
 	HaveID bool
 	ID     int64
@@ -287,4 +345,217 @@ type respMediaUploadImg struct {
 	respCommon
 
 	URL string `json:"url"`
+}
+
+// reqExternalContactList 获取客户列表
+type reqExternalContactList struct {
+	UserID string `json:"userid"`
+}
+
+var _ urlValuer = reqExternalContactList{}
+
+func (x reqExternalContactList) intoURLValues() url.Values {
+	return url.Values{
+		"userid": {x.UserID},
+	}
+}
+
+// respExternalContactList 获取客户列表
+type respExternalContactList struct {
+	respCommon
+
+	ExternalUserID []string `json:"external_userid"`
+}
+
+// reqExternalContactGet 获取客户详情
+type reqExternalContactGet struct {
+	ExternalUserID string `json:"external_userid"`
+}
+
+var _ urlValuer = reqExternalContactGet{}
+
+func (x reqExternalContactGet) intoURLValues() url.Values {
+	return url.Values{
+		"external_userid": {x.ExternalUserID},
+	}
+}
+
+// respExternalContactGet 获取客户详情
+type respExternalContactGet struct {
+	respCommon
+	ExternalContactInfo
+}
+
+type ExternalContactInfo struct {
+	ExternalContact ExternalContact `json:"external_contact"`
+	FollowUser      []FollowUser    `json:"follow_user"`
+}
+
+// reqExternalContactRemark 获取客户详情
+type reqExternalContactRemark struct {
+	Remark *ExternalContactRemark
+}
+
+var _ bodyer = reqExternalContactRemark{}
+
+func (x reqExternalContactRemark) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x.Remark)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactRemark 获取客户详情
+type respExternalContactRemark struct {
+	respCommon
+}
+
+// reqUserInfoGet 获取访问用户身份
+type reqUserInfoGet struct {
+	// 通过成员授权获取到的code，最大为512字节。每次成员授权带上的code将不一样，code只能使用一次，5分钟未被使用自动过期。
+	Code string
+}
+
+var _ urlValuer = reqUserInfoGet{}
+
+func (x reqUserInfoGet) intoURLValues() url.Values {
+	return url.Values{
+		"code": {x.Code},
+	}
+}
+
+// respUserInfoGet 部门列表响应
+type respUserInfoGet struct {
+	respCommon
+	UserIdentityInfo
+}
+
+// reqExternalContactListCorpTags 获取企业标签库
+type reqExternalContactListCorpTags struct {
+	// 要查询的标签id，如果不填则获取该企业的所有客户标签，目前暂不支持标签组id
+	TagIDs []string `json:"tag_id"`
+}
+
+var _ bodyer = reqExternalContactListCorpTags{}
+
+func (x reqExternalContactListCorpTags) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactListCorpTags 获取企业标签库
+type respExternalContactListCorpTags struct {
+	respCommon
+	// 标签组列表
+	TagGroup []ExternalContactCorpTagGroup `json:"tag_group"`
+}
+
+// reqExternalContactAddCorpTag 添加企业客户标签
+type reqExternalContactAddCorpTag struct {
+	ExternalContactCorpTagGroup
+}
+
+var _ bodyer = reqExternalContactAddCorpTag{}
+
+func (x reqExternalContactAddCorpTag) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x.ExternalContactCorpTagGroup)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactAddCorpTag 添加企业客户标签
+type respExternalContactAddCorpTag struct {
+	respCommon
+	// 标签组列表
+	TagGroup []ExternalContactCorpTagGroup `json:"tag_group"`
+}
+
+// reqExternalContactEditCorpTag 编辑企业客户标签
+type reqExternalContactEditCorpTag struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Order uint32 `json:"order"`
+}
+
+var _ bodyer = reqExternalContactEditCorpTag{}
+
+func (x reqExternalContactEditCorpTag) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactEditCorpTag 编辑企业客户标签
+type respExternalContactEditCorpTag struct {
+	respCommon
+}
+
+// reqExternalContactDelCorpTag 删除企业客户标签
+type reqExternalContactDelCorpTag struct {
+	TagID   []string `json:"tag_id"`
+	GroupID []string `json:"group_id"`
+}
+
+var _ bodyer = reqExternalContactDelCorpTag{}
+
+func (x reqExternalContactDelCorpTag) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// reqExternalContactDelCorpTag 删除企业客户标签
+type respExternalContactDelCorpTag struct {
+	respCommon
+}
+
+// reqExternalContactMarkTag 编辑企业客户标签
+type reqExternalContactMarkTag struct {
+	UserID         string   `json:"userid"`
+	ExternalUserID string   `json:"external_userid"`
+	AddTag         []string `json:"add_tag"`
+	RemoveTag      []string `json:"remove_tag"`
+}
+
+var _ bodyer = reqExternalContactMarkTag{}
+
+func (x reqExternalContactMarkTag) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// reqExternalContactMarkTag 编辑企业客户标签
+type respExternalContactMarkTag struct {
+	respCommon
 }

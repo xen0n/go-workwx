@@ -36,6 +36,7 @@ in at least 2 of Qiniu's internal systems.
 
 ## Features
 
+* 支持最近 3 个 Go 版本
 * 包名短
 * 支持覆盖 API `Host`，用于自己拦一层网关、临时调试等等奇葩需求
 * 支持使用自定义 `http.Client`
@@ -61,7 +62,8 @@ in at least 2 of Qiniu's internal systems.
 * [x] 通讯录管理 (**部分支持**，见下)
 * [ ] 外部联系人管理
 * [ ] 应用管理
-* [x] 消息发送 (除接收消息、修改群聊会话外全部支持)
+* [x] 消息发送 (除修改群聊会话外全部支持)
+* [x] 消息接收 (**接口尚不稳定，极有可能做出不兼容改动，先不要用**)
 * [x] 素材管理 (**支持上传**, 见下)
 
 <details>
@@ -108,8 +110,29 @@ in at least 2 of Qiniu's internal systems.
 <summary>外部联系人管理 API</summary>
 
 * [ ] 离职成员的外部联系人再分配
-* [ ] 成员对外信息
-* [ ] 获取外部联系人详情
+* [x] 成员对外信息
+* [x] 客户管理
+    - [x] 获取客户列表
+    - [x] 获取客户详情
+    - [x] 修改客户备注信息
+* [x] 客户标签管理
+   - [x] 管理企业标签
+   - [x] 编辑客户企业标签
+* [x] 变更回调通知
+    - [x] 添加企业客户事件
+    - [x] 编辑企业客户事件
+    - [x] 外部联系人免验证添加成员事件
+    - [x] 删除企业客户事件
+    - [x] 删除跟进成员事件
+    - [x] 客户接替失败事件
+    - [x] 客户群变更事件
+
+</details>
+
+<details>
+<summary>身份验证 API</summary>
+
+* [x] 获取访问用户身份
 
 </details>
 
@@ -129,7 +152,7 @@ in at least 2 of Qiniu's internal systems.
 <summary>消息发送 API</summary>
 
 * [x] 发送应用消息
-* [ ] 接收消息
+* [x] 接收消息
 * [x] 发送消息到群聊会话
     - [x] 创建群聊会话
     - [ ] 修改群聊会话

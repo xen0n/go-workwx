@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/urfave/cli/v2"
+
 	"github.com/xen0n/go-workwx"
-	"gopkg.in/urfave/cli.v2"
 )
 
 func cmdUploadTempMedia(c *cli.Context) error {
