@@ -65,6 +65,7 @@ in at least 2 of Qiniu's internal systems.
 * [x] 消息发送 (除修改群聊会话外全部支持)
 * [x] 消息接收 (**接口尚不稳定，极有可能做出不兼容改动，先不要用**)
 * [x] 素材管理 (**支持上传**, 见下)
+* [x] 企业微信登录接口 (code2Session)
 
 <details>
 <summary>通讯录管理 API</summary>

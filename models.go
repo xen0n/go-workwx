@@ -529,7 +529,7 @@ func (x reqExternalContactDelCorpTag) intoBody() ([]byte, error) {
 	return result, nil
 }
 
-// reqExternalContactDelCorpTag 删除企业客户标签
+// respExternalContactDelCorpTag 删除企业客户标签
 type respExternalContactDelCorpTag struct {
 	respCommon
 }
@@ -555,7 +555,34 @@ func (x reqExternalContactMarkTag) intoBody() ([]byte, error) {
 	return result, nil
 }
 
-// reqExternalContactMarkTag 编辑企业客户标签
+// respExternalContactMarkTag 编辑企业客户标签
 type respExternalContactMarkTag struct {
 	respCommon
+}
+
+// reqJSCode2Session 临时登录凭证校验
+type reqJSCode2Session struct {
+	JSCode string
+}
+
+var _ urlValuer = reqJSCode2Session{}
+
+func (x reqJSCode2Session) intoURLValues() url.Values {
+	return url.Values{
+		"js_code":    {x.JSCode},
+		"grant_type": {"authorization_code"},
+	}
+}
+
+// respJSCode2Session 临时登录凭证校验
+type respJSCode2Session struct {
+	respCommon
+	JSCodeSession
+}
+
+// JSCodeSession 临时登录凭证
+type JSCodeSession struct {
+	CorpID     string `json:"corpid"`
+	UserID     string `json:"userid"`
+	SessionKey string `json:"session_key"`
 }
