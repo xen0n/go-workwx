@@ -65,6 +65,7 @@ in at least 2 of Qiniu's internal systems.
 * [x] 消息发送 (除修改群聊会话外全部支持)
 * [x] 消息接收 (**接口尚不稳定，极有可能做出不兼容改动，先不要用**)
 * [x] 素材管理 (**支持上传**, 见下)
+* [ ] 会话内容存档
 * [x] 企业微信登录接口 (code2Session)
 
 <details>
@@ -181,6 +182,16 @@ in at least 2 of Qiniu's internal systems.
 * [x] 上传永久图片
 * [ ] 获取临时素材
 * [ ] 获取高清语音素材
+
+</details>
+
+<details>
+<summary>会话内容存档 API</summary>
+
+* [x] 获取会话内容存档开启成员列表
+* [x] 获取会话同意情况
+* [ ] 客户同意进行聊天内容存档事件回调
+* [x] 获取会话内容存档内部群信息
 
 </details>
 
