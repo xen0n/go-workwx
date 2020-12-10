@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type reqAccessToken struct {
@@ -585,4 +586,139 @@ type JSCodeSession struct {
 	CorpID     string `json:"corpid"`
 	UserID     string `json:"userid"`
 	SessionKey string `json:"session_key"`
+}
+
+type reqListPermitUser struct {
+	MsgAuditEdition MsgAuditEdition `json:"type"`
+}
+
+var _ bodyer = reqListPermitUser{}
+
+func (x reqListPermitUser) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respListPermitUser struct {
+	respCommon
+	IDs []string `json:"ids"`
+}
+
+type reqCheckSingleAgree struct {
+	Infos []CheckSingleAgreeUserInfo `json:"info"`
+}
+
+var _ bodyer = reqCheckSingleAgree{}
+
+func (x reqCheckSingleAgree) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respCheckSingleAgree struct {
+	respCommon
+	AgreeInfo []struct {
+		UserID           string              `json:"userid"`
+		ExternalOpenID   string              `json:"exteranalopenid"`
+		AgreeStatus      MsgAuditAgreeStatus `json:"agree_status"`
+		StatusChangeTime int                 `json:"status_change_time"`
+	} `json:"agreeinfo"`
+}
+
+func (x respCheckSingleAgree) intoCheckSingleAgreeInfoList() (resp []CheckSingleAgreeInfo) {
+	for _, agreeInfo := range x.AgreeInfo {
+		resp = append(resp, CheckSingleAgreeInfo{
+			CheckSingleAgreeUserInfo: CheckSingleAgreeUserInfo{
+				UserID:         agreeInfo.UserID,
+				ExternalOpenID: agreeInfo.ExternalOpenID,
+			},
+			AgreeStatus:      agreeInfo.AgreeStatus,
+			StatusChangeTime: time.Unix(int64(agreeInfo.StatusChangeTime), 0),
+		})
+	}
+	return resp
+}
+
+type reqCheckRoomAgree struct {
+	RoomID string `json:"roomid"`
+}
+
+var _ bodyer = reqCheckRoomAgree{}
+
+func (x reqCheckRoomAgree) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respCheckRoomAgree struct {
+	respCommon
+	AgreeInfo []struct {
+		StatusChangeTime int                 `json:"status_change_time"`
+		AgreeStatus      MsgAuditAgreeStatus `json:"agree_status"`
+		ExternalOpenID   string              `json:"exteranalopenid"`
+	} `json:"agreeinfo"`
+}
+
+func (x respCheckRoomAgree) intoCheckRoomAgreeInfoList() (resp []CheckRoomAgreeInfo) {
+	for _, agreeInfo := range x.AgreeInfo {
+		resp = append(resp, CheckRoomAgreeInfo{
+			StatusChangeTime: time.Unix(int64(agreeInfo.StatusChangeTime), 0),
+			AgreeStatus:      agreeInfo.AgreeStatus,
+			ExternalOpenID:   agreeInfo.ExternalOpenID,
+		})
+	}
+	return resp
+}
+
+type reqGetGroupChat struct {
+	RoomID string `json:"roomid"`
+}
+
+var _ bodyer = reqGetGroupChat{}
+
+func (x reqGetGroupChat) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respGetGroupChat struct {
+	respCommon
+	Members []struct {
+		MemberID int `json:"memberid"`
+		JoinTime int `json:"jointime"`
+	} `json:"members"`
+	RoomName       string `json:"roomname"`
+	Creator        string `json:"creator"`
+	RoomCreateTime int    `json:"room_create_time"`
+	Notice         string `json:"notice"`
+}
+
+func (x respGetGroupChat) intoGroupChat() (resp GroupChat) {
+	resp.Creator = x.Creator
+	resp.Notice = x.Notice
+	resp.RoomName = x.RoomName
+	resp.RoomCreateTime = time.Unix(int64(x.RoomCreateTime), 0)
+	for _, member := range x.Members {
+		resp.Members = append(resp.Members, GroupChatMember{
+			MemberID: member.MemberID,
+			JoinTime: time.Unix(int64(member.JoinTime), 0),
+		})
+	}
+	return resp
 }

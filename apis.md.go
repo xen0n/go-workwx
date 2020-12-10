@@ -323,3 +323,59 @@ func (c *WorkwxApp) execMediaUploadImg(req reqMediaUploadImg) (respMediaUploadIm
 
 	return resp, nil
 }
+
+// execListPermitUser 获取会话内容存档开启成员列表
+func (c *WorkwxApp) execListPermitUser(req reqListPermitUser) (respListPermitUser, error) {
+	var resp respListPermitUser
+	err := c.executeQyapiJSONPost("/cgi-bin/msgaudit/get_permit_user_list", req, &resp, true)
+	if err != nil {
+		return respListPermitUser{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respListPermitUser{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execCheckSingleAgree 获取会话同意情况（单聊）
+func (c *WorkwxApp) execCheckSingleAgree(req reqCheckSingleAgree) (respCheckSingleAgree, error) {
+	var resp respCheckSingleAgree
+	err := c.executeQyapiJSONPost("/cgi-bin/msgaudit/check_single_agree", req, &resp, true)
+	if err != nil {
+		return respCheckSingleAgree{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respCheckSingleAgree{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execCheckRoomAgree 获取会话同意情况（群聊）
+func (c *WorkwxApp) execCheckRoomAgree(req reqCheckRoomAgree) (respCheckRoomAgree, error) {
+	var resp respCheckRoomAgree
+	err := c.executeQyapiJSONPost("/cgi-bin/msgaudit/check_room_agree", req, &resp, true)
+	if err != nil {
+		return respCheckRoomAgree{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respCheckRoomAgree{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetGroupChat 获取会话内容存档内部群信息
+func (c *WorkwxApp) execGetGroupChat(req reqGetGroupChat) (respGetGroupChat, error) {
+	var resp respGetGroupChat
+	err := c.executeQyapiJSONPost("/cgi-bin/msgaudit/groupchat/get", req, &resp, true)
+	if err != nil {
+		return respGetGroupChat{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetGroupChat{}, bizErr
+	}
+
+	return resp, nil
+}
