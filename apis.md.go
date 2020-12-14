@@ -380,6 +380,62 @@ func (c *WorkwxApp) execMediaUploadImg(req reqMediaUploadImg) (respMediaUploadIm
 	return resp, nil
 }
 
+// execOAGetTemplateDetail 获取审批模板详情
+func (c *WorkwxApp) execOAGetTemplateDetail(req reqOAGetTemplateDetail) (respOAGetTemplateDetail, error) {
+	var resp respOAGetTemplateDetail
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/gettemplatedetail", req, &resp, true)
+	if err != nil {
+		return respOAGetTemplateDetail{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetTemplateDetail{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAApplyEvent 提交审批申请
+func (c *WorkwxApp) execOAApplyEvent(req reqOAApplyEvent) (respOAApplyEvent, error) {
+	var resp respOAApplyEvent
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/applyevent", req, &resp, true)
+	if err != nil {
+		return respOAApplyEvent{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAApplyEvent{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAGetApprovalInfo 批量获取审批单号
+func (c *WorkwxApp) execOAGetApprovalInfo(req reqOAGetApprovalInfo) (respOAGetApprovalInfo, error) {
+	var resp respOAGetApprovalInfo
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/getapprovalinfo", req, &resp, true)
+	if err != nil {
+		return respOAGetApprovalInfo{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetApprovalInfo{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAGetApprovalDetail 获取审批申请详情
+func (c *WorkwxApp) execOAGetApprovalDetail(req reqOAGetApprovalDetail) (respOAGetApprovalDetail, error) {
+	var resp respOAGetApprovalDetail
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/getapprovaldetail", req, &resp, true)
+	if err != nil {
+		return respOAGetApprovalDetail{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetApprovalDetail{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execMsgAuditListPermitUser 获取会话内容存档开启成员列表
 func (c *WorkwxApp) execMsgAuditListPermitUser(req reqMsgAuditListPermitUser) (respMsgAuditListPermitUser, error) {
 	var resp respMsgAuditListPermitUser

@@ -65,6 +65,7 @@ in at least 2 of Qiniu's internal systems.
 * [x] 消息发送 (除修改群聊会话外全部支持)
 * [x] 消息接收 (**接口尚不稳定，极有可能做出不兼容改动，先不要用**)
 * [x] 素材管理 (**支持上传**, 见下)
+* [ ] OA
 * [ ] 会话内容存档
 * [x] 企业微信登录接口 (code2Session)
 
@@ -110,7 +111,6 @@ in at least 2 of Qiniu's internal systems.
 
 <details>
 <summary>外部联系人管理 API</summary>
-
 
 * [x] 成员对外信息
 * [x] 客户管理
@@ -187,6 +187,20 @@ in at least 2 of Qiniu's internal systems.
 * [x] 上传永久图片
 * [ ] 获取临时素材
 * [ ] 获取高清语音素材
+
+</details>
+
+<details>
+<summary>OA API</summary>
+
+* [ ] 审批
+    - [x] 获取审批模板详情
+    - [x] 提交审批申请
+    - [x] 审批申请状态变化回调通知
+    - [x] 批量获取审批单号
+    - [x] 获取审批申请详情
+    - [ ] 获取企业假期管理配置
+    - [ ] 修改成员假期余额
 
 </details>
 

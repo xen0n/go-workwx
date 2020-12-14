@@ -48,6 +48,9 @@ const EventTypeChangeExternalContact EventType = "change_external_contact"
 // EventTypeChangeExternalChat 客户群变更事件
 const EventTypeChangeExternalChat EventType = "change_external_chat"
 
+// EventTypeSysApprovalChange 审批申请状态变化回调通知
+const EventTypeSysApprovalChange EventType = "sys_approval_change"
+
 // ChangeType 变更类型
 type ChangeType string
 
@@ -173,3 +176,9 @@ Name|XML|Type|Doc
 `FromUserName`|`FromUserName`|`string`|此事件该值固定为sys，表示该消息由系统生成
 `FailReason`|`FailReason`|`string`|接替失败的原因, customer_refused-客户拒绝， customer_limit_exceed-接替成员的客户数达到上限
 `ChatID`|`ChatId`|`string`|群ID
+
+### `rxEventSysApprovalChange` 接收的事件消息，审批申请状态变化回调通知
+
+Name|XML|Type|Doc
+:---|:--|:---|:--
+`ApprovalInfo`|`ApprovalInfo`|`OAApprovalInfo`|审批信息、
