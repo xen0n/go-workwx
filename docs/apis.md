@@ -161,7 +161,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
-`execListPermitUser`|`reqListPermitUser`|`respListPermitUser`|+|`POST /cgi-bin/msgaudit/get_permit_user_list`|[获取会话内容存档开启成员列表](https://work.weixin.qq.com/api/doc/90000/90135/91614)
-`execCheckSingleAgree`|`reqCheckSingleAgree`|`respCheckSingleAgree`|+|`POST /cgi-bin/msgaudit/check_single_agree`|[获取会话同意情况（单聊）](https://work.weixin.qq.com/api/doc/90000/90135/91782)
-`execCheckRoomAgree`|`reqCheckRoomAgree`|`respCheckRoomAgree`|+|`POST /cgi-bin/msgaudit/check_room_agree`|[获取会话同意情况（群聊）](https://work.weixin.qq.com/api/doc/90000/90135/91782)
-`execGetGroupChat`|`reqGetGroupChat`|`respGetGroupChat`|+|`POST /cgi-bin/msgaudit/groupchat/get`|[获取会话内容存档内部群信息](https://work.weixin.qq.com/api/doc/90000/90135/92951)
+`execMsgAuditListPermitUser`|`reqMsgAuditListPermitUser`|`respMsgAuditListPermitUser`|+|`POST /cgi-bin/msgaudit/get_permit_user_list`|[获取会话内容存档开启成员列表](https://work.weixin.qq.com/api/doc/90000/90135/91614)
+`execMsgAuditCheckSingleAgree`|`reqMsgAuditCheckSingleAgree`|`respMsgAuditCheckSingleAgree`|+|`POST /cgi-bin/msgaudit/check_single_agree`|[获取会话同意情况（单聊）](https://work.weixin.qq.com/api/doc/90000/90135/91782)
+`execMsgAuditCheckRoomAgree`|`reqMsgAuditCheckRoomAgree`|`respMsgAuditCheckRoomAgree`|+|`POST /cgi-bin/msgaudit/check_room_agree`|[获取会话同意情况（群聊）](https://work.weixin.qq.com/api/doc/90000/90135/91782)
+`execMsgAuditGetGroupChat`|`reqMsgAuditGetGroupChat`|`respMsgAuditGetGroupChat`|+|`POST /cgi-bin/msgaudit/groupchat/get`|[获取会话内容存档内部群信息](https://work.weixin.qq.com/api/doc/90000/90135/92951)

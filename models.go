@@ -588,13 +588,13 @@ type JSCodeSession struct {
 	SessionKey string `json:"session_key"`
 }
 
-type reqListPermitUser struct {
+type reqMsgAuditListPermitUser struct {
 	MsgAuditEdition MsgAuditEdition `json:"type"`
 }
 
-var _ bodyer = reqListPermitUser{}
+var _ bodyer = reqMsgAuditListPermitUser{}
 
-func (x reqListPermitUser) intoBody() ([]byte, error) {
+func (x reqMsgAuditListPermitUser) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		return nil, err
@@ -603,18 +603,18 @@ func (x reqListPermitUser) intoBody() ([]byte, error) {
 	return result, nil
 }
 
-type respListPermitUser struct {
+type respMsgAuditListPermitUser struct {
 	respCommon
 	IDs []string `json:"ids"`
 }
 
-type reqCheckSingleAgree struct {
-	Infos []CheckSingleAgreeUserInfo `json:"info"`
+type reqMsgAuditCheckSingleAgree struct {
+	Infos []CheckMsgAuditSingleAgreeUserInfo `json:"info"`
 }
 
-var _ bodyer = reqCheckSingleAgree{}
+var _ bodyer = reqMsgAuditCheckSingleAgree{}
 
-func (x reqCheckSingleAgree) intoBody() ([]byte, error) {
+func (x reqMsgAuditCheckSingleAgree) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		return nil, err
@@ -623,7 +623,7 @@ func (x reqCheckSingleAgree) intoBody() ([]byte, error) {
 	return result, nil
 }
 
-type respCheckSingleAgree struct {
+type respMsgAuditCheckSingleAgree struct {
 	respCommon
 	AgreeInfo []struct {
 		UserID           string              `json:"userid"`
@@ -633,10 +633,10 @@ type respCheckSingleAgree struct {
 	} `json:"agreeinfo"`
 }
 
-func (x respCheckSingleAgree) intoCheckSingleAgreeInfoList() (resp []CheckSingleAgreeInfo) {
+func (x respMsgAuditCheckSingleAgree) intoCheckSingleAgreeInfoList() (resp []CheckMsgAuditSingleAgreeInfo) {
 	for _, agreeInfo := range x.AgreeInfo {
-		resp = append(resp, CheckSingleAgreeInfo{
-			CheckSingleAgreeUserInfo: CheckSingleAgreeUserInfo{
+		resp = append(resp, CheckMsgAuditSingleAgreeInfo{
+			CheckMsgAuditSingleAgreeUserInfo: CheckMsgAuditSingleAgreeUserInfo{
 				UserID:         agreeInfo.UserID,
 				ExternalOpenID: agreeInfo.ExternalOpenID,
 			},
@@ -647,13 +647,13 @@ func (x respCheckSingleAgree) intoCheckSingleAgreeInfoList() (resp []CheckSingle
 	return resp
 }
 
-type reqCheckRoomAgree struct {
+type reqMsgAuditCheckRoomAgree struct {
 	RoomID string `json:"roomid"`
 }
 
-var _ bodyer = reqCheckRoomAgree{}
+var _ bodyer = reqMsgAuditCheckRoomAgree{}
 
-func (x reqCheckRoomAgree) intoBody() ([]byte, error) {
+func (x reqMsgAuditCheckRoomAgree) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		return nil, err
@@ -662,7 +662,7 @@ func (x reqCheckRoomAgree) intoBody() ([]byte, error) {
 	return result, nil
 }
 
-type respCheckRoomAgree struct {
+type respMsgAuditCheckRoomAgree struct {
 	respCommon
 	AgreeInfo []struct {
 		StatusChangeTime int                 `json:"status_change_time"`
@@ -671,9 +671,9 @@ type respCheckRoomAgree struct {
 	} `json:"agreeinfo"`
 }
 
-func (x respCheckRoomAgree) intoCheckRoomAgreeInfoList() (resp []CheckRoomAgreeInfo) {
+func (x respMsgAuditCheckRoomAgree) intoCheckRoomAgreeInfoList() (resp []CheckMsgAuditRoomAgreeInfo) {
 	for _, agreeInfo := range x.AgreeInfo {
-		resp = append(resp, CheckRoomAgreeInfo{
+		resp = append(resp, CheckMsgAuditRoomAgreeInfo{
 			StatusChangeTime: time.Unix(int64(agreeInfo.StatusChangeTime), 0),
 			AgreeStatus:      agreeInfo.AgreeStatus,
 			ExternalOpenID:   agreeInfo.ExternalOpenID,
@@ -682,13 +682,13 @@ func (x respCheckRoomAgree) intoCheckRoomAgreeInfoList() (resp []CheckRoomAgreeI
 	return resp
 }
 
-type reqGetGroupChat struct {
+type reqMsgAuditGetGroupChat struct {
 	RoomID string `json:"roomid"`
 }
 
-var _ bodyer = reqGetGroupChat{}
+var _ bodyer = reqMsgAuditGetGroupChat{}
 
-func (x reqGetGroupChat) intoBody() ([]byte, error) {
+func (x reqMsgAuditGetGroupChat) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		return nil, err
@@ -697,7 +697,7 @@ func (x reqGetGroupChat) intoBody() ([]byte, error) {
 	return result, nil
 }
 
-type respGetGroupChat struct {
+type respMsgAuditGetGroupChat struct {
 	respCommon
 	Members []struct {
 		MemberID int `json:"memberid"`
@@ -709,13 +709,13 @@ type respGetGroupChat struct {
 	Notice         string `json:"notice"`
 }
 
-func (x respGetGroupChat) intoGroupChat() (resp GroupChat) {
+func (x respMsgAuditGetGroupChat) intoGroupChat() (resp MsgAuditGroupChat) {
 	resp.Creator = x.Creator
 	resp.Notice = x.Notice
 	resp.RoomName = x.RoomName
 	resp.RoomCreateTime = time.Unix(int64(x.RoomCreateTime), 0)
 	for _, member := range x.Members {
-		resp.Members = append(resp.Members, GroupChatMember{
+		resp.Members = append(resp.Members, MsgAuditGroupChatMember{
 			MemberID: member.MemberID,
 			JoinTime: time.Unix(int64(member.JoinTime), 0),
 		})
