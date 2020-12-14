@@ -16,26 +16,26 @@ const (
 	MsgAuditAgreeStatusDefaultAgree = "Default_Agree"
 )
 
-// CheckSingleAgreeUserInfo 获取会话同意情况（单聊）内外成员
-type CheckSingleAgreeUserInfo struct {
+// CheckMsgAuditSingleAgreeUserInfo 获取会话同意情况（单聊）内外成员
+type CheckMsgAuditSingleAgreeUserInfo struct {
 	// UserID 内部成员的userid
 	UserID string `json:"userid"`
 	// ExternalOpenID 外部成员的externalopenid
 	ExternalOpenID string `json:"exteranalopenid"`
 }
 
-// CheckSingleAgreeInfo 获取会话同意情况（单聊）同意信息
-type CheckSingleAgreeInfo struct {
-	CheckSingleAgreeUserInfo
+// CheckMsgAuditSingleAgreeInfo 获取会话同意情况（单聊）同意信息
+type CheckMsgAuditSingleAgreeInfo struct {
+	CheckMsgAuditSingleAgreeUserInfo
 	// AgreeStatus 同意:”Agree”，不同意:”Disagree”，默认同意:”Default_Agree”
 	AgreeStatus MsgAuditAgreeStatus
 	// StatusChangeTime 同意状态改变的具体时间
 	StatusChangeTime time.Time
 }
 
-// CheckSingleAgree 获取会话同意情况（单聊）
-func (c *WorkwxApp) CheckSingleAgree(infos []CheckSingleAgreeUserInfo) ([]CheckSingleAgreeInfo, error) {
-	resp, err := c.execCheckSingleAgree(reqCheckSingleAgree{
+// CheckMsgAuditSingleAgree 获取会话同意情况（单聊）
+func (c *WorkwxApp) CheckMsgAuditSingleAgree(infos []CheckMsgAuditSingleAgreeUserInfo) ([]CheckMsgAuditSingleAgreeInfo, error) {
+	resp, err := c.execMsgAuditCheckSingleAgree(reqMsgAuditCheckSingleAgree{
 		Infos: infos,
 	})
 	if err != nil {
@@ -44,8 +44,8 @@ func (c *WorkwxApp) CheckSingleAgree(infos []CheckSingleAgreeUserInfo) ([]CheckS
 	return resp.intoCheckSingleAgreeInfoList(), nil
 }
 
-// CheckRoomAgreeInfo 获取会话同意情况（群聊）同意信息
-type CheckRoomAgreeInfo struct {
+// CheckMsgAuditRoomAgreeInfo 获取会话同意情况（群聊）同意信息
+type CheckMsgAuditRoomAgreeInfo struct {
 	// StatusChangeTime 同意状态改变的具体时间
 	StatusChangeTime time.Time
 	// AgreeStatus 同意:”Agree”，不同意:”Disagree”，默认同意:”Default_Agree”
@@ -54,9 +54,9 @@ type CheckRoomAgreeInfo struct {
 	ExternalOpenID string
 }
 
-// CheckRoomAgree 获取会话同意情况（群聊）
-func (c *WorkwxApp) CheckRoomAgree(roomId string) ([]CheckRoomAgreeInfo, error) {
-	resp, err := c.execCheckRoomAgree(reqCheckRoomAgree{
+// CheckMsgAuditRoomAgree 获取会话同意情况（群聊）
+func (c *WorkwxApp) CheckMsgAuditRoomAgree(roomId string) ([]CheckMsgAuditRoomAgreeInfo, error) {
+	resp, err := c.execMsgAuditCheckRoomAgree(reqMsgAuditCheckRoomAgree{
 		RoomID: roomId,
 	})
 	if err != nil {
@@ -77,9 +77,9 @@ const (
 	MsgAuditEditionEnterprise MsgAuditEdition = 3
 )
 
-// ListPermitUser 获取会话内容存档开启成员列表
-func (c *WorkwxApp) ListPermitUser(msgAuditEdition MsgAuditEdition) ([]string, error) {
-	resp, err := c.execListPermitUser(reqListPermitUser{
+// ListMsgAuditPermitUser 获取会话内容存档开启成员列表
+func (c *WorkwxApp) ListMsgAuditPermitUser(msgAuditEdition MsgAuditEdition) ([]string, error) {
+	resp, err := c.execMsgAuditListPermitUser(reqMsgAuditListPermitUser{
 		MsgAuditEdition: msgAuditEdition,
 	})
 	if err != nil {
@@ -88,18 +88,18 @@ func (c *WorkwxApp) ListPermitUser(msgAuditEdition MsgAuditEdition) ([]string, e
 	return resp.IDs, nil
 }
 
-// GroupChatMember 获取会话内容存档内部群成员
-type GroupChatMember struct {
+// MsgAuditGroupChatMember 获取会话内容存档内部群成员
+type MsgAuditGroupChatMember struct {
 	// MemberID roomid群成员的id，userid
 	MemberID int
 	// JoinTime roomid群成员的入群时间
 	JoinTime time.Time
 }
 
-// GroupChat 获取会话内容存档内部群信息
-type GroupChat struct {
+// MsgAuditGroupChat 获取会话内容存档内部群信息
+type MsgAuditGroupChat struct {
 	// Members roomid对应的群成员列表
-	Members []GroupChatMember
+	Members []MsgAuditGroupChatMember
 	// RoomName roomid对应的群名称
 	RoomName string
 	// Creator roomid对应的群创建者，userid
@@ -110,9 +110,9 @@ type GroupChat struct {
 	Notice string
 }
 
-// GetGroupChat 获取会话内容存档内部群信息
-func (c *WorkwxApp) GetGroupChat(roomID string) (*GroupChat, error) {
-	resp, err := c.execGetGroupChat(reqGetGroupChat{
+// GetMsgAuditGroupChat 获取会话内容存档内部群信息
+func (c *WorkwxApp) GetMsgAuditGroupChat(roomID string) (*MsgAuditGroupChat, error) {
+	resp, err := c.execMsgAuditGetGroupChat(reqMsgAuditGetGroupChat{
 		RoomID: roomID,
 	})
 	if err != nil {
