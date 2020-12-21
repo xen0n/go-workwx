@@ -219,3 +219,39 @@ type ExternalContactMarkTag struct {
 	// RemoveTag 要移除的标签列表
 	RemoveTag []string `json:"remove_tag"`
 }
+
+// ExternalContactUnassignedList 离职成员的客户列表
+type ExternalContactUnassignedList struct {
+	// Info 离职成员的客户
+	Info []ExternalContactUnassigned `json:"info"`
+	// IsLast 是否是最后一条记录
+	IsLast bool `json:"is_last"`
+	// NextCursor 分页查询游标,已经查完则返回空("")
+	NextCursor string `json:"next_cursor"`
+}
+
+// ExternalContactTransferStatus 客户接替结果状态
+type ExternalContactTransferStatus uint8
+
+const (
+	// ExternalContactTransferStatusSuccess 1-接替完毕
+	ExternalContactTransferStatusSuccess ExternalContactTransferStatus = 1
+	// ExternalContactTransferStatusWait 2-等待接替
+	ExternalContactTransferStatusWait ExternalContactTransferStatus = 2
+	// ExternalContactTransferStatusRefused 3-客户拒绝
+	ExternalContactTransferStatusRefused ExternalContactTransferStatus = 3
+	// ExternalContactTransferStatusExhausted 4-接替成员客户达到上限
+	ExternalContactTransferStatusExhausted ExternalContactTransferStatus = 4
+	// ExternalContactTransferStatusNoData 5-无接替记录
+	ExternalContactTransferStatusNoData ExternalContactTransferStatus = 5
+)
+
+// ExternalContactGroupChatTransferFailed 离职成员的群再分配失败
+type ExternalContactGroupChatTransferFailed struct {
+	// ChatID 没能成功继承的群ID
+	ChatID string `json:"chat_id"`
+	// ErrCode 没能成功继承的群，错误码
+	ErrCode int `json:"errcode"`
+	// ErrMsg 没能成功继承的群，错误描述
+	ErrMsg string `json:"errmsg"`
+}
