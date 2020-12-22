@@ -722,3 +722,131 @@ func (x respMsgAuditGetGroupChat) intoGroupChat() (resp MsgAuditGroupChat) {
 	}
 	return resp
 }
+
+type reqListUnassignedExternalContact struct {
+	// PageID 分页查询，要查询页号，从0开始
+	PageID uint32 `json:"page_id"`
+	// PageSize 每次返回的最大记录数，默认为1000，最大值为1000
+	PageSize uint32 `json:"page_size"`
+	// Cursor 分页查询游标，字符串类型，适用于数据量较大的情况，如果使用该参数则无需填写page_id，该参数由上一次调用返回
+	Cursor string `json:"cursor"`
+}
+
+var _ bodyer = reqListUnassignedExternalContact{}
+
+func (x reqListUnassignedExternalContact) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respListUnassignedExternalContact struct {
+	respCommon
+	Info []struct {
+		HandoverUserid string `json:"handover_userid"`
+		ExternalUserid string `json:"external_userid"`
+		DemissionTime  int    `json:"dimission_time"`
+	} `json:"info"`
+	IsLast     bool   `json:"is_last"`
+	NextCursor string `json:"next_cursor"`
+}
+
+func (x respListUnassignedExternalContact) intoExternalContactUnassignedList() (resp ExternalContactUnassignedList) {
+	list := make([]ExternalContactUnassigned, 0, len(x.Info))
+	for _, info := range x.Info {
+		list = append(list, ExternalContactUnassigned{
+			HandoverUserID: info.HandoverUserid,
+			ExternalUserID: info.ExternalUserid,
+			DemissionTime:  time.Unix(int64(info.DemissionTime), 0),
+		})
+	}
+	resp.Info = list
+	resp.IsLast = x.IsLast
+	resp.NextCursor = x.NextCursor
+	return resp
+}
+
+type reqTransferExternalContact struct {
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `json:"external_userid"`
+	// HandoverUserID 原跟进成员的userid
+	HandoverUserID string `json:"handover_userid"`
+	// TakeoverUserID 接替成员的userid
+	TakeoverUserID string `json:"takeover_userid"`
+	// TransferSuccessMsg 转移成功后发给客户的消息，最多200个字符，不填则使用默认文案，目前只对在职成员分配客户的情况生效
+	TransferSuccessMsg string `json:"transfer_success_msg"`
+}
+
+var _ bodyer = reqTransferExternalContact{}
+
+func (x reqTransferExternalContact) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respTransferExternalContact struct {
+	respCommon
+}
+
+type reqGetTransferExternalContactResult struct {
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `json:"external_userid"`
+	// HandoverUserID 原跟进成员的userid
+	HandoverUserID string `json:"handover_userid"`
+	// TakeoverUserID 接替成员的userid
+	TakeoverUserID string `json:"takeover_userid"`
+}
+
+var _ bodyer = reqGetTransferExternalContactResult{}
+
+func (x reqGetTransferExternalContactResult) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respGetTransferExternalContactResult struct {
+	respCommon
+	Status       uint8 `json:"status"`
+	TakeoverTime int   `json:"takeover_time"`
+}
+
+func (x respGetTransferExternalContactResult) intoExternalContactTransferResult() ExternalContactTransferResult {
+	return ExternalContactTransferResult{
+		Status:       ExternalContactTransferStatus(x.Status),
+		TakeoverTime: time.Unix(int64(x.TakeoverTime), 0),
+	}
+}
+
+type reqTransferGroupChatExternalContact struct {
+	// ChatIDList 需要转群主的客户群ID列表。取值范围： 1 ~ 100
+	ChatIDList []string `json:"chat_id_list"`
+	// NewOwner 新群主ID
+	NewOwner string `json:"new_owner"`
+}
+
+var _ bodyer = reqTransferGroupChatExternalContact{}
+
+func (x reqTransferGroupChatExternalContact) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respTransferGroupChatExternalContact struct {
+	respCommon
+	FailedChatList []ExternalContactGroupChatTransferFailed `json:"failed_chat_list"`
+}

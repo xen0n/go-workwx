@@ -240,6 +240,62 @@ func (c *WorkwxApp) execExternalContactMarkTag(req reqExternalContactMarkTag) (r
 	return resp, nil
 }
 
+// execListUnassignedExternalContact 获取离职成员的客户列表
+func (c *WorkwxApp) execListUnassignedExternalContact(req reqListUnassignedExternalContact) (respListUnassignedExternalContact, error) {
+	var resp respListUnassignedExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/get_unassigned_list", req, &resp, true)
+	if err != nil {
+		return respListUnassignedExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respListUnassignedExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execTransferExternalContact 分配成员的客户
+func (c *WorkwxApp) execTransferExternalContact(req reqTransferExternalContact) (respTransferExternalContact, error) {
+	var resp respTransferExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/transfer", req, &resp, true)
+	if err != nil {
+		return respTransferExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respTransferExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetTransferExternalContactResult 查询客户接替结果
+func (c *WorkwxApp) execGetTransferExternalContactResult(req reqGetTransferExternalContactResult) (respGetTransferExternalContactResult, error) {
+	var resp respGetTransferExternalContactResult
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/get_transfer_result", req, &resp, true)
+	if err != nil {
+		return respGetTransferExternalContactResult{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetTransferExternalContactResult{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execTransferGroupChatExternalContact 离职成员的群再分配
+func (c *WorkwxApp) execTransferGroupChatExternalContact(req reqTransferGroupChatExternalContact) (respTransferGroupChatExternalContact, error) {
+	var resp respTransferGroupChatExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/transfer", req, &resp, true)
+	if err != nil {
+		return respTransferGroupChatExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respTransferGroupChatExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execAppchatCreate 创建群聊会话
 func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, error) {
 	var resp respAppchatCreate

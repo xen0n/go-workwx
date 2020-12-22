@@ -111,7 +111,7 @@ in at least 2 of Qiniu's internal systems.
 <details>
 <summary>外部联系人管理 API</summary>
 
-* [ ] 离职成员的外部联系人再分配
+
 * [x] 成员对外信息
 * [x] 客户管理
     - [x] 获取客户列表
@@ -120,6 +120,11 @@ in at least 2 of Qiniu's internal systems.
 * [x] 客户标签管理
    - [x] 管理企业标签
    - [x] 编辑客户企业标签
+* [x] 客户分配
+   - [x] 获取离职成员列表
+   - [x] 分配在职或离职成员的客户
+   - [x] 查询客户接替结果
+   - [x] 分配离职成员的客户群
 * [x] 变更回调通知
     - [x] 添加企业客户事件
     - [x] 编辑企业客户事件
