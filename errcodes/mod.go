@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://work.weixin.qq.com/api/doc/90000/90139/90313
-// 文档爬取时间: 2020-11-29 01:42:42 +0800
+// 文档爬取时间: 2020-12-29 15:12:57 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -22,6 +22,11 @@ const ErrCodeServiceUnavailable ErrCode = -1
 //
 // 排查方法: 接口调用成功
 const ErrCodeSuccess ErrCode = 0
+
+// ErrCode6000 数据版本冲突
+//
+// 排查方法: 可能有多个调用端同时修改数据，稍后重试
+const ErrCode6000 ErrCode = 6000
 
 // ErrCode40001 不合法的secret参数
 //
@@ -384,7 +389,7 @@ const ErrCode40097 ErrCode = 40097
 // 排查方法: 确认传入的userid是已经过实名认证成员的
 const ErrCode40098 ErrCode = 40098
 
-// ErrCode40099 接替成员的外部联系人数量已达上限
+// ErrCode40099 外部联系人的数量已达上限
 //
 // 排查方法: -
 const ErrCode40099 ErrCode = 40099
@@ -648,6 +653,31 @@ const ErrCode41056 ErrCode = 41056
 // 排查方法: -
 const ErrCode41057 ErrCode = 41057
 
+// ErrCode41059 缺少moment_id参数
+//
+// 排查方法: -
+const ErrCode41059 ErrCode = 41059
+
+// ErrCode41060 不合法的moment_id参数
+//
+// 排查方法: -
+const ErrCode41060 ErrCode = 41060
+
+// ErrCode41061 不合法朋友圈发送成员userid，当前朋友圈并非此用户发表
+//
+// 排查方法: -
+const ErrCode41061 ErrCode = 41061
+
+// ErrCode41062 企业创建的朋友圈尚未被成员userid发表
+//
+// 排查方法: -
+const ErrCode41062 ErrCode = 41062
+
+// ErrCode41063 群发消息正在被派发中，请稍后再试
+//
+// 排查方法: [创建企业群发](https://work.weixin.qq.com/api/doc/90000/90139/90313#15836)后，立刻调用[获取企业的全部群发记录](https://work.weixin.qq.com/api/doc/90000/90139/90313#25429)的相关接口，将可能出现该错误
+const ErrCode41063 ErrCode = 41063
+
 // ErrCode41102 缺少菜单名
 //
 // 排查方法: -
@@ -877,6 +907,11 @@ const ErrCode48005 ErrCode = 48005
 //
 // 排查方法: 由于企业长时间未使用应用，接口权限被收回，需企业管理员重新启用
 const ErrCode48006 ErrCode = 48006
+
+// ErrCode49008 群已经解散
+//
+// 排查方法: 群主已经解散群聊
+const ErrCode49008 ErrCode = 49008
 
 // ErrCode50001 redirect_url未登记可信域名
 //
@@ -1200,6 +1235,66 @@ const ErrCode65015 ErrCode = 65015
 //
 // 排查方法: 未验证的学校\企业最多可添加2000名家长，验证过的学校\企业最多可添加20000名家长
 const ErrCode65018 ErrCode = 65018
+
+// ErrCode660001 无效的商户号
+//
+// 排查方法: 请检查商户号是否正确
+const ErrCode660001 ErrCode = 660001
+
+// ErrCode660002 无效的企业收款人id
+//
+// 排查方法: 请检查payee_userid是否正确
+const ErrCode660002 ErrCode = 660002
+
+// ErrCode660003 userid不在应用的可见范围
+//
+// 排查方法: -
+const ErrCode660003 ErrCode = 660003
+
+// ErrCode660004 partyid不在应用的可见范围
+//
+// 排查方法: -
+const ErrCode660004 ErrCode = 660004
+
+// ErrCode660005 tagid不在应用的可见范围
+//
+// 排查方法: -
+const ErrCode660005 ErrCode = 660005
+
+// ErrCode660006 找不到该商户号
+//
+// 排查方法: -
+const ErrCode660006 ErrCode = 660006
+
+// ErrCode660007 申请已经存在
+//
+// 排查方法: 不需要重复申请
+const ErrCode660007 ErrCode = 660007
+
+// ErrCode660008 商户号已经绑定
+//
+// 排查方法: 不需要重新提交申请
+const ErrCode660008 ErrCode = 660008
+
+// ErrCode660009 商户号主体和商户主体不一致
+//
+// 排查方法: -
+const ErrCode660009 ErrCode = 660009
+
+// ErrCode660010 超过商户号绑定数量限制
+//
+// 排查方法: -
+const ErrCode660010 ErrCode = 660010
+
+// ErrCode660011 商户号未绑定
+//
+// 排查方法: -
+const ErrCode660011 ErrCode = 660011
+
+// ErrCode670001 应用不在共享范围
+//
+// 排查方法: -
+const ErrCode670001 ErrCode = 670001
 
 // ErrCode72023 发票已被其他公众号锁定
 //
@@ -1872,6 +1967,11 @@ const ErrCode86206 ErrCode = 86206
 // 排查方法: -
 const ErrCode86207 ErrCode = 86207
 
+// ErrCode86214 群发类型不合法
+//
+// 排查方法: -
+const ErrCode86214 ErrCode = 86214
+
 // ErrCode86215 会话ID已经存在
 //
 // 排查方法: -
@@ -2439,6 +2539,21 @@ const ErrCode92001 ErrCode = 92001
 // 排查方法: -
 const ErrCode92002 ErrCode = 92002
 
+// ErrCode92006 该直播已经开始或取消
+//
+// 排查方法: -
+const ErrCode92006 ErrCode = 92006
+
+// ErrCode92007 该直播回放不能被删除
+//
+// 排查方法: -
+const ErrCode92007 ErrCode = 92007
+
+// ErrCode92008 当前应用没权限操作这个直播
+//
+// 排查方法: -
+const ErrCode92008 ErrCode = 92008
+
 // ErrCode93000 机器人webhookurl不合法或者机器人已经被移除出群
 //
 // 排查方法: -
@@ -2881,6 +2996,26 @@ const ErrCode610003 ErrCode = 610003
 //
 // 排查方法: 请在管理端后台 客户联系->配置->配置使用范围配置该用户
 const ErrCode610004 ErrCode = 610004
+
+// ErrCode610014 无效的unionid
+//
+// 排查方法: -
+const ErrCode610014 ErrCode = 610014
+
+// ErrCode610015 小程序对应的开放平台账号未认证
+//
+// 排查方法: -
+const ErrCode610015 ErrCode = 610015
+
+// ErrCode610016 企业未认证
+//
+// 排查方法: -
+const ErrCode610016 ErrCode = 610016
+
+// ErrCode610017 小程序和企业主体不一致
+//
+// 排查方法: -
+const ErrCode610017 ErrCode = 610017
 
 // ErrCode640001 微盘不存在当前空间
 //
