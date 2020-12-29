@@ -181,3 +181,38 @@ Name|JSON|Type|Doc
 `ExternalUserID`|`external_userid`|`string`| 外部联系人userid
 `AddTag`|`add_tag`|`[]string`| 要标记的标签列表
 `RemoveTag`|`remove_tag`|`[]string`| 要移除的标签列表
+
+### `ExternalContactUnassignedList` 离职成员的客户列表
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Info`|`info`|`[]ExternalContactUnassigned`| 离职成员的客户
+`IsLast`|`is_last`|`bool`| 是否是最后一条记录
+`NextCursor`|`next_cursor`|`string`| 分页查询游标,已经查完则返回空("")
+
+```go
+// ExternalContactTransferStatus 客户接替结果状态
+type ExternalContactTransferStatus uint8
+
+const (
+	// ExternalContactTransferStatusSuccess 1-接替完毕
+	ExternalContactTransferStatusSuccess ExternalContactTransferStatus = 1
+	// ExternalContactTransferStatusWait 2-等待接替
+	ExternalContactTransferStatusWait ExternalContactTransferStatus = 2
+	// ExternalContactTransferStatusRefused 3-客户拒绝
+	ExternalContactTransferStatusRefused ExternalContactTransferStatus = 3
+	// ExternalContactTransferStatusExhausted 4-接替成员客户达到上限
+	ExternalContactTransferStatusExhausted ExternalContactTransferStatus = 4
+	// ExternalContactTransferStatusNoData 5-无接替记录
+	ExternalContactTransferStatusNoData ExternalContactTransferStatus = 5
+)
+
+```
+
+### `ExternalContactGroupChatTransferFailed` 离职成员的群再分配失败
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`ChatID`|`chat_id`|`string`| 没能成功继承的群ID
+`ErrCode`|`errcode`|`int`| 没能成功继承的群，错误码
+`ErrMsg`|`errmsg`|`string`| 没能成功继承的群，错误描述

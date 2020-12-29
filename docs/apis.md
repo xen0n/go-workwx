@@ -7,6 +7,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execGetAccessToken`|`reqAccessToken`|`respAccessToken`|-|`GET /cgi-bin/gettoken`|[获取access_token](https://work.weixin.qq.com/api/doc#90000/90135/91039)
 `execGetJSAPITicket`|`reqJSAPITicket`|`respJSAPITicket`|+|`GET /cgi-bin/get_jsapi_ticket`|[获取企业的jsapi_ticket](https://open.work.weixin.qq.com/api/doc/90000/90136/90506)
 `execGetJSAPITicketAgentConfig`|`reqJSAPITicketAgentConfig`|`respJSAPITicket`|+|`GET /cgi-bin/ticket/get`|[获取应用的jsapi_ticket](https://open.work.weixin.qq.com/api/doc/90000/90136/90506)
+`execJSCode2Session`|`reqJSCode2Session`|`respJSCode2Session`|+|`GET /cgi-bin/miniprogram/jscode2session`|[临时登录凭证校验code2Session](https://open.work.weixin.qq.com/api/doc/90000/90136/91507)
 
 # 成员管理
 
@@ -88,6 +89,17 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execExternalContactDelCorpTag`|`reqExternalContactDelCorpTag`|`respExternalContactDelCorpTag`|+|`POST /cgi-bin/externalcontact/del_corp_tag`|[删除企业客户标签](https://work.weixin.qq.com/api/doc/90000/90135/92117)
 `execExternalContactMarkTag`|`reqExternalContactMarkTag`|`respExternalContactMarkTag`|+|`POST /cgi-bin/externalcontact/mark_tag`|[标记客户企业标签](https://work.weixin.qq.com/api/doc/90000/90135/92118)
 
+# 外部联系人管理 - 客户分配
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execListUnassignedExternalContact`|`reqListUnassignedExternalContact`|`respListUnassignedExternalContact`|+|`POST /cgi-bin/externalcontact/get_unassigned_list`|[获取离职成员的客户列表](https://work.weixin.qq.com/api/doc/90000/90135/92124)
+`execTransferExternalContact`|`reqTransferExternalContact`|`respTransferExternalContact`|+|`POST /cgi-bin/externalcontact/transfer`|[分配成员的客户](https://work.weixin.qq.com/api/doc/90000/90135/92125)
+`execGetTransferExternalContactResult`|`reqGetTransferExternalContactResult`|`respGetTransferExternalContactResult`|+|`POST /cgi-bin/externalcontact/get_transfer_result`|[查询客户接替结果](https://work.weixin.qq.com/api/doc/90000/90135/92973)
+`execTransferGroupChatExternalContact`|`reqTransferGroupChatExternalContact`|`respTransferGroupChatExternalContact`|+|`POST /cgi-bin/externalcontact/groupchat/transfer`|[离职成员的群再分配](https://work.weixin.qq.com/api/doc/90000/90135/92127)
+
 # 应用管理
 
 ## API calls
@@ -152,3 +164,15 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
+
+
+# 会话内容存档
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execMsgAuditListPermitUser`|`reqMsgAuditListPermitUser`|`respMsgAuditListPermitUser`|+|`POST /cgi-bin/msgaudit/get_permit_user_list`|[获取会话内容存档开启成员列表](https://work.weixin.qq.com/api/doc/90000/90135/91614)
+`execMsgAuditCheckSingleAgree`|`reqMsgAuditCheckSingleAgree`|`respMsgAuditCheckSingleAgree`|+|`POST /cgi-bin/msgaudit/check_single_agree`|[获取会话同意情况（单聊）](https://work.weixin.qq.com/api/doc/90000/90135/91782)
+`execMsgAuditCheckRoomAgree`|`reqMsgAuditCheckRoomAgree`|`respMsgAuditCheckRoomAgree`|+|`POST /cgi-bin/msgaudit/check_room_agree`|[获取会话同意情况（群聊）](https://work.weixin.qq.com/api/doc/90000/90135/91782)
+`execMsgAuditGetGroupChat`|`reqMsgAuditGetGroupChat`|`respMsgAuditGetGroupChat`|+|`POST /cgi-bin/msgaudit/groupchat/get`|[获取会话内容存档内部群信息](https://work.weixin.qq.com/api/doc/90000/90135/92951)
