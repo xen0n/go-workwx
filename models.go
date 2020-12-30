@@ -850,3 +850,91 @@ type respTransferGroupChatExternalContact struct {
 	respCommon
 	FailedChatList []ExternalContactGroupChatTransferFailed `json:"failed_chat_list"`
 }
+
+type reqOAGetTemplateDetail struct {
+	TemplateID string `json:"template_id"`
+}
+
+var _ bodyer = reqOAGetTemplateDetail{}
+
+func (x reqOAGetTemplateDetail) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respOAGetTemplateDetail struct {
+	respCommon
+	OATemplateDetail
+}
+
+type reqOAApplyEvent struct {
+	OAApplyEvent
+}
+
+var _ bodyer = reqOAApplyEvent{}
+
+func (x reqOAApplyEvent) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respOAApplyEvent struct {
+	respCommon
+	// SpNo 表单提交成功后，返回的表单编号
+	SpNo string `json:"sp_no"`
+}
+
+type reqOAGetApprovalInfo struct {
+	StartTime string                 `json:"starttime"`
+	EndTime   string                 `json:"endtime"`
+	Cursor    int                    `json:"cursor"`
+	Size      uint32                 `json:"size"`
+	Filters   []OAApprovalInfoFilter `json:"filters"`
+}
+
+var _ bodyer = reqOAGetApprovalInfo{}
+
+func (x reqOAGetApprovalInfo) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respOAGetApprovalInfo struct {
+	respCommon
+	// SpNoList 审批单号列表，包含满足条件的审批申请
+	SpNoList []string `json:"sp_no_list"`
+}
+
+type reqOAGetApprovalDetail struct {
+	// SpNo 审批单编号。
+	SpNo string `json:"sp_no"`
+}
+
+var _ bodyer = reqOAGetApprovalDetail{}
+
+func (x reqOAGetApprovalDetail) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respOAGetApprovalDetail struct {
+	respCommon
+	// Info 审批申请详情
+	Info OAApprovalDetail `json:"info"`
+}

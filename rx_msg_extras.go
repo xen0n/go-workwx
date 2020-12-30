@@ -63,6 +63,14 @@ func extractMessageExtras(common rxMessageCommon, body []byte) (messageKind, err
 
 	case MessageTypeEvent:
 		switch common.Event {
+		case EventTypeSysApprovalChange:
+			var x rxEventSysApprovalChange
+			err := xml.Unmarshal(body, &x)
+			if err != nil {
+				return nil, err
+			}
+			return &x, nil
+
 		case EventTypeChangeExternalContact:
 			switch common.ChangeType {
 			case ChangeTypeAddExternalContact:
@@ -598,4 +606,24 @@ func (r *rxEventChangeExternalChat) GetFromUserName() string {
 
 func (r *rxEventChangeExternalChat) GetFailReason() string {
 	return r.FailReason
+}
+
+// EventSysApprovalChange 审批申请状态变化回调通知
+type EventSysApprovalChange interface {
+	messageKind
+
+	// GetApprovalInfo 获取审批模板详情
+	GetApprovalInfo() OAApprovalInfo
+}
+
+func (r rxEventSysApprovalChange) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"ApprovalInfo: %#v",
+		r.ApprovalInfo,
+	)
+}
+
+func (r rxEventSysApprovalChange) GetApprovalInfo() OAApprovalInfo {
+	return r.ApprovalInfo
 }

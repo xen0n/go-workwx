@@ -163,3 +163,9 @@ func (m *RxMessage) EventChangeExternalChat() (EventChangeExternalChat, bool) {
 	y, ok := m.extras.(EventChangeExternalChat)
 	return y, ok
 }
+
+// EventSysApprovalChange 如果消息为审批申请状态变化回调通知，则拿出相应的消息参数，否则返回 nil, false
+func (m *RxMessage) EventSysApprovalChange() (EventSysApprovalChange, bool) {
+	y, ok := m.extras.(EventSysApprovalChange)
+	return y, ok
+}
