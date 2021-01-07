@@ -1,6 +1,7 @@
 package workwx
 
 import (
+	"encoding/json"
 	"errors"
 )
 
@@ -185,6 +186,38 @@ func (c *WorkwxApp) SendMarkdownMessage(
 	isSafe bool,
 ) error {
 	return c.sendMessage(recipient, "markdown", map[string]interface{}{"content": content}, isSafe)
+}
+
+// SendTaskCardMessage 发送 任务卡片 消息
+func (c *WorkwxApp) SendTaskCardMessage(
+	recipient *Recipient,
+	title string,
+	description string,
+	url string,
+	taskid string,
+	btn []TaskCardBtn,
+	isSafe bool,
+) error {
+	btnByte, err := json.Marshal(btn)
+	if err != nil {
+		return errors.New("btn convert to json fail: " + err.Error())
+	}
+	var btnSlice []map[string]interface{}
+	err = json.Unmarshal(btnByte, &btnSlice)
+	if err != nil {
+		return errors.New("btn convert to []map fail: " + err.Error())
+	}
+	return c.sendMessage(
+		recipient,
+		"taskcard",
+		map[string]interface{}{
+			"title":       title,
+			"description": description,
+			"url":         url,
+			"task_id":     taskid,
+			"btn":         btnSlice,
+		}, isSafe,
+	)
 }
 
 // sendMessage 发送消息底层接口

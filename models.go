@@ -938,3 +938,12 @@ type respOAGetApprovalDetail struct {
 	// Info 审批申请详情
 	Info OAApprovalDetail `json:"info"`
 }
+
+// TaskCardBtn 任务卡片消息按钮
+type TaskCardBtn struct {
+	Key         string `json:"key"`
+	Name        string `json:"name"`
+	ReplaceName string `json:"replace_name"`
+	Color       string `json:"color"`
+	IsBold      bool   `json:"is_bold"`
+}
