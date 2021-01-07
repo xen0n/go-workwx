@@ -177,6 +177,7 @@ in at least 2 of Qiniu's internal systems.
 * [x] 图文消息
 * [x] 图文消息（mpnews）
 * [x] markdown消息
+* [x] 任务卡片消息
 
 </details>
 

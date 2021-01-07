@@ -1,7 +1,6 @@
 package workwx
 
 import (
-	"encoding/json"
 	"errors"
 )
 
@@ -198,15 +197,6 @@ func (c *WorkwxApp) SendTaskCardMessage(
 	btn []TaskCardBtn,
 	isSafe bool,
 ) error {
-	btnByte, err := json.Marshal(btn)
-	if err != nil {
-		return errors.New("btn convert to json fail: " + err.Error())
-	}
-	var btnSlice []map[string]interface{}
-	err = json.Unmarshal(btnByte, &btnSlice)
-	if err != nil {
-		return errors.New("btn convert to []map fail: " + err.Error())
-	}
 	return c.sendMessage(
 		recipient,
 		"taskcard",
@@ -215,7 +205,7 @@ func (c *WorkwxApp) SendTaskCardMessage(
 			"description": description,
 			"url":         url,
 			"task_id":     taskid,
-			"btn":         btnSlice,
+			"btn":         btn,
 		}, isSafe,
 	)
 }
