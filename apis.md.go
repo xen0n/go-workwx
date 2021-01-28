@@ -156,6 +156,20 @@ func (c *WorkwxApp) execExternalContactGet(req reqExternalContactGet) (respExter
 	return resp, nil
 }
 
+// execExternalContactBatchList 批量获取客户详情
+func (c *WorkwxApp) execExternalContactBatchList(req reqExternalContactBatchList) (respExternalContactBatchList, error) {
+	var resp respExternalContactBatchList
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/batch/get_by_user", req, &resp, true)
+	if err != nil {
+		return respExternalContactBatchList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactBatchList{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execExternalContactRemark 修改客户备注信息
 func (c *WorkwxApp) execExternalContactRemark(req reqExternalContactRemark) (respExternalContactRemark, error) {
 	var resp respExternalContactRemark
