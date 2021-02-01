@@ -387,9 +387,49 @@ type respExternalContactGet struct {
 	ExternalContactInfo
 }
 
+// ExternalContactInfo 外部联系人信息
 type ExternalContactInfo struct {
 	ExternalContact ExternalContact `json:"external_contact"`
 	FollowUser      []FollowUser    `json:"follow_user"`
+}
+
+// ExternalContactBatchInfo 外部联系人信息
+type ExternalContactBatchInfo struct {
+	ExternalContact ExternalContact `json:"external_contact"`
+	FollowInfo      FollowInfo      `json:"follow_info"`
+}
+
+// BatchListExternalContactsResp 外部联系人信息
+type BatchListExternalContactsResp struct {
+	Result     []ExternalContactBatchInfo
+	NextCursor string
+}
+
+// reqExternalContactBatchList 批量获取客户详情
+type reqExternalContactBatchList struct {
+	UserID string `json:"userid"`
+	Cursor string `json:"cursor"`
+	Limit  int    `json:"limit"`
+}
+
+var _ bodyer = reqExternalContactBatchList{}
+
+func (x reqExternalContactBatchList) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactBatchList 批量获取客户详情
+type respExternalContactBatchList struct {
+	respCommon
+	NextCursor          string                     `json:"next_cursor"`
+	ExternalContactList []ExternalContactBatchInfo `json:"external_contact_list"`
 }
 
 // reqExternalContactRemark 获取客户详情
