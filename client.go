@@ -53,9 +53,9 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 		CorpSecret: corpSecret,
 		AgentID:    agentID,
 
-		accessToken:            &token{mutex: &sync.RWMutex{}},
-		jsapiTicket:            &token{mutex: &sync.RWMutex{}},
-		jsapiTicketAgentConfig: &token{mutex: &sync.RWMutex{}},
+		accessToken:            &token{mutex: &sync.RWMutex{}, logger: c.opts.Logger},
+		jsapiTicket:            &token{mutex: &sync.RWMutex{}, logger: c.opts.Logger},
+		jsapiTicketAgentConfig: &token{mutex: &sync.RWMutex{}, logger: c.opts.Logger},
 	}
 	app.accessToken.setGetTokenFunc(app.getAccessToken)
 	app.jsapiTicket.setGetTokenFunc(app.getJSAPITicket)
