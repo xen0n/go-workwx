@@ -23,7 +23,6 @@ func defaultOptions() options {
 	return options{
 		QYAPIHost: DefaultQYAPIHost,
 		HTTP:      &http.Client{},
-		Logger:    newDefaultLogger(),
 	}
 }
 
@@ -73,8 +72,7 @@ type withLogger struct {
 	x Logger
 }
 
-// WithLogger 使用给定的 logger 作为日志打印的方式。如果不使用 WithLogger 自定义 logger，
-// 则默认 logger 会将 Info 级别的日志打印在 stdout 中，将 Error 级别的日志打印在 stderr 中。
+// WithLogger 使用给定的 logger 作为日志打印的方式。
 func WithLogger(logger Logger) CtorOption {
 	return &withLogger{x: logger}
 }
