@@ -23,6 +23,7 @@ func defaultOptions() options {
 	return options{
 		QYAPIHost: DefaultQYAPIHost,
 		HTTP:      &http.Client{},
+		Logger:    newDefaultLogger(),
 	}
 }
 
