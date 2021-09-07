@@ -992,3 +992,42 @@ type TaskCardBtn struct {
 	// IsBold 按钮字体是否加粗，默认false
 	IsBold bool `json:"is_bold"`
 }
+
+// 学校通知请求内容
+type reqSchoolMessage struct {
+	ParentIDs  []string
+	StudentIDs []string
+	PartyIDs   []string
+	MsgType    string
+	AgentID    int64
+	Content    map[string]interface{}
+}
+
+func (x reqSchoolMessage) intoBody() ([]byte, error) {
+	data := map[string]interface{}{
+		"msgtype":           x.MsgType,
+		"agentid":           x.AgentID,
+		"to_parent_userid":  x.ParentIDs,
+		"to_student_userid": x.StudentIDs,
+		"to_party":          x.PartyIDs,
+		"toall":             0,
+	}
+
+	data[x.MsgType] = x.Content
+
+	result, err := json.Marshal(data)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respSchoolMessageSend struct {
+	respCommon
+
+	// InvalidParents  string `json:"invalid_parent_userid"`
+	// InvalidStudents string `json:"invalid_student_userid"`
+	// InvalidParts    string `json:"invalid_party"`
+}

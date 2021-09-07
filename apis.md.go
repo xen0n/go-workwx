@@ -352,6 +352,20 @@ func (c *WorkwxApp) execMessageSend(req reqMessage) (respMessageSend, error) {
 	return resp, nil
 }
 
+// execMessageSend 发送应用消息
+func (c *WorkwxApp) execSchoolMessageSend(req reqSchoolMessage) (respSchoolMessageSend, error) {
+	var resp respSchoolMessageSend
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/message/send", req, &resp, true)
+	if err != nil {
+		return respSchoolMessageSend{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respSchoolMessageSend{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execAppchatSend 应用推送消息
 func (c *WorkwxApp) execAppchatSend(req reqMessage) (respMessageSend, error) {
 	var resp respMessageSend

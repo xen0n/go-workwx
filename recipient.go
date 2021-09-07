@@ -6,6 +6,10 @@ type Recipient struct {
 	UserIDs []string
 	// PartyIDs 部门ID列表，最多支持100个。
 	PartyIDs []string
+	// ParentIDs 家长ID列表,最对100个(从家校互通中获取)
+	ParentIDs []string
+	// StudentIDs 学生id列表,最多100个(从家校互通中获取)
+	StudentIDs []string
 	// TagIDs 标签ID列表，最多支持100个
 	TagIDs []string
 	// ChatID 应用关联群聊ID，仅用于【发送消息到群聊会话】
