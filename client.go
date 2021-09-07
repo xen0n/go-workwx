@@ -28,6 +28,7 @@ type WorkwxApp struct {
 	accessToken            *token
 	jsapiTicket            *token
 	jsapiTicketAgentConfig *token
+	accessTokenFunc        func() (string, int64, error)
 }
 
 // New 构造一个 Workwx 客户端对象，需要提供企业 ID
@@ -57,6 +58,7 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 		jsapiTicket:            &token{mutex: &sync.RWMutex{}},
 		jsapiTicketAgentConfig: &token{mutex: &sync.RWMutex{}},
 	}
+	app.SetAccessTokenFunc(app.defaultAccessTokenFunc)
 	app.accessToken.setGetTokenFunc(app.getAccessToken)
 	app.jsapiTicket.setGetTokenFunc(app.getJSAPITicket)
 	app.jsapiTicketAgentConfig.setGetTokenFunc(app.getJSAPITicketAgentConfig)

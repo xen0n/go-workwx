@@ -20,16 +20,35 @@ type token struct {
 	getTokenFunc func() (tokenInfo, error)
 }
 
-// getAccessToken 获取 access token
-func (c *WorkwxApp) getAccessToken() (tokenInfo, error) {
+// 添加公开的方法来代理操作access token func
+func (c *WorkwxApp) SetAccessTokenFunc(tokenFunc func() (string, int64, error)) {
+	c.accessTokenFunc = tokenFunc
+}
+
+func (c *WorkwxApp) GetAccessTokenFunc() (string, int64, error) {
+	return c.accessTokenFunc()
+}
+
+func (c *WorkwxApp) defaultAccessTokenFunc() (string, int64, error) {
 	get, err := c.execGetAccessToken(reqAccessToken{
 		CorpID:     c.CorpID,
 		CorpSecret: c.CorpSecret,
 	})
+
+	if err != nil {
+		return "", 0, err
+	}
+
+	return get.AccessToken, get.ExpiresInSecs, nil
+}
+
+// getAccessToken 获取 access token
+func (c *WorkwxApp) getAccessToken() (tokenInfo, error) {
+	token, expiresIn, err := c.GetAccessTokenFunc()
 	if err != nil {
 		return tokenInfo{}, err
 	}
-	return tokenInfo{token: get.AccessToken, expiresIn: time.Duration(get.ExpiresInSecs)}, nil
+	return tokenInfo{token: token, expiresIn: time.Duration(expiresIn)}, nil
 }
 
 // SpawnAccessTokenRefresher 启动该 app 的 access token 刷新 goroutine
