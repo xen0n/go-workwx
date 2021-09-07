@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/xen0n/go-workwx/internal/lowlevel/envelope"
+	"github.com/61qt/go-workwx/internal/lowlevel/envelope"
 )
 
 type EnvelopeHandler interface {

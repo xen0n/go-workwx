@@ -1,12 +1,12 @@
 # go-workwx
 
 [![Travis Build Status](https://img.shields.io/travis/xen0n/go-workwx.svg)](https://travis-ci.org/xen0n/go-workwx)
-[![Go Report Card](https://goreportcard.com/badge/github.com/xen0n/go-workwx)](https://goreportcard.com/report/github.com/xen0n/go-workwx)
-[![GoDoc](http://godoc.org/github.com/xen0n/go-workwx?status.svg)](http://godoc.org/github.com/xen0n/go-workwx)
+[![Go Report Card](https://goreportcard.com/badge/github.com/61qt/go-workwx)](https://goreportcard.com/report/github.com/61qt/go-workwx)
+[![GoDoc](http://godoc.org/github.com/61qt/go-workwx?status.svg)](http://godoc.org/github.com/61qt/go-workwx)
 
 ```go
 import (
-    "github.com/xen0n/go-workwx" // package workwx
+    "github.com/61qt/go-workwx" // package workwx
 )
 ```
 
