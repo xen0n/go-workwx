@@ -1027,7 +1027,7 @@ func (x reqSchoolMessage) intoBody() ([]byte, error) {
 type respSchoolMessageSend struct {
 	respCommon
 
-	// InvalidParents  string `json:"invalid_parent_userid"`
-	// InvalidStudents string `json:"invalid_student_userid"`
-	// InvalidParts    string `json:"invalid_party"`
+	InvalidParents  []string `json:"invalid_parent_userid"`
+	InvalidStudents []string `json:"invalid_student_userid"`
+	InvalidParts    []string `json:"invalid_party"`
 }
