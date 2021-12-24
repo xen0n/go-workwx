@@ -55,6 +55,9 @@ const EventTypeChangeExternalContact EventType = "change_external_contact"
 // EventTypeChangeExternalChat 客户群变更事件
 const EventTypeChangeExternalChat EventType = "change_external_chat"
 
+// EventTypeSysApprovalChange 审批申请状态变化回调通知
+const EventTypeSysApprovalChange EventType = "sys_approval_change"
+
 // ChangeType 变更类型
 type ChangeType string
 
@@ -202,4 +205,10 @@ type rxEventChangeExternalChat struct {
 	FailReason string `xml:"FailReason"`
 	// ChatID 群ID
 	ChatID string `xml:"ChatId"`
+}
+
+// rxEventSysApprovalChange 接收的事件消息，审批申请状态变化回调通知
+type rxEventSysApprovalChange struct {
+	// ApprovalInfo 审批信息、
+	ApprovalInfo OAApprovalInfo `xml:"ApprovalInfo"`
 }

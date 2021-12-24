@@ -75,6 +75,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execExternalContactList`|`reqExternalContactList`|`respExternalContactList`|+|`GET /cgi-bin/externalcontact/list`|[获取客户列表](https://work.weixin.qq.com/api/doc/90000/90135/92113)
 `execExternalContactGet`|`reqExternalContactGet`|`respExternalContactGet`|+|`GET /cgi-bin/externalcontact/get`|[获取客户详情](https://work.weixin.qq.com/api/doc/90000/90135/92114)
+`execExternalContactBatchList`|`reqExternalContactBatchList`|`respExternalContactBatchList`|+|`POST /cgi-bin/externalcontact/batch/get_by_user`|[批量获取客户详情](https://work.weixin.qq.com/api/doc/90000/90135/92994)
 `execExternalContactRemark`|`reqExternalContactRemark`|`respExternalContactRemark`|+|`POST /cgi-bin/externalcontact/remark`|[修改客户备注信息](https://work.weixin.qq.com/api/doc/90000/90135/92115)
 
 # 外部联系人管理 - 客户标签管理
@@ -149,7 +150,10 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
-`execCorpGetOpenApprovalData`|TODO|TODO|+|`POST /cgi-bin/corp/getopenapprovaldata`|[查询自建应用审批单当前状态](https://work.weixin.qq.com/api/doc#90000/90135/90269)
+`execOAGetTemplateDetail`|`reqOAGetTemplateDetail`|`respOAGetTemplateDetail`|+|`POST /cgi-bin/oa/gettemplatedetail`|[获取审批模板详情](https://work.weixin.qq.com/api/doc/90000/90135/91982)
+`execOAApplyEvent`|`reqOAApplyEvent`|`respOAApplyEvent`|+|`POST /cgi-bin/oa/applyevent`|[提交审批申请](https://work.weixin.qq.com/api/doc/90000/90135/91853)
+`execOAGetApprovalInfo`|`reqOAGetApprovalInfo`|`respOAGetApprovalInfo`|+|`POST /cgi-bin/oa/getapprovalinfo`|[批量获取审批单号](https://work.weixin.qq.com/api/doc/90000/90135/91816)
+`execOAGetApprovalDetail`|`reqOAGetApprovalDetail`|`respOAGetApprovalDetail`|+|`POST /cgi-bin/oa/getapprovaldetail`|[获取审批申请详情](https://work.weixin.qq.com/api/doc/90000/90135/91983)
 
 # 企业支付
 

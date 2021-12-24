@@ -156,6 +156,20 @@ func (c *WorkwxApp) execExternalContactGet(req reqExternalContactGet) (respExter
 	return resp, nil
 }
 
+// execExternalContactBatchList 批量获取客户详情
+func (c *WorkwxApp) execExternalContactBatchList(req reqExternalContactBatchList) (respExternalContactBatchList, error) {
+	var resp respExternalContactBatchList
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/batch/get_by_user", req, &resp, true)
+	if err != nil {
+		return respExternalContactBatchList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respExternalContactBatchList{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execExternalContactRemark 修改客户备注信息
 func (c *WorkwxApp) execExternalContactRemark(req reqExternalContactRemark) (respExternalContactRemark, error) {
 	var resp respExternalContactRemark
@@ -375,6 +389,62 @@ func (c *WorkwxApp) execMediaUploadImg(req reqMediaUploadImg) (respMediaUploadIm
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respMediaUploadImg{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAGetTemplateDetail 获取审批模板详情
+func (c *WorkwxApp) execOAGetTemplateDetail(req reqOAGetTemplateDetail) (respOAGetTemplateDetail, error) {
+	var resp respOAGetTemplateDetail
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/gettemplatedetail", req, &resp, true)
+	if err != nil {
+		return respOAGetTemplateDetail{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetTemplateDetail{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAApplyEvent 提交审批申请
+func (c *WorkwxApp) execOAApplyEvent(req reqOAApplyEvent) (respOAApplyEvent, error) {
+	var resp respOAApplyEvent
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/applyevent", req, &resp, true)
+	if err != nil {
+		return respOAApplyEvent{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAApplyEvent{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAGetApprovalInfo 批量获取审批单号
+func (c *WorkwxApp) execOAGetApprovalInfo(req reqOAGetApprovalInfo) (respOAGetApprovalInfo, error) {
+	var resp respOAGetApprovalInfo
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/getapprovalinfo", req, &resp, true)
+	if err != nil {
+		return respOAGetApprovalInfo{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetApprovalInfo{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAGetApprovalDetail 获取审批申请详情
+func (c *WorkwxApp) execOAGetApprovalDetail(req reqOAGetApprovalDetail) (respOAGetApprovalDetail, error) {
+	var resp respOAGetApprovalDetail
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/getapprovaldetail", req, &resp, true)
+	if err != nil {
+		return respOAGetApprovalDetail{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetApprovalDetail{}, bizErr
 	}
 
 	return resp, nil

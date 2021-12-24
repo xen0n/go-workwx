@@ -387,9 +387,49 @@ type respExternalContactGet struct {
 	ExternalContactInfo
 }
 
+// ExternalContactInfo 外部联系人信息
 type ExternalContactInfo struct {
 	ExternalContact ExternalContact `json:"external_contact"`
 	FollowUser      []FollowUser    `json:"follow_user"`
+}
+
+// ExternalContactBatchInfo 外部联系人信息
+type ExternalContactBatchInfo struct {
+	ExternalContact ExternalContact `json:"external_contact"`
+	FollowInfo      FollowInfo      `json:"follow_info"`
+}
+
+// BatchListExternalContactsResp 外部联系人信息
+type BatchListExternalContactsResp struct {
+	Result     []ExternalContactBatchInfo
+	NextCursor string
+}
+
+// reqExternalContactBatchList 批量获取客户详情
+type reqExternalContactBatchList struct {
+	UserID string `json:"userid"`
+	Cursor string `json:"cursor"`
+	Limit  int    `json:"limit"`
+}
+
+var _ bodyer = reqExternalContactBatchList{}
+
+func (x reqExternalContactBatchList) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// respExternalContactBatchList 批量获取客户详情
+type respExternalContactBatchList struct {
+	respCommon
+	NextCursor          string                     `json:"next_cursor"`
+	ExternalContactList []ExternalContactBatchInfo `json:"external_contact_list"`
 }
 
 // reqExternalContactRemark 获取客户详情
@@ -849,4 +889,106 @@ func (x reqTransferGroupChatExternalContact) intoBody() ([]byte, error) {
 type respTransferGroupChatExternalContact struct {
 	respCommon
 	FailedChatList []ExternalContactGroupChatTransferFailed `json:"failed_chat_list"`
+}
+
+type reqOAGetTemplateDetail struct {
+	TemplateID string `json:"template_id"`
+}
+
+var _ bodyer = reqOAGetTemplateDetail{}
+
+func (x reqOAGetTemplateDetail) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respOAGetTemplateDetail struct {
+	respCommon
+	OATemplateDetail
+}
+
+type reqOAApplyEvent struct {
+	OAApplyEvent
+}
+
+var _ bodyer = reqOAApplyEvent{}
+
+func (x reqOAApplyEvent) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respOAApplyEvent struct {
+	respCommon
+	// SpNo 表单提交成功后，返回的表单编号
+	SpNo string `json:"sp_no"`
+}
+
+type reqOAGetApprovalInfo struct {
+	StartTime string                 `json:"starttime"`
+	EndTime   string                 `json:"endtime"`
+	Cursor    int                    `json:"cursor"`
+	Size      uint32                 `json:"size"`
+	Filters   []OAApprovalInfoFilter `json:"filters"`
+}
+
+var _ bodyer = reqOAGetApprovalInfo{}
+
+func (x reqOAGetApprovalInfo) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respOAGetApprovalInfo struct {
+	respCommon
+	// SpNoList 审批单号列表，包含满足条件的审批申请
+	SpNoList []string `json:"sp_no_list"`
+}
+
+type reqOAGetApprovalDetail struct {
+	// SpNo 审批单编号。
+	SpNo string `json:"sp_no"`
+}
+
+var _ bodyer = reqOAGetApprovalDetail{}
+
+func (x reqOAGetApprovalDetail) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respOAGetApprovalDetail struct {
+	respCommon
+	// Info 审批申请详情
+	Info OAApprovalDetail `json:"info"`
+}
+
+// TaskCardBtn 任务卡片消息按钮
+type TaskCardBtn struct {
+	// Key 按钮key值，用户点击后，会产生任务卡片回调事件，回调事件会带上该key值，只能由数字、字母和“_-@”组成，最长支持128字节
+	Key string `json:"key"`
+	// Name 按钮名称
+	Name string `json:"name"`
+	// ReplaceName 点击按钮后显示的名称，默认为“已处理”
+	ReplaceName string `json:"replace_name"`
+	// Color 按钮字体颜色，可选“red”或者“blue”,默认为“blue”
+	Color string `json:"color"`
+	// IsBold 按钮字体是否加粗，默认false
+	IsBold bool `json:"is_bold"`
 }

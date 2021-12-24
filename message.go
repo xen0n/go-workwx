@@ -187,6 +187,29 @@ func (c *WorkwxApp) SendMarkdownMessage(
 	return c.sendMessage(recipient, "markdown", map[string]interface{}{"content": content}, isSafe)
 }
 
+// SendTaskCardMessage 发送 任务卡片 消息
+func (c *WorkwxApp) SendTaskCardMessage(
+	recipient *Recipient,
+	title string,
+	description string,
+	url string,
+	taskid string,
+	btn []TaskCardBtn,
+	isSafe bool,
+) error {
+	return c.sendMessage(
+		recipient,
+		"taskcard",
+		map[string]interface{}{
+			"title":       title,
+			"description": description,
+			"url":         url,
+			"task_id":     taskid,
+			"btn":         btn,
+		}, isSafe,
+	)
+}
+
 // sendMessage 发送消息底层接口
 //
 // 收件人参数如果仅设置了 `ChatID` 字段，则为【发送消息到群聊会话】接口调用；

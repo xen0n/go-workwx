@@ -85,22 +85,38 @@ const (
 
 // FollowUser 添加了外部联系人的企业成员
 type FollowUser struct {
-	// Userid 外部联系人的userid
-	Userid string `json:"userid"`
+	//  添加了外部联系人的企业成员
+	FollowUserInfo
+	// Tags 该成员添加此外部联系人所打标签
+	Tags []FollowUserTag `json:"tags"`
+}
+
+// FollowInfo 企业成员客户跟进信息，可以参考获取客户详情，但标签信息只会返回企业标签的tag_id，个人标签将不再返回
+type FollowInfo struct {
+	//  添加了外部联系人的企业成员
+	FollowUserInfo
+	// TagID 该成员添加此外部联系人所打标签
+	TagID []string `json:"tag_id"`
+}
+
+// FollowUserInfo 添加了外部联系人的企业成员
+type FollowUserInfo struct {
+	// UserID 外部联系人的userid
+	UserID string `json:"userid"`
 	// Remark 该成员对此外部联系人的备注
 	Remark string `json:"remark"`
 	// Description 该成员对此外部联系人的描述
 	Description string `json:"description"`
 	// Createtime 该成员添加此外部联系人的时间
 	Createtime int `json:"createtime"`
-	// Tags 该成员添加此外部联系人所打标签
-	Tags []FollowUserTag `json:"tags"`
 	// RemarkCorpName 该成员对此客户备注的企业名称
 	RemarkCorpName string `json:"remark_corp_name"`
 	// RemarkMobiles 该成员对此客户备注的手机号码，第三方不可获取
 	RemarkMobiles []string `json:"remark_mobiles"`
 	// AddWay 该成员添加此客户的来源
 	AddWay FollowUserAddWay `json:"add_way"`
+	// OperUserID 发起添加的userid，如果成员主动添加，为成员的userid；如果是客户主动添加，则为客户的外部联系人userid；如果是内部成员共享/管理员分配，则为对应的成员/管理员userid
+	OperUserID string `json:"oper_userid"`
 	// State 企业自定义的state参数，用于区分客户具体是通过哪个「联系我」添加，由企业通过创建「联系我」方式指定
 	State string `json:"state"`
 }

@@ -26,6 +26,19 @@ func (c *WorkwxApp) GetExternalContact(externalUserid string) (*ExternalContactI
 	return &resp.ExternalContactInfo, nil
 }
 
+// BatchListExternalContact 批量获取客户详情
+func (c *WorkwxApp) BatchListExternalContact(userID string, cursor string, limit int) (*BatchListExternalContactsResp, error) {
+	resp, err := c.execExternalContactBatchList(reqExternalContactBatchList{
+		UserID: userID,
+		Cursor: cursor,
+		Limit:  limit,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &BatchListExternalContactsResp{Result: resp.ExternalContactList, NextCursor: resp.NextCursor}, nil
+}
+
 // RemarkExternalContact 修改客户备注信息
 func (c *WorkwxApp) RemarkExternalContact(req *ExternalContactRemark) error {
 	_, err := c.execExternalContactRemark(reqExternalContactRemark{
