@@ -13,15 +13,14 @@ func reshapeDeptInfo(
 	if len(ids) != len(orders) {
 		panic("should never happen")
 	}
-	if len(ids) != len(leaderStatuses) {
-		panic("should never happen")
-	}
 
 	result := make([]UserDeptInfo, len(ids))
 	for i := range ids {
 		result[i].DeptID = ids[i]
 		result[i].Order = orders[i]
-		result[i].IsLeader = leaderStatuses[i] != 0
+		if len(leaderStatuses)==len(ids){
+			result[i].IsLeader = leaderStatuses[i] != 0
+		}
 	}
 
 	return result
