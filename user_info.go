@@ -9,8 +9,12 @@ func (c *WorkwxApp) GetUser(userid string) (*UserInfo, error) {
 		return nil, err
 	}
 
+	obj, err := resp.intoUserInfo()
+	if err != nil {
+		return nil, err
+	}
+
 	// TODO: return bare T instead of &T?
-	obj := resp.intoUserInfo()
 	return &obj, nil
 }
 
@@ -25,7 +29,10 @@ func (c *WorkwxApp) ListUsersByDeptID(deptID int64, fetchChild bool) ([]*UserInf
 	}
 	users := make([]*UserInfo, len(resp.Users))
 	for index, user := range resp.Users {
-		userInfo := user.intoUserInfo()
+		userInfo, err := user.intoUserInfo()
+		if err != nil {
+			return nil, err
+		}
 		users[index] = &userInfo
 	}
 	return users, nil
