@@ -1,4 +1,5 @@
-//+build sdkcodegen
+//go:build sdkcodegen
+// +build sdkcodegen
 
 package main
 
@@ -7,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
 	"regexp"
 	"strconv"
@@ -14,15 +16,16 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	"golang.org/x/net/html"
 )
 
-const errcodeDocURL = "https://work.weixin.qq.com/api/doc/90000/90139/90313"
+const errcodeDocURL = "https://developer.work.weixin.qq.com/document/path/95390"
 
-var absoluteLinkRegexp = regexp.MustCompile(`<a href="(http[^"]+)">([^<]+)</a>`)
+var absoluteLinkRegexp = regexp.MustCompile(`<a href="(http[^"]+)"(?: rel="nofollow")?>([^<]+)</a>`)
 
 var absoluteLinkReplace = "[$2]($1)"
 
-var anchorLinkRegexp = regexp.MustCompile(`<a href="#([^"]+)">([^<]+)</a>`)
+var anchorLinkRegexp = regexp.MustCompile(`<a href="#([^"]+)"(?: rel="nofollow")?>([^<]+)</a>`)
 
 var anchorLinkReplace = fmt.Sprintf("[$2](%s#$1)", errcodeDocURL)
 
@@ -82,6 +85,12 @@ func main() {
 		die("code emission init failed: %+v\n", err)
 	}
 
+	// 本工具最早写作时，所有具体排查方法的小节在页面上是 li > h5 > a 的形式，
+	// 正文在 li 里，但截至 2022-02-28 已经变成了平坦的 h5 后面跟一个或多个 p
+	// 的形状了。
+	// 现在把所有 h5 后面的 p 都预先收集出来，方便下面处理。
+	rawSectionContents := collectRawSectionContents(doc)
+
 	numWritten := 0
 	// 目前的页面结构是唯一一个 <table> 里面 <tbody> 里面一 <tr> 有按顺序的三个 <td>
 	// 错误码, 错误说明, 排查方法
@@ -112,25 +121,21 @@ func main() {
 					continue
 				}
 				anchorName = anchorName[6:]
+
+				if unescapedAnchorName, err := url.QueryUnescape(anchorName); err == nil {
+					anchorName = unescapedAnchorName
+				}
+
 				anchorRefs = append(anchorRefs, anchorName)
 			}
 		}
 
 		// resolve the referenced section and paste the content into solution
 		// for users' convenience
-		//
-		// document structure like this: li > h5 > a[name="错误码：xxxxx"]
-		// we want the innerHTML of li
 		if len(anchorRefs) > 0 {
 			for _, anchor := range anchorRefs {
-				a := doc.Find(fmt.Sprintf(`a[name="%s"]`, anchor)).First()
-				li := a.Parent().Parent()
-				liHtml, err := li.Html()
-				if err != nil {
-					die("failed to get html out of li: %+v\n", err)
-				}
 				solutionHtml += "\n\n"
-				solutionHtml += h5Regexp.ReplaceAllString(liHtml, "")
+				solutionHtml += rawSectionContents[anchor]
 			}
 		}
 
@@ -141,6 +146,7 @@ func main() {
 
 		// unescape things
 		// this is VERY crude but working so...
+		tmp = strings.ReplaceAll(tmp, "&#34;", `"`)
 		tmp = strings.ReplaceAll(tmp, "&lt;", "<")
 		tmp = strings.ReplaceAll(tmp, "&gt;", ">")
 		tmp = strings.ReplaceAll(tmp, "<br/>", "\n")
@@ -168,4 +174,54 @@ func main() {
 	}
 
 	fmt.Printf("%d errcodes written.\n", numWritten)
+}
+
+func collectRawSectionContents(
+	doc *goquery.Document,
+) map[string]string {
+	result := make(map[string]string)
+
+	var lastSectionHeader string
+	var collectedRawContent strings.Builder
+	firstContentParagraph := true
+
+	container := doc.Find(".cherry-markdown > div").First()
+	container.Children().Each(func(i int, s *goquery.Selection) {
+		node := s.Get(0)
+		if node.Type == html.ElementNode && strings.ToLower(node.Data) == "h5" {
+			if lastSectionHeader != "" {
+				// store the previous section
+				result[lastSectionHeader] = collectedRawContent.String()
+
+				// prepare for this section
+				collectedRawContent.Reset()
+				firstContentParagraph = true
+			}
+
+			// currently s.Text() is the same as h5[id]
+			lastSectionHeader = s.Text()
+
+			return
+		}
+
+		// skip everything before the first h5
+		if lastSectionHeader == "" {
+			return
+		}
+
+		rawHTML, err := s.Html()
+		if err != nil {
+			die("failed to get html out of section: %+v\n", err)
+		}
+
+		if firstContentParagraph {
+			firstContentParagraph = false
+		} else {
+			collectedRawContent.WriteString("<br/>")
+		}
+
+		collectedRawContent.WriteString(rawHTML)
+	})
+
+	return result
 }
