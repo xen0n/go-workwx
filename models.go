@@ -740,8 +740,8 @@ func (x reqMsgAuditGetGroupChat) intoBody() ([]byte, error) {
 type respMsgAuditGetGroupChat struct {
 	respCommon
 	Members []struct {
-		MemberID int `json:"memberid"`
-		JoinTime int `json:"jointime"`
+		MemberID string `json:"memberid"`
+		JoinTime int    `json:"jointime"`
 	} `json:"members"`
 	RoomName       string `json:"roomname"`
 	Creator        string `json:"creator"`
