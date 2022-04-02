@@ -167,3 +167,15 @@ func (c *WorkwxApp) TransferGroupChatExternalContact(chatIDList []string, newOwn
 	}
 	return resp.FailedChatList, nil
 }
+
+// GetGroupChatExternalContact 获取客户群详情
+func (c *WorkwxApp) GetGroupChatExternalContact(chatID string, needName int) (*ExternalContractGroupChat, error) {
+	resp, err := c.execExternalContractGroupChatGet(reqGroupChatExternalContact{
+		ChatID:   chatID,
+		NeedName: needName,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &resp.ExternalContractGroupChat, nil
+}

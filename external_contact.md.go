@@ -271,3 +271,41 @@ type ExternalContactGroupChatTransferFailed struct {
 	// ErrMsg 没能成功继承的群，错误描述
 	ErrMsg string `json:"errmsg"`
 }
+
+// ExternalContractGroupMemberList 群成员列表
+type ExternalContractGroupMemberList struct {
+	Userid string `json:"userid"`
+	// Type 成员类型。1 - 企业成员 2 - 外部联系人
+	Type     int `json:"type"`
+	JoinTime int `json:"join_time"`
+	// JoinScene 入群方式。1 - 由群成员邀请入群（直接邀请入群）2 - 由群成员邀请入群（通过邀请链接入群）3 - 通过扫描群二维码入群
+	JoinScene int `json:"join_scene"`
+	// GroupNickname 在群里的昵称
+	GroupNickname string `json:"group_nickname"`
+	// Name 名字。仅当 need_name = 1 时返回
+	Name string `json:"name"`
+}
+
+// ExternalContractGroupAdminList 群管理员列表
+type ExternalContractGroupAdminList struct {
+	// Userid 群管理员userid
+	Userid string `json:"userid"`
+}
+
+// ExternalContractGroupChat 客户群详情
+type ExternalContractGroupChat struct {
+	// ChatID 客户群ID
+	ChatID string `json:"chat_id"`
+	// Name 群名
+	Name string `json:"name"`
+	// Owner 群主ID
+	Owner string `json:"owner"`
+	// CreateTime 群的创建时间
+	CreateTime int `json:"create_time"`
+	// Notice 群公告
+	Notice string `json:"notice"`
+	// MemberList 群成员列表
+	MemberList []ExternalContractGroupMemberList `json:"member_list"`
+	// AdminList 群管理员列表
+	AdminList []ExternalContractGroupAdminList `json:"admin_list"`
+}
