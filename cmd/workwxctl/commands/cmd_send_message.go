@@ -40,18 +40,18 @@ func cmdSendMessage(c *cli.Context) error {
 
 	if msgtype == "" {
 		// default to text
-		msgtype = "text"
+		msgtype = string(workwx.MessageTypeText)
 	}
 
 	var err error
 	switch msgtype {
-	case "text":
+	case string(workwx.MessageTypeText):
 		err = app.SendTextMessage(&recipient, content, isSafe)
-	case "image":
+	case string(workwx.MessageTypeImage):
 		err = app.SendImageMessage(&recipient, mediaID, isSafe)
-	case "voice":
+	case string(workwx.MessageTypeVoice):
 		err = app.SendVoiceMessage(&recipient, mediaID, isSafe)
-	case "video":
+	case string(workwx.MessageTypeVideo):
 		err = app.SendVideoMessage(
 			&recipient,
 			mediaID,

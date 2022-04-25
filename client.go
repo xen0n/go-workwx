@@ -174,6 +174,7 @@ func (c *WorkwxApp) executeQyapiMediaUpload(
 		// TODO: error_chain
 		return err
 	}
+	defer resp.Body.Close()
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(respObj)
