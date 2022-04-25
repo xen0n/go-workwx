@@ -14,6 +14,7 @@ const (
 	flagCorpID            = "corpid"
 	flagCorpSecret        = "corpsecret"
 	flagAgentID           = "agentid"
+	flagWebhookKey        = "webhook-key"
 	flagQyapiHostOverride = "qyapi-host-override"
 	flagTLSKeyLogFile     = "tls-key-logfile"
 
@@ -40,34 +41,29 @@ const (
 	flagDigest           = "digest"
 
 	flagMediaType = "media-type"
+
+	flagMentionUser        = "mention-user"
+	flagMentionMobile      = "mention-mobile"
+	flagMentionMobileShort = "m"
 )
 
 type cliOptions struct {
 	CorpID     string
 	CorpSecret string
 	AgentID    int64
+	WebhookKey string
 
 	QYAPIHostOverride string
 	TLSKeyLogFile     string
 }
 
 func mustGetConfig(c *cli.Context) *cliOptions {
-	if !c.IsSet(flagCorpID) {
-		panic("corpid must be set")
-	}
-
-	if !c.IsSet(flagCorpSecret) {
-		panic("corpsecret must be set")
-	}
-
-	if !c.IsSet(flagAgentID) {
-		panic("agentid must be set (for now; may later lift the restriction)")
-	}
 
 	return &cliOptions{
 		CorpID:     c.String(flagCorpID),
 		CorpSecret: c.String(flagCorpSecret),
 		AgentID:    c.Int64(flagAgentID),
+		WebhookKey: c.String(flagWebhookKey),
 
 		QYAPIHostOverride: c.String(flagQyapiHostOverride),
 		TLSKeyLogFile:     c.String(flagTLSKeyLogFile),
@@ -97,6 +93,18 @@ func (c *cliOptions) makeHTTPClient() *http.Client {
 }
 
 func (c *cliOptions) makeWorkwxClient() *workwx.Workwx {
+	if c.CorpID == "" {
+		panic("corpid must be set")
+	}
+
+	if c.CorpSecret == "" {
+		panic("corpsecret must be set")
+	}
+
+	if c.AgentID == 0 {
+		panic("agentid must be set (for now; may later lift the restriction)")
+	}
+
 	httpClient := c.makeHTTPClient()
 	if c.QYAPIHostOverride != "" {
 		// wtf think of a way to change this
@@ -110,4 +118,21 @@ func (c *cliOptions) makeWorkwxClient() *workwx.Workwx {
 
 func (c *cliOptions) MakeWorkwxApp() *workwx.WorkwxApp {
 	return c.makeWorkwxClient().WithApp(c.CorpSecret, c.AgentID)
+}
+
+func (c *cliOptions) makeWebhookClient() *workwx.WebhookClient {
+	if c.WebhookKey == "" {
+		panic("webhook key must be set")
+	}
+
+	httpClient := c.makeHTTPClient()
+	if c.QYAPIHostOverride != "" {
+		// wtf think of a way to change this
+		return workwx.NewWebhookClient(c.WebhookKey,
+			workwx.WithQYAPIHost(c.QYAPIHostOverride),
+			workwx.WithHTTPClient(httpClient),
+		)
+	}
+	return workwx.NewWebhookClient(c.WebhookKey, workwx.WithHTTPClient(httpClient))
+
 }

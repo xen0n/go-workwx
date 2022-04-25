@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/95390
-// 文档爬取时间: 2022-02-28 10:45:56 +0800
+// 文档爬取时间: 2022-04-25 22:35:32 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -258,9 +258,9 @@ const ErrCode40063 ErrCode = 40063
 // 排查方法: 部门列表为空，或者至少存在一个部门ID不存在于通讯录中
 const ErrCode40066 ErrCode = 40066
 
-// ErrCode40068 不合法的标签ID
+// ErrCode40068 不合法的标签/标签组ID
 //
-// 排查方法: 标签ID未指定，或者指定的标签ID不存在
+// 排查方法: 标签/标签组ID未指定，或者指定的标签/标签组ID不存在
 const ErrCode40068 ErrCode = 40068
 
 // ErrCode40070 指定的标签范围结点全部无效
@@ -509,6 +509,11 @@ const ErrCode41019 ErrCode = 41019
 //
 // 排查方法: -
 const ErrCode41017 ErrCode = 41017
+
+// ErrCode41018 缺少标签名
+//
+// 排查方法: -
+const ErrCode41018 ErrCode = 41018
 
 // ErrCode41021 缺少suite_id参数
 //
@@ -820,6 +825,11 @@ const ErrCode41089 ErrCode = 41089
 // 排查方法: 确认是否为mp4格式，并且数据没有损坏
 const ErrCode41090 ErrCode = 41090
 
+// ErrCode41091 配置客户群进群方式最多只能关联5个群
+//
+// 排查方法: -
+const ErrCode41091 ErrCode = 41091
+
 // ErrCode41102 缺少菜单名
 //
 // 排查方法: -
@@ -829,6 +839,11 @@ const ErrCode41102 ErrCode = 41102
 //
 // 排查方法: access_token有时效性，需要重新获取一次
 const ErrCode42001 ErrCode = 42001
+
+// ErrCode42003 code已过期
+//
+// 排查方法: -
+const ErrCode42003 ErrCode = 42003
 
 // ErrCode42007 pre_auth_code已过期
 //
@@ -1005,9 +1020,9 @@ const ErrCode42050 ErrCode = 42050
 // 排查方法: -
 const ErrCode42051 ErrCode = 42051
 
-// ErrCode43004 指定的userid未绑定微信或未关注微工作台（原企业号）
+// ErrCode43004 指定的userid未绑定微信或未关注微信插件（原企业号）
 //
-// 排查方法: 需要成员使用微信登录企业微信或者关注微工作台才能获取openid
+// 排查方法: 需要成员使用微信登录企业微信或者关注微信插件才能获取openid
 const ErrCode43004 ErrCode = 43004
 
 // ErrCode43009 企业未验证主体
@@ -1128,6 +1143,11 @@ const ErrCode46003 ErrCode = 46003
 // 排查方法: 需要确认指定的用户存在于通讯录中
 const ErrCode46004 ErrCode = 46004
 
+// ErrCode48001 API功能未授权
+//
+// 排查方法: -
+const ErrCode48001 ErrCode = 48001
+
 // ErrCode48002 API接口无权限调用
 //
 // 排查方法: [查看帮助](https://developer.work.weixin.qq.com/document/path/95390#10649/%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A48002)
@@ -1159,6 +1179,14 @@ const ErrCode48005 ErrCode = 48005
 //
 // 排查方法: 由于企业长时间未使用应用，接口权限被收回，需企业管理员重新启用
 const ErrCode48006 ErrCode = 48006
+
+// ErrCode48007 API接口无权限调用，由于所需权限因互斥而未能拥有
+//
+// 排查方法: [查看帮助](https://developer.work.weixin.qq.com/document/path/95390#10649/%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A48007)
+//
+// API接口无权限调用，由于所需权限因互斥而未能拥有。请确认：
+// 1) 微信客服相关接口，要求「微信客服->管理帐号、分配会话和收发消息」权限，因为权限被占用，实际并未拥有。可在企业管理后台“微信客服”进行权限管理。
+const ErrCode48007 ErrCode = 48007
 
 // ErrCode49004 签名不匹配
 //
@@ -1245,7 +1273,7 @@ const ErrCode60008 ErrCode = 60008
 
 // ErrCode60009 部门名称含有非法字符
 //
-// 排查方法: 不能含有 :?*"<>| 等字符
+// 排查方法: 不能含有 :?*"<>&amp;#124; 等字符
 const ErrCode60009 ErrCode = 60009
 
 // ErrCode60010 部门存在循环关系
@@ -1350,7 +1378,7 @@ const ErrCode60124 ErrCode = 60124
 
 // ErrCode60125 非法部门名字
 //
-// 排查方法: 不能为空，且不能超过64字节，且不能含有:*?"<>|等字符
+// 排查方法: 不能为空，且不能超过64字节，且不能含有:*?"<>&amp;#124;等字符
 const ErrCode60125 ErrCode = 60125
 
 // ErrCode60127 缺少department参数
@@ -1377,6 +1405,31 @@ const ErrCode60136 ErrCode = 60136
 //
 // 排查方法: 同一个家校通讯录中，家长的手机号不能重复。建议更换手机号，或者更新已有的手机记录。
 const ErrCode60137 ErrCode = 60137
+
+// ErrCode60141 个人邮箱非法，且没有手机号
+//
+// 排查方法: 个人邮箱（即激活用邮箱）检查失败，且未传入手机号。
+const ErrCode60141 ErrCode = 60141
+
+// ErrCode60142 个人邮箱更新失败
+//
+// 排查方法: 个人邮箱（即激活用邮箱）已存在，无法被更新。
+const ErrCode60142 ErrCode = 60142
+
+// ErrCode60143 企业邮箱非法
+//
+// 排查方法: 可能是企业邮箱格式非法，或该邮箱已存在。
+const ErrCode60143 ErrCode = 60143
+
+// ErrCode60144 企业邮箱更新失败
+//
+// 排查方法: 企业邮箱已无法更新，[查看帮助](https://developer.work.weixin.qq.com/document/path/95390#10020)
+const ErrCode60144 ErrCode = 60144
+
+// ErrCode60145 企业邮箱已存在
+//
+// 排查方法: 同一个企业内，成员的企业邮箱不能重复。建议更换企业邮箱
+const ErrCode60145 ErrCode = 60145
 
 // ErrCode60203 不合法的模版ID
 //
@@ -1563,6 +1616,11 @@ const ErrCode60243 ErrCode = 60243
 // 排查方法: 检查分享出去的小程序与使用shareticket的小程序appid是否一致
 const ErrCode60244 ErrCode = 60244
 
+// ErrCode60246 第三方应用未上线
+//
+// 排查方法: 检查第三方应用上线状态
+const ErrCode60246 ErrCode = 60246
+
 // ErrCode65000 学校已经迁移
 //
 // 排查方法: -
@@ -1733,6 +1791,16 @@ const ErrCode670002 ErrCode = 670002
 // 排查方法: -
 const ErrCode670003 ErrCode = 670003
 
+// ErrCode670004 企业不在上下游范围内
+//
+// 排查方法: -
+const ErrCode670004 ErrCode = 670004
+
+// ErrCode670005 超过上下游人企业数上限
+//
+// 排查方法: -
+const ErrCode670005 ErrCode = 670005
+
 // ErrCode72023 发票已被其他公众号锁定
 //
 // 排查方法: [查看帮助](https://developer.work.weixin.qq.com/document/path/95390#10649/%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A72023)
@@ -1871,6 +1939,11 @@ const ErrCode82003 ErrCode = 82003
 //
 // 排查方法: 消息内容中可能存在使客户端crash的内容
 const ErrCode82004 ErrCode = 82004
+
+// ErrCode84005 第三方应用不存在
+//
+// 排查方法: 检查access_token和应用id是否正确
+const ErrCode84005 ErrCode = 84005
 
 // ErrCode84014 成员票据过期
 //
@@ -2338,6 +2411,46 @@ const ErrCode85004 ErrCode = 85004
 // 1）若调用者是企业应用，请登录企业微信管理端，进入应用详情，按照指引完成域名的所有权校验。
 // 2）若调用者是第三方服务，请登录企业微信服务管理端，进入第三方应用详情，按照指引完成域名的所有权校验。
 const ErrCode85005 ErrCode = 85005
+
+// ErrCode85006 IP列表超过限制
+//
+// 排查方法: -
+const ErrCode85006 ErrCode = 85006
+
+// ErrCode85007 不合法的IP地址
+//
+// 排查方法: -
+const ErrCode85007 ErrCode = 85007
+
+// ErrCode85008 可信域名ICP备案不通过
+//
+// 排查方法: -
+const ErrCode85008 ErrCode = 85008
+
+// ErrCode85009 应用信息不完整
+//
+// 排查方法: 检查回调参数以及可信域名是否填写
+const ErrCode85009 ErrCode = 85009
+
+// ErrCode85010 回调参数填写不符合要求
+//
+// 排查方法: 检查回调参数是否正确
+const ErrCode85010 ErrCode = 85010
+
+// ErrCode85011 校验回调地址失败
+//
+// 排查方法:
+const ErrCode85011 ErrCode = 85011
+
+// ErrCode85012 存在不合法的权限名称
+//
+// 排查方法: 检查权限名称拼写是否正确、是否重复
+const ErrCode85012 ErrCode = 85012
+
+// ErrCode85111 可信域名是第三方服务商域名
+//
+// 排查方法: 若需要第三方服务商为企业代开发自建应用 请查看 [企业应用代开发指引](https://developer.work.weixin.qq.com/document/path/95390#31390)
+const ErrCode85111 ErrCode = 85111
 
 // ErrCode86001 参数 chatid 不合法
 //
@@ -2987,6 +3100,11 @@ const ErrCode90510 ErrCode = 90510
 // 排查方法: -
 const ErrCode90511 ErrCode = 90511
 
+// ErrCode90602 会议Id不合法
+//
+// 排查方法: 检查会议id是否拼写正确，并且为本应用创建的会议
+const ErrCode90602 ErrCode = 90602
+
 // ErrCode90603 事件分类id不合法
 //
 // 排查方法: -
@@ -3171,9 +3289,14 @@ const ErrCode95008 ErrCode = 95008
 // 排查方法: -
 const ErrCode95009 ErrCode = 95009
 
+// ErrCode95011 已在企业微信使用微信客服
+//
+// 排查方法: 微信客服当前处于联合版模式，而调用接口的access_token是通过独立版secret获取的
+const ErrCode95011 ErrCode = 95011
+
 // ErrCode95012 未在企业微信使用微信客服
 //
-// 排查方法: -
+// 排查方法: 微信客服当前处于独立版模式，而调用接口的access_token是通过联合版secret获取的
 const ErrCode95012 ErrCode = 95012
 
 // ErrCode95013 会话已经结束
@@ -3196,7 +3319,7 @@ const ErrCode95015 ErrCode = 95015
 // 排查方法: 参考概述中的状态流转图
 const ErrCode95016 ErrCode = 95016
 
-// ErrCode95017 系统应用权限下，api开关处于关闭状态
+// ErrCode95017 基础应用权限下，api开关处于关闭状态
 //
 // 排查方法: -
 const ErrCode95017 ErrCode = 95017
@@ -3205,6 +3328,21 @@ const ErrCode95017 ErrCode = 95017
 //
 // 排查方法: 可能是[会话状态](https://developer.work.weixin.qq.com/document/path/95390#31080)不能通过api调用发送，或者会话已经超过48小时
 const ErrCode95018 ErrCode = 95018
+
+// ErrCode95019 接待人员已停止接待，无法完成指定的操作
+//
+// 排查方法: 可通过[获取接待人员列表](https://developer.work.weixin.qq.com/document/path/95390#31064)获取接待人员的状态
+const ErrCode95019 ErrCode = 95019
+
+// ErrCode95022 location_type非法
+//
+// 排查方法: -
+const ErrCode95022 ErrCode = 95022
+
+// ErrCode95023 基础应用权限下，api开关已经授权给代开发自建应用
+//
+// 排查方法: 可通过管理端-微信客服进行权限切换
+const ErrCode95023 ErrCode = 95023
 
 // ErrCode301002 无权限操作指定的应用
 //
@@ -3274,6 +3412,11 @@ const ErrCode301024 ErrCode = 301024
 //
 // 排查方法: 请参考参数说明正确填写
 const ErrCode301025 ErrCode = 301025
+
+// ErrCode301026 获取审批模板数据失败
+//
+// 排查方法: 可能是审批模板未通过审核
+const ErrCode301026 ErrCode = 301026
 
 // ErrCode301036 不允许更新该用户的userid
 //
@@ -3356,6 +3499,76 @@ const ErrCode302007 ErrCode = 302007
 //
 // 排查方法: -
 const ErrCode302008 ErrCode = 302008
+
+// ErrCode400020 会议参与人超过限制
+//
+// 排查方法: -
+const ErrCode400020 ErrCode = 400020
+
+// ErrCode400021 会议参与人或者主持人不合法，或者不在应用可见范围。若为外部联系人，则外部联系人跟进人不在应用可见范围
+//
+// 排查方法: -
+const ErrCode400021 ErrCode = 400021
+
+// ErrCode400025 remind_scope参数不合法。
+//
+// 排查方法: -
+const ErrCode400025 ErrCode = 400025
+
+// ErrCode400026 repeat_type参数不合法。
+//
+// 排查方法: -
+const ErrCode400026 ErrCode = 400026
+
+// ErrCode400027 主持人超过会议主持人上限。
+//
+// 排查方法: -
+const ErrCode400027 ErrCode = 400027
+
+// ErrCode400028 会议系统应用关闭，不允许调用会议相关接口
+//
+// 排查方法: -
+const ErrCode400028 ErrCode = 400028
+
+// ErrCode400029 主持人必须在参与人列表中
+//
+// 排查方法: -
+const ErrCode400029 ErrCode = 400029
+
+// ErrCode400030 不合法的会议密码
+//
+// 排查方法: -
+const ErrCode400030 ErrCode = 400030
+
+// ErrCode400031 不合法的会议settings
+//
+// 排查方法: -
+const ErrCode400031 ErrCode = 400031
+
+// ErrCode400032 不合法的repeat_until参数
+//
+// 排查方法: -
+const ErrCode400032 ErrCode = 400032
+
+// ErrCode400033 不合法的repeat_interval参数
+//
+// 排查方法: -
+const ErrCode400033 ErrCode = 400033
+
+// ErrCode400034 不合法的meeting_start参数
+//
+// 排查方法: -
+const ErrCode400034 ErrCode = 400034
+
+// ErrCode400035 不合法的meeting_duration参数
+//
+// 排查方法: -
+const ErrCode400035 ErrCode = 400035
+
+// ErrCode400036 会议的创建者不具备指定的日历权限
+//
+// 排查方法: -
+const ErrCode400036 ErrCode = 400036
 
 // ErrCode2000002 CorpId参数无效
 //
@@ -3677,6 +3890,11 @@ const ErrCode610020 ErrCode = 610020
 // 排查方法: -
 const ErrCode610021 ErrCode = 610021
 
+// ErrCode610022 授权企业与服务商为同一企业，无需设置迁移
+//
+// 排查方法: -
+const ErrCode610022 ErrCode = 610022
+
 // ErrCode640001 微盘不存在当前空间
 //
 // 排查方法: 判断spaceid是否填错
@@ -3822,6 +4040,151 @@ const ErrCode640028 ErrCode = 640028
 // 排查方法: 检查fileid对应的文件是否为普通文件
 const ErrCode640029 ErrCode = 640029
 
+// ErrCode680000 参数错误
+//
+// 排查方法: 结合返回的errmsg排查
+const ErrCode680000 ErrCode = 680000
+
+// ErrCode680001 邮件群组地址非法
+//
+// 排查方法: 检查邮箱地址格式是否正确，是否为本企业域名
+const ErrCode680001 ErrCode = 680001
+
+// ErrCode680002 邮件群组名称非法
+//
+// 排查方法: 名称是否为空，名称是否过长
+const ErrCode680002 ErrCode = 680002
+
+// ErrCode680003 群组成员非法
+//
+// 排查方法: 检查群组成员邮箱格式是否正确
+const ErrCode680003 ErrCode = 680003
+
+// ErrCode680004 群组中的群组非法
+//
+// 排查方法: 检查群组邮箱格式是否正确，是否为本企业群组
+const ErrCode680004 ErrCode = 680004
+
+// ErrCode680006 群组使用权限
+//
+// 排查方法: 仅支持0: 企业成员, 1任何人， 2:组内成员，3:自定义成员
+const ErrCode680006 ErrCode = 680006
+
+// ErrCode680007 允许使用群组成员邮箱非法
+//
+// 排查方法: 检查群组成员邮箱格式是否正确
+const ErrCode680007 ErrCode = 680007
+
+// ErrCode680008 群组成员为空
+//
+// 排查方法: 检查userlist/grouplist/department是否都为空
+const ErrCode680008 ErrCode = 680008
+
+// ErrCode680010 邮件群组地址重复
+//
+// 排查方法: 检查群组地址在企业内是否已经被用户占用
+const ErrCode680010 ErrCode = 680010
+
+// ErrCode680011 邮件群组地址重复
+//
+// 排查方法: 检查群组地址在企业内是否已经被其他群组占用
+const ErrCode680011 ErrCode = 680011
+
+// ErrCode680012 邮件群组不存在
+//
+// 排查方法: 检查群组地址是否有误，是否存在于本企业
+const ErrCode680012 ErrCode = 680012
+
+// ErrCode680015 模糊搜索fuzzy参数非法
+//
+// 排查方法: 检查fuzzy值是否为0或1
+const ErrCode680015 ErrCode = 680015
+
+// ErrCode680032 业务邮箱地址非法
+//
+// 排查方法: 检查邮箱地址格式是否正确，是否为本企业域名
+const ErrCode680032 ErrCode = 680032
+
+// ErrCode680033 业务邮箱地址重复
+//
+// 排查方法: 检查业务邮箱地址在企业内是否已经被占用
+const ErrCode680033 ErrCode = 680033
+
+// ErrCode680034 业务邮箱名称非法
+//
+// 排查方法: 名称是否为空，名称是否过长
+const ErrCode680034 ErrCode = 680034
+
+// ErrCode680035 业务邮箱ID不存在
+//
+// 排查方法: 检查id是否存在
+const ErrCode680035 ErrCode = 680035
+
+// ErrCode680036 业务邮箱ID非法
+//
+// 排查方法: 检查id数据类型是否正确，是否传值
+const ErrCode680036 ErrCode = 680036
+
+// ErrCode680037 vid账号余量不足
+//
+// 排查方法: 检查vid账号数是否用完
+const ErrCode680037 ErrCode = 680037
+
+// ErrCode680040 业务邮箱名称重复
+//
+// 排查方法: 检查名称是否已经被其他业务邮箱占用
+const ErrCode680040 ErrCode = 680040
+
+// ErrCode680041 获取用户功能属性type字段非法
+//
+// 排查方法: 仅支持1: 强制启用安全登录 2: IMAP/SMTP服务 3: POP/SMTP服务 4: 是否启用安全登录
+const ErrCode680041 ErrCode = 680041
+
+// ErrCode680042 更改用户功能属性type字段非法
+//
+// 排查方法: 仅支持1: 强制启用安全登录 2: IMAP/SMTP服务 3: POP/SMTP服务 4: 是否启用安全登录
+const ErrCode680042 ErrCode = 680042
+
+// ErrCode680043 禁用/启用邮箱时type参数非法
+//
+// 排查方法: 仅支持 1:启用，2:禁用
+const ErrCode680043 ErrCode = 680043
+
+// ErrCode680044 不允许禁用超级管理员、企业创建者
+//
+// 排查方法: 检查userid是否为超级管理员或企业创建者
+const ErrCode680044 ErrCode = 680044
+
+// ErrCode680045 无法禁用已关闭的邮箱
+//
+// 排查方法: 检查邮箱账号是否为关闭
+const ErrCode680045 ErrCode = 680045
+
+// ErrCode680046 启用邮箱数量达到最大限制
+//
+// 排查方法: 检查企业中已启用的邮箱数量
+const ErrCode680046 ErrCode = 680046
+
+// ErrCode842002 代开发应用模版未上线
+//
+// 排查方法: -
+const ErrCode842002 ErrCode = 842002
+
+// ErrCode842003 不是代开发应用模版
+//
+// 排查方法: -
+const ErrCode842003 ErrCode = 842003
+
+// ErrCode842004 代开发应用模版数量不合法
+//
+// 排查方法: -
+const ErrCode842004 ErrCode = 842004
+
+// ErrCode842005 不支持的应用类型
+//
+// 排查方法: 检查应用类型是否与文档说明一致
+const ErrCode842005 ErrCode = 842005
+
 // ErrCode844001 非法的output_file_format
 //
 // 排查方法: 判断输出文件格式是否正确
@@ -3844,7 +4207,7 @@ const ErrCode60252 ErrCode = 60252
 
 // ErrCode60251 缺少openkfid
 //
-// 排查方法:
+// 排查方法: -
 const ErrCode60251 ErrCode = 60251
 
 // ErrCode60253 客服不在接待人员列表中
