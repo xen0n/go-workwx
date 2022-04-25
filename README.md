@@ -1,6 +1,8 @@
 # go-workwx
 
-[![Travis Build Status](https://img.shields.io/travis/xen0n/go-workwx.svg)](https://travis-ci.org/xen0n/go-workwx)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/xen0n/go-workwx)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/xen0n/go-workwx)
+![GitHub branch checks state](https://img.shields.io/github/checks-status/xen0n/go-workwx/develop)
 [![Go Report Card](https://goreportcard.com/badge/github.com/xen0n/go-workwx)](https://goreportcard.com/report/github.com/xen0n/go-workwx)
 [![GoDoc](http://godoc.org/github.com/xen0n/go-workwx?status.svg)](http://godoc.org/github.com/xen0n/go-workwx)
 
