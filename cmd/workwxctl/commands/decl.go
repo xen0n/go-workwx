@@ -2,6 +2,7 @@ package commands
 
 import (
 	"github.com/urfave/cli/v2"
+	"github.com/xen0n/go-workwx"
 )
 
 // InitApp defines the workwxctl CLI.
@@ -24,6 +25,11 @@ func InitApp() *cli.App {
 				Name:    flagAgentID,
 				Usage:   "使用 `AGENTID` 作为企业应用 ID",
 				EnvVars: []string{"WORKWXCTL_AGENTID"},
+			},
+			&cli.StringFlag{
+				Name:    flagWebhookKey,
+				Usage:   "使用 `KEY` 作为群机器人 webhook key",
+				EnvVars: []string{"WORKWXCTL_WEBHOOK_KEY"},
 			},
 			&cli.StringFlag{
 				Name:    flagQyapiHostOverride,
@@ -142,6 +148,27 @@ func InitApp() *cli.App {
 					&cli.StringFlag{
 						Name:  flagMediaType,
 						Usage: "媒体文件类型，分别有图片（image）、语音（voice）、视频（video），普通文件(file)",
+					},
+				},
+			},
+			{
+				Name:   "webhook-send-message",
+				Usage:  "使用群机器人接口发送消息",
+				Action: cmdWebhookSendMessage,
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  flagMessageType,
+						Usage: "发送消息的类型: text, markdown",
+					},
+					&cli.StringSliceFlag{
+						Name:    flagMentionUser,
+						Aliases: []string{flagToUserShort},
+						Usage:   "需要被提醒的用户 ID (可指定多次), 特殊值 '" + workwx.MentionAll + "' 表示提醒所有人",
+					},
+					&cli.StringSliceFlag{
+						Name:    flagMentionMobile,
+						Aliases: []string{flagMentionMobileShort},
+						Usage:   "需要被提醒的用户手机号 (可指定多次), 特殊值 '" + workwx.MentionAll + "' 表示提醒所有人",
 					},
 				},
 			},
