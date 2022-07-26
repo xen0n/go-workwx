@@ -740,8 +740,8 @@ func (x reqMsgAuditGetGroupChat) intoBody() ([]byte, error) {
 type respMsgAuditGetGroupChat struct {
 	respCommon
 	Members []struct {
-		MemberID int `json:"memberid"`
-		JoinTime int `json:"jointime"`
+		MemberID string `json:"memberid"`
+		JoinTime int    `json:"jointime"`
 	} `json:"members"`
 	RoomName       string `json:"roomname"`
 	Creator        string `json:"creator"`
@@ -889,6 +889,29 @@ func (x reqTransferGroupChatExternalContact) intoBody() ([]byte, error) {
 type respTransferGroupChatExternalContact struct {
 	respCommon
 	FailedChatList []ExternalContactGroupChatTransferFailed `json:"failed_chat_list"`
+}
+
+type reqGroupChatExternalContact struct {
+	//客户群ID
+	ChatID string `json:"chat_id"`
+	//是否需要返回群成员的名字group_chat.member_list.name。0-不返回；1-返回。默认不返回
+	NeedName int `json:"need_name"`
+}
+
+var _ bodyer = reqGroupChatExternalContact{}
+
+func (x reqGroupChatExternalContact) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respGetExternalContractGroupChatResult struct {
+	respCommon
+	ExternalContractGroupChat `json:"group_chat"`
 }
 
 type reqOAGetTemplateDetail struct {

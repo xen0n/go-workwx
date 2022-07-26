@@ -100,6 +100,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execTransferExternalContact`|`reqTransferExternalContact`|`respTransferExternalContact`|+|`POST /cgi-bin/externalcontact/transfer`|[分配成员的客户](https://work.weixin.qq.com/api/doc/90000/90135/92125)
 `execGetTransferExternalContactResult`|`reqGetTransferExternalContactResult`|`respGetTransferExternalContactResult`|+|`POST /cgi-bin/externalcontact/get_transfer_result`|[查询客户接替结果](https://work.weixin.qq.com/api/doc/90000/90135/92973)
 `execTransferGroupChatExternalContact`|`reqTransferGroupChatExternalContact`|`respTransferGroupChatExternalContact`|+|`POST /cgi-bin/externalcontact/groupchat/transfer`|[离职成员的群再分配](https://work.weixin.qq.com/api/doc/90000/90135/92127)
+`execExternalContractGroupChatGet`|`reqGroupChatExternalContact`|`respGetExternalContractGroupChatResult`|+|`POST /cgi-bin/externalcontact/groupchat/get`|[获取客户群详情](https://work.weixin.qq.com/api/doc/90000/90135/92122)
 
 # 应用管理
 

@@ -229,3 +229,32 @@ Name|JSON|Type|Doc
 `ChatID`|`chat_id`|`string`| 没能成功继承的群ID
 `ErrCode`|`errcode`|`int`| 没能成功继承的群，错误码
 `ErrMsg`|`errmsg`|`string`| 没能成功继承的群，错误描述
+
+### `ExternalContractGroupMemberList` 群成员列表
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Userid`|`userid`|`string`|
+`Type`|`type`|`int`| 成员类型。1 - 企业成员 2 - 外部联系人
+`JoinTime`|`join_time`|`int`|
+`JoinScene`|`join_scene`|`int`| 入群方式。1 - 由群成员邀请入群（直接邀请入群）2 - 由群成员邀请入群（通过邀请链接入群）3 - 通过扫描群二维码入群
+`GroupNickname`|`group_nickname`|`string`| 在群里的昵称
+`Name`|`name`|`string`| 名字。仅当 need_name = 1 时返回
+
+### `ExternalContractGroupAdminList` 群管理员列表
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Userid`|`userid`|`string`| 群管理员userid
+
+### `ExternalContractGroupChat` 客户群详情
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`ChatID`|`chat_id`|`string`| 客户群ID
+`Name`|`name`|`string`| 群名
+`Owner`|`owner`|`string`| 群主ID
+`CreateTime`|`create_time`|`int`| 群的创建时间
+`Notice`|`notice`|`string`| 群公告
+`MemberList`|`member_list`|`[]ExternalContractGroupMemberList`| 群成员列表
+`AdminList`|`admin_list`|`[]ExternalContractGroupAdminList`| 群管理员列表

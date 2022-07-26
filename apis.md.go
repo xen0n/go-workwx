@@ -310,6 +310,20 @@ func (c *WorkwxApp) execTransferGroupChatExternalContact(req reqTransferGroupCha
 	return resp, nil
 }
 
+// execExternalContractGroupChatGet 获取客户群详情
+func (c *WorkwxApp) execExternalContractGroupChatGet(req reqGroupChatExternalContact) (respGetExternalContractGroupChatResult, error) {
+	var resp respGetExternalContractGroupChatResult
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/get", req, &resp, true)
+	if err != nil {
+		return respGetExternalContractGroupChatResult{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetExternalContractGroupChatResult{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execAppchatCreate 创建群聊会话
 func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, error) {
 	var resp respAppchatCreate
