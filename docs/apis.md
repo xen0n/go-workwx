@@ -200,7 +200,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
-`execTransferCustomer`|`reqTransferCostomer`|`respTransferCustomer`|+|`POST /cgi-bin/externalcontact/transfer_customer`|[在职继承 分配在职成员的客户](https://developer.work.weixin.qq.com/document/path/92125)
+`execTransferCustomer`|`reqTransferCustomer`|`respTransferCustomer`|+|`POST /cgi-bin/externalcontact/transfer_customer`|[在职继承 分配在职成员的客户](https://developer.work.weixin.qq.com/document/path/92125)
 `execGetTransferCustomerResult`|`reqGetTransferCustomerResult`|`respGetTransferCustomerResult`|+|`POST /cgi-bin/externalcontact/transfer_result`|[在职继承 查询客户接替状态](https://developer.work.weixin.qq.com/document/path/94088)
 
 # 离职继承
@@ -209,5 +209,5 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
-`execTransferResignedCustomer`|`reqTransferCostomer`|`respTransferCustomer`|+|`POST /cgi-bin/externalcontact/resigned/transfer_customer`|[离职继承 分配离职成员的客户](https://developer.work.weixin.qq.com/document/path/94081)
+`execTransferResignedCustomer`|`reqTransferCustomer`|`respTransferCustomer`|+|`POST /cgi-bin/externalcontact/resigned/transfer_customer`|[离职继承 分配离职成员的客户](https://developer.work.weixin.qq.com/document/path/94081)
 `execGetTransferResignedCustomerResult`|`reqGetTransferCustomerResult`|`respGetTransferCustomerResult`|+|`POST /cgi-bin/externalcontact/resigned/transfer_result`|[离职继承 查询客户接替状态](https://developer.work.weixin.qq.com/document/path/94082)

@@ -251,7 +251,7 @@ Name|JSON|Type|Doc
 `IsTemp`|`is_temp`|`bool`| 是否临时会话模式，true表示使用临时会话模式，默认为false
 `ExpiresIn`|`expires_in`|`int`| 临时会话二维码有效期，以秒为单位。该参数仅在is_temp为true时有效，默认7天，最多为14天
 `ChatExpiresIn`|`chat_expires_in`|`int`| 临时会话有效期，以秒为单位。该参数仅在is_temp为true时有效，默认为添加好友后24小时，最多为14天
-`Unionid`|`unionid`|`string`| 可进行临时会话的客户unionid，该参数仅在is_temp为true时有效，如不指定则不进行限制
+`UnionID`|`unionid`|`string`| 可进行临时会话的客户UnionID，该参数仅在is_temp为true时有效，如不指定则不进行限制
 `Conclusions`|`conclusions`|`Conclusions`| 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效,<https://developer.work.weixin.qq.com/document/path/92572#%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%AE%9A%E4%B9%89>
 
 ### `Conclusions` 结束语，会话结束时自动发送给客户
@@ -261,7 +261,7 @@ Name|JSON|Type|Doc
 `Text`|`text`|`Text`| 文本消息
 `Image`|`image`|`Image`| 图片
 `Link`|`link`|`Link`| 链接
-`Miniprogram`|`miniprogram`|`Miniprogram`| 小程序
+`MiniProgram`|`miniprogram`|`MiniProgram`| 小程序
 
 ### `Text` 结束语，会话结束时自动发送给客户
 
@@ -285,13 +285,13 @@ Name|JSON|Type|Doc
 `Desc`|`desc`|`string`| 图文消息的描述，最长为512字节
 `URL`|`url`|`string`| 图文消息的链接
 
-### `Miniprogram` 结束语，会话结束时自动发送给客户
+### `MiniProgram` 结束语，会话结束时自动发送给客户
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Title`|`title`|`string`| 小程序消息标题，最长为64字节
 `PicMediaID`|`pic_media_id`|`string`| 小程序消息封面的mediaid，封面图建议尺寸为520*416
-`Appid`|`appid`|`string`| 小程序appid，必须是关联到企业的小程序应用
+`AppID`|`appid`|`string`| 小程序appid，必须是关联到企业的小程序应用
 `Page`|`page`|`string`| 小程序page路径
 
 ### `reqListContactWayExternalContact` 获取企业已配置的「联系我」列表请求参数
@@ -307,7 +307,7 @@ Name|JSON|Type|Doc
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
-`ConfigId`|`config_id`|`string`| 企业联系方式的配置id
+`ConfigID`|`config_id`|`string`| 企业联系方式的配置id
 `Remark`|`remark`|`string`| 联系方式的备注信息，不超过30个字符，将覆盖之前的备注
 `SkipVerify`|`skip_verify`|`bool`| 外部客户添加时是否无需验证
 `Style`|`style`|`int`| 样式，只针对“在小程序中联系”的配置生效
@@ -316,5 +316,5 @@ Name|JSON|Type|Doc
 `Party`|`party`|`[]int`| 使用该联系方式的部门id列表，只在type为2时有效
 `ExpiresIn`|`expires_in`|`int`| 临时会话二维码有效期，以秒为单位。该参数仅在is_temp为true时有效，默认7天，最多为14天
 `ChatExpiresIn`|`chat_expires_in`|`int`| 临时会话有效期，以秒为单位。该参数仅在is_temp为true时有效，默认为添加好友后24小时，最多为14天
-`Unionid`|`unionid`|`string`| 可进行临时会话的客户unionid，该参数仅在is_temp为true时有效，如不指定则不进行限制
+`UnionID`|`unionid`|`string`| 可进行临时会话的客户UnionID，该参数仅在is_temp为true时有效，如不指定则不进行限制
 `Conclusions`|`conclusions`|`Conclusions`| 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效,<https://developer.work.weixin.qq.com/document/path/92572#%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%AE%9A%E4%B9%89>

@@ -302,8 +302,8 @@ type ExternalContactWay struct {
 	ExpiresIn int `json:"expires_in"`
 	// ChatExpiresIn 临时会话有效期，以秒为单位。该参数仅在is_temp为true时有效，默认为添加好友后24小时，最多为14天
 	ChatExpiresIn int `json:"chat_expires_in"`
-	// Unionid 可进行临时会话的客户unionid，该参数仅在is_temp为true时有效，如不指定则不进行限制
-	Unionid string `json:"unionid"`
+	// UnionID 可进行临时会话的客户UnionID，该参数仅在is_temp为true时有效，如不指定则不进行限制
+	UnionID string `json:"unionid"`
 	// Conclusions 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效,https://developer.work.weixin.qq.com/document/path/92572#%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%AE%9A%E4%B9%89
 	Conclusions Conclusions `json:"conclusions"`
 }
@@ -316,8 +316,8 @@ type Conclusions struct {
 	Image Image `json:"image"`
 	// Link 链接
 	Link Link `json:"link"`
-	// Miniprogram 小程序
-	Miniprogram Miniprogram `json:"miniprogram"`
+	// MiniProgram 小程序
+	MiniProgram MiniProgram `json:"miniprogram"`
 }
 
 // Text 结束语，会话结束时自动发送给客户
@@ -346,14 +346,14 @@ type Link struct {
 	URL string `json:"url"`
 }
 
-// Miniprogram 结束语，会话结束时自动发送给客户
-type Miniprogram struct {
+// MiniProgram 结束语，会话结束时自动发送给客户
+type MiniProgram struct {
 	// Title 小程序消息标题，最长为64字节
 	Title string `json:"title"`
 	// PicMediaID 小程序消息封面的mediaid，封面图建议尺寸为520*416
 	PicMediaID string `json:"pic_media_id"`
-	// Appid 小程序appid，必须是关联到企业的小程序应用
-	Appid string `json:"appid"`
+	// AppID 小程序appid，必须是关联到企业的小程序应用
+	AppID string `json:"appid"`
 	// Page 小程序page路径
 	Page string `json:"page"`
 }
@@ -372,8 +372,8 @@ type reqListContactWayExternalContact struct {
 
 // reqUpdateContactWayExternalContact 更新企业已配置的「联系我」方式请求参数
 type reqUpdateContactWayExternalContact struct {
-	// ConfigId 企业联系方式的配置id
-	ConfigId string `json:"config_id"`
+	// ConfigID 企业联系方式的配置id
+	ConfigID string `json:"config_id"`
 	// Remark 联系方式的备注信息，不超过30个字符，将覆盖之前的备注
 	Remark string `json:"remark"`
 	// SkipVerify 外部客户添加时是否无需验证
@@ -390,9 +390,8 @@ type reqUpdateContactWayExternalContact struct {
 	ExpiresIn int `json:"expires_in"`
 	// ChatExpiresIn 临时会话有效期，以秒为单位。该参数仅在is_temp为true时有效，默认为添加好友后24小时，最多为14天
 	ChatExpiresIn int `json:"chat_expires_in"`
-	// Unionid 可进行临时会话的客户unionid，该参数仅在is_temp为true时有效，如不指定则不进行限制
-	Unionid string `json:"unionid"`
+	// UnionID 可进行临时会话的客户UnionID，该参数仅在is_temp为true时有效，如不指定则不进行限制
+	UnionID string `json:"unionid"`
 	// Conclusions 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效,https://developer.work.weixin.qq.com/document/path/92572#%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%AE%9A%E4%B9%89
 	Conclusions Conclusions `json:"conclusions"`
 }
-

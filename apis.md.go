@@ -605,7 +605,7 @@ func (c *WorkwxApp) execCloseTempChatExternalContact(req reqCloseTempChatExterna
 }
 
 // execTransferCustomer 在职继承 分配在职成员的客户
-func (c *WorkwxApp) execTransferCustomer(req reqTransferCostomer) (respTransferCustomer, error) {
+func (c *WorkwxApp) execTransferCustomer(req reqTransferCustomer) (respTransferCustomer, error) {
 	var resp respTransferCustomer
 	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/transfer_customer", req, &resp, true)
 	if err != nil {
@@ -633,7 +633,7 @@ func (c *WorkwxApp) execGetTransferCustomerResult(req reqGetTransferCustomerResu
 }
 
 // execTransferResignedCustomer 离职继承 分配离职成员的客户
-func (c *WorkwxApp) execTransferResignedCustomer(req reqTransferCostomer) (respTransferCustomer, error) {
+func (c *WorkwxApp) execTransferResignedCustomer(req reqTransferCustomer) (respTransferCustomer, error) {
 	var resp respTransferCustomer
 	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/resigned/transfer_customer", req, &resp, true)
 	if err != nil {

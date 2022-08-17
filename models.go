@@ -993,7 +993,7 @@ type TaskCardBtn struct {
 	IsBold bool `json:"is_bold"`
 }
 
-type reqTransferCostomer struct {
+type reqTransferCustomer struct {
 	// HandoverUserid 原跟进成员的userid
 	HandoverUserid string `json:"handover_userid"`
 	// TakeoverUserid 接替成员的userid
@@ -1004,9 +1004,9 @@ type reqTransferCostomer struct {
 	TransferSuccessMsg string `json:"transfer_success_msg"`
 }
 
-var _ bodyer = reqTransferCostomer{}
+var _ bodyer = reqTransferCustomer{}
 
-func (x reqTransferCostomer) intoBody() ([]byte, error) {
+func (x reqTransferCustomer) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		return nil, err
@@ -1052,8 +1052,8 @@ func (x reqGetTransferCustomerResult) intoBody() ([]byte, error) {
 type respGetTransferCustomerResult struct {
 	respCommon
 	Customer []struct {
-		// ExternalUserid 转接客户的外部联系人userid
-		ExternalUserid string `json:"external_userid"`
+		// ExternalUserID 转接客户的外部联系人userid
+		ExternalUserID string `json:"external_userid"`
 		// Status 接替状态， 1-接替完毕 2-等待接替 3-客户拒绝 4-接替成员客户达到上限 5-无接替记录
 		Status int `json:"status"`
 		// TakeoverTime 接替客户的时间，如果是等待接替状态，则为未来的自动接替时间
@@ -1100,10 +1100,10 @@ func (x reqAddContactExternalContact) intoBody() ([]byte, error) {
 
 type respAddContactExternalContact struct {
 	respCommon
-	AddContactExternalContact
+	ExternalContactAddContact
 }
 
-type AddContactExternalContact struct {
+type ExternalContactAddContact struct {
 	ConfigID string `json:"config_id"`
 	QRCode   string `json:"qr_code"`
 }
@@ -1124,10 +1124,10 @@ func (x reqGetContactWayExternalContact) intoBody() ([]byte, error) {
 
 type respGetContactWayExternalContact struct {
 	respCommon
-	ContactWay ContactWayExternalContact `json:"contact_way"`
+	ContactWay ExternalContactContactWay `json:"contact_way"`
 }
 
-type ContactWayExternalContact struct {
+type ExternalContactContactWay struct {
 	ConfigID string `json:"config_id"`
 	QRCode   string `json:"qr_code"`
 	ExternalContactWay
@@ -1145,10 +1145,10 @@ func (x reqListContactWayExternalContact) intoBody() ([]byte, error) {
 
 type respListContactWayChatExternalContact struct {
 	respCommon
-	ListContactWayChatExternalContact
+	ExternalContactListContactWayChat
 }
 
-type ListContactWayChatExternalContact struct {
+type ExternalContactListContactWayChat struct {
 	NextCursor string       `json:"next_cursor"`
 	ContactWay []contactWay `json:"contact_way"`
 }
