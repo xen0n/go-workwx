@@ -505,3 +505,157 @@ func (c *WorkwxApp) execMsgAuditGetGroupChat(req reqMsgAuditGetGroupChat) (respM
 
 	return resp, nil
 }
+
+// execListFollowUserExternalContact 获取配置了客户联系功能的成员列表
+func (c *WorkwxApp) execListFollowUserExternalContact(req reqListFollowUserExternalContact) (respListFollowUserExternalContact, error) {
+	var resp respListFollowUserExternalContact
+	err := c.executeQyapiGet("/cgi-bin/externalcontact/get_follow_user_list", req, &resp, true)
+	if err != nil {
+		return respListFollowUserExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respListFollowUserExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddContactExternalContact 配置客户联系「联系我」方式
+func (c *WorkwxApp) execAddContactExternalContact(req reqAddContactExternalContact) (respAddContactExternalContact, error) {
+	var resp respAddContactExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/add_contact_way", req, &resp, true)
+	if err != nil {
+		return respAddContactExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddContactExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetContactWayExternalContact 获取企业已配置的「联系我」方式
+func (c *WorkwxApp) execGetContactWayExternalContact(req reqGetContactWayExternalContact) (respGetContactWayExternalContact, error) {
+	var resp respGetContactWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/get_contact_way", req, &resp, true)
+	if err != nil {
+		return respGetContactWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetContactWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execListContactWayChatExternalContact 获取企业已配置的「联系我」列表
+func (c *WorkwxApp) execListContactWayChatExternalContact(req reqListContactWayExternalContact) (respListContactWayChatExternalContact, error) {
+	var resp respListContactWayChatExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/list_contact_way", req, &resp, true)
+	if err != nil {
+		return respListContactWayChatExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respListContactWayChatExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execUpdateContactWayExternalContact 更新企业已配置的「联系我」成员配置
+func (c *WorkwxApp) execUpdateContactWayExternalContact(req reqUpdateContactWayExternalContact) (respUpdateContactWayExternalContact, error) {
+	var resp respUpdateContactWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/update_contact_way", req, &resp, true)
+	if err != nil {
+		return respUpdateContactWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUpdateContactWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execDelContactWayExternalContact 删除企业已配置的「联系我」方式
+func (c *WorkwxApp) execDelContactWayExternalContact(req reqDelContactWayExternalContact) (respDelContactWayExternalContact, error) {
+	var resp respDelContactWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/del_contact_way", req, &resp, true)
+	if err != nil {
+		return respDelContactWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDelContactWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execCloseTempChatExternalContact 结束临时会话
+func (c *WorkwxApp) execCloseTempChatExternalContact(req reqCloseTempChatExternalContact) (respCloseTempChatExternalContact, error) {
+	var resp respCloseTempChatExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/close_temp_chat", req, &resp, true)
+	if err != nil {
+		return respCloseTempChatExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respCloseTempChatExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execTransferCustomer 在职继承 分配在职成员的客户
+func (c *WorkwxApp) execTransferCustomer(req reqTransferCostomer) (respTransferCustomer, error) {
+	var resp respTransferCustomer
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/transfer_customer", req, &resp, true)
+	if err != nil {
+		return respTransferCustomer{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respTransferCustomer{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetTransferCustomerResult 在职继承 查询客户接替状态
+func (c *WorkwxApp) execGetTransferCustomerResult(req reqGetTransferCustomerResult) (respGetTransferCustomerResult, error) {
+	var resp respGetTransferCustomerResult
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/transfer_result", req, &resp, true)
+	if err != nil {
+		return respGetTransferCustomerResult{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetTransferCustomerResult{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execTransferResignedCustomer 离职继承 分配离职成员的客户
+func (c *WorkwxApp) execTransferResignedCustomer(req reqTransferCostomer) (respTransferCustomer, error) {
+	var resp respTransferCustomer
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/resigned/transfer_customer", req, &resp, true)
+	if err != nil {
+		return respTransferCustomer{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respTransferCustomer{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetTransferResignedCustomerResult 离职继承 查询客户接替状态
+func (c *WorkwxApp) execGetTransferResignedCustomerResult(req reqGetTransferCustomerResult) (respGetTransferCustomerResult, error) {
+	var resp respGetTransferCustomerResult
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/resigned/transfer_result", req, &resp, true)
+	if err != nil {
+		return respGetTransferCustomerResult{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetTransferCustomerResult{}, bizErr
+	}
+
+	return resp, nil
+}

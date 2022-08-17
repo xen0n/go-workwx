@@ -992,3 +992,218 @@ type TaskCardBtn struct {
 	// IsBold 按钮字体是否加粗，默认false
 	IsBold bool `json:"is_bold"`
 }
+
+type reqTransferCostomer struct {
+	// HandoverUserid 原跟进成员的userid
+	HandoverUserid string `json:"handover_userid"`
+	// TakeoverUserid 接替成员的userid
+	TakeoverUserid string `json:"takeover_userid"`
+	// ExternalUserid 客户的external_userid列表，每次最多分配100个客户
+	ExternalUserid []string `json:"external_userid"`
+	// TransferSuccessMsg 转移成功后发给客户的消息，最多200个字符，不填则使用默认文案
+	TransferSuccessMsg string `json:"transfer_success_msg"`
+}
+
+var _ bodyer = reqTransferCostomer{}
+
+func (x reqTransferCostomer) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respTransferCustomer struct {
+	respCommon
+	Customer []struct {
+		// ExternalUserid 转接客户的外部联系人userid
+		ExternalUserid string `json:"external_userid"`
+		// Errcode 对此客户进行分配的结果, 具体可参考全局错误码(https://developer.work.weixin.qq.com/document/path/90475), 0表示成功发起接替,待24小时后自动接替,并不代表最终接替成功
+		Errcode int `json:"errcode"`
+	} `json:"customer"`
+}
+
+func (x respTransferCustomer) intoTransferCustomerResult() TransferCustomerResult {
+	return x.Customer
+}
+
+type reqGetTransferCustomerResult struct {
+	// HandoverUserid 原跟进成员的userid
+	HandoverUserid string `json:"handover_userid"`
+	// TakeoverUserid 接替成员的userid
+	TakeoverUserid string `json:"takeover_userid"`
+	// Cursor 分页查询的cursor，每个分页返回的数据不会超过1000条；不填或为空表示获取第一个分页
+	Cursor string `json:"cursor"`
+}
+
+var _ bodyer = reqGetTransferCustomerResult{}
+
+func (x reqGetTransferCustomerResult) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type respGetTransferCustomerResult struct {
+	respCommon
+	Customer []struct {
+		// ExternalUserid 转接客户的外部联系人userid
+		ExternalUserid string `json:"external_userid"`
+		// Status 接替状态， 1-接替完毕 2-等待接替 3-客户拒绝 4-接替成员客户达到上限 5-无接替记录
+		Status int `json:"status"`
+		// TakeoverTime 接替客户的时间，如果是等待接替状态，则为未来的自动接替时间
+		TakeoverTime int `json:"takeover_time"`
+	} `json:"customer"`
+	// NextCursor 下个分页的起始cursor
+	NextCursor string `json:"next_cursor"`
+}
+
+func (x respGetTransferCustomerResult) intoCustomerTransferResult() CustomerTransferResult {
+	return CustomerTransferResult{
+		Customer:   x.Customer,
+		NextCursor: x.NextCursor,
+	}
+}
+
+type reqListFollowUserExternalContact struct {
+}
+
+var _ urlValuer = reqListFollowUserExternalContact{}
+
+func (x reqListFollowUserExternalContact) intoURLValues() url.Values {
+	return url.Values{}
+}
+
+type respListFollowUserExternalContact struct {
+	respCommon
+	ExternalContactFollowUserList
+}
+
+type reqAddContactExternalContact struct {
+	ExternalContactWay
+}
+
+var _ bodyer = reqAddContactExternalContact{}
+
+func (x reqAddContactExternalContact) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+type respAddContactExternalContact struct {
+	respCommon
+	AddContactExternalContact
+}
+
+type AddContactExternalContact struct {
+	ConfigID string `json:"config_id"`
+	QRCode   string `json:"qr_code"`
+}
+
+type reqGetContactWayExternalContact struct {
+	ConfigID string `json:"config_id"`
+}
+
+var _ bodyer = reqGetContactWayExternalContact{}
+
+func (x reqGetContactWayExternalContact) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+type respGetContactWayExternalContact struct {
+	respCommon
+	ContactWay ContactWayExternalContact `json:"contact_way"`
+}
+
+type ContactWayExternalContact struct {
+	ConfigID string `json:"config_id"`
+	QRCode   string `json:"qr_code"`
+	ExternalContactWay
+}
+
+var _ bodyer = reqListContactWayExternalContact{}
+
+func (x reqListContactWayExternalContact) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+type respListContactWayChatExternalContact struct {
+	respCommon
+	ListContactWayChatExternalContact
+}
+
+type ListContactWayChatExternalContact struct {
+	NextCursor string       `json:"next_cursor"`
+	ContactWay []contactWay `json:"contact_way"`
+}
+
+type contactWay struct {
+	ConfigID string `json:"config_id"`
+}
+
+var _ bodyer = reqUpdateContactWayExternalContact{}
+
+func (x reqUpdateContactWayExternalContact) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+type respUpdateContactWayExternalContact struct {
+	respCommon
+}
+
+type reqDelContactWayExternalContact struct {
+	ConfigID string `json:"config_id"`
+}
+
+var _ bodyer = reqDelContactWayExternalContact{}
+
+func (x reqDelContactWayExternalContact) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+type respDelContactWayExternalContact struct {
+	respCommon
+}
+
+type reqCloseTempChatExternalContact struct {
+	UserID         string `json:"userid"`
+	ExternalUserID string `json:"external_userid"`
+}
+
+var _ bodyer = reqCloseTempChatExternalContact{}
+
+func (x reqCloseTempChatExternalContact) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+type respCloseTempChatExternalContact struct {
+	respCommon
+}

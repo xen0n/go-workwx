@@ -58,6 +58,9 @@ const EventTypeChangeExternalChat EventType = "change_external_chat"
 // EventTypeSysApprovalChange 审批申请状态变化回调通知
 const EventTypeSysApprovalChange EventType = "sys_approval_change"
 
+// EventTypeChangeContact 通讯录回调通知
+const EventTypeChangeContact EventType = "change_contact"
+
 // ChangeType 变更类型
 type ChangeType string
 
@@ -78,6 +81,12 @@ const ChangeTypeDelFollowUser ChangeType = "del_follow_user"
 
 // ChangeTypeTransferFail 客户接替失败事件
 const ChangeTypeTransferFail ChangeType = "transfer_fail"
+
+// ChangeTypeCreateUser 新增成员事件
+const ChangeTypeCreateUser ChangeType = "create_user"
+
+// ChangeTypeUpdateUser 更新成员事件
+const ChangeTypeUpdateUser ChangeType = "update_user"
 
 // rxTextMessageSpecifics 接收的文本消息，特有字段
 type rxTextMessageSpecifics struct {
@@ -211,4 +220,94 @@ type rxEventChangeExternalChat struct {
 type rxEventSysApprovalChange struct {
 	// ApprovalInfo 审批信息、
 	ApprovalInfo OAApprovalInfo `xml:"ApprovalInfo"`
+}
+
+// rxEventChangeTypeCreateUser 接受的事件消息，新增成员事件
+type rxEventChangeTypeCreateUser struct {
+	// UserID 成员UserID
+	UserID string `xml:"UserID"`
+	// Name 成员名称
+	Name string `xml:"Name"`
+	// Department 成员部门列表，仅返回该应用有查看权限的部门id
+	Department string `xml:"Department"`
+	// IsLeaderInDept 表示所在部门是否为上级，0-否，1-是，顺序与Department字段的部门逐一对应
+	IsLeaderInDept string `xml:"IsLeaderInDept"`
+	// Mobile 手机号
+	Mobile string `xml:"Mobile"`
+	// Position 职位信息。长度为0~64个字节
+	Position string `xml:"Position"`
+	// Gender 性别，1表示男性，2表示女性
+	Gender int `xml:"Gender"`
+	// Email 邮箱
+	Email string `xml:"Email"`
+	// Status 激活状态：1=已激活 2=已禁用 4=未激活 已激活代表已激活企业微信或已关注微工作台（原企业号）5=成员退出
+	Status int `xml:"Status"`
+	// Avatar 头像url。注：如果要获取小图将url最后的”/0”改成”/100”即可。
+	Avatar string `xml:"Avatar"`
+	// Alias 成员别名
+	Alias string `xml:"Alias"`
+	// Telephone 座机
+	Telephone string `xml:"Telephone"`
+	// Address 地址
+	Address string `xml:"Address"`
+	// ExtAttr 扩展属性
+	ExtAttr string `xml:"ExtAttr"`
+	// Type 扩展属性类型: 0-本文 1-网页
+	Type string `xml:"Type"`
+	// Text 文本属性类型，扩展属性类型为0时填写
+	Text string `xml:"Text"`
+	// Value 文本属性内容
+	Value string `xml:"Value"`
+	// Web 网页类型属性，扩展属性类型为1时填写
+	Web string `xml:"Web"`
+	// Title 网页的展示标题
+	Title string `xml:"Title"`
+	// Url 网页的url
+	Url string `xml:"Url"`
+}
+
+// rxEventChangeTypeUpdateUser 接受的事件消息，更新成员事件
+type rxEventChangeTypeUpdateUser struct {
+	// UserID 成员UserID
+	UserID string `xml:"UserID"`
+	// NewUserID 新的UserID，变更时推送（userid由系统生成时可更改一次）
+	NewUserID string `xml:"NewUserID"`
+	// Name 成员名称
+	Name string `xml:"Name"`
+	// Department 成员部门列表，仅返回该应用有查看权限的部门id
+	Department string `xml:"Department"`
+	// IsLeaderInDept 表示所在部门是否为上级，0-否，1-是，顺序与Department字段的部门逐一对应
+	IsLeaderInDept string `xml:"IsLeaderInDept"`
+	// Mobile 手机号
+	Mobile string `xml:"Mobile"`
+	// Position 职位信息。长度为0~64个字节
+	Position string `xml:"Position"`
+	// Gender 性别，1表示男性，2表示女性
+	Gender int `xml:"Gender"`
+	// Email 邮箱
+	Email string `xml:"Email"`
+	// Status 激活状态：1=已激活 2=已禁用 4=未激活 已激活代表已激活企业微信或已关注微工作台（原企业号）5=成员退出
+	Status int `xml:"Status"`
+	// Avatar 头像url。注：如果要获取小图将url最后的”/0”改成”/100”即可。
+	Avatar string `xml:"Avatar"`
+	// Alias 成员别名
+	Alias string `xml:"Alias"`
+	// Telephone 座机
+	Telephone string `xml:"Telephone"`
+	// Address 地址
+	Address string `xml:"Address"`
+	// ExtAttr 扩展属性
+	ExtAttr string `xml:"ExtAttr"`
+	// Type 扩展属性类型: 0-本文 1-网页
+	Type string `xml:"Type"`
+	// Text 文本属性类型，扩展属性类型为0时填写
+	Text string `xml:"Text"`
+	// Value 文本属性内容
+	Value string `xml:"Value"`
+	// Web 网页类型属性，扩展属性类型为1时填写
+	Web string `xml:"Web"`
+	// Title 网页的展示标题
+	Title string `xml:"Title"`
+	// Url 网页的url
+	Url string `xml:"Url"`
 }
