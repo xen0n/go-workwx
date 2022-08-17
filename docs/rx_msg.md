@@ -51,6 +51,9 @@ const EventTypeChangeExternalChat EventType = "change_external_chat"
 // EventTypeSysApprovalChange 审批申请状态变化回调通知
 const EventTypeSysApprovalChange EventType = "sys_approval_change"
 
+// EventTypeChangeContact 通讯录回调通知
+const EventTypeChangeContact EventType = "change_contact"
+
 // ChangeType 变更类型
 type ChangeType string
 
@@ -71,6 +74,12 @@ const ChangeTypeDelFollowUser ChangeType = "del_follow_user"
 
 // ChangeTypeTransferFail 客户接替失败事件
 const ChangeTypeTransferFail ChangeType = "transfer_fail"
+
+// ChangeTypeCreateUser 新增成员事件
+const ChangeTypeCreateUser ChangeType = "create_user"
+
+// ChangeTypeUpdateUser 更新成员事件
+const ChangeTypeUpdateUser ChangeType = "update_user"
 
 ```
 
@@ -182,3 +191,54 @@ Name|XML|Type|Doc
 Name|XML|Type|Doc
 :---|:--|:---|:--
 `ApprovalInfo`|`ApprovalInfo`|`OAApprovalInfo`|审批信息、
+
+### `rxEventChangeTypeCreateUser` 接受的事件消息，新增成员事件
+
+Name|XML|Type|Doc
+:---|:--|:---|:--
+`UserID`|`UserID`|`string`|成员UserID
+`Name`|`Name`|`string`|成员名称
+`Department`|`Department`|`string`|成员部门列表，仅返回该应用有查看权限的部门id
+`IsLeaderInDept`|`IsLeaderInDept`|`string`|表示所在部门是否为上级，0-否，1-是，顺序与Department字段的部门逐一对应
+`Mobile`|`Mobile`|`string`|手机号
+`Position`|`Position`|`string`|职位信息。长度为0~64个字节
+`Gender`|`Gender`|`int`|性别，1表示男性，2表示女性
+`Email`|`Email`|`string`|邮箱
+`Status`|`Status`|`int`|激活状态：1=已激活 2=已禁用 4=未激活 已激活代表已激活企业微信或已关注微工作台（原企业号）5=成员退出
+`Avatar`|`Avatar`|`string`|头像url。注：如果要获取小图将url最后的”/0”改成”/100”即可。
+`Alias`|`Alias`|`string`|成员别名
+`Telephone`|`Telephone`|`string`|座机
+`Address`|`Address`|`string`|地址
+`ExtAttr`|`ExtAttr`|`string`|扩展属性
+`Type`|`Type`|`string`|扩展属性类型: 0-本文 1-网页
+`Text`|`Text`|`string`|文本属性类型，扩展属性类型为0时填写
+`Value`|`Value`|`string`|文本属性内容
+`Web`|`Web`|`string`|网页类型属性，扩展属性类型为1时填写
+`Title`|`Title`|`string`|网页的展示标题
+`Url`|`Url`|`string`|网页的url
+
+### `rxEventChangeTypeUpdateUser` 接受的事件消息，更新成员事件
+
+Name|XML|Type|Doc
+:---|:--|:---|:--
+`UserID`|`UserID`|`string`|成员UserID
+`NewUserID`|`NewUserID`|`string`|新的UserID，变更时推送（userid由系统生成时可更改一次）
+`Name`|`Name`|`string`|成员名称
+`Department`|`Department`|`string`|成员部门列表，仅返回该应用有查看权限的部门id
+`IsLeaderInDept`|`IsLeaderInDept`|`string`|表示所在部门是否为上级，0-否，1-是，顺序与Department字段的部门逐一对应
+`Mobile`|`Mobile`|`string`|手机号
+`Position`|`Position`|`string`|职位信息。长度为0~64个字节
+`Gender`|`Gender`|`int`|性别，1表示男性，2表示女性
+`Email`|`Email`|`string`|邮箱
+`Status`|`Status`|`int`|激活状态：1=已激活 2=已禁用 4=未激活 已激活代表已激活企业微信或已关注微工作台（原企业号）5=成员退出
+`Avatar`|`Avatar`|`string`|头像url。注：如果要获取小图将url最后的”/0”改成”/100”即可。
+`Alias`|`Alias`|`string`|成员别名
+`Telephone`|`Telephone`|`string`|座机
+`Address`|`Address`|`string`|地址
+`ExtAttr`|`ExtAttr`|`string`|扩展属性
+`Type`|`Type`|`string`|扩展属性类型: 0-本文 1-网页
+`Text`|`Text`|`string`|文本属性类型，扩展属性类型为0时填写
+`Value`|`Value`|`string`|文本属性内容
+`Web`|`Web`|`string`|网页类型属性，扩展属性类型为1时填写
+`Title`|`Title`|`string`|网页的展示标题
+`Url`|`Url`|`string`|网页的url

@@ -229,3 +229,92 @@ Name|JSON|Type|Doc
 `ChatID`|`chat_id`|`string`| 没能成功继承的群ID
 `ErrCode`|`errcode`|`int`| 没能成功继承的群，错误码
 `ErrMsg`|`errmsg`|`string`| 没能成功继承的群，错误描述
+
+### `ExternalContactFollowUserList` 配置了客户联系功能的成员列表
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`FollowUser`|`follow_user`|`[]string`| 配置了客户联系功能的成员userid列表
+
+### `ExternalContactWay` 配置客户联系「联系我」方式
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Type`|`type`|`int`| 联系方式类型,1-单人, 2-多人
+`Scene`|`scene`|`int`| 场景，1-在小程序中联系，2-通过二维码联系
+`Style`|`style`|`int`| 在小程序中联系时使用的控件样式，详见附表
+`Remark`|`remark`|`string`| 联系方式的备注信息，用于助记，不超过30个字符
+`SkipVerify`|`skip_verify`|`bool`| 外部客户添加时是否无需验证，默认为true
+`State`|`state`|`string`| 企业自定义的state参数，用于区分不同的添加渠道，在调用“获取外部联系人详情”时会返回该参数值，不超过30个字符 <https://developer.work.weixin.qq.com/document/path/92114>
+`User`|`user`|`[]string`| 使用该联系方式的用户userID列表，在type为1时为必填，且只能有一个
+`Party`|`party`|`[]int`| 使用该联系方式的部门id列表，只在type为2时有效
+`IsTemp`|`is_temp`|`bool`| 是否临时会话模式，true表示使用临时会话模式，默认为false
+`ExpiresIn`|`expires_in`|`int`| 临时会话二维码有效期，以秒为单位。该参数仅在is_temp为true时有效，默认7天，最多为14天
+`ChatExpiresIn`|`chat_expires_in`|`int`| 临时会话有效期，以秒为单位。该参数仅在is_temp为true时有效，默认为添加好友后24小时，最多为14天
+`UnionID`|`unionid`|`string`| 可进行临时会话的客户UnionID，该参数仅在is_temp为true时有效，如不指定则不进行限制
+`Conclusions`|`conclusions`|`Conclusions`| 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效,<https://developer.work.weixin.qq.com/document/path/92572#%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%AE%9A%E4%B9%89>
+
+### `Conclusions` 结束语，会话结束时自动发送给客户
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Text`|`text`|`Text`| 文本消息
+`Image`|`image`|`Image`| 图片
+`Link`|`link`|`Link`| 链接
+`MiniProgram`|`miniprogram`|`MiniProgram`| 小程序
+
+### `Text` 结束语，会话结束时自动发送给客户
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Content`|`content`|`string`| 消息文本内容,最长为4000字节
+
+### `Image` 结束语，会话结束时自动发送给客户
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`MediaID`|`media_id`|`string`| 图片的media_id
+`PicURL`|`pic_url`|`string`| 图片的url
+
+### `Link` 结束语，会话结束时自动发送给客户
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Title`|`title`|`string`| 图文消息标题，最长为128字节
+`Picurl`|`picurl`|`string`| 图文消息封面的url
+`Desc`|`desc`|`string`| 图文消息的描述，最长为512字节
+`URL`|`url`|`string`| 图文消息的链接
+
+### `MiniProgram` 结束语，会话结束时自动发送给客户
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Title`|`title`|`string`| 小程序消息标题，最长为64字节
+`PicMediaID`|`pic_media_id`|`string`| 小程序消息封面的mediaid，封面图建议尺寸为520*416
+`AppID`|`appid`|`string`| 小程序appid，必须是关联到企业的小程序应用
+`Page`|`page`|`string`| 小程序page路径
+
+### `reqListContactWayExternalContact` 获取企业已配置的「联系我」列表请求参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`StartTime`|`start_time`|`int`| 「联系我」创建起始时间戳, 默认为90天前
+`EndTime`|`end_time`|`int`| 「联系我」创建结束时间戳, 默认为当前时间
+`Cursor`|`cursor`|`string`| 分页查询使用的游标，为上次请求返回的 next_cursor
+`Limit`|`limit`|`int`| 每次查询的分页大小，默认为100条，最多支持1000条
+
+### `reqUpdateContactWayExternalContact` 更新企业已配置的「联系我」方式请求参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`ConfigID`|`config_id`|`string`| 企业联系方式的配置id
+`Remark`|`remark`|`string`| 联系方式的备注信息，不超过30个字符，将覆盖之前的备注
+`SkipVerify`|`skip_verify`|`bool`| 外部客户添加时是否无需验证
+`Style`|`style`|`int`| 样式，只针对“在小程序中联系”的配置生效
+`State`|`state`|`string`| 企业自定义的state参数，用于区分不同的添加渠道，在调用“获取外部联系人详情”时会返回该参数值，不超过30个字符 <https://developer.work.weixin.qq.com/document/path/92114>
+`User`|`user`|`[]string`| 使用该联系方式的用户userID列表，在type为1时为必填，且只能有一个
+`Party`|`party`|`[]int`| 使用该联系方式的部门id列表，只在type为2时有效
+`ExpiresIn`|`expires_in`|`int`| 临时会话二维码有效期，以秒为单位。该参数仅在is_temp为true时有效，默认7天，最多为14天
+`ChatExpiresIn`|`chat_expires_in`|`int`| 临时会话有效期，以秒为单位。该参数仅在is_temp为true时有效，默认为添加好友后24小时，最多为14天
+`UnionID`|`unionid`|`string`| 可进行临时会话的客户UnionID，该参数仅在is_temp为true时有效，如不指定则不进行限制
+`Conclusions`|`conclusions`|`Conclusions`| 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效,<https://developer.work.weixin.qq.com/document/path/92572#%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%AE%9A%E4%B9%89>

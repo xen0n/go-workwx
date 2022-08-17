@@ -92,3 +92,38 @@ func TestRxMessageEventEditExternalContact(t *testing.T) {
 		})
 	})
 }
+
+func TestRxMessageChangeContactUpdateUser(t *testing.T) {
+	c.Convey("解析接收的 XML 消息体", t, func() {
+		c.Convey("更新成员事件", func() {
+			body := []byte(" <xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[sys]]></FromUserName> <CreateTime>1403610513</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[change_contact]]></Event><ChangeType>update_user</ChangeType><UserID><![CDATA[zhangsan]]></UserID><NewUserID><![CDATA[zhangsan001]]></NewUserID><Name><![CDATA[张三]]></Name><Department><![CDATA[1,2,3]]></Department><MainDepartment>1</MainDepartment><IsLeaderInDept><![CDATA[1,0,0]]></IsLeaderInDept><Position><![CDATA[产品经理]]></Position><Mobile>13800000000</Mobile><Gender>1</Gender><Email><![CDATA[zhangsan@gzdev.com]]></Email><Status>1</Status><Avatar><![CDATA[http://wx.qlogo.cn/mmopen/ajNVdqHZLLA3WJ6DSZUfiakYe37PKnQhBIeOQBO4czqrnZDS79FH5Wm5m4X69TBicnHFlhiafvDwklOpZeXYQQ2icg/0]]></Avatar><Alias><![CDATA[zhangsan]]></Alias><Telephone><![CDATA[020-123456]]></Telephone><Address><![CDATA[广州市]]></Address><ExtAttr><Item><Name><![CDATA[爱好]]></Name><Type>0</Type><Text><Value><![CDATA[旅游]]></Value></Text></Item><Item><Name><![CDATA[卡号]]></Name><Type>1</Type><Web><Title><![CDATA[企业微信]]></Title><Url><![CDATA[https://work.weixin.qq.com]]></Url></Web></Item></ExtAttr></xml>")
+
+			msg, err := fromEnvelope(body)
+			c.So(err, c.ShouldBeNil)
+
+			{
+				y, ok := msg.EventChangeTypeUpdateUser()
+				c.So(ok, c.ShouldBeTrue)
+				c.So(y, c.ShouldNotBeNil)
+			}
+		})
+	})
+
+}
+
+func TestRxMessageChangeContactCreateUser(t *testing.T) {
+	c.Convey("解析接收的 XML 消息体", t, func() {
+		c.Convey("更新成员事件", func() {
+			body := []byte(" <xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[sys]]></FromUserName> <CreateTime>1403610513</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[change_contact]]></Event><ChangeType>create_user</ChangeType><UserID><![CDATA[zhangsan]]></UserID><Name><![CDATA[张三]]></Name><Department><![CDATA[1,2,3]]></Department><MainDepartment>1</MainDepartment><IsLeaderInDept><![CDATA[1,0,0]]></IsLeaderInDept><Position><![CDATA[产品经理]]></Position><Mobile>13800000000</Mobile><Gender>1</Gender><Email><![CDATA[zhangsan@gzdev.com]]></Email><Status>1</Status><Avatar><![CDATA[http://wx.qlogo.cn/mmopen/ajNVdqHZLLA3WJ6DSZUfiakYe37PKnQhBIeOQBO4czqrnZDS79FH5Wm5m4X69TBicnHFlhiafvDwklOpZeXYQQ2icg/0]]></Avatar><Alias><![CDATA[zhangsan]]></Alias><Telephone><![CDATA[020-123456]]></Telephone><Address><![CDATA[广州市]]></Address><ExtAttr><Item><Name><![CDATA[爱好]]></Name><Type>0</Type><Text><Value><![CDATA[旅游]]></Value></Text></Item><Item><Name><![CDATA[卡号]]></Name><Type>1</Type><Web><Title><![CDATA[企业微信]]></Title><Url><![CDATA[https://work.weixin.qq.com]]></Url></Web></Item></ExtAttr></xml>")
+
+			msg, err := fromEnvelope(body)
+			c.So(err, c.ShouldBeNil)
+
+			{
+				y, ok := msg.EventChangeTypeCreateUser()
+				c.So(ok, c.ShouldBeTrue)
+				c.So(y, c.ShouldNotBeNil)
+			}
+		})
+	})
+}

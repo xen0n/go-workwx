@@ -120,7 +120,21 @@ func extractMessageExtras(common rxMessageCommon, body []byte) (messageKind, err
 					return nil, err
 				}
 				return &x, nil
+			case ChangeTypeCreateUser:
+				var x rxEventChangeTypeCreateUser
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
 
+			case ChangeTypeUpdateUser:
+				var x rxEventChangeTypeUpdateUser
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
 			default:
 				return nil, fmt.Errorf("unknown change type '%s'", common.ChangeType)
 			}
@@ -131,6 +145,25 @@ func extractMessageExtras(common rxMessageCommon, body []byte) (messageKind, err
 				return nil, err
 			}
 			return &x, nil
+		case EventTypeChangeContact:
+			switch common.ChangeType {
+			case ChangeTypeUpdateUser:
+				var x rxEventChangeTypeUpdateUser
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
+			case ChangeTypeCreateUser:
+				var x rxEventChangeTypeCreateUser
+				err := xml.Unmarshal(body, &x)
+				if err != nil {
+					return nil, err
+				}
+				return &x, nil
+			default:
+				return nil, fmt.Errorf("unknown change type '%s'", common.ChangeType)
+			}
 
 		default:
 			return nil, fmt.Errorf("unknown event '%s'", common.Event)
@@ -626,4 +659,20 @@ func (r rxEventSysApprovalChange) formatInto(w io.Writer) {
 
 func (r rxEventSysApprovalChange) GetApprovalInfo() OAApprovalInfo {
 	return r.ApprovalInfo
+}
+
+func (r rxEventChangeTypeUpdateUser) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"UpdateUser: %#v",
+		r,
+	)
+}
+
+func (r rxEventChangeTypeCreateUser) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"CreateUser: %#v",
+		r,
+	)
 }

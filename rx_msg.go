@@ -169,3 +169,15 @@ func (m *RxMessage) EventSysApprovalChange() (EventSysApprovalChange, bool) {
 	y, ok := m.extras.(EventSysApprovalChange)
 	return y, ok
 }
+
+// EventChangeTypeUpdateUser 如果消息为更新成员事件通知，则拿出相应消息参数，否则返回 nil, false
+func (m *RxMessage) EventChangeTypeUpdateUser() (*rxEventChangeTypeUpdateUser, bool) {
+	y, ok := m.extras.(*rxEventChangeTypeUpdateUser)
+	return y, ok
+}
+
+// EventChangeTypeCreateUser  如果消息为创建成员事件通知，则拿出相应消息参数，否则返回 nil, false
+func (m *RxMessage) EventChangeTypeCreateUser() (*rxEventChangeTypeCreateUser, bool) {
+	y, ok := m.extras.(*rxEventChangeTypeCreateUser)
+	return y, ok
+}
