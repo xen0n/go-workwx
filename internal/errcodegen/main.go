@@ -31,6 +31,8 @@ var anchorLinkReplace = fmt.Sprintf("[$2](%s#$1)", errcodeDocURL)
 
 var h5Regexp = regexp.MustCompile(`<h5[^>]*>.*</h5>`)
 
+var mdLinkRegexp = regexp.MustCompile(`\[([^\]]+)\]\((https?://[^)]+)\)`)
+
 func die(format string, a ...interface{}) {
 	fmt.Fprintf(os.Stderr, format, a...)
 	os.Exit(1)
@@ -143,6 +145,8 @@ func main() {
 		tmp := solutionHtml
 		tmp = absoluteLinkRegexp.ReplaceAllString(tmp, absoluteLinkReplace)
 		tmp = anchorLinkRegexp.ReplaceAllString(tmp, anchorLinkReplace)
+		// hack: remove "10649/" from links
+		tmp = strings.ReplaceAll(tmp, "#10649/", "#")
 
 		// unescape things
 		// this is VERY crude but working so...
@@ -158,7 +162,7 @@ func main() {
 		tmp = strings.ReplaceAll(tmp, "</li>", "\n")
 		tmp = strings.ReplaceAll(tmp, "<strong>", "**")
 		tmp = strings.ReplaceAll(tmp, "</strong>", "**")
-		solution := tmp
+		solution := reflowMarkdownLinks(tmp)
 
 		err = em.EmitErrCode(code, descStr, solution)
 		if err != nil {
@@ -224,4 +228,49 @@ func collectRawSectionContents(
 	})
 
 	return result
+}
+
+// Reflows the links in the input Markdown-formatted text so the output is in
+// proper go1.19 doc comment form regarding link syntax.
+//
+// see https://go.dev/doc/comment
+func reflowMarkdownLinks(x string) string {
+	// construct the output like:
+	//
+	// 1. input with links trimmed
+	// 2. single empty line
+	// 3. lines of the format "[text]: link"
+	//
+	// collect the links to replace along the way
+	type linkDesc struct {
+		text string
+		link string
+	}
+
+	var links []linkDesc
+	trimmed := mdLinkRegexp.ReplaceAllStringFunc(x, func(fragment string) string {
+		match := mdLinkRegexp.FindStringSubmatch(fragment)
+		links = append(links, linkDesc{
+			text: match[1],
+			link: match[2],
+		})
+		return fmt.Sprintf("[%s]", match[1])
+	})
+
+	if len(links) == 0 {
+		return x
+	}
+
+	var sb strings.Builder
+	sb.WriteString(trimmed)
+	sb.WriteString("\n\n")
+	for _, l := range links {
+		sb.WriteRune('[')
+		sb.WriteString(l.text)
+		sb.WriteString("]: ")
+		sb.WriteString(l.link)
+		sb.WriteRune('\n')
+	}
+
+	return sb.String()
 }
