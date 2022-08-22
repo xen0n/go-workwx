@@ -74,3 +74,13 @@ type UserDeptInfo struct {
 	// IsLeader 在所在的部门内是否为上级
 	IsLeader bool
 }
+
+// UserIdentityInfo 访问用户身份信息
+type UserIdentityInfo struct {
+	// UserID 成员UserID。若需要获得用户详情信息，可调用通讯录接口：读取成员。如果是互联企业，则返回的UserId格式如：CorpId/userid
+	UserID string `json:"UserId"`
+	// OpenID 非企业成员的标识，对当前企业唯一。不超过64字节
+	OpenID string `json:"OpenId"`
+	// DeviceID 手机设备号(由企业微信在安装时随机生成，删除重装会改变，升级不受影响)
+	DeviceID string `json:"DeviceId"`
+}

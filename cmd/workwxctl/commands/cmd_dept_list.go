@@ -6,7 +6,7 @@ import (
 
 	"github.com/xen0n/go-workwx"
 
-	"gopkg.in/urfave/cli.v2"
+	"github.com/urfave/cli/v2"
 )
 
 func cmdDeptList(c *cli.Context) error {

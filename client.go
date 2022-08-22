@@ -7,7 +7,6 @@ import (
 	"mime/multipart"
 	"net/url"
 	"sync"
-	"time"
 )
 
 // Workwx 企业微信客户端
@@ -25,12 +24,10 @@ type WorkwxApp struct {
 	// CorpSecret 应用的凭证密钥，必填
 	CorpSecret string
 	// AgentID 应用 ID，必填
-	AgentID int64
-
-	tokenMu        *sync.RWMutex
-	accessToken    string
-	tokenExpiresIn time.Duration
-	lastRefresh    time.Time
+	AgentID                int64
+	accessToken            *token
+	jsapiTicket            *token
+	jsapiTicketAgentConfig *token
 }
 
 // New 构造一个 Workwx 客户端对象，需要提供企业 ID
@@ -50,21 +47,21 @@ func New(corpID string, opts ...CtorOption) *Workwx {
 
 // WithApp 构造本企业下某自建 app 的客户端
 func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
-	return &WorkwxApp{
+	app := WorkwxApp{
 		Workwx: c,
 
 		CorpSecret: corpSecret,
 		AgentID:    agentID,
 
-		tokenMu:     &sync.RWMutex{},
-		accessToken: "",
-		lastRefresh: time.Time{},
+		accessToken:            &token{mutex: &sync.RWMutex{}},
+		jsapiTicket:            &token{mutex: &sync.RWMutex{}},
+		jsapiTicketAgentConfig: &token{mutex: &sync.RWMutex{}},
 	}
+	app.accessToken.setGetTokenFunc(app.getAccessToken)
+	app.jsapiTicket.setGetTokenFunc(app.getJSAPITicket)
+	app.jsapiTicketAgentConfig.setGetTokenFunc(app.getJSAPITicketAgentConfig)
+	return &app
 }
-
-//
-// impl WorkwxApp
-//
 
 func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
 	values := url.Values{}
@@ -92,19 +89,8 @@ func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withA
 		return url
 	}
 
-	// intensive mutex juggling action
-	c.tokenMu.RLock()
-	if c.accessToken == "" {
-		c.tokenMu.RUnlock() // RWMutex doesn't like recursive locking
-		// TODO: what to do with the possible error?
-		_ = c.syncAccessToken()
-		c.tokenMu.RLock()
-	}
-	tokenToUse := c.accessToken
-	c.tokenMu.RUnlock()
-
 	q := url.Query()
-	q.Set("access_token", tokenToUse)
+	q.Set("access_token", c.accessToken.getToken())
 	url.RawQuery = q.Encode()
 
 	return url
@@ -188,6 +174,7 @@ func (c *WorkwxApp) executeQyapiMediaUpload(
 		// TODO: error_chain
 		return err
 	}
+	defer resp.Body.Close()
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(respObj)

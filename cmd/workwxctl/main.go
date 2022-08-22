@@ -8,5 +8,6 @@ import (
 
 func main() {
 	app := commands.InitApp()
-	app.Run(os.Args)
+	// ignore errors
+	_ = app.Run(os.Args)
 }
