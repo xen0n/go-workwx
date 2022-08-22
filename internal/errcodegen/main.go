@@ -19,7 +19,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-const errcodeDocURL = "https://developer.work.weixin.qq.com/document/path/95390"
+const errcodeDocURL = "https://developer.work.weixin.qq.com/document/path/90313"
 
 var absoluteLinkRegexp = regexp.MustCompile(`<a href="(http[^"]+)"(?: rel="nofollow")?>([^<]+)</a>`)
 
