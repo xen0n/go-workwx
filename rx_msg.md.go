@@ -88,6 +88,36 @@ const ChangeTypeCreateUser ChangeType = "create_user"
 // ChangeTypeUpdateUser 更新成员事件
 const ChangeTypeUpdateUser ChangeType = "update_user"
 
+// EventTypeAppMenuClick 点击菜单
+const EventTypeAppMenuClick = "click"
+
+// EventTypeAppMenuCView 打开菜单链接
+const EventTypeAppMenuView = "view"
+
+// EventTypeAppMenuScanCodePush 扫码上传
+const EventTypeAppMenuScanCodePush = "scancode_push"
+
+// EventTypeAppMenuScanCodeWaitMsg 扫码等待消息
+const EventTypeAppMenuScanCodeWaitMsg = "scancode_waitmsg"
+
+// EventTypeAppMenuPicSysPhoto 弹出系统拍照发图
+const EventTypeAppMenuPicSysPhoto = "pic_sysphoto"
+
+// EventTypeAppMenuPicPhotoOrAlbum 弹出系统拍照发图
+const EventTypeAppMenuPicPhotoOrAlbum = "pic_photo_or_album"
+
+// EventTypeAppMenuPicWeixin 弹出微信相册发图器
+const EventTypeAppMenuPicWeixin = "pic_weixin"
+
+// EventTypeAppMenuLocationSelect 弹出微信位置选择器
+const EventTypeAppMenuLocationSelect = "location_select"
+
+// EventTypeAppSubscribe 应用订阅
+const EventTypeAppSubscribe = "subscribe"
+
+// EventTypeAppUnsubscribe 应用订阅取消
+const EventTypeAppUnsubscribe = "unsubscribe"
+
 // rxTextMessageSpecifics 接收的文本消息，特有字段
 type rxTextMessageSpecifics struct {
 	// Content 文本消息内容
@@ -310,4 +340,36 @@ type rxEventChangeTypeUpdateUser struct {
 	Title string `xml:"Title"`
 	// Url 网页的url
 	Url string `xml:"Url"`
+}
+
+// rxEventAppMenuClick 接受的事件消息，应用菜单点击事件
+type rxEventAppMenuClick struct {
+	// EventKey 事件key
+	EventKey string `xml:"EventKey"`
+}
+
+// rxEventAppMenuView 接受的事件消息，应用菜单点击链接事件
+type rxEventAppMenuView struct {
+	// EventKey 事件key
+	EventKey string `xml:"EventKey"`
+}
+
+// rxEventAppSubscribe 接受的事件消息，用户订阅事件
+type rxEventAppSubscribe struct {
+	// EventKey 事件key
+	EventKey string `xml:"EventKey"`
+}
+
+// rxEventAppUnsubscribe 接受的事件消息，用户取消订阅事件
+type rxEventAppUnsubscribe struct {
+	// EventKey 事件key
+	EventKey string `xml:"EventKey"`
+}
+
+// rxEventUnknown 接受的事件消息，未定义的事件类型
+type rxEventUnknown struct {
+	// EventType 事件类型
+	EventType string `xml:"-"`
+	// Raw 原始的消息体
+	Raw string `xml:"-"`
 }
