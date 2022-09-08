@@ -14,6 +14,7 @@ Name|XML|Type|Doc
 `AgentID`|`AgentID`|`int64`|企业应用的id，整型。可在应用的设置页面查看
 `Event`|`Event`|`EventType`|事件类型 MsgType为event存在
 `ChangeType`|`ChangeType`|`ChangeType`|变更类型 Event为change_external_contact存在
+
 ```go
 // MessageType 消息类型
 type MessageType string
@@ -81,6 +82,35 @@ const ChangeTypeCreateUser ChangeType = "create_user"
 // ChangeTypeUpdateUser 更新成员事件
 const ChangeTypeUpdateUser ChangeType = "update_user"
 
+// EventTypeAppMenuClick 点击菜单
+const EventTypeAppMenuClick = "click"
+
+// EventTypeAppMenuCView 打开菜单链接
+const EventTypeAppMenuView = "view"
+
+// EventTypeAppMenuScanCodePush 扫码上传
+const EventTypeAppMenuScanCodePush = "scancode_push"
+
+// EventTypeAppMenuScanCodeWaitMsg 扫码等待消息
+const EventTypeAppMenuScanCodeWaitMsg = "scancode_waitmsg"
+
+// EventTypeAppMenuPicSysPhoto 弹出系统拍照发图
+const EventTypeAppMenuPicSysPhoto = "pic_sysphoto"
+
+// EventTypeAppMenuPicPhotoOrAlbum 弹出系统拍照发图
+const EventTypeAppMenuPicPhotoOrAlbum = "pic_photo_or_album"
+
+// EventTypeAppMenuPicWeixin 弹出微信相册发图器
+const EventTypeAppMenuPicWeixin = "pic_weixin"
+
+// EventTypeAppMenuLocationSelect 弹出微信位置选择器
+const EventTypeAppMenuLocationSelect = "location_select"
+
+// EventTypeAppSubscribe 应用订阅
+const EventTypeAppSubscribe = "subscribe"
+
+// EventTypeAppUnsubscribe 应用订阅取消
+const EventTypeAppUnsubscribe = "unsubscribe"
 ```
 
 ### `rxTextMessageSpecifics` 接收的文本消息，特有字段
@@ -242,3 +272,34 @@ Name|XML|Type|Doc
 `Web`|`Web`|`string`|网页类型属性，扩展属性类型为1时填写
 `Title`|`Title`|`string`|网页的展示标题
 `Url`|`Url`|`string`|网页的url
+
+### `rxEventAppMenuClick` 接受的事件消息，应用菜单点击事件
+
+Name|XML|Type|Doc
+:---|:--|:---|:--
+`EventKey`|`EventKey`|`string`|事件key
+
+### `rxEventAppMenuView ` 接受的事件消息，应用菜单点击链接事件
+
+Name|XML|Type|Doc
+:---|:--|:---|:--
+`EventKey`|`EventKey`|`string`|事件key
+
+### `rxEventAppSubscribe` 接受的事件消息，用户订阅事件
+
+Name|XML|Type|Doc
+:---|:--|:---|:--
+`EventKey`|`EventKey`|`string`|事件key
+
+### `rxEventAppUnsubscribe` 接受的事件消息，用户取消订阅事件
+
+Name|XML|Type|Doc
+:---|:--|:---|:--
+`EventKey`|`EventKey`|`string`|事件key
+
+### `rxEventUnknown` 接受的事件消息，未定义的事件类型
+
+Name|XML|Type|Doc
+:---|:--|:---|:--
+`EventType`|`-`|`string`|事件类型
+`Raw`|`-`|`string`|原始的消息体

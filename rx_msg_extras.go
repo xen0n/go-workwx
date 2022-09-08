@@ -164,9 +164,23 @@ func extractMessageExtras(common rxMessageCommon, body []byte) (messageKind, err
 			default:
 				return nil, fmt.Errorf("unknown change type '%s'", common.ChangeType)
 			}
-
+		case EventTypeAppMenuClick:
+			var x rxEventAppMenuClick
+			err := xml.Unmarshal(body, &x)
+			if err != nil {
+				return nil, err
+			}
+			return &x, nil
+		case EventTypeAppMenuView:
+			var x rxEventAppMenuView
+			err := xml.Unmarshal(body, &x)
+			if err != nil {
+				return nil, err
+			}
+			return &x, nil
 		default:
-			return nil, fmt.Errorf("unknown event '%s'", common.Event)
+			// 返回一个未定义的事件类型
+			return &rxEventUnknown{EventType: string(common.Event), Raw: string(body)}, nil
 		}
 
 	default:
@@ -675,4 +689,24 @@ func (r rxEventChangeTypeCreateUser) formatInto(w io.Writer) {
 		"CreateUser: %#v",
 		r,
 	)
+}
+
+func (r rxEventAppMenuClick) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(w, "EventKey: %#v", r.EventKey)
+}
+
+func (r rxEventAppMenuView) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(w, "EventKey: %#v", r.EventKey)
+}
+
+func (r rxEventAppSubscribe) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(w, "EventKey: %#v", r.EventKey)
+}
+
+func (r rxEventAppUnsubscribe) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(w, "EventKey: %#v", r.EventKey)
+}
+
+func (r rxEventUnknown) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(w, "Raw: %#v", r.Raw)
 }
