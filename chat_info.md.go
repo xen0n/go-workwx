@@ -13,3 +13,37 @@ type ChatInfo struct {
 	// MemberUserIDs 群成员id列表
 	MemberUserIDs []string `json:"userlist"`
 }
+
+// ReqChatListOwnerFilter 群主过滤
+type ReqChatListOwnerFilter struct {
+	// UseridList 用户ID列表。最多100个
+	UseridList []string `json:"userid_list"`
+}
+
+// ReqChatList 群聊列表获取参数
+type ReqChatList struct {
+	// StatusFilter 客户群跟进状态过滤
+	StatusFilter int64 `json:"status_filter"`
+	// OwnerFilter 群主过滤
+	OwnerFilter ReqChatListOwnerFilter `json:"owner_filter"`
+	// Cursor 用于分页查询的游标，字符串类型，由上一次调用返回，首次调用不填
+	Cursor string `json:"cursor"`
+	// Limit 分页，预期请求的数据量，取值范围 1 ~ 1000
+	Limit int64 `json:"limit"`
+}
+
+// RespGroupChatList 客户群列表数据
+type RespGroupChatList struct {
+	// ChatId 客户群ID
+	ChatId string `json:"chat_id"`
+	// Status 客户群跟进状态 0 - 跟进人正常 1 - 跟进人离职 2 - 离职继承中 3 - 离职继承完成
+	Status int64 `json:"status"`
+}
+
+// RespAppchatList 群聊列表结果
+type RespAppchatList struct {
+	// GroupChatList 客户群列表
+	GroupChatList []RespGroupChatList `json:"group_chat_list"`
+	// NextCursor 分页游标
+	NextCursor string `json:"next_cursor"`
+}

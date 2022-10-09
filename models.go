@@ -891,6 +891,26 @@ type respTransferGroupChatExternalContact struct {
 	FailedChatList []ExternalContactGroupChatTransferFailed `json:"failed_chat_list"`
 }
 
+type reqAppchatList struct {
+	ReqChatList ReqChatList
+}
+
+func (x reqAppchatList) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x.ReqChatList)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+var _ bodyer = reqAppchatList{}
+
+type respAppchatList struct {
+	respCommon
+	*RespAppchatList
+}
+
 type reqOAGetTemplateDetail struct {
 	TemplateID string `json:"template_id"`
 }
