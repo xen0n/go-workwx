@@ -24,3 +24,14 @@ func (c *WorkwxApp) GetAppchat(chatid string) (*ChatInfo, error) {
 	obj := resp.ChatInfo
 	return obj, nil
 }
+
+// GetAppChatList 获取群聊列表
+func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespAppchatList, error) {
+	resp, err := c.execAppchatListGet(reqAppchatList{
+		ReqChatList: req,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return resp.RespAppchatList, nil
+}
