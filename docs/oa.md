@@ -3,6 +3,7 @@
 ## Models
 
 ### `OAApplyEvent` 提交审批申请
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `CreatorUserID`|`creator_userid`|`string`| 申请人userid，此审批申请将以此员工身份提交，申请人需在应用可见范围内
@@ -15,12 +16,14 @@ Name|JSON|Type|Doc
 `SummaryList`|`summary_list`|`[]OASummaryList`| 摘要信息，用于显示在审批通知卡片、审批列表的摘要信息，最多3行
 
 ### `OAApprover` 审批流程信息
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Attr`|`attr`|`uint8`| 节点审批方式：1-或签；2-会签，仅在节点为多人审批时有效
 `UserID`|`userid`|`[]string`| 审批节点审批人userid列表，若为多人会签、多人或签，需填写每个人的userid
 
 ### `OAContent` 审批申请详情，由多个表单控件及其内容组成，其中包含需要对控件赋值的信息
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Control`|`control`|`OAControl`| 控件类型：Text-文本；Textarea-多行文本；Number-数字；Money-金额；Date-日期/日期+时间；Selector-单选/多选；；Contact-成员/部门；Tips-说明文字；File-附件；Table-明细；
@@ -29,22 +32,26 @@ Name|JSON|Type|Doc
 `Value`|`value`|`OAContentValue`| 控件值 ，需在此为申请人在各个控件中填写内容不同控件有不同的赋值参数，具体说明详见附录。模板配置的控件属性为必填时，对应value值需要有值。
 
 ### `OAContents` 审批申请详情，由多个表单控件及其内容组成，其中包含需要对控件赋值的信息
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Contents`|`contents`|`[]OAContent`| 审批申请详情，由多个表单控件及其内容组成，其中包含需要对控件赋值的信息
 
 ### `OAText` 通用文本信息
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Text`|`text`|`string`| 文字
 `Lang`|`lang`|`string`| 语言
 
 ### `OASummaryList` 摘要行信息，用于定义某一行摘要显示的内容
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `SummaryInfo`|`summary_info`|`[]OAText`| 摘要行信息，用于定义某一行摘要显示的内容
 
 ### `OAContentValue` 控件值 ，需在此为申请人在各个控件中填写内容不同控件有不同的赋值参数，具体说明详见附录。模板配置的控件属性为必填时，对应value值需要有值。
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Text`|`text`|`string`| 文本/多行文本控件（control参数为Text或Textarea）
@@ -63,63 +70,74 @@ Name|JSON|Type|Doc
 `DateRange`|`date_range`|`OAContentDateRange`| 时长组件（control参数为DateRange，且value参数为date_range）
 
 ### `OAContentDate` 日期/日期+时间内容
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Type`|`type`|`string`| 时间展示类型：day-日期；hour-日期+时间 ，和对应模板控件属性一致
 `Timestamp`|`s_timestamp`|`string`| 时间戳-字符串类型，在此填写日期/日期+时间控件的选择值，以此为准
 
 ### `OAContentSelector` 类型标志，单选/多选控件的config中会包含此参数
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Type`|`type`|`string`| 选择方式：single-单选；multi-多选
 `Options`|`options`|`[]OAContentSelectorOption`| 多选选项，多选属性的选择控件允许输入多个
 
 ### `OAContentSelectorOption` 多选选项，多选属性的选择控件允许输入多个
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Key`|`key`|`string`| 选项key，可通过“获取审批模板详情”接口获得
 
 ### `OAContentMember` 所选成员内容，即申请人在此控件选择的成员，多选模式下可以有多个
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `UserID`|`userid`|`string`| 所选成员的userid
 `Name`|`name`|`string`| 成员名
 
 ### `OAContentDepartment` 所选部门内容，即申请人在此控件选择的部门，多选模式下可能有多个
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `OpenAPIID`|`openapi_id`|`string`| 所选部门id
 `Name`|`name`|`string`| 所选部门名
 
 ### `OAContentFile` 附件
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `FileID`|`file_id`|`string`| 文件id，该id为临时素材上传接口返回的的media_id，注：提单后将作为单据内容转换为长期文件存储；目前一个审批申请单，全局仅支持上传6个附件，否则将失败。
 
 ### `OAContentTableList` 子明细列表，在此填写子明细的所有子控件的值，子控件的数据结构同一般控件
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `List`|`list`|`[]OAContent`| 子明细列表，在此填写子明细的所有子控件的值，子控件的数据结构同一般控件
 
 ### `OAContentVacation` 请假内容，即申请人在此组件内选择的请假信息
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Selector`|`selector`|`OAContentSelector`| 请假类型，所选选项与假期管理关联，为假期管理中的假期类型
 `Attendance`|`attendance`|`OAContentVacationAttendance`| 假勤组件
 
 ### `OAContentVacationAttendance` 假勤组件
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `DateRange`|`date_range`|`OAContentVacationAttendanceDateRange`| 假勤组件时间选择范围
 `Type`|`type`|`uint8`| 假勤组件类型：1-请假；3-出差；4-外出；5-加班
 
 ### `OAContentVacationAttendanceDateRange` 假勤组件时间选择范围
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Type`|`type`|`string`| 时间展示类型：day-日期；hour-日期+时间
 ``|``|`OAContentDateRange`| 时长范围
 
 ### `OAContentLocation` 位置控件
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Latitude`|`latitude`|`string`| 纬度，精确到6位小数
@@ -129,16 +147,19 @@ Name|JSON|Type|Doc
 `Time`|`time`|`int`| 选择地点的时间
 
 ### `OAContentRelatedApproval` 关联审批单控件
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `SpNo`|`sp_no`|`string`| 关联审批单的审批单号
 
 ### `OAContentFormula` 公式控件
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Value`|`value`|`string`| 公式的值，提交表单时无需填写，后台自动计算
 
 ### `OAContentDateRange` 时长组件
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `NewBegin`|`new_begin`|`int`| 开始时间，unix时间戳
@@ -147,6 +168,7 @@ Name|JSON|Type|Doc
 
 
 ### `OATemplateDetail` 审批模板详情
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `TemplateNames`|`template_names`|`[]OAText`| 模板名称，若配置了多语言则会包含中英文的模板名称，默认为zh_CN中文
@@ -154,17 +176,20 @@ Name|JSON|Type|Doc
 `Vacation`|`vacation_list`|`OATemplateControlConfigVacation`| Vacation控件（假勤控件）
 
 ### `OATemplateControls` 模板控件数组。模板详情由多个不同类型的控件组成，控件类型详细说明见附录。
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Controls`|`controls`|`[]OATemplateControl`| 模板名称，若配置了多语言则会包含中英文的模板名称，默认为zh_CN中文
 
 ### `OATemplateControl` 模板控件信息
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Property`|`property`|`OATemplateControlProperty`| 模板控件属性，包含了模板内控件的各种属性信息
 `Config`|`config`|`OATemplateControlConfig`| 模板控件配置，包含了部分控件类型的附加类型、属性，详见附录说明。目前有配置信息的控件类型有：Date-日期/日期+时间；Selector-单选/多选；Contact-成员/部门；Table-明细；Attendance-假勤组件（请假、外出、出差、加班）
 
 ### `OATemplateControlProperty` 模板控件属性
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Control`|`control`|`OAControl`| 模板控件属性，包含了模板内控件的各种属性信息
@@ -175,6 +200,7 @@ Name|JSON|Type|Doc
 `UnPrint`|`un_print`|`uint8`| 是否参与打印：1-不参与打印；0-参与打印
 
 ### `OATemplateControlConfig` 模板控件配置
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Date`|`date`|`OATemplateControlConfigDate`| Date控件（日期/日期+时间控件）
@@ -184,50 +210,59 @@ Name|JSON|Type|Doc
 `Attendance`|`attendance`|`OATemplateControlConfigAttendance`| Attendance控件（假勤控件）
 
 ### `OATemplateControlConfigDate` 类型标志，日期/日期+时间控件的config中会包含此参数
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Type`|`type`|`string`| 时间展示类型：day-日期；hour-日期+时间
 
 ### `OATemplateControlConfigSelector` 类型标志，单选/多选控件的config中会包含此参数
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Type`|`type`|`string`| 选择类型：single-单选；multi-多选
 `Options`|`options`|`[]OATemplateControlConfigSelectorOption`| 选项，包含单选/多选控件中的所有选项，可能有多个
 
 ### `OATemplateControlConfigSelectorOption` 选项，包含单选/多选控件中的所有选项，可能有多个
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Key`|`key`|`string`| 选项key，选项的唯一id，可用于发起审批申请，为单选/多选控件赋值
 `Value`|`value`|`[]OAText`| 选项值，若配置了多语言则会包含中英文的选项值，默认为zh_CN中文
 
 ### `OATemplateControlConfigContact` 类型标志，单选/多选控件的config中会包含此参数
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Type`|`type`|`string`| 选择类型：single-单选；multi-多选
 `Mode`|`mode`|`string`| 选择对象：user-成员；department-部门
 
 ### `OATemplateControlConfigTable` 类型标志，明细控件的config中会包含此参数
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Children`|`children`|`[]OATemplateControl`| 明细内的子控件，内部结构同controls
 
 ### `OATemplateControlConfigAttendance` 类型标志，假勤控件的config中会包含此参数
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `DateRange`|`date_range`|`OATemplateControlConfigAttendanceDateRange`| 假期控件属性
 `Type`|`type`|`uint8`| 假勤控件类型：1-请假，3-出差，4-外出，5-加班
 
 ### `OATemplateControlConfigAttendanceDateRange` 假期控件属性
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Type`|`type`|`string`| 时间刻度：hour-精确到分钟, halfday—上午/下午
 
 ### `OATemplateControlConfigVacation` 类型标志，假勤控件的config中会包含此参数
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Item`|`item`|`[]OATemplateControlConfigVacationItem`| 单个假期类型属性
 
 ### `OATemplateControlConfigVacationItem` 类型标志，假勤控件的config中会包含此参数
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `ID`|`id`|`int`| 假期类型标识id
@@ -284,10 +319,10 @@ const OAControlVacation OAControl = "Vacation"
 
 // OAControlAttendance 假勤组件-出差/外出/加班组件
 const OAControlAttendance OAControl = "Attendance"
-
 ```
 
 ### `OAApprovalDetail` 审批申请详情
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `SpNo`|`sp_no`|`string`| 审批编号
@@ -302,12 +337,14 @@ Name|JSON|Type|Doc
 `Comments`|`comments`|`[]OAApprovalDetailComment`| 审批申请备注信息，可能有多个备注节点
 
 ### `OAApprovalDetailApplicant` 审批申请详情申请人信息
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `UserID`|`userid`|`string`| 申请人userid
 `PartyID`|`partyid`|`string`| 申请人所在部门id
 
 ### `OAApprovalDetailSpRecord` 审批流程信息，可能有多个审批节点。
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `SpStatus`|`sp_status`|`uint8`| 审批节点状态：1-审批中；2-已同意；3-已驳回；4-已转审
@@ -315,6 +352,7 @@ Name|JSON|Type|Doc
 `Details`|`details`|`[]OAApprovalDetailSpRecordDetail`| 审批节点详情,一个审批节点有多个审批人
 
 ### `OAApprovalDetailSpRecordDetail` 审批节点详情,一个审批节点有多个审批人
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Approver`|`approver`|`OAApprovalDetailSpRecordDetailApprover`| 分支审批人
@@ -324,16 +362,19 @@ Name|JSON|Type|Doc
 `MediaID`|`media_id`|`[]string`| 节点分支审批人审批意见附件，media_id具体使用请参考：文档-获取临时素材
 
 ### `OAApprovalDetailSpRecordDetailApprover` 分支审批人
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `UserID`|`userid`|`string`| 分支审批人userid
 
 ### `OAApprovalDetailNotifier` 抄送信息，可能有多个抄送节点
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `UserID`|`userid`|`string`| 节点抄送人userid
 
 ### `OAApprovalDetailComment` 审批申请备注信息，可能有多个备注节点
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `CommentUserInfo`|`commentUserInfo`|`OAApprovalDetailCommentUserInfo`| 备注人信息
@@ -343,11 +384,13 @@ Name|JSON|Type|Doc
 `MediaID`|`media_id`|`[]string`| 备注附件id，可能有多个，media_id具体使用请参考：文档-获取临时素材
 
 ### `OAApprovalDetailCommentUserInfo` 备注人信息
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `UserID`|`userid`|`string`| 备注人userid
 
 ### `OAApprovalInfoFilter` 备注人信息
+
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Key`|`key`|`OAApprovalInfoFilterKey`| 筛选类型，包括：template_id - 模板类型/模板id；creator - 申请人；department - 审批单提单者所在部门；sp_status - 审批状态。注意:仅“部门”支持同时配置多个筛选条件。不同类型的筛选条件之间为“与”的关系，同类型筛选条件之间为“或”的关系
@@ -368,5 +411,4 @@ const OAApprovalInfoFilterKeyDepartment   OAApprovalInfoFilterKey = "department"
 
 // OAApprovalInfoFilterKeySpStatus 审批状态
 const OAApprovalInfoFilterKeySpStatus  OAApprovalInfoFilterKey = "sp_status"
-
 ```

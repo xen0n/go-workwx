@@ -8,11 +8,11 @@ import (
 
 func cmdAppchatGet(c *cli.Context) error {
 	cfg := mustGetConfig(c)
-	chatid := c.Args().Get(0)
+	chatID := c.Args().Get(0)
 
 	app := cfg.MakeWorkwxApp()
 	// TODO: failed requests currently panics
-	info, err := app.GetAppchat(chatid)
+	info, err := app.GetAppchat(chatID)
 
 	if err != nil {
 		fmt.Printf("error = %+v\n", err)

@@ -1,7 +1,7 @@
 package workwx
 
 // CreateAppchat 创建群聊会话
-func (c *WorkwxApp) CreateAppchat(chatInfo *ChatInfo) (chatid string, err error) {
+func (c *WorkwxApp) CreateAppchat(chatInfo *ChatInfo) (chatID string, err error) {
 	resp, err := c.execAppchatCreate(reqAppchatCreate{
 		ChatInfo: chatInfo,
 	})
@@ -12,9 +12,9 @@ func (c *WorkwxApp) CreateAppchat(chatInfo *ChatInfo) (chatid string, err error)
 }
 
 // GetAppchat 获取群聊会话
-func (c *WorkwxApp) GetAppchat(chatid string) (*ChatInfo, error) {
+func (c *WorkwxApp) GetAppchat(chatID string) (*ChatInfo, error) {
 	resp, err := c.execAppchatGet(reqAppchatGet{
-		ChatID: chatid,
+		ChatID: chatID,
 	})
 	if err != nil {
 		return nil, err
@@ -37,9 +37,9 @@ func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespAppchatList, error) {
 }
 
 // GetAppChatInfo 获取客户群详细信息
-func (c *WorkwxApp) GetAppChatInfo(chatId string) (*RespAppChatInfo, error) {
+func (c *WorkwxApp) GetAppChatInfo(chatID string) (*RespAppChatInfo, error) {
 	resp, err := c.execAppchatInfoGet(reqAppchatInfo{
-		ChatId:   chatId,
+		ChatID:   chatID,
 		NeedName: ChatNeedName,
 	})
 	if err != nil {

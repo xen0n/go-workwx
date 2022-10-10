@@ -16,9 +16,9 @@ func (c *WorkwxApp) ListExternalContact(userID string) ([]string, error) {
 }
 
 // GetExternalContact 获取客户详情
-func (c *WorkwxApp) GetExternalContact(externalUserid string) (*ExternalContactInfo, error) {
+func (c *WorkwxApp) GetExternalContact(externalUserID string) (*ExternalContactInfo, error) {
 	resp, err := c.execExternalContactGet(reqExternalContactGet{
-		ExternalUserID: externalUserid,
+		ExternalUserID: externalUserID,
 	})
 	if err != nil {
 		return nil, err
@@ -171,28 +171,28 @@ func (c *WorkwxApp) ExternalContactTransferGroupChat(chatIDList []string, newOwn
 // TransferCustomer 在职继承 分配在职成员的客户
 // 一次最多转移100个客户
 // 为保障客户服务体验，90个自然日内，在职成员的每位客户仅可被转接2次
-func (c *WorkwxApp) TransferCustomer(handoverUserId, takeoverUserId string, externalUserIds []string) (TransferCustomerResult, error) {
+func (c *WorkwxApp) TransferCustomer(handoverUserID, takeoverUserID string, externalUserIDs []string) (TransferCustomerResult, error) {
 	resp, err := c.execTransferCustomer(reqTransferCustomer{
-		HandoverUserid: handoverUserId,
-		TakeoverUserid: takeoverUserId,
-		ExternalUserid: externalUserIds,
+		HandoverUserID: handoverUserID,
+		TakeoverUserID: takeoverUserID,
+		ExternalUserID: externalUserIDs,
 	})
 	result := resp.intoTransferCustomerResult()
 	return result, err
 }
 
 type TransferCustomerResult []struct {
-	// ExternalUserid 转接客户的外部联系人userid
-	ExternalUserid string `json:"external_userid"`
+	// ExternalUserID 转接客户的外部联系人userid
+	ExternalUserID string `json:"external_userid"`
 	// Errcode 对此客户进行分配的结果, 具体可参考全局错误码(https://work.weixin.qq.com/api/doc/90000/90135/92125#10649), 0表示成功发起接替,待24小时后自动接替,并不代表最终接替成功
 	Errcode int `json:"errcode"`
 }
 
 // GetTransferCustomerResult 在职继承 查询客户接替状态
-func (c *WorkwxApp) GetTransferCustomerResult(handoverUserId, takeoverUserId, cursor string) (*CustomerTransferResult, error) {
+func (c *WorkwxApp) GetTransferCustomerResult(handoverUserID, takeoverUserID, cursor string) (*CustomerTransferResult, error) {
 	resp, err := c.execGetTransferCustomerResult(reqGetTransferCustomerResult{
-		HandoverUserid: handoverUserId,
-		TakeoverUserid: takeoverUserId,
+		HandoverUserID: handoverUserID,
+		TakeoverUserID: takeoverUserID,
 		Cursor:         cursor,
 	})
 	if err != nil {
@@ -218,21 +218,21 @@ type CustomerTransferResult struct {
 
 // ResignedTransferCustomer 离职继承 分配离职成员的客户
 // 一次最多转移100个客户
-func (c *WorkwxApp) ResignedTransferCustomer(handoverUserId, takeoverUserId string, externalUserIds []string) (TransferCustomerResult, error) {
+func (c *WorkwxApp) ResignedTransferCustomer(handoverUserID, takeoverUserID string, externalUserIDs []string) (TransferCustomerResult, error) {
 	resp, err := c.execTransferResignedCustomer(reqTransferCustomer{
-		HandoverUserid: handoverUserId,
-		TakeoverUserid: takeoverUserId,
-		ExternalUserid: externalUserIds,
+		HandoverUserID: handoverUserID,
+		TakeoverUserID: takeoverUserID,
+		ExternalUserID: externalUserIDs,
 	})
 	result := resp.intoTransferCustomerResult()
 	return result, err
 }
 
 // GetTransferResignedCustomerResult 离职继承 查询客户接替状态
-func (c *WorkwxApp) GetTransferResignedCustomerResult(handoverUserId, takeoverUserId, cursor string) (*CustomerTransferResult, error) {
+func (c *WorkwxApp) GetTransferResignedCustomerResult(handoverUserID, takeoverUserID, cursor string) (*CustomerTransferResult, error) {
 	resp, err := c.execGetTransferResignedCustomerResult(reqGetTransferCustomerResult{
-		HandoverUserid: handoverUserId,
-		TakeoverUserid: takeoverUserId,
+		HandoverUserID: handoverUserID,
+		TakeoverUserID: takeoverUserID,
 		Cursor:         cursor,
 	})
 	if err != nil {
@@ -306,9 +306,9 @@ func (c *WorkwxApp) ExternalContactListContactWayChat(startTime int, endTime int
 }
 
 // ExternalContactUpdateContactWay 更新企业已配置的「联系我」成员配置
-func (c *WorkwxApp) ExternalContactUpdateContactWay(configId string, remark string, skipVerify bool, style int, state string, user []string, party []int, expiresIn int, chatExpiresIn int, unionid string, conclusions Conclusions) error {
+func (c *WorkwxApp) ExternalContactUpdateContactWay(configID string, remark string, skipVerify bool, style int, state string, user []string, party []int, expiresIn int, chatExpiresIn int, unionid string, conclusions Conclusions) error {
 	_, err := c.execUpdateContactWayExternalContact(reqUpdateContactWayExternalContact{
-		ConfigID:      configId,
+		ConfigID:      configID,
 		Remark:        remark,
 		SkipVerify:    skipVerify,
 		Style:         style,

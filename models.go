@@ -786,8 +786,8 @@ func (x reqListUnassignedExternalContact) intoBody() ([]byte, error) {
 type respListUnassignedExternalContact struct {
 	respCommon
 	Info []struct {
-		HandoverUserid string `json:"handover_userid"`
-		ExternalUserid string `json:"external_userid"`
+		HandoverUserID string `json:"handover_userid"`
+		ExternalUserID string `json:"external_userid"`
 		DemissionTime  int    `json:"dimission_time"`
 	} `json:"info"`
 	IsLast     bool   `json:"is_last"`
@@ -798,8 +798,8 @@ func (x respListUnassignedExternalContact) intoExternalContactUnassignedList() (
 	list := make([]ExternalContactUnassigned, 0, len(x.Info))
 	for _, info := range x.Info {
 		list = append(list, ExternalContactUnassigned{
-			HandoverUserID: info.HandoverUserid,
-			ExternalUserID: info.ExternalUserid,
+			HandoverUserID: info.HandoverUserID,
+			ExternalUserID: info.ExternalUserID,
 			DemissionTime:  time.Unix(int64(info.DemissionTime), 0),
 		})
 	}
@@ -912,7 +912,7 @@ type respAppchatList struct {
 }
 
 type reqAppchatInfo struct {
-	ChatId   string `json:"chat_id"`
+	ChatID   string `json:"chat_id"`
 	NeedName int64  `json:"need_name"`
 }
 
@@ -1035,12 +1035,12 @@ type TaskCardBtn struct {
 }
 
 type reqTransferCustomer struct {
-	// HandoverUserid 原跟进成员的userid
-	HandoverUserid string `json:"handover_userid"`
-	// TakeoverUserid 接替成员的userid
-	TakeoverUserid string `json:"takeover_userid"`
-	// ExternalUserid 客户的external_userid列表，每次最多分配100个客户
-	ExternalUserid []string `json:"external_userid"`
+	// HandoverUserID 原跟进成员的userid
+	HandoverUserID string `json:"handover_userid"`
+	// TakeoverUserID 接替成员的userid
+	TakeoverUserID string `json:"takeover_userid"`
+	// ExternalUserID 客户的external_userid列表，每次最多分配100个客户
+	ExternalUserID []string `json:"external_userid"`
 	// TransferSuccessMsg 转移成功后发给客户的消息，最多200个字符，不填则使用默认文案
 	TransferSuccessMsg string `json:"transfer_success_msg"`
 }
@@ -1059,8 +1059,8 @@ func (x reqTransferCustomer) intoBody() ([]byte, error) {
 type respTransferCustomer struct {
 	respCommon
 	Customer []struct {
-		// ExternalUserid 转接客户的外部联系人userid
-		ExternalUserid string `json:"external_userid"`
+		// ExternalUserID 转接客户的外部联系人userid
+		ExternalUserID string `json:"external_userid"`
 		// Errcode 对此客户进行分配的结果, 具体可参考全局错误码(https://developer.work.weixin.qq.com/document/path/90475), 0表示成功发起接替,待24小时后自动接替,并不代表最终接替成功
 		Errcode int `json:"errcode"`
 	} `json:"customer"`
@@ -1071,10 +1071,10 @@ func (x respTransferCustomer) intoTransferCustomerResult() TransferCustomerResul
 }
 
 type reqGetTransferCustomerResult struct {
-	// HandoverUserid 原跟进成员的userid
-	HandoverUserid string `json:"handover_userid"`
-	// TakeoverUserid 接替成员的userid
-	TakeoverUserid string `json:"takeover_userid"`
+	// HandoverUserID 原跟进成员的userid
+	HandoverUserID string `json:"handover_userid"`
+	// TakeoverUserID 接替成员的userid
+	TakeoverUserID string `json:"takeover_userid"`
 	// Cursor 分页查询的cursor，每个分页返回的数据不会超过1000条；不填或为空表示获取第一个分页
 	Cursor string `json:"cursor"`
 }
