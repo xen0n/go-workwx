@@ -55,9 +55,9 @@ type CheckMsgAuditRoomAgreeInfo struct {
 }
 
 // CheckMsgAuditRoomAgree 获取会话同意情况（群聊）
-func (c *WorkwxApp) CheckMsgAuditRoomAgree(roomId string) ([]CheckMsgAuditRoomAgreeInfo, error) {
+func (c *WorkwxApp) CheckMsgAuditRoomAgree(roomID string) ([]CheckMsgAuditRoomAgreeInfo, error) {
 	resp, err := c.execMsgAuditCheckRoomAgree(reqMsgAuditCheckRoomAgree{
-		RoomID: roomId,
+		RoomID: roomID,
 	})
 	if err != nil {
 		return nil, err
