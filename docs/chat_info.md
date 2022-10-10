@@ -17,7 +17,7 @@ Name|JSON|Type|Doc
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
-`UseridList`|`userid_list`|`[]string`| 用户ID列表。最多100个
+`UserIDList`|`userid_list`|`[]string`| 用户ID列表。最多100个
 
 
 
@@ -35,7 +35,7 @@ Name|JSON|Type|Doc
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
-`ChatId`|`chat_id`|`string`| 客户群ID
+`ChatID`|`chat_id`|`string`| 客户群ID
 `Status`|`status`|`int64`| 客户群跟进状态 0 - 跟进人正常 1 - 跟进人离职 2 - 离职继承中 3 - 离职继承完成
 
 
@@ -52,9 +52,9 @@ Name|JSON|Type|Doc
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
-`Userid`|`userid`|`string`| 群成员ID
+`UserID`|`userid`|`string`| 群成员ID
 `Type`|`type`|`int64`| 群成员类型 1 - 企业成员  2 - 外部联系人
-`Unionid`|`unionid`|`string`| 微信unionid
+`UnionID`|`unionid`|`string`| 微信unionid
 `JoinTime`|`join_time`|`int64`| 入群时间
 `JoinScene`|`join_scene`|`int64`| 入群方式。1 - 由群成员邀请入群（直接邀请入群）2 - 由群成员邀请入群（通过邀请链接入群）3 - 通过扫描群二维码入群
 `Invitor`|`invitor`|`ChatMemberListInvitor`| 邀请者。目前仅当是由本企业内部成员邀请入群时会返回该值
@@ -66,19 +66,19 @@ Name|JSON|Type|Doc
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
-`Userid`|`userid`|`string`| 邀请者ID
+`UserID`|`userid`|`string`| 邀请者ID
 
 ### `ChatAdminList` 客户群管理员列表
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
-`Userid`|`userid`|`string`| 管理员ID
+`UserID`|`userid`|`string`| 管理员ID
 
 
 ### `RespAppChatInfo` 客户群详情
 Name|JSON|Type|Doc
 :---|:---|:---|:--
-`ChatId`|`chat_id`|`string`| 客户群ID
+`ChatID`|`chat_id`|`string`| 客户群ID
 `Name`|`name`|`string`| 客户群名称
 `Owner`|`owner`|`string`| 群主ID
 `CreateTime`|`create_time`|`int64`| 群创建时间

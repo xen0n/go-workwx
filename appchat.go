@@ -25,7 +25,7 @@ func (c *WorkwxApp) GetAppchat(chatid string) (*ChatInfo, error) {
 	return obj, nil
 }
 
-// GetAppChatList 获取群聊列表
+// GetAppChatList 获取客户群列表
 func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespAppchatList, error) {
 	resp, err := c.execAppchatListGet(reqAppchatList{
 		ReqChatList: req,
@@ -36,6 +36,7 @@ func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespAppchatList, error) {
 	return resp.RespAppchatList, nil
 }
 
+// GetAppChatInfo 获取客户群详细信息
 func (c *WorkwxApp) GetAppChatInfo(chatId string) (*RespAppChatInfo, error) {
 	resp, err := c.execAppchatInfoGet(reqAppchatInfo{
 		ChatId:   chatId,

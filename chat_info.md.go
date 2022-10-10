@@ -16,8 +16,8 @@ type ChatInfo struct {
 
 // ReqChatListOwnerFilter 群主过滤
 type ReqChatListOwnerFilter struct {
-	// UseridList 用户ID列表。最多100个
-	UseridList []string `json:"userid_list"`
+	// UserIDList 用户ID列表。最多100个
+	UserIDList []string `json:"userid_list"`
 }
 
 // ReqChatList 获取客户群列表参数
@@ -34,8 +34,8 @@ type ReqChatList struct {
 
 // RespGroupChatList 客户群列表数据
 type RespGroupChatList struct {
-	// ChatId 客户群ID
-	ChatId string `json:"chat_id"`
+	// ChatID 客户群ID
+	ChatID string `json:"chat_id"`
 	// Status 客户群跟进状态 0 - 跟进人正常 1 - 跟进人离职 2 - 离职继承中 3 - 离职继承完成
 	Status int64 `json:"status"`
 }
@@ -50,12 +50,12 @@ type RespAppchatList struct {
 
 // ChatMemberList 客户群成员列表
 type ChatMemberList struct {
-	// Userid 群成员ID
-	Userid string `json:"userid"`
+	// UserID 群成员ID
+	UserID string `json:"userid"`
 	// Type 群成员类型 1 - 企业成员  2 - 外部联系人
 	Type int64 `json:"type"`
-	// Unionid 微信unionid
-	Unionid string `json:"unionid"`
+	// UnionID 微信unionid
+	UnionID string `json:"unionid"`
 	// JoinTime 入群时间
 	JoinTime int64 `json:"join_time"`
 	// JoinScene 入群方式。1 - 由群成员邀请入群（直接邀请入群）2 - 由群成员邀请入群（通过邀请链接入群）3 - 通过扫描群二维码入群
@@ -70,20 +70,20 @@ type ChatMemberList struct {
 
 // ChatMemberListInvitor 入群邀请者
 type ChatMemberListInvitor struct {
-	// Userid 邀请者ID
-	Userid string `json:"userid"`
+	// UserID 邀请者ID
+	UserID string `json:"userid"`
 }
 
 // ChatAdminList 客户群管理员列表
 type ChatAdminList struct {
-	// Userid 管理员ID
-	Userid string `json:"userid"`
+	// UserID 管理员ID
+	UserID string `json:"userid"`
 }
 
 // RespAppChatInfo 客户群详情
 type RespAppChatInfo struct {
-	// ChatId 客户群ID
-	ChatId string `json:"chat_id"`
+	// ChatID 客户群ID
+	ChatID string `json:"chat_id"`
 	// Name 客户群名称
 	Name string `json:"name"`
 	// Owner 群主ID
