@@ -35,3 +35,14 @@ func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespAppchatList, error) {
 	}
 	return resp.RespAppchatList, nil
 }
+
+func (c *WorkwxApp) GetAppChatInfo(chatId string) (*RespAppChatInfo, error) {
+	resp, err := c.execAppchatInfoGet(reqAppchatInfo{
+		ChatId:   chatId,
+		NeedName: ChatNeedName,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return resp.GroupChat, nil
+}

@@ -20,7 +20,7 @@ type ReqChatListOwnerFilter struct {
 	UseridList []string `json:"userid_list"`
 }
 
-// ReqChatList 群聊列表获取参数
+// ReqChatList 获取客户群列表参数
 type ReqChatList struct {
 	// StatusFilter 客户群跟进状态过滤
 	StatusFilter int64 `json:"status_filter"`
@@ -40,10 +40,63 @@ type RespGroupChatList struct {
 	Status int64 `json:"status"`
 }
 
-// RespAppchatList 群聊列表结果
+// RespAppchatList 客户群列表结果
 type RespAppchatList struct {
 	// GroupChatList 客户群列表
 	GroupChatList []RespGroupChatList `json:"group_chat_list"`
 	// NextCursor 分页游标
 	NextCursor string `json:"next_cursor"`
 }
+
+// ChatMemberList 客户群成员列表
+type ChatMemberList struct {
+	// Userid 群成员ID
+	Userid string `json:"userid"`
+	// Type 群成员类型 1 - 企业成员  2 - 外部联系人
+	Type int64 `json:"type"`
+	// Unionid 微信unionid
+	Unionid string `json:"unionid"`
+	// JoinTime 入群时间
+	JoinTime int64 `json:"join_time"`
+	// JoinScene 入群方式。1 - 由群成员邀请入群（直接邀请入群）2 - 由群成员邀请入群（通过邀请链接入群）3 - 通过扫描群二维码入群
+	JoinScene int64 `json:"join_scene"`
+	// Invitor 邀请者。目前仅当是由本企业内部成员邀请入群时会返回该值
+	Invitor ChatMemberListInvitor `json:"invitor"`
+	// GroupNickname 在群里的昵称
+	GroupNickname string `json:"group_nickname"`
+	// Name 在群里名字
+	Name string `json:"name"`
+}
+
+// ChatMemberListInvitor 入群邀请者
+type ChatMemberListInvitor struct {
+	// Userid 邀请者ID
+	Userid string `json:"userid"`
+}
+
+// ChatAdminList 客户群管理员列表
+type ChatAdminList struct {
+	// Userid 管理员ID
+	Userid string `json:"userid"`
+}
+
+// RespAppChatInfo 客户群详情
+type RespAppChatInfo struct {
+	// ChatId 客户群ID
+	ChatId string `json:"chat_id"`
+	// Name 客户群名称
+	Name string `json:"name"`
+	// Owner 群主ID
+	Owner string `json:"owner"`
+	// CreateTime 群创建时间
+	CreateTime int64 `json:"create_time"`
+	// Notice 群公告
+	Notice string `json:"notice"`
+	// MemberList 群成员列表
+	MemberList []*ChatMemberList `json:"member_list"`
+	// AdminList 群管理员列表
+	AdminList []*ChatAdminList `json:"admin_list"`
+}
+
+// ChatNeedName 是否需要返回群成员的名字 0-不返回；1-返回。默认不返回
+const ChatNeedName int64 = 1
