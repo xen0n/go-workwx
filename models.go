@@ -891,6 +891,47 @@ type respTransferGroupChatExternalContact struct {
 	FailedChatList []ExternalContactGroupChatTransferFailed `json:"failed_chat_list"`
 }
 
+type reqAppchatList struct {
+	ReqChatList ReqChatList
+}
+
+func (x reqAppchatList) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x.ReqChatList)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+var _ bodyer = reqAppchatList{}
+
+type respAppchatList struct {
+	respCommon
+	*RespAppchatList
+}
+
+type reqAppchatInfo struct {
+	ChatId   string `json:"chat_id"`
+	NeedName int64  `json:"need_name"`
+}
+
+func (x reqAppchatInfo) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+var _ bodyer = reqAppchatInfo{}
+
+type respAppchatInfo struct {
+	respCommon
+	GroupChat *RespAppChatInfo `json:"group_chat"`
+}
+
 type reqOAGetTemplateDetail struct {
 	TemplateID string `json:"template_id"`
 }
