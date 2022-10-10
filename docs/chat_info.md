@@ -11,15 +11,11 @@ Name|JSON|Type|Doc
 `OwnerUserID`|`owner`|`string`|群主id
 `MemberUserIDs`|`userlist`|`[]string`|群成员id列表
 
-
-
 ### `ReqChatListOwnerFilter` 群主过滤
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `UserIDList`|`userid_list`|`[]string`| 用户ID列表。最多100个
-
-
 
 ### `ReqChatList` 获取客户群列表参数
 
@@ -30,16 +26,12 @@ Name|JSON|Type|Doc
 `Cursor`|`cursor`|`string`| 用于分页查询的游标，字符串类型，由上一次调用返回，首次调用不填
 `Limit`|`limit`|`int64`| 分页，预期请求的数据量，取值范围 1 ~ 1000
 
-
 ### `RespGroupChatList` 客户群列表数据
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `ChatID`|`chat_id`|`string`| 客户群ID
 `Status`|`status`|`int64`| 客户群跟进状态 0 - 跟进人正常 1 - 跟进人离职 2 - 离职继承中 3 - 离职继承完成
-
-
-
 
 ### `RespAppchatList` 客户群列表结果
 
@@ -61,7 +53,6 @@ Name|JSON|Type|Doc
 `GroupNickname`|`group_nickname`|`string`| 在群里的昵称
 `Name`|`name`|`string`| 在群里名字
 
-
 ### `ChatMemberListInvitor` 入群邀请者
 
 Name|JSON|Type|Doc
@@ -74,7 +65,6 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `UserID`|`userid`|`string`| 管理员ID
 
-
 ### `RespAppChatInfo` 客户群详情
 Name|JSON|Type|Doc
 :---|:---|:---|:--
@@ -85,13 +75,6 @@ Name|JSON|Type|Doc
 `Notice`|`notice`|`string`| 群公告
 `MemberList`|`member_list`|`[]*ChatMemberList`| 群成员列表
 `AdminList`|`admin_list`|`[]*ChatAdminList`| 群管理员列表
-
-
-
-
-
-
-
 
 ```go
 // ChatNeedName 是否需要返回群成员的名字 0-不返回；1-返回。默认不返回

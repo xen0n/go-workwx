@@ -69,7 +69,6 @@ const (
 )
 ```
 
-
 ### `FollowUser` 添加了外部联系人的企业成员
 
 Name|JSON|Type|Doc
@@ -219,7 +218,6 @@ const (
 	// ExternalContactTransferStatusNoData 5-无接替记录
 	ExternalContactTransferStatusNoData ExternalContactTransferStatus = 5
 )
-
 ```
 
 ### `ExternalContactGroupChatTransferFailed` 离职成员的群再分配失败
