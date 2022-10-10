@@ -912,7 +912,7 @@ type respAppchatList struct {
 }
 
 type reqAppchatInfo struct {
-	ChatId   string `json:"chat_id"`
+	ChatID   string `json:"chat_id"`
 	NeedName int64  `json:"need_name"`
 }
 
