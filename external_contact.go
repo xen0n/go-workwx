@@ -306,9 +306,9 @@ func (c *WorkwxApp) ExternalContactListContactWayChat(startTime int, endTime int
 }
 
 // ExternalContactUpdateContactWay 更新企业已配置的「联系我」成员配置
-func (c *WorkwxApp) ExternalContactUpdateContactWay(configId string, remark string, skipVerify bool, style int, state string, user []string, party []int, expiresIn int, chatExpiresIn int, unionid string, conclusions Conclusions) error {
+func (c *WorkwxApp) ExternalContactUpdateContactWay(configID string, remark string, skipVerify bool, style int, state string, user []string, party []int, expiresIn int, chatExpiresIn int, unionid string, conclusions Conclusions) error {
 	_, err := c.execUpdateContactWayExternalContact(reqUpdateContactWayExternalContact{
-		ConfigID:      configId,
+		ConfigID:      configID,
 		Remark:        remark,
 		SkipVerify:    skipVerify,
 		Style:         style,
