@@ -687,3 +687,17 @@ func (c *WorkwxApp) execGetTransferResignedCustomerResult(req reqGetTransferCust
 
 	return resp, nil
 }
+
+// execAddMsgTemplate 创建企业群发
+func (c *WorkwxApp) execAddMsgTemplate(req reqAddMsgTemplateExternalContact) (respAddMsgTemplateExternalContact, error) {
+	var resp respAddMsgTemplateExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/add_msg_template", req, &resp, true)
+	if err != nil {
+		return respAddMsgTemplateExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddMsgTemplateExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
