@@ -1248,3 +1248,27 @@ func (x reqCloseTempChatExternalContact) intoBody() ([]byte, error) {
 type respCloseTempChatExternalContact struct {
 	respCommon
 }
+
+type reqAddMsgTemplateExternalContact struct {
+	AddMsgTemplateExternalContact
+}
+
+var _ bodyer = reqAddMsgTemplateExternalContact{}
+
+func (x reqAddMsgTemplateExternalContact) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+type respAddMsgTemplateExternalContact struct {
+	respCommon
+	AddMsgTemplateDetail
+}
+
+type AddMsgTemplateDetail struct {
+	FailList []string `json:"fail_list"`
+	MsgID    string   `json:"msgid"`
+}

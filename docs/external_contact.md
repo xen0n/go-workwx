@@ -261,35 +261,35 @@ Name|JSON|Type|Doc
 `Link`|`link`|`Link`| 链接
 `MiniProgram`|`miniprogram`|`MiniProgram`| 小程序
 
-### `Text` 结束语，会话结束时自动发送给客户
+### `Text` 文本消息
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Content`|`content`|`string`| 消息文本内容,最长为4000字节
 
-### `Image` 结束语，会话结束时自动发送给客户
+### `Image` 图片类型消息
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `MediaID`|`media_id`|`string`| 图片的media_id
 `PicURL`|`pic_url`|`string`| 图片的url
 
-### `Link` 结束语，会话结束时自动发送给客户
+### `Link` 图文消息
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Title`|`title`|`string`| 图文消息标题，最长为128字节
-`Picurl`|`picurl`|`string`| 图文消息封面的url
+`PicURL`|`picurl`|`string`| 图文消息封面的url
 `Desc`|`desc`|`string`| 图文消息的描述，最长为512字节
 `URL`|`url`|`string`| 图文消息的链接
 
-### `MiniProgram` 结束语，会话结束时自动发送给客户
+### `MiniProgram` 小程序消息
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
-`Title`|`title`|`string`| 小程序消息标题，最长为64字节
+`Title`|`title`|`string`| 小程序消息标题，最多64个字节
 `PicMediaID`|`pic_media_id`|`string`| 小程序消息封面的mediaid，封面图建议尺寸为520*416
-`AppID`|`appid`|`string`| 小程序appid，必须是关联到企业的小程序应用
+`AppID`|`appid`|`string`| 小程序appid（可以在微信公众平台上查询），必须是关联到企业的小程序应用
 `Page`|`page`|`string`| 小程序page路径
 
 ### `reqListContactWayExternalContact` 获取企业已配置的「联系我」列表请求参数
@@ -316,3 +316,64 @@ Name|JSON|Type|Doc
 `ChatExpiresIn`|`chat_expires_in`|`int`| 临时会话有效期，以秒为单位。该参数仅在is_temp为true时有效，默认为添加好友后24小时，最多为14天
 `UnionID`|`unionid`|`string`| 可进行临时会话的客户UnionID，该参数仅在is_temp为true时有效，如不指定则不进行限制
 `Conclusions`|`conclusions`|`Conclusions`| 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效,<https://developer.work.weixin.qq.com/document/path/92572#%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%AE%9A%E4%B9%89>
+
+### `AddMsgTemplateExternalContact` 创建企业群发请求参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`ChatType`|`chat_type`|`ChatType`| 群发任务的类型，默认为single，表示发送给客户，group表示发送给客户群
+`ExternalUserID`|`external_userid`|`[]string`| 客户的外部联系人id列表，仅在chat_type为single时有效，不可与sender同时为空，最多可传入1万个客户
+`Sender`|`sender`|`string`| 发送企业群发消息的成员userid，当类型为发送给客户群时必填
+`Text`|`text`|`Text`| 消息文本,最多4000个字节
+`Attachments`|`attachments`|`[]Attachments`| 附件，最多支持添加9个附件
+
+### `Attachments` 附件
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`MsgType`|`msgtype`|`AttachmentMsgType`| 附件类型，可选image、link、miniprogram或者video
+`Image`|`image`|`Image`| 图片消息配置
+`Link`|`link`|`Link`| 图文消息配置
+`Miniprogram`|`miniprogram`|`MiniProgram`| 	小程序消息配置
+`Video`|`video`|`Video`| 视频消息配置
+`File`|`file`|`File`| 文件消息配置
+
+```go
+// AttachmentMsgType 附件类型
+type AttachmentMsgType string
+
+const (
+	// AttachmentMsgTypeImage 图片消息
+    AttachmentMsgTypeImage AttachmentMsgType = "image"
+	// AttachmentMsgTypeLink 图文消息
+	AttachmentMsgTypeLink AttachmentMsgType = "link"
+	// AttachmentMsgTypeMiniprogram 小程序消息
+	AttachmentMsgTypeMiniprogram AttachmentMsgType = "miniprogram"
+	// AttachmentMsgTypeVideo 视频消息
+	AttachmentMsgTypeVideo AttachmentMsgType = "video"
+)
+```
+
+```go
+// ChatType 群发任务的类型
+type ChatType string
+
+const (
+    // ChatTypeSingle 发送给客户
+    ChatTypeSingle ChatType = "single"
+    // ChatTypeGroup 发送给客户群
+    ChatTypeGroup ChatType = "group"
+)
+```
+
+### `Video` 视频消息
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`MediaID`|`media_id`|`string`| 视频的media_id
+
+### `File` 文件消息
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`MediaID`|`media_id`|`string`| 文件的media_id

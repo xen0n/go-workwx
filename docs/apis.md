@@ -213,3 +213,10 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execTransferResignedCustomer`|`reqTransferCustomer`|`respTransferCustomer`|+|`POST /cgi-bin/externalcontact/resigned/transfer_customer`|[离职继承 分配离职成员的客户](https://developer.work.weixin.qq.com/document/path/94081)
 `execGetTransferResignedCustomerResult`|`reqGetTransferCustomerResult`|`respGetTransferCustomerResult`|+|`POST /cgi-bin/externalcontact/resigned/transfer_result`|[离职继承 查询客户接替状态](https://developer.work.weixin.qq.com/document/path/94082)
+
+# 客户联系-消息推送
+
+## API calls
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execAddMSGTemplate`|`reqAddMsgTemplateExternalContact`|`respAddMsgTemplateExternalContact`|+|`POST /cgi-bin/externalcontact/add_msg_template`|[创建企业群发](https://developer.work.weixin.qq.com/document/path/92135)
