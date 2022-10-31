@@ -341,10 +341,10 @@ func (c *WorkwxApp) ExternalContactCloseTempChat(userID, externalUserID string) 
 	return err
 }
 
-// AddMSGTemplate 创建企业群发
+// AddMsgTemplate 创建企业群发
 // https://developer.work.weixin.qq.com/document/path/92135
-func (c *WorkwxApp) AddMSGTemplate(chatType ChatType, sender string, externalUserID []string, text Text, attachments []Attachments) (*AddMsgTemplateDetail, error) {
-	resp, err := c.execAddMSGTemplate(reqAddMsgTemplateExternalContact{
+func (c *WorkwxApp) AddMsgTemplate(chatType ChatType, sender string, externalUserID []string, text Text, attachments []Attachments) (*AddMsgTemplateDetail, error) {
+	resp, err := c.execAddMsgTemplate(reqAddMsgTemplateExternalContact{
 		AddMsgTemplateExternalContact{
 			ChatType:       chatType,
 			ExternalUserID: externalUserID,

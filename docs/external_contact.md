@@ -334,7 +334,7 @@ Name|JSON|Type|Doc
 `MsgType`|`msgtype`|`AttachmentMsgType`| 附件类型，可选image、link、miniprogram或者video
 `Image`|`image`|`Image`| 图片消息配置
 `Link`|`link`|`Link`| 图文消息配置
-`Miniprogram`|`miniprogram`|`MiniProgram`| 	小程序消息配置
+`Miniprogram`|`miniprogram`|`MiniProgram`| 小程序消息配置
 `Video`|`video`|`Video`| 视频消息配置
 `File`|`file`|`File`| 文件消息配置
 
@@ -344,7 +344,7 @@ type AttachmentMsgType string
 
 const (
 	// AttachmentMsgTypeImage 图片消息
-    AttachmentMsgTypeImage AttachmentMsgType = "image"
+	AttachmentMsgTypeImage AttachmentMsgType = "image"
 	// AttachmentMsgTypeLink 图文消息
 	AttachmentMsgTypeLink AttachmentMsgType = "link"
 	// AttachmentMsgTypeMiniprogram 小程序消息
@@ -359,10 +359,10 @@ const (
 type ChatType string
 
 const (
-    // ChatTypeSingle 发送给客户
-    ChatTypeSingle ChatType = "single"
-    // ChatTypeGroup 发送给客户群
-    ChatTypeGroup ChatType = "group"
+	// ChatTypeSingle 发送给客户
+	ChatTypeSingle ChatType = "single"
+	// ChatTypeGroup 发送给客户群
+	ChatTypeGroup ChatType = "group"
 )
 ```
 
