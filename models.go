@@ -523,7 +523,7 @@ func (x reqExternalContactAddCorpTag) intoBody() ([]byte, error) {
 type respExternalContactAddCorpTag struct {
 	respCommon
 	// 标签组列表
-	TagGroup []ExternalContactCorpTagGroup `json:"tag_group"`
+	TagGroup ExternalContactCorpTagGroup `json:"tag_group"`
 }
 
 // reqExternalContactEditCorpTag 编辑企业客户标签
@@ -1271,4 +1271,22 @@ type respAddMsgTemplateExternalContact struct {
 type AddMsgTemplateDetail struct {
 	FailList []string `json:"fail_list"`
 	MsgID    string   `json:"msgid"`
+}
+
+// reqExternalContactAddCorpTag 添加企业客户标签
+type reqExternalContactAddCorpTagGroup struct {
+	ExternalContactAddCorpTagGroup
+}
+
+var _ bodyer = reqExternalContactAddCorpTagGroup{}
+
+func (x reqExternalContactAddCorpTagGroup) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x.ExternalContactAddCorpTagGroup)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
 }
