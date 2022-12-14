@@ -377,3 +377,20 @@ Name|JSON|Type|Doc
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `MediaID`|`media_id`|`string`| 文件的media_id
+
+### `ExternalContactAddCorpTag` 企业客户标签
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Name`|`name,omitempty`|`string`| 标签名称
+`Order`|`order,omitempty`|`uint32`| 标签排序的次序值，order值大的排序靠前。有效的值范围是[0, 2^32)
+
+### `ExternalContactAddCorpTagGroup` 企业客户标签组
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`GroupID`|`group_id,omitempty`|`string`| 标签组id
+`GroupName`|`group_name,omitempty`|`string`| 标签组名称
+`Order`|`order,omitempty`|`uint32`| 标签组排序的次序值，order值大的排序靠前。有效的值范围是[0, 2^32)
+`Tag`|`tag,omitempty`|`[]ExternalContactAddCorpTag`| 标签组内的标签列表
+`AgentID`|`agentid,omitempty`|`int64`| 授权方安装的应用agentid。仅旧的第三方多应用套件需要填此参数

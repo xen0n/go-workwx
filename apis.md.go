@@ -199,7 +199,7 @@ func (c *WorkwxApp) execExternalContactListCorpTags(req reqExternalContactListCo
 }
 
 // execExternalContactAddCorpTag 添加企业客户标签
-func (c *WorkwxApp) execExternalContactAddCorpTag(req reqExternalContactAddCorpTag) (respExternalContactAddCorpTag, error) {
+func (c *WorkwxApp) execExternalContactAddCorpTag(req reqExternalContactAddCorpTagGroup) (respExternalContactAddCorpTag, error) {
 	var resp respExternalContactAddCorpTag
 	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/add_corp_tag", req, &resp, true)
 	if err != nil {

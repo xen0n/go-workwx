@@ -59,12 +59,12 @@ func (c *WorkwxApp) ListExternalContactCorpTags(tagIDs ...string) ([]ExternalCon
 }
 
 // AddExternalContactCorpTag 添加企业客户标签
-func (c *WorkwxApp) AddExternalContactCorpTag(req ExternalContactCorpTagGroup) ([]ExternalContactCorpTagGroup, error) {
-	resp, err := c.execExternalContactAddCorpTag(reqExternalContactAddCorpTag{
-		ExternalContactCorpTagGroup: req,
+func (c *WorkwxApp) AddExternalContactCorpTag(req ExternalContactAddCorpTagGroup) (ExternalContactCorpTagGroup, error) {
+	resp, err := c.execExternalContactAddCorpTag(reqExternalContactAddCorpTagGroup{
+		ExternalContactAddCorpTagGroup: req,
 	})
 	if err != nil {
-		return nil, err
+		return ExternalContactCorpTagGroup{}, err
 	}
 	return resp.TagGroup, nil
 }

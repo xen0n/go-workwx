@@ -85,7 +85,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execExternalContactListCorpTags`|`reqExternalContactListCorpTags`|`respExternalContactListCorpTags`|+|`POST /cgi-bin/externalcontact/get_corp_tag_list`|[获取企业标签库](https://work.weixin.qq.com/api/doc/90000/90135/92117)
-`execExternalContactAddCorpTag`|`reqExternalContactAddCorpTag`|`respExternalContactAddCorpTag`|+|`POST /cgi-bin/externalcontact/add_corp_tag`|[添加企业客户标签](https://work.weixin.qq.com/api/doc/90000/90135/92117)
+`execExternalContactAddCorpTag`|`reqExternalContactAddCorpTagGroup`|`respExternalContactAddCorpTag`|+|`POST /cgi-bin/externalcontact/add_corp_tag`|[添加企业客户标签](https://work.weixin.qq.com/api/doc/90000/90135/92117)
 `execExternalContactEditCorpTag`|`reqExternalContactEditCorpTag`|`respExternalContactEditCorpTag`|+|`POST /cgi-bin/externalcontact/edit_corp_tag`|[编辑企业客户标签](https://work.weixin.qq.com/api/doc/90000/90135/92117)
 `execExternalContactDelCorpTag`|`reqExternalContactDelCorpTag`|`respExternalContactDelCorpTag`|+|`POST /cgi-bin/externalcontact/del_corp_tag`|[删除企业客户标签](https://work.weixin.qq.com/api/doc/90000/90135/92117)
 `execExternalContactMarkTag`|`reqExternalContactMarkTag`|`respExternalContactMarkTag`|+|`POST /cgi-bin/externalcontact/mark_tag`|[标记客户企业标签](https://work.weixin.qq.com/api/doc/90000/90135/92118)
