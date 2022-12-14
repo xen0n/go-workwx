@@ -85,7 +85,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execExternalContactListCorpTags`|`reqExternalContactListCorpTags`|`respExternalContactListCorpTags`|+|`POST /cgi-bin/externalcontact/get_corp_tag_list`|[获取企业标签库](https://work.weixin.qq.com/api/doc/90000/90135/92117)
-`execExternalContactAddCorpTag`|`reqExternalContactAddCorpTag`|`respExternalContactAddCorpTag`|+|`POST /cgi-bin/externalcontact/add_corp_tag`|[添加企业客户标签](https://work.weixin.qq.com/api/doc/90000/90135/92117)
+`execExternalContactAddCorpTag`|`reqExternalContactAddCorpTagGroup`|`respExternalContactAddCorpTag`|+|`POST /cgi-bin/externalcontact/add_corp_tag`|[添加企业客户标签](https://work.weixin.qq.com/api/doc/90000/90135/92117)
 `execExternalContactEditCorpTag`|`reqExternalContactEditCorpTag`|`respExternalContactEditCorpTag`|+|`POST /cgi-bin/externalcontact/edit_corp_tag`|[编辑企业客户标签](https://work.weixin.qq.com/api/doc/90000/90135/92117)
 `execExternalContactDelCorpTag`|`reqExternalContactDelCorpTag`|`respExternalContactDelCorpTag`|+|`POST /cgi-bin/externalcontact/del_corp_tag`|[删除企业客户标签](https://work.weixin.qq.com/api/doc/90000/90135/92117)
 `execExternalContactMarkTag`|`reqExternalContactMarkTag`|`respExternalContactMarkTag`|+|`POST /cgi-bin/externalcontact/mark_tag`|[标记客户企业标签](https://work.weixin.qq.com/api/doc/90000/90135/92118)
@@ -127,6 +127,8 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
+`execAppchatListGet`|`reqAppchatList`|`respAppchatList`|+|`POST /cgi-bin/externalcontact/groupchat/list`|[获取客户群列表](https://developer.work.weixin.qq.com/document/path/92120)
+`execAppchatInfoGet`|`reqAppchatInfo`|`respAppchatInfo`|+|`POST /cgi-bin/externalcontact/groupchat/get`|[获取客户群详细](https://developer.work.weixin.qq.com/document/path/92122)
 `execAppchatCreate`|`reqAppchatCreate`|`respAppchatCreate`|+|`POST /cgi-bin/appchat/create`|[创建群聊会话](https://work.weixin.qq.com/api/doc#90000/90135/90245)
 `execAppchatUpdate`|TODO|TODO|+|`POST /cgi-bin/appchat/update`|[修改群聊会话](https://work.weixin.qq.com/api/doc#90000/90135/90246)
 `execAppchatGet`|`reqAppchatGet`|`respAppchatGet`|+|`GET /cgi-bin/appchat/get`|[获取群聊会话](https://work.weixin.qq.com/api/doc#90000/90135/90247)
@@ -211,3 +213,10 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execTransferResignedCustomer`|`reqTransferCustomer`|`respTransferCustomer`|+|`POST /cgi-bin/externalcontact/resigned/transfer_customer`|[离职继承 分配离职成员的客户](https://developer.work.weixin.qq.com/document/path/94081)
 `execGetTransferResignedCustomerResult`|`reqGetTransferCustomerResult`|`respGetTransferCustomerResult`|+|`POST /cgi-bin/externalcontact/resigned/transfer_result`|[离职继承 查询客户接替状态](https://developer.work.weixin.qq.com/document/path/94082)
+
+# 客户联系-消息推送
+
+## API calls
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execAddMsgTemplate`|`reqAddMsgTemplateExternalContact`|`respAddMsgTemplateExternalContact`|+|`POST /cgi-bin/externalcontact/add_msg_template`|[创建企业群发](https://developer.work.weixin.qq.com/document/path/92135)

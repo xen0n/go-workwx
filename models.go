@@ -523,7 +523,7 @@ func (x reqExternalContactAddCorpTag) intoBody() ([]byte, error) {
 type respExternalContactAddCorpTag struct {
 	respCommon
 	// 标签组列表
-	TagGroup []ExternalContactCorpTagGroup `json:"tag_group"`
+	TagGroup ExternalContactCorpTagGroup `json:"tag_group"`
 }
 
 // reqExternalContactEditCorpTag 编辑企业客户标签
@@ -786,8 +786,8 @@ func (x reqListUnassignedExternalContact) intoBody() ([]byte, error) {
 type respListUnassignedExternalContact struct {
 	respCommon
 	Info []struct {
-		HandoverUserid string `json:"handover_userid"`
-		ExternalUserid string `json:"external_userid"`
+		HandoverUserID string `json:"handover_userid"`
+		ExternalUserID string `json:"external_userid"`
 		DemissionTime  int    `json:"dimission_time"`
 	} `json:"info"`
 	IsLast     bool   `json:"is_last"`
@@ -798,8 +798,8 @@ func (x respListUnassignedExternalContact) intoExternalContactUnassignedList() (
 	list := make([]ExternalContactUnassigned, 0, len(x.Info))
 	for _, info := range x.Info {
 		list = append(list, ExternalContactUnassigned{
-			HandoverUserID: info.HandoverUserid,
-			ExternalUserID: info.ExternalUserid,
+			HandoverUserID: info.HandoverUserID,
+			ExternalUserID: info.ExternalUserID,
 			DemissionTime:  time.Unix(int64(info.DemissionTime), 0),
 		})
 	}
@@ -889,6 +889,47 @@ func (x reqTransferGroupChatExternalContact) intoBody() ([]byte, error) {
 type respTransferGroupChatExternalContact struct {
 	respCommon
 	FailedChatList []ExternalContactGroupChatTransferFailed `json:"failed_chat_list"`
+}
+
+type reqAppchatList struct {
+	ReqChatList ReqChatList
+}
+
+func (x reqAppchatList) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x.ReqChatList)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+var _ bodyer = reqAppchatList{}
+
+type respAppchatList struct {
+	respCommon
+	*RespAppchatList
+}
+
+type reqAppchatInfo struct {
+	ChatID   string `json:"chat_id"`
+	NeedName int64  `json:"need_name"`
+}
+
+func (x reqAppchatInfo) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+var _ bodyer = reqAppchatInfo{}
+
+type respAppchatInfo struct {
+	respCommon
+	GroupChat *RespAppChatInfo `json:"group_chat"`
 }
 
 type reqOAGetTemplateDetail struct {
@@ -994,12 +1035,12 @@ type TaskCardBtn struct {
 }
 
 type reqTransferCustomer struct {
-	// HandoverUserid 原跟进成员的userid
-	HandoverUserid string `json:"handover_userid"`
-	// TakeoverUserid 接替成员的userid
-	TakeoverUserid string `json:"takeover_userid"`
-	// ExternalUserid 客户的external_userid列表，每次最多分配100个客户
-	ExternalUserid []string `json:"external_userid"`
+	// HandoverUserID 原跟进成员的userid
+	HandoverUserID string `json:"handover_userid"`
+	// TakeoverUserID 接替成员的userid
+	TakeoverUserID string `json:"takeover_userid"`
+	// ExternalUserID 客户的external_userid列表，每次最多分配100个客户
+	ExternalUserID []string `json:"external_userid"`
 	// TransferSuccessMsg 转移成功后发给客户的消息，最多200个字符，不填则使用默认文案
 	TransferSuccessMsg string `json:"transfer_success_msg"`
 }
@@ -1018,8 +1059,8 @@ func (x reqTransferCustomer) intoBody() ([]byte, error) {
 type respTransferCustomer struct {
 	respCommon
 	Customer []struct {
-		// ExternalUserid 转接客户的外部联系人userid
-		ExternalUserid string `json:"external_userid"`
+		// ExternalUserID 转接客户的外部联系人userid
+		ExternalUserID string `json:"external_userid"`
 		// Errcode 对此客户进行分配的结果, 具体可参考全局错误码(https://developer.work.weixin.qq.com/document/path/90475), 0表示成功发起接替,待24小时后自动接替,并不代表最终接替成功
 		Errcode int `json:"errcode"`
 	} `json:"customer"`
@@ -1030,10 +1071,10 @@ func (x respTransferCustomer) intoTransferCustomerResult() TransferCustomerResul
 }
 
 type reqGetTransferCustomerResult struct {
-	// HandoverUserid 原跟进成员的userid
-	HandoverUserid string `json:"handover_userid"`
-	// TakeoverUserid 接替成员的userid
-	TakeoverUserid string `json:"takeover_userid"`
+	// HandoverUserID 原跟进成员的userid
+	HandoverUserID string `json:"handover_userid"`
+	// TakeoverUserID 接替成员的userid
+	TakeoverUserID string `json:"takeover_userid"`
 	// Cursor 分页查询的cursor，每个分页返回的数据不会超过1000条；不填或为空表示获取第一个分页
 	Cursor string `json:"cursor"`
 }
@@ -1206,4 +1247,46 @@ func (x reqCloseTempChatExternalContact) intoBody() ([]byte, error) {
 
 type respCloseTempChatExternalContact struct {
 	respCommon
+}
+
+type reqAddMsgTemplateExternalContact struct {
+	AddMsgTemplateExternalContact
+}
+
+var _ bodyer = reqAddMsgTemplateExternalContact{}
+
+func (x reqAddMsgTemplateExternalContact) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+type respAddMsgTemplateExternalContact struct {
+	respCommon
+	AddMsgTemplateDetail
+}
+
+type AddMsgTemplateDetail struct {
+	FailList []string `json:"fail_list"`
+	MsgID    string   `json:"msgid"`
+}
+
+// reqExternalContactAddCorpTag 添加企业客户标签
+type reqExternalContactAddCorpTagGroup struct {
+	ExternalContactAddCorpTagGroup
+}
+
+var _ bodyer = reqExternalContactAddCorpTagGroup{}
+
+func (x reqExternalContactAddCorpTagGroup) intoBody() ([]byte, error) {
+	result, err := json.Marshal(x.ExternalContactAddCorpTagGroup)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		// TODO: error_chain
+		return nil, err
+	}
+
+	return result, nil
 }

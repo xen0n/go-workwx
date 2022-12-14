@@ -320,13 +320,13 @@ type Conclusions struct {
 	MiniProgram MiniProgram `json:"miniprogram"`
 }
 
-// Text 结束语，会话结束时自动发送给客户
+// Text 文本消息
 type Text struct {
 	// Content 消息文本内容,最长为4000字节
 	Content string `json:"content"`
 }
 
-// Image 结束语，会话结束时自动发送给客户
+// Image 图片类型消息
 type Image struct {
 	// MediaID 图片的media_id
 	MediaID string `json:"media_id"`
@@ -334,25 +334,25 @@ type Image struct {
 	PicURL string `json:"pic_url"`
 }
 
-// Link 结束语，会话结束时自动发送给客户
+// Link 图文消息
 type Link struct {
 	// Title 图文消息标题，最长为128字节
 	Title string `json:"title"`
-	// Picurl 图文消息封面的url
-	Picurl string `json:"picurl"`
+	// PicURL 图文消息封面的url
+	PicURL string `json:"picurl"`
 	// Desc 图文消息的描述，最长为512字节
 	Desc string `json:"desc"`
 	// URL 图文消息的链接
 	URL string `json:"url"`
 }
 
-// MiniProgram 结束语，会话结束时自动发送给客户
+// MiniProgram 小程序消息
 type MiniProgram struct {
-	// Title 小程序消息标题，最长为64字节
+	// Title 小程序消息标题，最多64个字节
 	Title string `json:"title"`
 	// PicMediaID 小程序消息封面的mediaid，封面图建议尺寸为520*416
 	PicMediaID string `json:"pic_media_id"`
-	// AppID 小程序appid，必须是关联到企业的小程序应用
+	// AppID 小程序appid（可以在微信公众平台上查询），必须是关联到企业的小程序应用
 	AppID string `json:"appid"`
 	// Page 小程序page路径
 	Page string `json:"page"`
@@ -394,4 +394,92 @@ type reqUpdateContactWayExternalContact struct {
 	UnionID string `json:"unionid"`
 	// Conclusions 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效,https://developer.work.weixin.qq.com/document/path/92572#%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%AE%9A%E4%B9%89
 	Conclusions Conclusions `json:"conclusions"`
+}
+
+// AddMsgTemplateExternalContact 创建企业群发请求参数
+type AddMsgTemplateExternalContact struct {
+	// ChatType 群发任务的类型，默认为single，表示发送给客户，group表示发送给客户群
+	ChatType ChatType `json:"chat_type"`
+	// ExternalUserID 客户的外部联系人id列表，仅在chat_type为single时有效，不可与sender同时为空，最多可传入1万个客户
+	ExternalUserID []string `json:"external_userid"`
+	// Sender 发送企业群发消息的成员userid，当类型为发送给客户群时必填
+	Sender string `json:"sender"`
+	// Text 消息文本,最多4000个字节
+	Text Text `json:"text"`
+	// Attachments 附件，最多支持添加9个附件
+	Attachments []Attachments `json:"attachments"`
+}
+
+// Attachments 附件
+type Attachments struct {
+	// MsgType 附件类型，可选image、link、miniprogram或者video
+	MsgType AttachmentMsgType `json:"msgtype"`
+	// Image 图片消息配置
+	Image Image `json:"image"`
+	// Link 图文消息配置
+	Link Link `json:"link"`
+	// Miniprogram 小程序消息配置
+	Miniprogram MiniProgram `json:"miniprogram"`
+	// Video 视频消息配置
+	Video Video `json:"video"`
+	// File 文件消息配置
+	File File `json:"file"`
+}
+
+// AttachmentMsgType 附件类型
+type AttachmentMsgType string
+
+const (
+	// AttachmentMsgTypeImage 图片消息
+	AttachmentMsgTypeImage AttachmentMsgType = "image"
+	// AttachmentMsgTypeLink 图文消息
+	AttachmentMsgTypeLink AttachmentMsgType = "link"
+	// AttachmentMsgTypeMiniprogram 小程序消息
+	AttachmentMsgTypeMiniprogram AttachmentMsgType = "miniprogram"
+	// AttachmentMsgTypeVideo 视频消息
+	AttachmentMsgTypeVideo AttachmentMsgType = "video"
+)
+
+// ChatType 群发任务的类型
+type ChatType string
+
+const (
+	// ChatTypeSingle 发送给客户
+	ChatTypeSingle ChatType = "single"
+	// ChatTypeGroup 发送给客户群
+	ChatTypeGroup ChatType = "group"
+)
+
+// Video 视频消息
+type Video struct {
+	// MediaID 视频的media_id
+	MediaID string `json:"media_id"`
+}
+
+// File 文件消息
+type File struct {
+	// MediaID 文件的media_id
+	MediaID string `json:"media_id"`
+}
+
+// ExternalContactAddCorpTag 企业客户标签
+type ExternalContactAddCorpTag struct {
+	// Name 标签名称
+	Name string `json:"name,omitempty"`
+	// Order 标签排序的次序值，order值大的排序靠前。有效的值范围是[0, 2^32)
+	Order uint32 `json:"order,omitempty"`
+}
+
+// ExternalContactAddCorpTagGroup 企业客户标签组
+type ExternalContactAddCorpTagGroup struct {
+	// GroupID 标签组id
+	GroupID string `json:"group_id,omitempty"`
+	// GroupName 标签组名称
+	GroupName string `json:"group_name,omitempty"`
+	// Order 标签组排序的次序值，order值大的排序靠前。有效的值范围是[0, 2^32)
+	Order uint32 `json:"order,omitempty"`
+	// Tag 标签组内的标签列表
+	Tag []ExternalContactAddCorpTag `json:"tag,omitempty"`
+	// AgentID 授权方安装的应用agentid。仅旧的第三方多应用套件需要填此参数
+	AgentID int64 `json:"agentid,omitempty"`
 }
