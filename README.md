@@ -40,9 +40,14 @@ in at least 2 of Qiniu's internal systems.
 为什么人们总是喜欢写死请求 `Host`、用全局量、为拆包而拆包甚至不惜公开内部方法呢？
 
 
+## Supported Go versions
+
+本库的 v1.x 分支最低支持到 `go1.17`。
+
+CI 会在 `go1.17` 和 Go 的当前稳定版本、上一个稳定版本上跑测试，只有测试全部通过才可能合并 PR。
+
 ## Features
 
-* 支持最近 3 个 Go 版本
 * 包名短
 * 支持覆盖 API `Host`，用于自己拦一层网关、临时调试等等奇葩需求
 * 支持使用自定义 `http.Client`
