@@ -1,3 +1,4 @@
 status = [
-  "build",
+  "Tests result",
 ]
+timeout_sec = 300

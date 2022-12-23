@@ -16,16 +16,36 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [ '1.17', 'oldstable', 'stable' ]
     steps:
     - uses: actions/checkout@v3
 
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
-        go-version: 1.18
+        go-version: ${{ matrix.go }}
 
     - name: Build
       run: go build -v ./...
 
     - name: Test
       run: go test -v ./...
+
+  # Added to summarize the matrix (otherwise we would need to list every single
+  # job in bors.toml)
+  # thanks https://forum.bors.tech/t/bors-with-github-workflows/426/4
+  tests-result:
+    name: Tests result
+    if: always()
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark the job as a success
+        if: needs.build.result == 'success'
+        run: exit 0
+      - name: Mark the job as a failure
+        if: needs.build.result == 'failure'
+        run: exit 1
