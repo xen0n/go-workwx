@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/xen0n/go-workwx/internal/lowlevel/signature"
+	"github.com/xen0n/go-workwx/v2/internal/lowlevel/signature"
 )
 
 type ToEchoTestAPIArgs interface {

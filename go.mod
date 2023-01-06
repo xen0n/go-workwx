@@ -1,4 +1,4 @@
-module github.com/xen0n/go-workwx
+module github.com/xen0n/go-workwx/v2
 
 go 1.17
 
