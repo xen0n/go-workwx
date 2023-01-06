@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2022-12-14 15:28:17 +0800
+// 文档爬取时间: 2023-01-06 16:08:49 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -949,6 +949,21 @@ const ErrCode41091 ErrCode = 41091
 //
 // 排查方法: -
 const ErrCode41093 ErrCode = 41093
+
+// ErrCode41094 群发提醒超过频率限制
+//
+// 排查方法: -
+const ErrCode41094 ErrCode = 41094
+
+// ErrCode41095 获客链接数量超过上限
+//
+// 排查方法: -
+const ErrCode41095 ErrCode = 41095
+
+// ErrCode41096 欢迎语已在发送中
+//
+// 排查方法: -
+const ErrCode41096 ErrCode = 41096
 
 // ErrCode41102 缺少菜单名
 //
@@ -2001,6 +2016,11 @@ const ErrCode660012 ErrCode = 660012
 // 排查方法: -
 const ErrCode660013 ErrCode = 660013
 
+// ErrCode660014 接口已废弃
+//
+// 排查方法: 请前往企业微信管理后台-应用管理-对外收款中创建/删除商户号
+const ErrCode660014 ErrCode = 660014
+
 // ErrCode670001 应用不在共享范围
 //
 // 排查方法: [查看帮助]
@@ -2161,6 +2181,26 @@ const ErrCode670030 ErrCode = 670030
 //
 // 排查方法: -
 const ErrCode670031 ErrCode = 670031
+
+// ErrCode670032 成员自定义id不合法
+//
+// 排查方法: -
+const ErrCode670032 ErrCode = 670032
+
+// ErrCode670033 当前成员填写了多个自定义id
+//
+// 排查方法: -
+const ErrCode670033 ErrCode = 670033
+
+// ErrCode670034 成员自定义id跟当前下游企业其他成员重复
+//
+// 排查方法: -
+const ErrCode670034 ErrCode = 670034
+
+// ErrCode670035 成员没有设置自定义id
+//
+// 排查方法: -
+const ErrCode670035 ErrCode = 670035
 
 // ErrCode72023 发票已被其他公众号锁定
 //
@@ -3919,6 +3959,11 @@ const ErrCode301016 ErrCode = 301016
 // [上传的媒体文件限制]: https://developer.work.weixin.qq.com/document/path/90313#10112/%E4%B8%8A%E4%BC%A0%E7%9A%84%E5%AA%92%E4%BD%93%E6%96%87%E4%BB%B6%E9%99%90%E5%88%B6
 const ErrCode301017 ErrCode = 301017
 
+// ErrCode301019 文件的md5不合法
+//
+// 排查方法: 检查文件的md5是否计算正确
+const ErrCode301019 ErrCode = 301019
+
 // ErrCode301021 参数 userid 无效
 //
 // 排查方法: 至少有一个userid不存在于通讯录中
@@ -5021,6 +5066,26 @@ const ErrCode846000 ErrCode = 846000
 // 排查方法: -
 const ErrCode710000 ErrCode = 710000
 
+// ErrCode710002 非法的open_pending_corpid
+//
+// 排查方法: -
+const ErrCode710002 ErrCode = 710002
+
+// ErrCode710003 非法的formid
+//
+// 排查方法: -
+const ErrCode710003 ErrCode = 710003
+
+// ErrCode710004 非法的mailid
+//
+// 排查方法: -
+const ErrCode710004 ErrCode = 710004
+
+// ErrCode710006 非法的tmp_external_userid
+//
+// 排查方法: -
+const ErrCode710006 ErrCode = 710006
+
 // ErrCode60252 非法的openkfid
 //
 // 排查方法: 检查openkfid是否拼写正确
@@ -5436,6 +5501,11 @@ const ErrCode71050 ErrCode = 71050
 // 排查方法: -
 const ErrCode71051 ErrCode = 71051
 
+// ErrCode71052 获取测温数据错误
+//
+// 排查方法: -
+const ErrCode71052 ErrCode = 71052
+
 // ErrCode71056 userid不在设备可见范围内
 //
 // 排查方法: -
@@ -5515,3 +5585,38 @@ const ErrCode71071 ErrCode = 71071
 //
 // 排查方法: 发布该型号后重试
 const ErrCode71072 ErrCode = 71072
+
+// ErrCode71075 扫描上传文件授权码不合法
+//
+// 排查方法: -
+const ErrCode71075 ErrCode = 71075
+
+// ErrCode701100 时间戳不合法
+//
+// 排查方法: 开始时间必须小于结束时间；时间范围不能超过14天；非微盘专业版的企业只能查询90天内的数据
+const ErrCode701100 ErrCode = 701100
+
+// ErrCode701101 limit大小超过上限1000
+//
+// 排查方法: -
+const ErrCode701101 ErrCode = 701101
+
+// ErrCode701102 查询用户数超过上限100
+//
+// 排查方法: -
+const ErrCode701102 ErrCode = 701102
+
+// ErrCode701103 操作类型不合法
+//
+// 排查方法: -
+const ErrCode701103 ErrCode = 701103
+
+// ErrCode701104 操作来源不合法
+//
+// 排查方法: -
+const ErrCode701104 ErrCode = 701104
+
+// ErrCode701105 cursor不合法
+//
+// 排查方法: 检查是否企业微信返回的cursor
+const ErrCode701105 ErrCode = 701105
