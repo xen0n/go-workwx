@@ -254,7 +254,10 @@ Markdown 等类型消息目前不支持作为保密消息发送，强行发送�
 一方面，企业微信服务方完全可能在未来支持更多消息类型的保密发送，到时候不希望客户端代码重新编译；
 另一方面，反正响应会报错，你也不会留着这种逻辑。因此不改了。
 
-
 ## License
 
 * [MIT](./LICENSE)
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/xen0n/go-workwx.svg)](https://starchart.cc/xen0n/go-workwx)
