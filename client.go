@@ -103,10 +103,10 @@ func (c *WorkwxApp) composeQyapiURLWithToken(path string, req any, withAccessTok
 	return url, nil
 }
 
-func executeQyapiGet[U tryIntoErr](
+func executeQyapiGet[T urlValuer, U tryIntoErr](
 	c *WorkwxApp,
 	path string,
-	req urlValuer,
+	req T,
 	respObj U,
 	withAccessToken bool,
 ) error {
@@ -135,10 +135,10 @@ func executeQyapiGet[U tryIntoErr](
 	return nil
 }
 
-func executeQyapiJSONPost[U tryIntoErr](
+func executeQyapiJSONPost[T bodyer, U tryIntoErr](
 	c *WorkwxApp,
 	path string,
-	req bodyer,
+	req T,
 	respObj U,
 	withAccessToken bool,
 ) error {
@@ -172,10 +172,10 @@ func executeQyapiJSONPost[U tryIntoErr](
 	return nil
 }
 
-func executeQyapiMediaUpload[U tryIntoErr](
+func executeQyapiMediaUpload[T mediaUploader, U tryIntoErr](
 	c *WorkwxApp,
 	path string,
-	req mediaUploader,
+	req T,
 	respObj U,
 	withAccessToken bool,
 ) error {
