@@ -103,7 +103,7 @@ func (c *WorkwxApp) composeQyapiURLWithToken(path string, req any, withAccessTok
 	return url, nil
 }
 
-func executeQyapiGet(c *WorkwxApp, path string, req urlValuer, respObj any, withAccessToken bool) error {
+func executeQyapiGet[U tryIntoErr](c *WorkwxApp, path string, req urlValuer, respObj U, withAccessToken bool) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	if err != nil {
 		return err
@@ -122,10 +122,14 @@ func executeQyapiGet(c *WorkwxApp, path string, req urlValuer, respObj any, with
 		return makeRespUnmarshalErr(err)
 	}
 
+	if bizErr := respObj.TryIntoErr(); bizErr != nil {
+		return bizErr
+	}
+
 	return nil
 }
 
-func executeQyapiJSONPost(c *WorkwxApp, path string, req bodyer, respObj any, withAccessToken bool) error {
+func executeQyapiJSONPost[U tryIntoErr](c *WorkwxApp, path string, req bodyer, respObj U, withAccessToken bool) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	if err != nil {
 		return err
@@ -149,14 +153,18 @@ func executeQyapiJSONPost(c *WorkwxApp, path string, req bodyer, respObj any, wi
 		return makeRespUnmarshalErr(err)
 	}
 
+	if bizErr := respObj.TryIntoErr(); bizErr != nil {
+		return bizErr
+	}
+
 	return nil
 }
 
-func executeQyapiMediaUpload(
+func executeQyapiMediaUpload[U tryIntoErr](
 	c *WorkwxApp,
 	path string,
 	req mediaUploader,
-	respObj any,
+	respObj U,
 	withAccessToken bool,
 ) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
@@ -191,6 +199,10 @@ func executeQyapiMediaUpload(
 	err = decoder.Decode(respObj)
 	if err != nil {
 		return makeRespUnmarshalErr(err)
+	}
+
+	if bizErr := respObj.TryIntoErr(); bizErr != nil {
+		return bizErr
 	}
 
 	return nil

@@ -18,3 +18,7 @@ type bodyer interface {
 type mediaUploader interface {
 	getMedia() *Media
 }
+
+type tryIntoErr interface {
+	TryIntoErr() error
+}
