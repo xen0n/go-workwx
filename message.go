@@ -13,7 +13,7 @@ func (c *WorkwxApp) SendTextMessage(
 	content string,
 	isSafe bool,
 ) error {
-	return c.sendMessage(recipient, "text", map[string]interface{}{"content": content}, isSafe)
+	return c.sendMessage(recipient, "text", map[string]any{"content": content}, isSafe)
 }
 
 // SendImageMessage 发送图片消息
@@ -28,7 +28,7 @@ func (c *WorkwxApp) SendImageMessage(
 	return c.sendMessage(
 		recipient,
 		"image",
-		map[string]interface{}{
+		map[string]any{
 			"media_id": mediaID,
 		}, isSafe,
 	)
@@ -46,7 +46,7 @@ func (c *WorkwxApp) SendVoiceMessage(
 	return c.sendMessage(
 		recipient,
 		"voice",
-		map[string]interface{}{
+		map[string]any{
 			"media_id": mediaID,
 		}, isSafe,
 	)
@@ -66,7 +66,7 @@ func (c *WorkwxApp) SendVideoMessage(
 	return c.sendMessage(
 		recipient,
 		"video",
-		map[string]interface{}{
+		map[string]any{
 			"media_id":    mediaID,
 			"description": description, // TODO: 零值
 			"title":       title,       // TODO: 零值
@@ -86,7 +86,7 @@ func (c *WorkwxApp) SendFileMessage(
 	return c.sendMessage(
 		recipient,
 		"file",
-		map[string]interface{}{
+		map[string]any{
 			"media_id": mediaID,
 		}, isSafe,
 	)
@@ -107,7 +107,7 @@ func (c *WorkwxApp) SendTextCardMessage(
 	return c.sendMessage(
 		recipient,
 		"textcard",
-		map[string]interface{}{
+		map[string]any{
 			"title":       title,
 			"description": description,
 			"url":         url,
@@ -131,7 +131,7 @@ func (c *WorkwxApp) SendNewsMessage(
 	return c.sendMessage(
 		recipient,
 		"news",
-		map[string]interface{}{
+		map[string]any{
 			"title":       title,
 			"description": description, // TODO: 零值
 			"url":         url,
@@ -157,10 +157,10 @@ func (c *WorkwxApp) SendMPNewsMessage(
 	return c.sendMessage(
 		recipient,
 		"mpnews",
-		map[string]interface{}{
+		map[string]any{
 			// TODO: 支持发送多条图文
-			"articles": []interface{}{
-				map[string]interface{}{
+			"articles": []any{
+				map[string]any{
 					"title":              title,
 					"thumb_media_id":     thumbMediaID,
 					"author":             author,           // TODO: 零值
@@ -184,7 +184,7 @@ func (c *WorkwxApp) SendMarkdownMessage(
 	content string,
 	isSafe bool,
 ) error {
-	return c.sendMessage(recipient, "markdown", map[string]interface{}{"content": content}, isSafe)
+	return c.sendMessage(recipient, "markdown", map[string]any{"content": content}, isSafe)
 }
 
 // SendTaskCardMessage 发送 任务卡片 消息
@@ -200,7 +200,7 @@ func (c *WorkwxApp) SendTaskCardMessage(
 	return c.sendMessage(
 		recipient,
 		"taskcard",
-		map[string]interface{}{
+		map[string]any{
 			"title":       title,
 			"description": description,
 			"url":         url,
@@ -217,7 +217,7 @@ func (c *WorkwxApp) SendTaskCardMessage(
 func (c *WorkwxApp) sendMessage(
 	recipient *Recipient,
 	msgtype string,
-	content map[string]interface{},
+	content map[string]any,
 	isSafe bool,
 ) error {
 	isApichatSendRequest := false

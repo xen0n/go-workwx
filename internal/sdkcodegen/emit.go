@@ -23,7 +23,7 @@ type goEmitter struct {
 
 var _ emitter = (*goEmitter)(nil)
 
-func (e *goEmitter) e(format string, a ...interface{}) (n int, err error) {
+func (e *goEmitter) e(format string, a ...any) (n int, err error) {
 	return fmt.Fprintf(&e.buf, format, a...)
 }
 
