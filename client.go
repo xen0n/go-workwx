@@ -103,7 +103,7 @@ func (c *WorkwxApp) composeQyapiURLWithToken(path string, req any, withAccessTok
 	return url, nil
 }
 
-func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj any, withAccessToken bool) error {
+func executeQyapiGet(c *WorkwxApp, path string, req urlValuer, respObj any, withAccessToken bool) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	if err != nil {
 		return err
@@ -125,7 +125,7 @@ func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj any, wit
 	return nil
 }
 
-func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj any, withAccessToken bool) error {
+func executeQyapiJSONPost(c *WorkwxApp, path string, req bodyer, respObj any, withAccessToken bool) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	if err != nil {
 		return err
@@ -152,7 +152,8 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj any, w
 	return nil
 }
 
-func (c *WorkwxApp) executeQyapiMediaUpload(
+func executeQyapiMediaUpload(
+	c *WorkwxApp,
 	path string,
 	req mediaUploader,
 	respObj any,
