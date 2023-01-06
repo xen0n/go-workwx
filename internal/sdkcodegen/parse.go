@@ -1,4 +1,4 @@
-//+build sdkcodegen
+//go:build sdkcodegen
 
 package main
 
@@ -45,9 +45,11 @@ func parseDocument(content []byte) *mdTocNode {
 // ```
 // Document(Content: [])
 // |- H1(Content: [Text])
-//    |- H2(Content: [Text Code Text])
-//       |- H3(Content: [Table])
-//       |- H3(Content: [Table])
+//
+//	|- H2(Content: [Text Code Text])
+//	   |- H3(Content: [Table])
+//	   |- H3(Content: [Table])
+//
 // ```
 func reshapeMarkdownAST(root *blackfriday.Node) *mdTocNode {
 	stack := []mdNode{

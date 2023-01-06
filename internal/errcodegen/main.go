@@ -1,5 +1,4 @@
 //go:build sdkcodegen
-// +build sdkcodegen
 
 package main
 
