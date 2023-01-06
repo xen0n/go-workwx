@@ -103,7 +103,13 @@ func (c *WorkwxApp) composeQyapiURLWithToken(path string, req any, withAccessTok
 	return url, nil
 }
 
-func executeQyapiGet[U tryIntoErr](c *WorkwxApp, path string, req urlValuer, respObj U, withAccessToken bool) error {
+func executeQyapiGet[U tryIntoErr](
+	c *WorkwxApp,
+	path string,
+	req urlValuer,
+	respObj U,
+	withAccessToken bool,
+) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	if err != nil {
 		return err
@@ -129,7 +135,13 @@ func executeQyapiGet[U tryIntoErr](c *WorkwxApp, path string, req urlValuer, res
 	return nil
 }
 
-func executeQyapiJSONPost[U tryIntoErr](c *WorkwxApp, path string, req bodyer, respObj U, withAccessToken bool) error {
+func executeQyapiJSONPost[U tryIntoErr](
+	c *WorkwxApp,
+	path string,
+	req bodyer,
+	respObj U,
+	withAccessToken bool,
+) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	if err != nil {
 		return err
