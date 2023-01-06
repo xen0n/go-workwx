@@ -2,9 +2,11 @@
 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/xen0n/go-workwx)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/xen0n/go-workwx)
-![GitHub branch checks state](https://img.shields.io/github/checks-status/xen0n/go-workwx/develop)
+![GitHub Workflow Status (develop branch)](https://img.shields.io/github/actions/workflow/status/xen0n/go-workwx/go.yml?branch=develop)
+[![GitHub license info](https://img.shields.io/github/license/xen0n/go-workwx)](./LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/xen0n/go-workwx)](https://goreportcard.com/report/github.com/xen0n/go-workwx)
-[![GoDoc](http://godoc.org/github.com/xen0n/go-workwx?status.svg)](http://godoc.org/github.com/xen0n/go-workwx)
+[![Go Reference](https://pkg.go.dev/badge/github.com/xen0n/go-workwx.svg)](https://pkg.go.dev/github.com/xen0n/go-workwx)
+![GitHub Repo stars](https://img.shields.io/github/stars/xen0n/go-workwx?style=social)
 
 [**本项目需要您的帮助！**][maintainer-needed]
 
@@ -254,7 +256,10 @@ Markdown 等类型消息目前不支持作为保密消息发送，强行发送�
 一方面，企业微信服务方完全可能在未来支持更多消息类型的保密发送，到时候不希望客户端代码重新编译；
 另一方面，反正响应会报错，你也不会留着这种逻辑。因此不改了。
 
-
 ## License
 
 * [MIT](./LICENSE)
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/xen0n/go-workwx.svg)](https://starchart.cc/xen0n/go-workwx)
