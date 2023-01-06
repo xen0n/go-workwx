@@ -3,6 +3,7 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/xen0n/go-workwx)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/xen0n/go-workwx)
 ![GitHub Workflow Status (develop branch)](https://img.shields.io/github/actions/workflow/status/xen0n/go-workwx/go.yml?branch=develop)
+[![GitHub license info](https://img.shields.io/github/license/xen0n/go-workwx)](./LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/xen0n/go-workwx)](https://goreportcard.com/report/github.com/xen0n/go-workwx)
 [![Go Reference](https://pkg.go.dev/badge/github.com/xen0n/go-workwx.svg)](https://pkg.go.dev/github.com/xen0n/go-workwx)
 
