@@ -91,7 +91,7 @@ func (c *WorkwxApp) ListMsgAuditPermitUser(msgAuditEdition MsgAuditEdition) ([]s
 // MsgAuditGroupChatMember 获取会话内容存档内部群成员
 type MsgAuditGroupChatMember struct {
 	// MemberID roomid群成员的id，userid
-	MemberID int
+	MemberID string
 	// JoinTime roomid群成员的入群时间
 	JoinTime time.Time
 }
