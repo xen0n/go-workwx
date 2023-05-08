@@ -2,6 +2,7 @@ package workwx
 
 import (
 	"context"
+	"fmt"
 	"sync"
 	"time"
 
@@ -18,6 +19,7 @@ type token struct {
 	tokenInfo
 	lastRefresh  time.Time
 	getTokenFunc func() (tokenInfo, error)
+	logger       Logger
 }
 
 // getAccessToken 获取 access token
@@ -150,8 +152,7 @@ func (t *token) tokenRefresher(ctx context.Context) {
 		case <-time.After(waitDuration):
 			retryer := backoff.WithContext(backoff.NewExponentialBackOff(), ctx)
 			if err := backoff.Retry(t.syncToken, retryer); err != nil {
-				// TODO: logging
-				_ = err
+				t.logger.Error(fmt.Sprintf("failed to refresh token: %v. will retry.", err))
 			}
 
 			waitUntilTime := t.lastRefresh.Add(t.expiresIn).Add(-refreshTimeWindow)
@@ -160,6 +161,7 @@ func (t *token) tokenRefresher(ctx context.Context) {
 				waitDuration = minRefreshDuration
 			}
 		case <-ctx.Done():
+			t.logger.Info("tokenRefresher terminated")
 			return
 		}
 	}

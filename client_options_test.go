@@ -1,6 +1,7 @@
 package workwx
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 
@@ -51,4 +52,30 @@ func TestWithQYAPIHost(t *testing.T) {
 			})
 		})
 	})
+}
+
+func TestWithLogger(t *testing.T) {
+	c.Convey("给定一个 options", t, func() {
+		opts := options{}
+
+		c.Convey("用 WithLogger 修饰它", func() {
+
+			l := &myLogger{}
+			o := WithLogger(l)
+			o.applyTo(&opts)
+
+			c.Convey("options.Logger 应该变了", func() {
+				c.So(opts.Logger, c.ShouldEqual, l)
+			})
+		})
+	})
+}
+
+type myLogger struct{}
+
+func (*myLogger) Info(msg string) {
+	fmt.Println("INFO: " + msg)
+}
+func (*myLogger) Error(msg string) {
+	fmt.Println("ERROR: " + msg)
 }
