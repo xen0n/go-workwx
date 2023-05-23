@@ -1273,6 +1273,25 @@ type AddMsgTemplateDetail struct {
 	MsgID    string   `json:"msgid"`
 }
 
+// reqSendWelcomeMsgExternalContact 发送新客户欢迎语
+type reqSendWelcomeMsgExternalContact struct {
+	SendWelcomeMsgExternalContact
+}
+
+var _ bodyer = reqSendWelcomeMsgExternalContact{}
+
+func (x reqSendWelcomeMsgExternalContact) intoBody() ([]byte, error) {
+	body, err := json.Marshal(x)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+type respSendWelcomeMsgExternalContact struct {
+	respCommon
+}
+
 // reqExternalContactAddCorpTag 添加企业客户标签
 type reqExternalContactAddCorpTagGroup struct {
 	ExternalContactAddCorpTagGroup
