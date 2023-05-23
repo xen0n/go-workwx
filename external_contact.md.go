@@ -410,6 +410,16 @@ type AddMsgTemplateExternalContact struct {
 	Attachments []Attachments `json:"attachments"`
 }
 
+// SendWelcomeMsgExternalContact 发送新客户欢迎语请求参数
+type SendWelcomeMsgExternalContact struct {
+	// WelcomeCode 通过添加外部联系人事件推送给企业的发送欢迎语的凭证，有效期为20秒
+	WelcomeCode string `json:"welcome_code"`
+	// Text 消息文本,最多4000个字节
+	Text Text `json:"text"`
+	// Attachments 附件，最多支持添加9个附件
+	Attachments []Attachments `json:"attachments"`
+}
+
 // Attachments 附件
 type Attachments struct {
 	// MsgType 附件类型，可选image、link、miniprogram或者video
