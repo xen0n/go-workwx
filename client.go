@@ -80,22 +80,30 @@ func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
 	return base
 }
 
-func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withAccessToken bool) *url.URL {
+func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withAccessToken bool) (*url.URL, error) {
 	url := c.composeQyapiURL(path, req)
 
 	if !withAccessToken {
-		return url
+		return url, nil
+	}
+
+	tok, err := c.accessToken.getToken()
+	if err != nil {
+		return nil, err
 	}
 
 	q := url.Query()
-	q.Set("access_token", c.accessToken.getToken())
+	q.Set("access_token", tok)
 	url.RawQuery = q.Encode()
 
-	return url
+	return url, nil
 }
 
 func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interface{}, withAccessToken bool) error {
-	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
+	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
+	if err != nil {
+		return err
+	}
 	urlStr := url.String()
 
 	resp, err := c.opts.HTTP.Get(urlStr)
@@ -116,7 +124,10 @@ func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interfac
 }
 
 func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interface{}, withAccessToken bool) error {
-	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
+	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
+	if err != nil {
+		return err
+	}
 	urlStr := url.String()
 
 	body, err := req.intoBody()
@@ -148,7 +159,10 @@ func (c *WorkwxApp) executeQyapiMediaUpload(
 	respObj interface{},
 	withAccessToken bool,
 ) error {
-	url := c.composeQyapiURLWithToken(path, req, withAccessToken)
+	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
+	if err != nil {
+		return err
+	}
 	urlStr := url.String()
 
 	m := req.getMedia()
@@ -157,7 +171,7 @@ func (c *WorkwxApp) executeQyapiMediaUpload(
 	buf := bytes.Buffer{}
 	mw := multipart.NewWriter(&buf)
 
-	err := m.writeTo(mw)
+	err = m.writeTo(mw)
 	if err != nil {
 		return err
 	}

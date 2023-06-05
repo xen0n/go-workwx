@@ -89,7 +89,7 @@ func (c *WorkwxApp) SpawnAccessTokenRefresherWithContext(ctx context.Context) {
 
 // GetJSAPITicket 获取 JSAPI_ticket
 func (c *WorkwxApp) GetJSAPITicket() (string, error) {
-	return c.jsapiTicket.getToken(), nil
+	return c.jsapiTicket.getToken()
 }
 
 // getJSAPITicket 获取 JSAPI_ticket
@@ -127,7 +127,7 @@ func (c *WorkwxApp) SpawnJSAPITicketRefresherWithContext(ctx context.Context) {
 
 // GetJSAPITicketAgentConfig 获取 JSAPI_ticket_agent_config
 func (c *WorkwxApp) GetJSAPITicketAgentConfig() (string, error) {
-	return c.jsapiTicketAgentConfig.getToken(), nil
+	return c.jsapiTicketAgentConfig.getToken()
 }
 
 // getJSAPITicketAgentConfig 获取 JSAPI_ticket_agent_config
@@ -163,27 +163,28 @@ func (c *WorkwxApp) SpawnJSAPITicketAgentConfigRefresherWithContext(ctx context.
 	go c.jsapiTicketAgentConfig.tokenRefresher(ctx)
 }
 
-func (t *token) getToken() string {
+func (t *token) getToken() (string, error) {
 	if t.externalProvider != nil {
-		// TODO: error handling
 		tok, err := t.externalProvider.GetToken(context.TODO())
 		if err != nil {
-			panic(err)
+			return "", err
 		}
-		return tok
+		return tok, nil
 	}
 
 	// intensive mutex juggling action
 	t.mutex.RLock()
 	if t.token == "" {
 		t.mutex.RUnlock() // RWMutex doesn't like recursive locking
-		// TODO: what to do with the possible error?
-		_ = t.syncToken()
+		err := t.syncToken()
+		if err != nil {
+			return "", err
+		}
 		t.mutex.RLock()
 	}
 	tokenToUse := t.token
 	t.mutex.RUnlock()
-	return tokenToUse
+	return tokenToUse, nil
 }
 
 func (t *token) syncToken() error {
