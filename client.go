@@ -61,7 +61,7 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 	return &app
 }
 
-func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
+func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) (*url.URL, error) {
 	values := url.Values{}
 	if valuer, ok := req.(urlValuer); ok {
 		values = valuer.intoURLValues()
@@ -70,18 +70,20 @@ func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) *url.URL {
 	// TODO: refactor
 	base, err := url.Parse(c.opts.QYAPIHost)
 	if err != nil {
-		// TODO: error_chain
-		panic(fmt.Sprintf("qyapiHost invalid: host=%s err=%+v", c.opts.QYAPIHost, err))
+		return nil, fmt.Errorf("qyapiHost invalid: host=%s err=%w", c.opts.QYAPIHost, err)
 	}
 
 	base.Path = path
 	base.RawQuery = values.Encode()
 
-	return base
+	return base, nil
 }
 
 func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withAccessToken bool) (*url.URL, error) {
-	url := c.composeQyapiURL(path, req)
+	url, err := c.composeQyapiURL(path, req)
+	if err != nil {
+		return nil, err
+	}
 
 	if !withAccessToken {
 		return url, nil
@@ -108,16 +110,14 @@ func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interfac
 
 	resp, err := c.opts.HTTP.Get(urlStr)
 	if err != nil {
-		// TODO: error_chain
-		return err
+		return makeRequestErr(err)
 	}
 	defer resp.Body.Close()
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(respObj)
 	if err != nil {
-		// TODO: error_chain
-		return err
+		return makeRespUnmarshalErr(err)
 	}
 
 	return nil
@@ -132,22 +132,19 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interf
 
 	body, err := req.intoBody()
 	if err != nil {
-		// TODO: error_chain
-		return err
+		return makeReqMarshalErr(err)
 	}
 
 	resp, err := c.opts.HTTP.Post(urlStr, "application/json", bytes.NewReader(body))
 	if err != nil {
-		// TODO: error_chain
-		return err
+		return makeRequestErr(err)
 	}
 	defer resp.Body.Close()
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(respObj)
 	if err != nil {
-		// TODO: error_chain
-		return err
+		return makeRespUnmarshalErr(err)
 	}
 
 	return nil
@@ -183,16 +180,14 @@ func (c *WorkwxApp) executeQyapiMediaUpload(
 
 	resp, err := c.opts.HTTP.Post(urlStr, mw.FormDataContentType(), &buf)
 	if err != nil {
-		// TODO: error_chain
-		return err
+		return makeRequestErr(err)
 	}
 	defer resp.Body.Close()
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(respObj)
 	if err != nil {
-		// TODO: error_chain
-		return err
+		return makeRespUnmarshalErr(err)
 	}
 
 	return nil

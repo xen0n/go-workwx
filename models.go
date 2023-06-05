@@ -123,8 +123,7 @@ func (x reqMessage) intoBody() ([]byte, error) {
 	result, err := json.Marshal(obj)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -215,7 +214,7 @@ var _ bodyer = reqUserIDByMobile{}
 func (x reqUserIDByMobile) intoBody() ([]byte, error) {
 	body, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 	return body, nil
 }
@@ -283,8 +282,7 @@ func (x reqAppchatCreate) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x.ChatInfo)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -418,8 +416,7 @@ func (x reqExternalContactBatchList) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -443,8 +440,7 @@ func (x reqExternalContactRemark) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x.Remark)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -487,8 +483,7 @@ func (x reqExternalContactListCorpTags) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -512,8 +507,7 @@ func (x reqExternalContactAddCorpTag) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x.ExternalContactCorpTagGroup)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -539,8 +533,7 @@ func (x reqExternalContactEditCorpTag) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -563,8 +556,7 @@ func (x reqExternalContactDelCorpTag) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -589,8 +581,7 @@ func (x reqExternalContactMarkTag) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -637,7 +628,7 @@ var _ bodyer = reqMsgAuditListPermitUser{}
 func (x reqMsgAuditListPermitUser) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -657,7 +648,7 @@ var _ bodyer = reqMsgAuditCheckSingleAgree{}
 func (x reqMsgAuditCheckSingleAgree) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -696,7 +687,7 @@ var _ bodyer = reqMsgAuditCheckRoomAgree{}
 func (x reqMsgAuditCheckRoomAgree) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -731,7 +722,7 @@ var _ bodyer = reqMsgAuditGetGroupChat{}
 func (x reqMsgAuditGetGroupChat) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -777,7 +768,7 @@ var _ bodyer = reqListUnassignedExternalContact{}
 func (x reqListUnassignedExternalContact) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -825,7 +816,7 @@ var _ bodyer = reqTransferExternalContact{}
 func (x reqTransferExternalContact) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -849,7 +840,7 @@ var _ bodyer = reqGetTransferExternalContactResult{}
 func (x reqGetTransferExternalContactResult) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -880,7 +871,7 @@ var _ bodyer = reqTransferGroupChatExternalContact{}
 func (x reqTransferGroupChatExternalContact) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -898,7 +889,7 @@ type reqAppchatList struct {
 func (x reqAppchatList) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x.ReqChatList)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -919,7 +910,7 @@ type reqAppchatInfo struct {
 func (x reqAppchatInfo) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -941,7 +932,7 @@ var _ bodyer = reqOAGetTemplateDetail{}
 func (x reqOAGetTemplateDetail) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -961,7 +952,7 @@ var _ bodyer = reqOAApplyEvent{}
 func (x reqOAApplyEvent) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -986,7 +977,7 @@ var _ bodyer = reqOAGetApprovalInfo{}
 func (x reqOAGetApprovalInfo) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -1008,7 +999,7 @@ var _ bodyer = reqOAGetApprovalDetail{}
 func (x reqOAGetApprovalDetail) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -1050,7 +1041,7 @@ var _ bodyer = reqTransferCustomer{}
 func (x reqTransferCustomer) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -1084,7 +1075,7 @@ var _ bodyer = reqGetTransferCustomerResult{}
 func (x reqGetTransferCustomerResult) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil
@@ -1134,7 +1125,7 @@ var _ bodyer = reqAddContactExternalContact{}
 func (x reqAddContactExternalContact) intoBody() ([]byte, error) {
 	body, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 	return body, nil
 }
@@ -1158,7 +1149,7 @@ var _ bodyer = reqGetContactWayExternalContact{}
 func (x reqGetContactWayExternalContact) intoBody() ([]byte, error) {
 	body, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 	return body, nil
 }
@@ -1179,7 +1170,7 @@ var _ bodyer = reqListContactWayExternalContact{}
 func (x reqListContactWayExternalContact) intoBody() ([]byte, error) {
 	body, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 	return body, nil
 }
@@ -1203,7 +1194,7 @@ var _ bodyer = reqUpdateContactWayExternalContact{}
 func (x reqUpdateContactWayExternalContact) intoBody() ([]byte, error) {
 	body, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 	return body, nil
 }
@@ -1221,7 +1212,7 @@ var _ bodyer = reqDelContactWayExternalContact{}
 func (x reqDelContactWayExternalContact) intoBody() ([]byte, error) {
 	body, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 	return body, nil
 }
@@ -1240,7 +1231,7 @@ var _ bodyer = reqCloseTempChatExternalContact{}
 func (x reqCloseTempChatExternalContact) intoBody() ([]byte, error) {
 	body, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 	return body, nil
 }
@@ -1258,7 +1249,7 @@ var _ bodyer = reqAddMsgTemplateExternalContact{}
 func (x reqAddMsgTemplateExternalContact) intoBody() ([]byte, error) {
 	body, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 	return body, nil
 }
@@ -1283,7 +1274,7 @@ var _ bodyer = reqSendWelcomeMsgExternalContact{}
 func (x reqSendWelcomeMsgExternalContact) intoBody() ([]byte, error) {
 	body, err := json.Marshal(x)
 	if err != nil {
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 	return body, nil
 }
@@ -1303,8 +1294,7 @@ func (x reqExternalContactAddCorpTagGroup) intoBody() ([]byte, error) {
 	result, err := json.Marshal(x.ExternalContactAddCorpTagGroup)
 	if err != nil {
 		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
+		return nil, makeReqMarshalErr(err)
 	}
 
 	return result, nil

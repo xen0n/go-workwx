@@ -27,3 +27,15 @@ func (e *WorkwxClientError) Error() string {
 		e.Msg,
 	)
 }
+
+func makeReqMarshalErr(err error) error {
+	return fmt.Errorf("go-workwx: failed to marshal request: %w", err)
+}
+
+func makeRequestErr(err error) error {
+	return fmt.Errorf("go-workwx: failed to perform request: %w", err)
+}
+
+func makeRespUnmarshalErr(err error) error {
+	return fmt.Errorf("go-workwx: failed to unmarshal response: %w", err)
+}
