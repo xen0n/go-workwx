@@ -359,3 +359,16 @@ func (c *WorkwxApp) AddMsgTemplate(chatType ChatType, sender string, externalUse
 
 	return &resp.AddMsgTemplateDetail, nil
 }
+
+// SendWelcomeMsg 发送新客户欢迎语
+// https://developer.work.weixin.qq.com/document/path/92137
+func (c *WorkwxApp) SendWelcomeMsg(welcomeCode string, text Text, attachments []Attachments) error {
+	_, err := c.execSendWelcomeMsg(reqSendWelcomeMsgExternalContact{
+		SendWelcomeMsgExternalContact{
+			WelcomeCode: welcomeCode,
+			Text:        text,
+			Attachments: attachments,
+		},
+	})
+	return err
+}

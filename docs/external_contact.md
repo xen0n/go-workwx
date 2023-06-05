@@ -327,6 +327,14 @@ Name|JSON|Type|Doc
 `Text`|`text`|`Text`| 消息文本,最多4000个字节
 `Attachments`|`attachments`|`[]Attachments`| 附件，最多支持添加9个附件
 
+### `SendWelcomeMsgExternalContact` 发送新客户欢迎语请求参数
+
+Name|JSON| Type            |Doc
+:---|:---|:----------------|:--
+`WelcomeCode`|`welcome_code`| `string`        | 通过添加外部联系人事件推送给企业的发送欢迎语的凭证，有效期为20秒
+`Text`|`text`| `Text`          | 消息文本,最多4000个字节
+`Attachments`|`attachments`| `[]Attachments` | 附件，最多支持添加9个附件
+
 ### `Attachments` 附件
 
 Name|JSON|Type|Doc

@@ -7,6 +7,8 @@ import (
 )
 
 // WorkwxClientError 企业微信客户端 SDK 的响应错误
+//
+//nolint:revive // The (stuttering) name is part of public API, so cannot be fixed without a v2 bump
 type WorkwxClientError struct {
 	// Code 错误码，0表示成功，非0表示调用失败。
 	//
@@ -26,4 +28,16 @@ func (e *WorkwxClientError) Error() string {
 		e.Code,
 		e.Msg,
 	)
+}
+
+func makeReqMarshalErr(err error) error {
+	return fmt.Errorf("go-workwx: failed to marshal request: %w", err)
+}
+
+func makeRequestErr(err error) error {
+	return fmt.Errorf("go-workwx: failed to perform request: %w", err)
+}
+
+func makeRespUnmarshalErr(err error) error {
+	return fmt.Errorf("go-workwx: failed to unmarshal response: %w", err)
 }

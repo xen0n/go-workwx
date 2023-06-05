@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2023-05-08 16:25:42 +0800
+// 文档爬取时间: 2023-06-05 16:40:13 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -2427,6 +2427,11 @@ const ErrCode81023 ErrCode = 81023
 // 排查方法: -
 const ErrCode81024 ErrCode = 81024
 
+// ErrCode81026 相关功能处于系统维护状态，暂时无法调用
+//
+// 排查方法: -
+const ErrCode81026 ErrCode = 81026
+
 // ErrCode82001 指定的成员/部门/标签全部为空
 //
 // 排查方法: [查看帮助]
@@ -3653,6 +3658,61 @@ const ErrCode90359 ErrCode = 90359
 //
 // 排查方法: -
 const ErrCode90381 ErrCode = 90381
+
+// ErrCode90405 图片类型不合法
+//
+// 排查方法: -
+const ErrCode90405 ErrCode = 90405
+
+// ErrCode90406 图片大小不合法
+//
+// 排查方法: -
+const ErrCode90406 ErrCode = 90406
+
+// ErrCode90407 企业属于K12企业
+//
+// 排查方法: -
+const ErrCode90407 ErrCode = 90407
+
+// ErrCode90408 图片不合法
+//
+// 排查方法: -
+const ErrCode90408 ErrCode = 90408
+
+// ErrCode90409 图片上传错误
+//
+// 排查方法: -
+const ErrCode90409 ErrCode = 90409
+
+// ErrCode90410 已存在进行中的申请单编号
+//
+// 排查方法: -
+const ErrCode90410 ErrCode = 90410
+
+// ErrCode90412 达到超级管理员申请单数量上限
+//
+// 排查方法: -
+const ErrCode90412 ErrCode = 90412
+
+// ErrCode90413 达到企业申请单数量上限
+//
+// 排查方法: -
+const ErrCode90413 ErrCode = 90413
+
+// ErrCode90414 参数错误
+//
+// 排查方法: -
+const ErrCode90414 ErrCode = 90414
+
+// ErrCode90415 不存在的申请单编号
+//
+// 排查方法: -
+const ErrCode90415 ErrCode = 90415
+
+// ErrCode90416 超级管理员没有权限
+//
+// 排查方法: -
+const ErrCode90416 ErrCode = 90416
 
 // ErrCode90456 必须指定组织者
 //
@@ -5832,6 +5892,26 @@ const ErrCode701127 ErrCode = 701127
 // 排查方法: -
 const ErrCode701128 ErrCode = 701128
 
+// ErrCode701129 企业下无服务商的应用订单
+//
+// 排查方法: -
+const ErrCode701129 ErrCode = 701129
+
+// ErrCode701130 企业下服务商应用订单均已过期
+//
+// 排查方法: -
+const ErrCode701130 ErrCode = 701130
+
+// ErrCode701131 无应用订单，处于免费试用状态，且购买账号码数超过免费试用的人数上限
+//
+// 排查方法: -
+const ErrCode701131 ErrCode = 701131
+
+// ErrCode701132 购买时长不大于3个月，但是购买账号数超过了通讯录人数的1.2倍
+//
+// 排查方法: -
+const ErrCode701132 ErrCode = 701132
+
 // ErrCode730000 非法的tmp_openid
 //
 // 排查方法: -
@@ -6112,6 +6192,11 @@ const ErrCode71072 ErrCode = 71072
 // 排查方法: -
 const ErrCode71075 ErrCode = 71075
 
+// ErrCode71076 禁止修改或者删除默认不可通行规则
+//
+// 排查方法: -
+const ErrCode71076 ErrCode = 71076
+
 // ErrCode701100 时间戳不合法
 //
 // 排查方法: 开始时间必须小于结束时间；时间范围不能超过14天；非微盘专业版的企业只能查询90天内的数据
@@ -6186,3 +6271,23 @@ const ErrCode2400007 ErrCode = 2400007
 //
 // 排查方法: -
 const ErrCode2400008 ErrCode = 2400008
+
+// ErrCode400010 block_hint非法
+//
+// 排查方法: -
+const ErrCode400010 ErrCode = 400010
+
+// ErrCode400011 block_hint对应的拦截已过期
+//
+// 排查方法: -
+const ErrCode400011 ErrCode = 400011
+
+// ErrCode400012 不允许通过该block_hint解除拦截
+//
+// 排查方法: -
+const ErrCode400012 ErrCode = 400012
+
+// ErrCode400013 解拦截次数超过限制
+//
+// 排查方法: -
+const ErrCode400013 ErrCode = 400013

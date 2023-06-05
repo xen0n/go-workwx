@@ -701,3 +701,17 @@ func (c *WorkwxApp) execAddMsgTemplate(req reqAddMsgTemplateExternalContact) (re
 
 	return resp, nil
 }
+
+// execSendWelcomeMsg 发送新客户欢迎语
+func (c *WorkwxApp) execSendWelcomeMsg(req reqSendWelcomeMsgExternalContact) (respSendWelcomeMsgExternalContact, error) {
+	var resp respSendWelcomeMsgExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/send_welcome_msg", req, &resp, true)
+	if err != nil {
+		return respSendWelcomeMsgExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respSendWelcomeMsgExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
