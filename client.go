@@ -17,6 +17,8 @@ type Workwx struct {
 }
 
 // WorkwxApp 企业微信客户端（分应用）
+//
+//nolint:revive // The (stuttering) name is part of public API, so cannot be fixed without a v2 bump
 type WorkwxApp struct {
 	*Workwx
 

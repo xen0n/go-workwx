@@ -205,7 +205,7 @@ func (t *token) tokenRefresher(ctx context.Context) {
 	const refreshTimeWindow = 30 * time.Minute
 	const minRefreshDuration = 5 * time.Second
 
-	var waitDuration time.Duration = 0
+	var waitDuration time.Duration
 	for {
 		select {
 		case <-time.After(waitDuration):

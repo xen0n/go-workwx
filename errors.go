@@ -7,6 +7,8 @@ import (
 )
 
 // WorkwxClientError 企业微信客户端 SDK 的响应错误
+//
+//nolint:revive // The (stuttering) name is part of public API, so cannot be fixed without a v2 bump
 type WorkwxClientError struct {
 	// Code 错误码，0表示成功，非0表示调用失败。
 	//

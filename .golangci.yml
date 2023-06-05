@@ -23,6 +23,7 @@ linters:
     - nakedret
     - nolintlint
     - prealloc
+    - revive
     - unconvert
 
 linters-settings:
