@@ -8,6 +8,16 @@ import (
 	"time"
 )
 
+func marshalIntoJSONBody(x interface{}) ([]byte, error) {
+	y, err := json.Marshal(x)
+	if err != nil {
+		// should never happen unless OOM or similar bad things
+		return nil, makeReqMarshalErr(err)
+	}
+
+	return y, nil
+}
+
 type reqAccessToken struct {
 	CorpID     string
 	CorpSecret string
@@ -120,14 +130,7 @@ func (x reqMessage) intoBody() ([]byte, error) {
 		obj["totag"] = strings.Join(x.ToTag, "|")
 	}
 
-	result, err := json.Marshal(obj)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(obj)
 }
 
 // respMessageSend 消息发送响应
@@ -213,11 +216,7 @@ type reqUserIDByMobile struct {
 var _ bodyer = reqUserIDByMobile{}
 
 func (x reqUserIDByMobile) intoBody() ([]byte, error) {
-	body, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+	return marshalIntoJSONBody(x)
 }
 
 // respUserIDByMobile 手机号获取 userid 响应
@@ -280,14 +279,7 @@ type reqAppchatCreate struct {
 var _ bodyer = reqAppchatCreate{}
 
 func (x reqAppchatCreate) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x.ChatInfo)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x.ChatInfo)
 }
 
 // respAppchatCreate 创建群聊会话响应
@@ -415,14 +407,7 @@ type reqExternalContactBatchList struct {
 var _ bodyer = reqExternalContactBatchList{}
 
 func (x reqExternalContactBatchList) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 // respExternalContactBatchList 批量获取客户详情
@@ -440,14 +425,7 @@ type reqExternalContactRemark struct {
 var _ bodyer = reqExternalContactRemark{}
 
 func (x reqExternalContactRemark) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x.Remark)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x.Remark)
 }
 
 // respExternalContactRemark 获取客户详情
@@ -484,14 +462,7 @@ type reqExternalContactListCorpTags struct {
 var _ bodyer = reqExternalContactListCorpTags{}
 
 func (x reqExternalContactListCorpTags) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 // respExternalContactListCorpTags 获取企业标签库
@@ -509,14 +480,7 @@ type reqExternalContactAddCorpTag struct {
 var _ bodyer = reqExternalContactAddCorpTag{}
 
 func (x reqExternalContactAddCorpTag) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x.ExternalContactCorpTagGroup)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x.ExternalContactCorpTagGroup)
 }
 
 // respExternalContactAddCorpTag 添加企业客户标签
@@ -536,14 +500,7 @@ type reqExternalContactEditCorpTag struct {
 var _ bodyer = reqExternalContactEditCorpTag{}
 
 func (x reqExternalContactEditCorpTag) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 // respExternalContactEditCorpTag 编辑企业客户标签
@@ -560,14 +517,7 @@ type reqExternalContactDelCorpTag struct {
 var _ bodyer = reqExternalContactDelCorpTag{}
 
 func (x reqExternalContactDelCorpTag) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 // respExternalContactDelCorpTag 删除企业客户标签
@@ -586,14 +536,7 @@ type reqExternalContactMarkTag struct {
 var _ bodyer = reqExternalContactMarkTag{}
 
 func (x reqExternalContactMarkTag) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 // respExternalContactMarkTag 编辑企业客户标签
@@ -635,12 +578,7 @@ type reqMsgAuditListPermitUser struct {
 var _ bodyer = reqMsgAuditListPermitUser{}
 
 func (x reqMsgAuditListPermitUser) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respMsgAuditListPermitUser struct {
@@ -655,12 +593,7 @@ type reqMsgAuditCheckSingleAgree struct {
 var _ bodyer = reqMsgAuditCheckSingleAgree{}
 
 func (x reqMsgAuditCheckSingleAgree) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respMsgAuditCheckSingleAgree struct {
@@ -694,12 +627,7 @@ type reqMsgAuditCheckRoomAgree struct {
 var _ bodyer = reqMsgAuditCheckRoomAgree{}
 
 func (x reqMsgAuditCheckRoomAgree) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respMsgAuditCheckRoomAgree struct {
@@ -729,12 +657,7 @@ type reqMsgAuditGetGroupChat struct {
 var _ bodyer = reqMsgAuditGetGroupChat{}
 
 func (x reqMsgAuditGetGroupChat) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respMsgAuditGetGroupChat struct {
@@ -775,12 +698,7 @@ type reqListUnassignedExternalContact struct {
 var _ bodyer = reqListUnassignedExternalContact{}
 
 func (x reqListUnassignedExternalContact) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respListUnassignedExternalContact struct {
@@ -823,12 +741,7 @@ type reqTransferExternalContact struct {
 var _ bodyer = reqTransferExternalContact{}
 
 func (x reqTransferExternalContact) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respTransferExternalContact struct {
@@ -847,12 +760,7 @@ type reqGetTransferExternalContactResult struct {
 var _ bodyer = reqGetTransferExternalContactResult{}
 
 func (x reqGetTransferExternalContactResult) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respGetTransferExternalContactResult struct {
@@ -878,12 +786,7 @@ type reqTransferGroupChatExternalContact struct {
 var _ bodyer = reqTransferGroupChatExternalContact{}
 
 func (x reqTransferGroupChatExternalContact) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respTransferGroupChatExternalContact struct {
@@ -896,12 +799,7 @@ type reqAppchatList struct {
 }
 
 func (x reqAppchatList) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x.ReqChatList)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x.ReqChatList)
 }
 
 var _ bodyer = reqAppchatList{}
@@ -917,12 +815,7 @@ type reqAppchatInfo struct {
 }
 
 func (x reqAppchatInfo) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 var _ bodyer = reqAppchatInfo{}
@@ -939,12 +832,7 @@ type reqOAGetTemplateDetail struct {
 var _ bodyer = reqOAGetTemplateDetail{}
 
 func (x reqOAGetTemplateDetail) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respOAGetTemplateDetail struct {
@@ -959,12 +847,7 @@ type reqOAApplyEvent struct {
 var _ bodyer = reqOAApplyEvent{}
 
 func (x reqOAApplyEvent) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respOAApplyEvent struct {
@@ -984,12 +867,7 @@ type reqOAGetApprovalInfo struct {
 var _ bodyer = reqOAGetApprovalInfo{}
 
 func (x reqOAGetApprovalInfo) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respOAGetApprovalInfo struct {
@@ -1006,12 +884,7 @@ type reqOAGetApprovalDetail struct {
 var _ bodyer = reqOAGetApprovalDetail{}
 
 func (x reqOAGetApprovalDetail) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respOAGetApprovalDetail struct {
@@ -1048,12 +921,7 @@ type reqTransferCustomer struct {
 var _ bodyer = reqTransferCustomer{}
 
 func (x reqTransferCustomer) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respTransferCustomer struct {
@@ -1082,12 +950,7 @@ type reqGetTransferCustomerResult struct {
 var _ bodyer = reqGetTransferCustomerResult{}
 
 func (x reqGetTransferCustomerResult) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respGetTransferCustomerResult struct {
@@ -1132,11 +995,7 @@ type reqAddContactExternalContact struct {
 var _ bodyer = reqAddContactExternalContact{}
 
 func (x reqAddContactExternalContact) intoBody() ([]byte, error) {
-	body, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respAddContactExternalContact struct {
@@ -1156,11 +1015,7 @@ type reqGetContactWayExternalContact struct {
 var _ bodyer = reqGetContactWayExternalContact{}
 
 func (x reqGetContactWayExternalContact) intoBody() ([]byte, error) {
-	body, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respGetContactWayExternalContact struct {
@@ -1177,11 +1032,7 @@ type ExternalContactContactWay struct {
 var _ bodyer = reqListContactWayExternalContact{}
 
 func (x reqListContactWayExternalContact) intoBody() ([]byte, error) {
-	body, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respListContactWayChatExternalContact struct {
@@ -1201,11 +1052,7 @@ type contactWay struct {
 var _ bodyer = reqUpdateContactWayExternalContact{}
 
 func (x reqUpdateContactWayExternalContact) intoBody() ([]byte, error) {
-	body, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respUpdateContactWayExternalContact struct {
@@ -1219,11 +1066,7 @@ type reqDelContactWayExternalContact struct {
 var _ bodyer = reqDelContactWayExternalContact{}
 
 func (x reqDelContactWayExternalContact) intoBody() ([]byte, error) {
-	body, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respDelContactWayExternalContact struct {
@@ -1238,11 +1081,7 @@ type reqCloseTempChatExternalContact struct {
 var _ bodyer = reqCloseTempChatExternalContact{}
 
 func (x reqCloseTempChatExternalContact) intoBody() ([]byte, error) {
-	body, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respCloseTempChatExternalContact struct {
@@ -1256,11 +1095,7 @@ type reqAddMsgTemplateExternalContact struct {
 var _ bodyer = reqAddMsgTemplateExternalContact{}
 
 func (x reqAddMsgTemplateExternalContact) intoBody() ([]byte, error) {
-	body, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respAddMsgTemplateExternalContact struct {
@@ -1281,11 +1116,7 @@ type reqSendWelcomeMsgExternalContact struct {
 var _ bodyer = reqSendWelcomeMsgExternalContact{}
 
 func (x reqSendWelcomeMsgExternalContact) intoBody() ([]byte, error) {
-	body, err := json.Marshal(x)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
+	return marshalIntoJSONBody(x)
 }
 
 type respSendWelcomeMsgExternalContact struct {
@@ -1300,12 +1131,5 @@ type reqExternalContactAddCorpTagGroup struct {
 var _ bodyer = reqExternalContactAddCorpTagGroup{}
 
 func (x reqExternalContactAddCorpTagGroup) intoBody() ([]byte, error) {
-	result, err := json.Marshal(x.ExternalContactAddCorpTagGroup)
-	if err != nil {
-		// should never happen unless OOM or similar bad things
-		// TODO: error_chain
-		return nil, err
-	}
-
-	return result, nil
+	return marshalIntoJSONBody(x.ExternalContactAddCorpTagGroup)
 }
