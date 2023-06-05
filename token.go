@@ -8,6 +8,16 @@ import (
 	"github.com/cenkalti/backoff/v4"
 )
 
+// ITokenProvider 是鉴权 token 的外部提供者需要实现的 interface。可用于官方所谓
+// 使用“中控服务”集中提供、刷新 token 的场景。
+//
+// 不同类型的 tokens（如 access token、JSAPI token 等）都是这个 interface 提供，
+// 实现方需要自行掌握 token 的类别，避免在 client 构造函数的选项中传入错误的种类。
+type ITokenProvider interface {
+	// GetToken 取回一个 token。有可能被并发调用。
+	GetToken(context.Context) (string, error)
+}
+
 type tokenInfo struct {
 	token     string
 	expiresIn time.Duration
@@ -16,8 +26,29 @@ type tokenInfo struct {
 type token struct {
 	mutex *sync.RWMutex
 	tokenInfo
-	lastRefresh  time.Time
-	getTokenFunc func() (tokenInfo, error)
+	lastRefresh      time.Time
+	getTokenFunc     func() (tokenInfo, error)
+	externalProvider ITokenProvider
+}
+
+func newToken(
+	externalProvider ITokenProvider,
+	refresher func() (tokenInfo, error),
+) *token {
+	if externalProvider != nil {
+		return &token{
+			externalProvider: externalProvider,
+		}
+	}
+
+	return &token{
+		mutex:        &sync.RWMutex{},
+		getTokenFunc: refresher,
+	}
+}
+
+func (t *token) usingExternalProvider() bool {
+	return t.externalProvider != nil
 }
 
 // getAccessToken 获取 access token
@@ -34,6 +65,8 @@ func (c *WorkwxApp) getAccessToken() (tokenInfo, error) {
 
 // SpawnAccessTokenRefresher 启动该 app 的 access token 刷新 goroutine
 //
+// 如果使用了外部 token provider 提供 access token 则没有必要调用此方法：调用效果为空操作。
+//
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnAccessTokenRefresher() {
 	ctx := context.Background()
@@ -43,8 +76,14 @@ func (c *WorkwxApp) SpawnAccessTokenRefresher() {
 // SpawnAccessTokenRefresherWithContext 启动该 app 的 access token 刷新 goroutine
 // 可以通过 context cancellation 停止此 goroutine
 //
+// 如果使用了外部 token provider 提供 access token 则没有必要调用此方法：调用效果为空操作。
+//
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnAccessTokenRefresherWithContext(ctx context.Context) {
+	if c.accessToken.usingExternalProvider() {
+		return
+	}
+
 	go c.accessToken.tokenRefresher(ctx)
 }
 
@@ -64,6 +103,8 @@ func (c *WorkwxApp) getJSAPITicket() (tokenInfo, error) {
 
 // SpawnJSAPITicketRefresher 启动该 app 的 JSAPI_ticket 刷新 goroutine
 //
+// 如果使用了外部 token provider 提供 JSAPI ticket 则没有必要调用此方法：调用效果为空操作。
+//
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnJSAPITicketRefresher() {
 	ctx := context.Background()
@@ -73,8 +114,14 @@ func (c *WorkwxApp) SpawnJSAPITicketRefresher() {
 // SpawnJSAPITicketRefresherWithContext 启动该 app 的 JSAPI_ticket 刷新 goroutine
 // 可以通过 context cancellation 停止此 goroutine
 //
+// 如果使用了外部 token provider 提供 JSAPI ticket 则没有必要调用此方法：调用效果为空操作。
+//
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnJSAPITicketRefresherWithContext(ctx context.Context) {
+	if c.jsapiTicket.usingExternalProvider() {
+		return
+	}
+
 	go c.jsapiTicket.tokenRefresher(ctx)
 }
 
@@ -94,6 +141,8 @@ func (c *WorkwxApp) getJSAPITicketAgentConfig() (tokenInfo, error) {
 
 // SpawnJSAPITicketAgentConfigRefresher 启动该 app 的 JSAPI_ticket_agent_config 刷新 goroutine
 //
+// 如果使用了外部 token provider 提供 JSAPI ticket agent config 则没有必要调用此方法：调用效果为空操作。
+//
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnJSAPITicketAgentConfigRefresher() {
 	ctx := context.Background()
@@ -103,16 +152,27 @@ func (c *WorkwxApp) SpawnJSAPITicketAgentConfigRefresher() {
 // SpawnJSAPITicketAgentConfigRefresherWithContext 启动该 app 的 JSAPI_ticket_agent_config 刷新 goroutine
 // 可以通过 context cancellation 停止此 goroutine
 //
+// 如果使用了外部 token provider 提供 JSAPI ticket agent config 则没有必要调用此方法：调用效果为空操作。
+//
 // NOTE: 该 goroutine 本身没有 keep-alive 逻辑，需要自助保活
 func (c *WorkwxApp) SpawnJSAPITicketAgentConfigRefresherWithContext(ctx context.Context) {
+	if c.jsapiTicketAgentConfig.usingExternalProvider() {
+		return
+	}
+
 	go c.jsapiTicketAgentConfig.tokenRefresher(ctx)
 }
 
-func (t *token) setGetTokenFunc(f func() (tokenInfo, error)) {
-	t.getTokenFunc = f
-}
-
 func (t *token) getToken() string {
+	if t.externalProvider != nil {
+		// TODO: error handling
+		tok, err := t.externalProvider.GetToken(context.TODO())
+		if err != nil {
+			panic(err)
+		}
+		return tok
+	}
+
 	// intensive mutex juggling action
 	t.mutex.RLock()
 	if t.token == "" {

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"mime/multipart"
 	"net/url"
-	"sync"
 )
 
 // Workwx 企业微信客户端
@@ -24,7 +23,8 @@ type WorkwxApp struct {
 	// CorpSecret 应用的凭证密钥，必填
 	CorpSecret string
 	// AgentID 应用 ID，必填
-	AgentID                int64
+	AgentID int64
+
 	accessToken            *token
 	jsapiTicket            *token
 	jsapiTicketAgentConfig *token
@@ -52,14 +52,12 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 
 		CorpSecret: corpSecret,
 		AgentID:    agentID,
-
-		accessToken:            &token{mutex: &sync.RWMutex{}},
-		jsapiTicket:            &token{mutex: &sync.RWMutex{}},
-		jsapiTicketAgentConfig: &token{mutex: &sync.RWMutex{}},
 	}
-	app.accessToken.setGetTokenFunc(app.getAccessToken)
-	app.jsapiTicket.setGetTokenFunc(app.getJSAPITicket)
-	app.jsapiTicketAgentConfig.setGetTokenFunc(app.getJSAPITicketAgentConfig)
+
+	app.accessToken = newToken(c.opts.AccessTokenProvider, app.getAccessToken)
+	app.jsapiTicket = newToken(c.opts.JSAPITicketProvider, app.getJSAPITicket)
+	app.jsapiTicketAgentConfig = newToken(c.opts.JSAPITicketAgentConfigProvider, app.getJSAPITicketAgentConfig)
+
 	return &app
 }
 
