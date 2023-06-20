@@ -5,7 +5,7 @@ package workwx
 // DeptInfo 部门信息
 type DeptInfo struct {
 	// ID 部门 ID
-	ID int64 `json:"id"`
+	ID int64 `json:"id,omitempty"`
 	// Name 部门名称
 	Name string `json:"name,omitempty"`
 	// NameEn 部门英文名称

@@ -226,6 +226,24 @@ type respUserIDByMobile struct {
 	UserID string `json:"userid"`
 }
 
+// reqDeptCreate 创建部门
+type reqDeptCreate struct {
+	DeptInfo *DeptInfo
+}
+
+var _ bodyer = reqDeptCreate{}
+
+func (x reqDeptCreate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x.DeptInfo)
+}
+
+// respDeptCreate 创建部门响应
+type respDeptCreate struct {
+	respCommon
+
+	ID int64 `json:"id"`
+}
+
 // reqDeptList 获取部门列表
 // 从2022年8月15日10点开始，“企业管理后台 - 管理工具 - 通讯录同步”的新增IP将不能再调用此接口，企业可通过「获取部门ID列表」接口获取部门ID列表。查看调整详情。
 // https://developer.work.weixin.qq.com/document/path/96079

@@ -1,5 +1,16 @@
 package workwx
 
+// CreateDept 创建部门
+func (c *WorkwxApp) CreateDept(deptInfo *DeptInfo) (deptID int64, err error) {
+	resp, err := c.execDeptCreate(reqDeptCreate{
+		DeptInfo: deptInfo,
+	})
+	if err != nil {
+		return 0, err
+	}
+	return resp.ID, nil
+}
+
 // ListAllDepts 获取全量组织架构。
 func (c *WorkwxApp) ListAllDepts() ([]*DeptInfo, error) {
 	resp, err := c.execDeptList(reqDeptList{

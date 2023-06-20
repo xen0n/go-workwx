@@ -100,6 +100,20 @@ func (c *WorkwxApp) execUserIDByMobile(req reqUserIDByMobile) (respUserIDByMobil
 	return resp, nil
 }
 
+// execDeptCreate 创建部门
+func (c *WorkwxApp) execDeptCreate(req reqDeptCreate) (respDeptCreate, error) {
+	var resp respDeptCreate
+	err := c.executeQyapiJSONPost("/cgi-bin/department/create", req, &resp, true)
+	if err != nil {
+		return respDeptCreate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDeptCreate{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execDeptList 获取部门列表
 func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
 	var resp respDeptList
