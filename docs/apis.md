@@ -37,6 +37,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execDeptUpdate`|TODO|TODO|+|`POST /cgi-bin/department/update`|[更新部门](https://work.weixin.qq.com/api/doc#90000/90135/90206)
 `execDeptDelete`|TODO|TODO|+|`GET /cgi/bin/department/delete`|[删除部门](https://work.weixin.qq.com/api/doc#90000/90135/90207)
 `execDeptList`|`reqDeptList`|`respDeptList`|+|`GET /cgi-bin/department/list`|[获取部门列表](https://work.weixin.qq.com/api/doc#90000/90135/90208)
+`execDeptSimpleList`|`reqDeptSimpleList`| `respDeptSimpleList` |+|`GET /cgi-bin/department/simplelist`|[获取子部门ID列表](https://developer.work.weixin.qq.com/document/path/95350)
 
 # 标签管理
 

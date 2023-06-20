@@ -114,6 +114,20 @@ func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
 	return resp, nil
 }
 
+// execDeptSimpleList 获取子部门ID列表
+func (c *WorkwxApp) execDeptSimpleList(req reqDeptSimpleList) (respDeptSimpleList, error) {
+	var resp respDeptSimpleList
+	err := c.executeQyapiGet("/cgi-bin/department/simplelist", req, &resp, true)
+	if err != nil {
+		return respDeptSimpleList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDeptSimpleList{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserInfoGet 获取访问用户身份
 func (c *WorkwxApp) execUserInfoGet(req reqUserInfoGet) (respUserInfoGet, error) {
 	var resp respUserInfoGet
