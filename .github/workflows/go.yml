@@ -7,10 +7,12 @@ on:
       - master
       - staging
       - trying
+      - v2
   pull_request:
     branches:
       - develop
       - master
+      - v2
 
 jobs:
 
