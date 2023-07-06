@@ -1,7 +1,7 @@
 package httpapi
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -29,7 +29,7 @@ func TestLowlevelHandler(t *testing.T) {
 			c.So(resp.StatusCode, c.ShouldEqual, http.StatusOK)
 			defer resp.Body.Close()
 
-			body, err := ioutil.ReadAll(resp.Body)
+			body, err := io.ReadAll(resp.Body)
 			c.So(err, c.ShouldBeNil)
 			c.So(body, c.ShouldResemble, []byte("94966531020182955848408"))
 		})

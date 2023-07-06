@@ -7,10 +7,12 @@ on:
       - master
       - staging
       - trying
+      - v2
   pull_request:
     branches:
       - develop
       - master
+      - v2
 
 jobs:
 
@@ -18,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [ '1.17', 'oldstable', 'stable' ]
+        go: [ 'oldstable', 'stable' ]
     steps:
     - uses: actions/checkout@v3
 
@@ -31,7 +33,7 @@ jobs:
       run: go build -v ./...
 
     - name: Lint
-      uses: golangci/golangci-lint-action@v3.6.0
+      uses: golangci/golangci-lint-action@v3
       with:
         version: v1.53
 

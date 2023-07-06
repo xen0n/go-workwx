@@ -1,4 +1,4 @@
-# go-workwx
+# go-workwx (v2)
 
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/xen0n/go-workwx)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/xen0n/go-workwx)
@@ -44,9 +44,14 @@ in at least 2 of Qiniu's internal systems.
 
 ## Supported Go versions
 
-本库的 v1.x 分支最低支持到 `go1.17`。
+本库的 v2.x 分支最低支持到 Go 的上一个稳定版本，当前为 go1.19。
+如果您需要搭配更低版本的 Go 使用，请移步 v1.x 版本，那边的代码仍然最低支持到 go1.17。
 
-CI 会在 `go1.17` 和 Go 的当前稳定版本、上一个稳定版本上跑测试，只有测试全部通过才可能合并 PR。
+CI 会在 Go 的当前稳定版本、上一个稳定版本上跑测试，只有测试全部通过才可能合并 PR。
+
+注意：由于 Go 上游的持续发展，我们需要能够确保相对低成本地追上节奏。
+如果 `go.mod` 指定 Go 版本相对较低，以至于会阻碍本项目自身的功能迭代或重构了，我们不会特别考虑锁定 Go 版本的下游用户而放缓十分必要的升级。
+如果您确实仍然有此类需求，请提 issue 沟通。
 
 ## Features
 
