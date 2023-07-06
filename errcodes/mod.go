@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2023-06-05 16:40:13 +0800
+// 文档爬取时间: 2023-07-06 15:39:31 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -1242,6 +1242,11 @@ const ErrCode43012 ErrCode = 43012
 //
 // 排查方法: 用户须登录后才可访问opendata
 const ErrCode43016 ErrCode = 43016
+
+// ErrCode43017 用户OpenData请求校验失败
+//
+// 排查方法: -
+const ErrCode43017 ErrCode = 43017
 
 // ErrCode44001 多媒体文件为空
 //
@@ -3083,6 +3088,31 @@ const ErrCode84162 ErrCode = 84162
 // 排查方法: -
 const ErrCode84163 ErrCode = 84163
 
+// ErrCode84172 不是付费版本
+//
+// 排查方法: -
+const ErrCode84172 ErrCode = 84172
+
+// ErrCode84175 指定的生效日期不合法
+//
+// 排查方法: -
+const ErrCode84175 ErrCode = 84175
+
+// ErrCode84178 该应用存在未支付订单
+//
+// 排查方法: -
+const ErrCode84178 ErrCode = 84178
+
+// ErrCode84180 客户企业没有授权安装自定义应用
+//
+// 排查方法: -
+const ErrCode84180 ErrCode = 84180
+
+// ErrCode84188 如果付费版本未发布，就不能创建预下单
+//
+// 排查方法: -
+const ErrCode84188 ErrCode = 84188
+
 // ErrCode84200 文件转译解析错误
 //
 // 排查方法: 只支持utf8文件转译，可能是不支持的文件类型或者格式
@@ -4024,6 +4054,11 @@ const ErrCode90613 ErrCode = 90613
 // 排查方法: -
 const ErrCode90700 ErrCode = 90700
 
+// ErrCode90704 remind_time_diffs数组包含不合法的值
+//
+// 排查方法: -
+const ErrCode90704 ErrCode = 90704
+
 // ErrCode91040 获取ticket的类型无效
 //
 // 排查方法: [查看帮助]
@@ -4225,7 +4260,7 @@ const ErrCode95017 ErrCode = 95017
 // [会话状态]: https://developer.work.weixin.qq.com/document/path/90313#31080
 const ErrCode95018 ErrCode = 95018
 
-// ErrCode95019 接待人员已停止接待，无法完成指定的操作
+// ErrCode95019 接待人员已停止接待或暂时挂起，无法完成指定的操作
 //
 // 排查方法: 可通过[获取接待人员列表]获取接待人员的状态
 //
@@ -5277,6 +5312,11 @@ const ErrCode640055 ErrCode = 640055
 // 排查方法: 请核对欲删除的成员和现有成员
 const ErrCode640056 ErrCode = 640056
 
+// ErrCode640060 空间文件数已达上限
+//
+// 排查方法: 清理空间下不再使用的文件
+const ErrCode640060 ErrCode = 640060
+
 // ErrCode680000 参数错误
 //
 // 排查方法: 结合返回的errmsg排查
@@ -5835,6 +5875,11 @@ const ErrCode701087 ErrCode = 701087
 // 排查方法: -
 const ErrCode701088 ErrCode = 701088
 
+// ErrCode701089 用户不在服务商互通权限（「客户联系」或「微信客服」权限）应用的可见范围内
+//
+// 排查方法: -
+const ErrCode701089 ErrCode = 701089
+
 // ErrCode701090 续期订单中全部账号的续期天数都等于0
 //
 // 排查方法: -
@@ -5902,15 +5947,20 @@ const ErrCode701129 ErrCode = 701129
 // 排查方法: -
 const ErrCode701130 ErrCode = 701130
 
-// ErrCode701131 无应用订单，处于免费试用状态，且购买账号码数超过免费试用的人数上限
+// ErrCode701131 无应用订单，处于免费试用状态，但购买账号码数超过免费试用的人数上限
 //
 // 排查方法: -
 const ErrCode701131 ErrCode = 701131
 
-// ErrCode701132 购买时长不大于3个月，但是购买账号数超过了通讯录人数的1.2倍
+// ErrCode701132 购买时长不大于3个月，购买账号数不允许超过通讯录人数的2倍
 //
 // 排查方法: -
 const ErrCode701132 ErrCode = 701132
+
+// ErrCode701133 无应用订单，处于免费试用状态，购买时长不允许超过3个月（93天）
+//
+// 排查方法: -
+const ErrCode701133 ErrCode = 701133
 
 // ErrCode730000 非法的tmp_openid
 //
