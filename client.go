@@ -63,7 +63,7 @@ func (c *Workwx) WithApp(corpSecret string, agentID int64) *WorkwxApp {
 	return &app
 }
 
-func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) (*url.URL, error) {
+func (c *WorkwxApp) composeQyapiURL(path string, req any) (*url.URL, error) {
 	values := url.Values{}
 	if valuer, ok := req.(urlValuer); ok {
 		values = valuer.intoURLValues()
@@ -81,7 +81,7 @@ func (c *WorkwxApp) composeQyapiURL(path string, req interface{}) (*url.URL, err
 	return base, nil
 }
 
-func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withAccessToken bool) (*url.URL, error) {
+func (c *WorkwxApp) composeQyapiURLWithToken(path string, req any, withAccessToken bool) (*url.URL, error) {
 	url, err := c.composeQyapiURL(path, req)
 	if err != nil {
 		return nil, err
@@ -103,7 +103,13 @@ func (c *WorkwxApp) composeQyapiURLWithToken(path string, req interface{}, withA
 	return url, nil
 }
 
-func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interface{}, withAccessToken bool) error {
+func executeQyapiGet[T urlValuer, U tryIntoErr](
+	c *WorkwxApp,
+	path string,
+	req T,
+	respObj U,
+	withAccessToken bool,
+) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	if err != nil {
 		return err
@@ -122,10 +128,20 @@ func (c *WorkwxApp) executeQyapiGet(path string, req urlValuer, respObj interfac
 		return makeRespUnmarshalErr(err)
 	}
 
+	if bizErr := respObj.TryIntoErr(); bizErr != nil {
+		return bizErr
+	}
+
 	return nil
 }
 
-func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interface{}, withAccessToken bool) error {
+func executeQyapiJSONPost[T bodyer, U tryIntoErr](
+	c *WorkwxApp,
+	path string,
+	req T,
+	respObj U,
+	withAccessToken bool,
+) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
 	if err != nil {
 		return err
@@ -149,13 +165,18 @@ func (c *WorkwxApp) executeQyapiJSONPost(path string, req bodyer, respObj interf
 		return makeRespUnmarshalErr(err)
 	}
 
+	if bizErr := respObj.TryIntoErr(); bizErr != nil {
+		return bizErr
+	}
+
 	return nil
 }
 
-func (c *WorkwxApp) executeQyapiMediaUpload(
+func executeQyapiMediaUpload[T mediaUploader, U tryIntoErr](
+	c *WorkwxApp,
 	path string,
-	req mediaUploader,
-	respObj interface{},
+	req T,
+	respObj U,
 	withAccessToken bool,
 ) error {
 	url, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
@@ -190,6 +211,10 @@ func (c *WorkwxApp) executeQyapiMediaUpload(
 	err = decoder.Decode(respObj)
 	if err != nil {
 		return makeRespUnmarshalErr(err)
+	}
+
+	if bizErr := respObj.TryIntoErr(); bizErr != nil {
+		return bizErr
 	}
 
 	return nil

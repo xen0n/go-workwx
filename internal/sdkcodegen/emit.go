@@ -1,4 +1,4 @@
-//+build sdkcodegen
+//go:build sdkcodegen
 
 package main
 
@@ -23,7 +23,7 @@ type goEmitter struct {
 
 var _ emitter = (*goEmitter)(nil)
 
-func (e *goEmitter) e(format string, a ...interface{}) (n int, err error) {
+func (e *goEmitter) e(format string, a ...any) (n int, err error) {
 	return fmt.Fprintf(&e.buf, format, a...)
 }
 
@@ -158,14 +158,14 @@ func (e *goEmitter) emitDoc(ident string, doc string) error {
 func (e *goEmitter) emitAPICall(x *apiCall) error {
 	ident := x.ident
 
-	var execMethodName string
+	var execFnName string
 	switch x.method {
 	case apiMethodGET:
-		execMethodName = "executeQyapiGet"
+		execFnName = "executeQyapiGet"
 	case apiMethodPOSTJSON:
-		execMethodName = "executeQyapiJSONPost"
+		execFnName = "executeQyapiJSONPost"
 	case apiMethodPOSTMedia:
-		execMethodName = "executeQyapiMediaUpload"
+		execFnName = "executeQyapiMediaUpload"
 	default:
 		panic("unimplemented")
 	}
@@ -174,13 +174,10 @@ func (e *goEmitter) emitAPICall(x *apiCall) error {
 	e.emitDoc(ident, x.doc)
 	e.e("func (c *WorkwxApp) %s(req %s) (%s, error) {\n", ident, x.reqType, x.respType)
 	e.e("var resp %s\n", x.respType)
-	e.e("err := c.%s(\"%s\", req, &resp, %v)\n", execMethodName, x.httpURI, x.needsAccessToken)
+	e.e("err := %s(c, \"%s\", req, &resp, %v)\n", execFnName, x.httpURI, x.needsAccessToken)
 	e.e("if err != nil {\n")
 	// TODO: error_chain
 	e.e("return %s{}, err\n", x.respType)
-	e.e("}\n")
-	e.e("if bizErr := resp.TryIntoErr(); bizErr != nil {\n")
-	e.e("return %s{}, bizErr\n", x.respType)
 	e.e("}\n")
 	e.e("\n")
 	e.e("return resp, nil\n")

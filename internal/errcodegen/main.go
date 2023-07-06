@@ -1,5 +1,4 @@
 //go:build sdkcodegen
-// +build sdkcodegen
 
 package main
 
@@ -33,7 +32,7 @@ var h5Regexp = regexp.MustCompile(`<h5[^>]*>.*</h5>`)
 
 var mdLinkRegexp = regexp.MustCompile(`\[([^\]]+)\]\((https?://[^)]+)\)`)
 
-func die(format string, a ...interface{}) {
+func die(format string, a ...any) {
 	fmt.Fprintf(os.Stderr, format, a...)
 	os.Exit(1)
 	// unreachable

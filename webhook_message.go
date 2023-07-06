@@ -20,7 +20,7 @@ func (c *WebhookClient) SendTextMessage(
 	content string,
 	mentions *Mentions,
 ) error {
-	params := map[string]interface{}{
+	params := map[string]any{
 		"content": content,
 	}
 
@@ -44,7 +44,7 @@ func (c *WebhookClient) SendTextMessage(
 func (c *WebhookClient) SendMarkdownMessage(
 	content string,
 ) error {
-	params := map[string]interface{}{
+	params := map[string]any{
 		"content": content,
 	}
 
@@ -54,9 +54,9 @@ func (c *WebhookClient) SendMarkdownMessage(
 // sendMessage 发送消息底层接口
 func (c *WebhookClient) sendMessage(
 	msgtype string,
-	content map[string]interface{},
+	content map[string]any,
 ) error {
-	req := map[string]interface{}{
+	req := map[string]any{
 		"msgtype": msgtype,
 		msgtype:   content,
 	}

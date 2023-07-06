@@ -34,7 +34,7 @@ func (c *WebhookClient) Key() string {
 	return c.key
 }
 
-func (c *WebhookClient) composeQyapiURLWithKey(path string, req interface{}) (*url.URL, error) {
+func (c *WebhookClient) composeQyapiURLWithKey(path string, req any) (*url.URL, error) {
 	values := url.Values{}
 	if valuer, ok := req.(urlValuer); ok {
 		values = valuer.intoURLValues()
@@ -55,7 +55,7 @@ func (c *WebhookClient) composeQyapiURLWithKey(path string, req interface{}) (*u
 	return base, nil
 }
 
-func (c *WebhookClient) executeQyapiJSONPost(path string, req interface{}, respObj interface{}) error {
+func (c *WebhookClient) executeQyapiJSONPost(path string, req any, respObj any) error {
 	url, err := c.composeQyapiURLWithKey(path, req)
 	if err != nil {
 		return err

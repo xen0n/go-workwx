@@ -70,7 +70,7 @@ func TestRespCommon(t *testing.T) {
 
 func TestReqMessage(t *testing.T) {
 	c.Convey("构造 reqMessage", t, func() {
-		content := map[string]interface{}{"content": "test"}
+		content := map[string]any{"content": "test"}
 		a := reqMessage{
 			AgentID: 233,
 			MsgType: "text",
@@ -87,7 +87,7 @@ func TestReqMessage(t *testing.T) {
 		})
 
 		c.Convey("故意放一个不能 marshal 的 Content", func() {
-			a.Content = map[string]interface{}{
+			a.Content = map[string]any{
 				"heh": make(chan struct{}),
 			}
 
@@ -121,11 +121,11 @@ func TestReqMessage(t *testing.T) {
 								"text": {"content": "test"},
 								"safe": 1
 								}`)
-						var expected map[string]interface{}
+						var expected map[string]any
 						err := json.Unmarshal(expectedPayload, &expected)
 						c.So(err, c.ShouldBeNil)
 
-						var actual map[string]interface{}
+						var actual map[string]any
 						err = json.Unmarshal(result, &actual)
 						c.So(err, c.ShouldBeNil)
 
@@ -154,11 +154,11 @@ func TestReqMessage(t *testing.T) {
 								"text": {"content": "test"},
 								"safe": 0
 								}`)
-						var expected map[string]interface{}
+						var expected map[string]any
 						err := json.Unmarshal(expectedPayload, &expected)
 						c.So(err, c.ShouldBeNil)
 
-						var actual map[string]interface{}
+						var actual map[string]any
 						err = json.Unmarshal(result, &actual)
 						c.So(err, c.ShouldBeNil)
 

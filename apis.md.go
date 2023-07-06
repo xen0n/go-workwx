@@ -5,12 +5,9 @@ package workwx
 // execGetAccessToken 获取access_token
 func (c *WorkwxApp) execGetAccessToken(req reqAccessToken) (respAccessToken, error) {
 	var resp respAccessToken
-	err := c.executeQyapiGet("/cgi-bin/gettoken", req, &resp, false)
+	err := executeQyapiGet(c, "/cgi-bin/gettoken", req, &resp, false)
 	if err != nil {
 		return respAccessToken{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAccessToken{}, bizErr
 	}
 
 	return resp, nil
@@ -19,12 +16,9 @@ func (c *WorkwxApp) execGetAccessToken(req reqAccessToken) (respAccessToken, err
 // execGetJSAPITicket 获取企业的jsapi_ticket
 func (c *WorkwxApp) execGetJSAPITicket(req reqJSAPITicket) (respJSAPITicket, error) {
 	var resp respJSAPITicket
-	err := c.executeQyapiGet("/cgi-bin/get_jsapi_ticket", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/get_jsapi_ticket", req, &resp, true)
 	if err != nil {
 		return respJSAPITicket{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respJSAPITicket{}, bizErr
 	}
 
 	return resp, nil
@@ -33,12 +27,9 @@ func (c *WorkwxApp) execGetJSAPITicket(req reqJSAPITicket) (respJSAPITicket, err
 // execGetJSAPITicketAgentConfig 获取应用的jsapi_ticket
 func (c *WorkwxApp) execGetJSAPITicketAgentConfig(req reqJSAPITicketAgentConfig) (respJSAPITicket, error) {
 	var resp respJSAPITicket
-	err := c.executeQyapiGet("/cgi-bin/ticket/get", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/ticket/get", req, &resp, true)
 	if err != nil {
 		return respJSAPITicket{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respJSAPITicket{}, bizErr
 	}
 
 	return resp, nil
@@ -47,12 +38,9 @@ func (c *WorkwxApp) execGetJSAPITicketAgentConfig(req reqJSAPITicketAgentConfig)
 // execJSCode2Session 临时登录凭证校验code2Session
 func (c *WorkwxApp) execJSCode2Session(req reqJSCode2Session) (respJSCode2Session, error) {
 	var resp respJSCode2Session
-	err := c.executeQyapiGet("/cgi-bin/miniprogram/jscode2session", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/miniprogram/jscode2session", req, &resp, true)
 	if err != nil {
 		return respJSCode2Session{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respJSCode2Session{}, bizErr
 	}
 
 	return resp, nil
@@ -61,12 +49,9 @@ func (c *WorkwxApp) execJSCode2Session(req reqJSCode2Session) (respJSCode2Sessio
 // execUserGet 读取成员
 func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	var resp respUserGet
-	err := c.executeQyapiGet("/cgi-bin/user/get", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/user/get", req, &resp, true)
 	if err != nil {
 		return respUserGet{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respUserGet{}, bizErr
 	}
 
 	return resp, nil
@@ -75,12 +60,9 @@ func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 // execUserList 获取部门成员详情
 func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
 	var resp respUserList
-	err := c.executeQyapiGet("/cgi-bin/user/list", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/user/list", req, &resp, true)
 	if err != nil {
 		return respUserList{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respUserList{}, bizErr
 	}
 
 	return resp, nil
@@ -89,12 +71,9 @@ func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
 // execUserIDByMobile 手机号获取userid
 func (c *WorkwxApp) execUserIDByMobile(req reqUserIDByMobile) (respUserIDByMobile, error) {
 	var resp respUserIDByMobile
-	err := c.executeQyapiJSONPost("/cgi-bin/user/getuserid", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/user/getuserid", req, &resp, true)
 	if err != nil {
 		return respUserIDByMobile{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respUserIDByMobile{}, bizErr
 	}
 
 	return resp, nil
@@ -117,12 +96,9 @@ func (c *WorkwxApp) execDeptCreate(req reqDeptCreate) (respDeptCreate, error) {
 // execDeptList 获取部门列表
 func (c *WorkwxApp) execDeptList(req reqDeptList) (respDeptList, error) {
 	var resp respDeptList
-	err := c.executeQyapiGet("/cgi-bin/department/list", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/department/list", req, &resp, true)
 	if err != nil {
 		return respDeptList{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respDeptList{}, bizErr
 	}
 
 	return resp, nil
@@ -145,12 +121,9 @@ func (c *WorkwxApp) execDeptSimpleList(req reqDeptSimpleList) (respDeptSimpleLis
 // execUserInfoGet 获取访问用户身份
 func (c *WorkwxApp) execUserInfoGet(req reqUserInfoGet) (respUserInfoGet, error) {
 	var resp respUserInfoGet
-	err := c.executeQyapiGet("/cgi-bin/user/getuserinfo", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/user/getuserinfo", req, &resp, true)
 	if err != nil {
 		return respUserInfoGet{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respUserInfoGet{}, bizErr
 	}
 
 	return resp, nil
@@ -159,12 +132,9 @@ func (c *WorkwxApp) execUserInfoGet(req reqUserInfoGet) (respUserInfoGet, error)
 // execExternalContactList 获取客户列表
 func (c *WorkwxApp) execExternalContactList(req reqExternalContactList) (respExternalContactList, error) {
 	var resp respExternalContactList
-	err := c.executeQyapiGet("/cgi-bin/externalcontact/list", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/externalcontact/list", req, &resp, true)
 	if err != nil {
 		return respExternalContactList{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respExternalContactList{}, bizErr
 	}
 
 	return resp, nil
@@ -173,12 +143,9 @@ func (c *WorkwxApp) execExternalContactList(req reqExternalContactList) (respExt
 // execExternalContactGet 获取客户详情
 func (c *WorkwxApp) execExternalContactGet(req reqExternalContactGet) (respExternalContactGet, error) {
 	var resp respExternalContactGet
-	err := c.executeQyapiGet("/cgi-bin/externalcontact/get", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/externalcontact/get", req, &resp, true)
 	if err != nil {
 		return respExternalContactGet{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respExternalContactGet{}, bizErr
 	}
 
 	return resp, nil
@@ -187,12 +154,9 @@ func (c *WorkwxApp) execExternalContactGet(req reqExternalContactGet) (respExter
 // execExternalContactBatchList 批量获取客户详情
 func (c *WorkwxApp) execExternalContactBatchList(req reqExternalContactBatchList) (respExternalContactBatchList, error) {
 	var resp respExternalContactBatchList
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/batch/get_by_user", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/batch/get_by_user", req, &resp, true)
 	if err != nil {
 		return respExternalContactBatchList{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respExternalContactBatchList{}, bizErr
 	}
 
 	return resp, nil
@@ -201,12 +165,9 @@ func (c *WorkwxApp) execExternalContactBatchList(req reqExternalContactBatchList
 // execExternalContactRemark 修改客户备注信息
 func (c *WorkwxApp) execExternalContactRemark(req reqExternalContactRemark) (respExternalContactRemark, error) {
 	var resp respExternalContactRemark
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/remark", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/remark", req, &resp, true)
 	if err != nil {
 		return respExternalContactRemark{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respExternalContactRemark{}, bizErr
 	}
 
 	return resp, nil
@@ -215,12 +176,9 @@ func (c *WorkwxApp) execExternalContactRemark(req reqExternalContactRemark) (res
 // execExternalContactListCorpTags 获取企业标签库
 func (c *WorkwxApp) execExternalContactListCorpTags(req reqExternalContactListCorpTags) (respExternalContactListCorpTags, error) {
 	var resp respExternalContactListCorpTags
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/get_corp_tag_list", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/get_corp_tag_list", req, &resp, true)
 	if err != nil {
 		return respExternalContactListCorpTags{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respExternalContactListCorpTags{}, bizErr
 	}
 
 	return resp, nil
@@ -229,12 +187,9 @@ func (c *WorkwxApp) execExternalContactListCorpTags(req reqExternalContactListCo
 // execExternalContactAddCorpTag 添加企业客户标签
 func (c *WorkwxApp) execExternalContactAddCorpTag(req reqExternalContactAddCorpTagGroup) (respExternalContactAddCorpTag, error) {
 	var resp respExternalContactAddCorpTag
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/add_corp_tag", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/add_corp_tag", req, &resp, true)
 	if err != nil {
 		return respExternalContactAddCorpTag{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respExternalContactAddCorpTag{}, bizErr
 	}
 
 	return resp, nil
@@ -243,12 +198,9 @@ func (c *WorkwxApp) execExternalContactAddCorpTag(req reqExternalContactAddCorpT
 // execExternalContactEditCorpTag 编辑企业客户标签
 func (c *WorkwxApp) execExternalContactEditCorpTag(req reqExternalContactEditCorpTag) (respExternalContactEditCorpTag, error) {
 	var resp respExternalContactEditCorpTag
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/edit_corp_tag", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/edit_corp_tag", req, &resp, true)
 	if err != nil {
 		return respExternalContactEditCorpTag{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respExternalContactEditCorpTag{}, bizErr
 	}
 
 	return resp, nil
@@ -257,12 +209,9 @@ func (c *WorkwxApp) execExternalContactEditCorpTag(req reqExternalContactEditCor
 // execExternalContactDelCorpTag 删除企业客户标签
 func (c *WorkwxApp) execExternalContactDelCorpTag(req reqExternalContactDelCorpTag) (respExternalContactDelCorpTag, error) {
 	var resp respExternalContactDelCorpTag
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/del_corp_tag", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/del_corp_tag", req, &resp, true)
 	if err != nil {
 		return respExternalContactDelCorpTag{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respExternalContactDelCorpTag{}, bizErr
 	}
 
 	return resp, nil
@@ -271,12 +220,9 @@ func (c *WorkwxApp) execExternalContactDelCorpTag(req reqExternalContactDelCorpT
 // execExternalContactMarkTag 标记客户企业标签
 func (c *WorkwxApp) execExternalContactMarkTag(req reqExternalContactMarkTag) (respExternalContactMarkTag, error) {
 	var resp respExternalContactMarkTag
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/mark_tag", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/mark_tag", req, &resp, true)
 	if err != nil {
 		return respExternalContactMarkTag{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respExternalContactMarkTag{}, bizErr
 	}
 
 	return resp, nil
@@ -285,12 +231,9 @@ func (c *WorkwxApp) execExternalContactMarkTag(req reqExternalContactMarkTag) (r
 // execListUnassignedExternalContact 获取离职成员的客户列表
 func (c *WorkwxApp) execListUnassignedExternalContact(req reqListUnassignedExternalContact) (respListUnassignedExternalContact, error) {
 	var resp respListUnassignedExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/get_unassigned_list", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/get_unassigned_list", req, &resp, true)
 	if err != nil {
 		return respListUnassignedExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respListUnassignedExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -299,12 +242,9 @@ func (c *WorkwxApp) execListUnassignedExternalContact(req reqListUnassignedExter
 // execTransferExternalContact 分配成员的客户
 func (c *WorkwxApp) execTransferExternalContact(req reqTransferExternalContact) (respTransferExternalContact, error) {
 	var resp respTransferExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/transfer", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/transfer", req, &resp, true)
 	if err != nil {
 		return respTransferExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respTransferExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -313,12 +253,9 @@ func (c *WorkwxApp) execTransferExternalContact(req reqTransferExternalContact) 
 // execGetTransferExternalContactResult 查询客户接替结果
 func (c *WorkwxApp) execGetTransferExternalContactResult(req reqGetTransferExternalContactResult) (respGetTransferExternalContactResult, error) {
 	var resp respGetTransferExternalContactResult
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/get_transfer_result", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/get_transfer_result", req, &resp, true)
 	if err != nil {
 		return respGetTransferExternalContactResult{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respGetTransferExternalContactResult{}, bizErr
 	}
 
 	return resp, nil
@@ -327,12 +264,9 @@ func (c *WorkwxApp) execGetTransferExternalContactResult(req reqGetTransferExter
 // execTransferGroupChatExternalContact 离职成员的群再分配
 func (c *WorkwxApp) execTransferGroupChatExternalContact(req reqTransferGroupChatExternalContact) (respTransferGroupChatExternalContact, error) {
 	var resp respTransferGroupChatExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/transfer", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/groupchat/transfer", req, &resp, true)
 	if err != nil {
 		return respTransferGroupChatExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respTransferGroupChatExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -341,12 +275,9 @@ func (c *WorkwxApp) execTransferGroupChatExternalContact(req reqTransferGroupCha
 // execAppchatListGet 获取客户群列表
 func (c *WorkwxApp) execAppchatListGet(req reqAppchatList) (respAppchatList, error) {
 	var resp respAppchatList
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/list", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/groupchat/list", req, &resp, true)
 	if err != nil {
 		return respAppchatList{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAppchatList{}, bizErr
 	}
 
 	return resp, nil
@@ -355,12 +286,9 @@ func (c *WorkwxApp) execAppchatListGet(req reqAppchatList) (respAppchatList, err
 // execAppchatInfoGet 获取客户群详细
 func (c *WorkwxApp) execAppchatInfoGet(req reqAppchatInfo) (respAppchatInfo, error) {
 	var resp respAppchatInfo
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/get", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/groupchat/get", req, &resp, true)
 	if err != nil {
 		return respAppchatInfo{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAppchatInfo{}, bizErr
 	}
 
 	return resp, nil
@@ -369,12 +297,9 @@ func (c *WorkwxApp) execAppchatInfoGet(req reqAppchatInfo) (respAppchatInfo, err
 // execAppchatCreate 创建群聊会话
 func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, error) {
 	var resp respAppchatCreate
-	err := c.executeQyapiJSONPost("/cgi-bin/appchat/create", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/appchat/create", req, &resp, true)
 	if err != nil {
 		return respAppchatCreate{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAppchatCreate{}, bizErr
 	}
 
 	return resp, nil
@@ -383,12 +308,9 @@ func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, 
 // execAppchatGet 获取群聊会话
 func (c *WorkwxApp) execAppchatGet(req reqAppchatGet) (respAppchatGet, error) {
 	var resp respAppchatGet
-	err := c.executeQyapiGet("/cgi-bin/appchat/get", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/appchat/get", req, &resp, true)
 	if err != nil {
 		return respAppchatGet{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAppchatGet{}, bizErr
 	}
 
 	return resp, nil
@@ -397,12 +319,9 @@ func (c *WorkwxApp) execAppchatGet(req reqAppchatGet) (respAppchatGet, error) {
 // execMessageSend 发送应用消息
 func (c *WorkwxApp) execMessageSend(req reqMessage) (respMessageSend, error) {
 	var resp respMessageSend
-	err := c.executeQyapiJSONPost("/cgi-bin/message/send", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/message/send", req, &resp, true)
 	if err != nil {
 		return respMessageSend{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respMessageSend{}, bizErr
 	}
 
 	return resp, nil
@@ -411,12 +330,9 @@ func (c *WorkwxApp) execMessageSend(req reqMessage) (respMessageSend, error) {
 // execAppchatSend 应用推送消息
 func (c *WorkwxApp) execAppchatSend(req reqMessage) (respMessageSend, error) {
 	var resp respMessageSend
-	err := c.executeQyapiJSONPost("/cgi-bin/appchat/send", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/appchat/send", req, &resp, true)
 	if err != nil {
 		return respMessageSend{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respMessageSend{}, bizErr
 	}
 
 	return resp, nil
@@ -425,12 +341,9 @@ func (c *WorkwxApp) execAppchatSend(req reqMessage) (respMessageSend, error) {
 // execMediaUpload 上传临时素材
 func (c *WorkwxApp) execMediaUpload(req reqMediaUpload) (respMediaUpload, error) {
 	var resp respMediaUpload
-	err := c.executeQyapiMediaUpload("/cgi-bin/media/upload", req, &resp, true)
+	err := executeQyapiMediaUpload(c, "/cgi-bin/media/upload", req, &resp, true)
 	if err != nil {
 		return respMediaUpload{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respMediaUpload{}, bizErr
 	}
 
 	return resp, nil
@@ -439,12 +352,9 @@ func (c *WorkwxApp) execMediaUpload(req reqMediaUpload) (respMediaUpload, error)
 // execMediaUploadImg 上传永久图片
 func (c *WorkwxApp) execMediaUploadImg(req reqMediaUploadImg) (respMediaUploadImg, error) {
 	var resp respMediaUploadImg
-	err := c.executeQyapiMediaUpload("/cgi-bin/media/uploadimg", req, &resp, true)
+	err := executeQyapiMediaUpload(c, "/cgi-bin/media/uploadimg", req, &resp, true)
 	if err != nil {
 		return respMediaUploadImg{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respMediaUploadImg{}, bizErr
 	}
 
 	return resp, nil
@@ -453,12 +363,9 @@ func (c *WorkwxApp) execMediaUploadImg(req reqMediaUploadImg) (respMediaUploadIm
 // execOAGetTemplateDetail 获取审批模板详情
 func (c *WorkwxApp) execOAGetTemplateDetail(req reqOAGetTemplateDetail) (respOAGetTemplateDetail, error) {
 	var resp respOAGetTemplateDetail
-	err := c.executeQyapiJSONPost("/cgi-bin/oa/gettemplatedetail", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/oa/gettemplatedetail", req, &resp, true)
 	if err != nil {
 		return respOAGetTemplateDetail{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respOAGetTemplateDetail{}, bizErr
 	}
 
 	return resp, nil
@@ -467,12 +374,9 @@ func (c *WorkwxApp) execOAGetTemplateDetail(req reqOAGetTemplateDetail) (respOAG
 // execOAApplyEvent 提交审批申请
 func (c *WorkwxApp) execOAApplyEvent(req reqOAApplyEvent) (respOAApplyEvent, error) {
 	var resp respOAApplyEvent
-	err := c.executeQyapiJSONPost("/cgi-bin/oa/applyevent", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/oa/applyevent", req, &resp, true)
 	if err != nil {
 		return respOAApplyEvent{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respOAApplyEvent{}, bizErr
 	}
 
 	return resp, nil
@@ -481,12 +385,9 @@ func (c *WorkwxApp) execOAApplyEvent(req reqOAApplyEvent) (respOAApplyEvent, err
 // execOAGetApprovalInfo 批量获取审批单号
 func (c *WorkwxApp) execOAGetApprovalInfo(req reqOAGetApprovalInfo) (respOAGetApprovalInfo, error) {
 	var resp respOAGetApprovalInfo
-	err := c.executeQyapiJSONPost("/cgi-bin/oa/getapprovalinfo", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/oa/getapprovalinfo", req, &resp, true)
 	if err != nil {
 		return respOAGetApprovalInfo{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respOAGetApprovalInfo{}, bizErr
 	}
 
 	return resp, nil
@@ -495,12 +396,9 @@ func (c *WorkwxApp) execOAGetApprovalInfo(req reqOAGetApprovalInfo) (respOAGetAp
 // execOAGetApprovalDetail 获取审批申请详情
 func (c *WorkwxApp) execOAGetApprovalDetail(req reqOAGetApprovalDetail) (respOAGetApprovalDetail, error) {
 	var resp respOAGetApprovalDetail
-	err := c.executeQyapiJSONPost("/cgi-bin/oa/getapprovaldetail", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/oa/getapprovaldetail", req, &resp, true)
 	if err != nil {
 		return respOAGetApprovalDetail{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respOAGetApprovalDetail{}, bizErr
 	}
 
 	return resp, nil
@@ -509,12 +407,9 @@ func (c *WorkwxApp) execOAGetApprovalDetail(req reqOAGetApprovalDetail) (respOAG
 // execMsgAuditListPermitUser 获取会话内容存档开启成员列表
 func (c *WorkwxApp) execMsgAuditListPermitUser(req reqMsgAuditListPermitUser) (respMsgAuditListPermitUser, error) {
 	var resp respMsgAuditListPermitUser
-	err := c.executeQyapiJSONPost("/cgi-bin/msgaudit/get_permit_user_list", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/msgaudit/get_permit_user_list", req, &resp, true)
 	if err != nil {
 		return respMsgAuditListPermitUser{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respMsgAuditListPermitUser{}, bizErr
 	}
 
 	return resp, nil
@@ -523,12 +418,9 @@ func (c *WorkwxApp) execMsgAuditListPermitUser(req reqMsgAuditListPermitUser) (r
 // execMsgAuditCheckSingleAgree 获取会话同意情况（单聊）
 func (c *WorkwxApp) execMsgAuditCheckSingleAgree(req reqMsgAuditCheckSingleAgree) (respMsgAuditCheckSingleAgree, error) {
 	var resp respMsgAuditCheckSingleAgree
-	err := c.executeQyapiJSONPost("/cgi-bin/msgaudit/check_single_agree", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/msgaudit/check_single_agree", req, &resp, true)
 	if err != nil {
 		return respMsgAuditCheckSingleAgree{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respMsgAuditCheckSingleAgree{}, bizErr
 	}
 
 	return resp, nil
@@ -537,12 +429,9 @@ func (c *WorkwxApp) execMsgAuditCheckSingleAgree(req reqMsgAuditCheckSingleAgree
 // execMsgAuditCheckRoomAgree 获取会话同意情况（群聊）
 func (c *WorkwxApp) execMsgAuditCheckRoomAgree(req reqMsgAuditCheckRoomAgree) (respMsgAuditCheckRoomAgree, error) {
 	var resp respMsgAuditCheckRoomAgree
-	err := c.executeQyapiJSONPost("/cgi-bin/msgaudit/check_room_agree", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/msgaudit/check_room_agree", req, &resp, true)
 	if err != nil {
 		return respMsgAuditCheckRoomAgree{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respMsgAuditCheckRoomAgree{}, bizErr
 	}
 
 	return resp, nil
@@ -551,12 +440,9 @@ func (c *WorkwxApp) execMsgAuditCheckRoomAgree(req reqMsgAuditCheckRoomAgree) (r
 // execMsgAuditGetGroupChat 获取会话内容存档内部群信息
 func (c *WorkwxApp) execMsgAuditGetGroupChat(req reqMsgAuditGetGroupChat) (respMsgAuditGetGroupChat, error) {
 	var resp respMsgAuditGetGroupChat
-	err := c.executeQyapiJSONPost("/cgi-bin/msgaudit/groupchat/get", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/msgaudit/groupchat/get", req, &resp, true)
 	if err != nil {
 		return respMsgAuditGetGroupChat{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respMsgAuditGetGroupChat{}, bizErr
 	}
 
 	return resp, nil
@@ -565,12 +451,9 @@ func (c *WorkwxApp) execMsgAuditGetGroupChat(req reqMsgAuditGetGroupChat) (respM
 // execListFollowUserExternalContact 获取配置了客户联系功能的成员列表
 func (c *WorkwxApp) execListFollowUserExternalContact(req reqListFollowUserExternalContact) (respListFollowUserExternalContact, error) {
 	var resp respListFollowUserExternalContact
-	err := c.executeQyapiGet("/cgi-bin/externalcontact/get_follow_user_list", req, &resp, true)
+	err := executeQyapiGet(c, "/cgi-bin/externalcontact/get_follow_user_list", req, &resp, true)
 	if err != nil {
 		return respListFollowUserExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respListFollowUserExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -579,12 +462,9 @@ func (c *WorkwxApp) execListFollowUserExternalContact(req reqListFollowUserExter
 // execAddContactExternalContact 配置客户联系「联系我」方式
 func (c *WorkwxApp) execAddContactExternalContact(req reqAddContactExternalContact) (respAddContactExternalContact, error) {
 	var resp respAddContactExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/add_contact_way", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/add_contact_way", req, &resp, true)
 	if err != nil {
 		return respAddContactExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAddContactExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -593,12 +473,9 @@ func (c *WorkwxApp) execAddContactExternalContact(req reqAddContactExternalConta
 // execGetContactWayExternalContact 获取企业已配置的「联系我」方式
 func (c *WorkwxApp) execGetContactWayExternalContact(req reqGetContactWayExternalContact) (respGetContactWayExternalContact, error) {
 	var resp respGetContactWayExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/get_contact_way", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/get_contact_way", req, &resp, true)
 	if err != nil {
 		return respGetContactWayExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respGetContactWayExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -607,12 +484,9 @@ func (c *WorkwxApp) execGetContactWayExternalContact(req reqGetContactWayExterna
 // execListContactWayChatExternalContact 获取企业已配置的「联系我」列表
 func (c *WorkwxApp) execListContactWayChatExternalContact(req reqListContactWayExternalContact) (respListContactWayChatExternalContact, error) {
 	var resp respListContactWayChatExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/list_contact_way", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/list_contact_way", req, &resp, true)
 	if err != nil {
 		return respListContactWayChatExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respListContactWayChatExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -621,12 +495,9 @@ func (c *WorkwxApp) execListContactWayChatExternalContact(req reqListContactWayE
 // execUpdateContactWayExternalContact 更新企业已配置的「联系我」成员配置
 func (c *WorkwxApp) execUpdateContactWayExternalContact(req reqUpdateContactWayExternalContact) (respUpdateContactWayExternalContact, error) {
 	var resp respUpdateContactWayExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/update_contact_way", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/update_contact_way", req, &resp, true)
 	if err != nil {
 		return respUpdateContactWayExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respUpdateContactWayExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -635,12 +506,9 @@ func (c *WorkwxApp) execUpdateContactWayExternalContact(req reqUpdateContactWayE
 // execDelContactWayExternalContact 删除企业已配置的「联系我」方式
 func (c *WorkwxApp) execDelContactWayExternalContact(req reqDelContactWayExternalContact) (respDelContactWayExternalContact, error) {
 	var resp respDelContactWayExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/del_contact_way", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/del_contact_way", req, &resp, true)
 	if err != nil {
 		return respDelContactWayExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respDelContactWayExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -649,12 +517,9 @@ func (c *WorkwxApp) execDelContactWayExternalContact(req reqDelContactWayExterna
 // execCloseTempChatExternalContact 结束临时会话
 func (c *WorkwxApp) execCloseTempChatExternalContact(req reqCloseTempChatExternalContact) (respCloseTempChatExternalContact, error) {
 	var resp respCloseTempChatExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/close_temp_chat", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/close_temp_chat", req, &resp, true)
 	if err != nil {
 		return respCloseTempChatExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respCloseTempChatExternalContact{}, bizErr
 	}
 
 	return resp, nil
@@ -663,12 +528,9 @@ func (c *WorkwxApp) execCloseTempChatExternalContact(req reqCloseTempChatExterna
 // execTransferCustomer 在职继承 分配在职成员的客户
 func (c *WorkwxApp) execTransferCustomer(req reqTransferCustomer) (respTransferCustomer, error) {
 	var resp respTransferCustomer
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/transfer_customer", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/transfer_customer", req, &resp, true)
 	if err != nil {
 		return respTransferCustomer{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respTransferCustomer{}, bizErr
 	}
 
 	return resp, nil
@@ -677,12 +539,9 @@ func (c *WorkwxApp) execTransferCustomer(req reqTransferCustomer) (respTransferC
 // execGetTransferCustomerResult 在职继承 查询客户接替状态
 func (c *WorkwxApp) execGetTransferCustomerResult(req reqGetTransferCustomerResult) (respGetTransferCustomerResult, error) {
 	var resp respGetTransferCustomerResult
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/transfer_result", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/transfer_result", req, &resp, true)
 	if err != nil {
 		return respGetTransferCustomerResult{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respGetTransferCustomerResult{}, bizErr
 	}
 
 	return resp, nil
@@ -691,12 +550,9 @@ func (c *WorkwxApp) execGetTransferCustomerResult(req reqGetTransferCustomerResu
 // execTransferResignedCustomer 离职继承 分配离职成员的客户
 func (c *WorkwxApp) execTransferResignedCustomer(req reqTransferCustomer) (respTransferCustomer, error) {
 	var resp respTransferCustomer
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/resigned/transfer_customer", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/resigned/transfer_customer", req, &resp, true)
 	if err != nil {
 		return respTransferCustomer{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respTransferCustomer{}, bizErr
 	}
 
 	return resp, nil
@@ -705,12 +561,9 @@ func (c *WorkwxApp) execTransferResignedCustomer(req reqTransferCustomer) (respT
 // execGetTransferResignedCustomerResult 离职继承 查询客户接替状态
 func (c *WorkwxApp) execGetTransferResignedCustomerResult(req reqGetTransferCustomerResult) (respGetTransferCustomerResult, error) {
 	var resp respGetTransferCustomerResult
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/resigned/transfer_result", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/resigned/transfer_result", req, &resp, true)
 	if err != nil {
 		return respGetTransferCustomerResult{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respGetTransferCustomerResult{}, bizErr
 	}
 
 	return resp, nil
@@ -719,12 +572,9 @@ func (c *WorkwxApp) execGetTransferResignedCustomerResult(req reqGetTransferCust
 // execAddMsgTemplate 创建企业群发
 func (c *WorkwxApp) execAddMsgTemplate(req reqAddMsgTemplateExternalContact) (respAddMsgTemplateExternalContact, error) {
 	var resp respAddMsgTemplateExternalContact
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/add_msg_template", req, &resp, true)
+	err := executeQyapiJSONPost(c, "/cgi-bin/externalcontact/add_msg_template", req, &resp, true)
 	if err != nil {
 		return respAddMsgTemplateExternalContact{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAddMsgTemplateExternalContact{}, bizErr
 	}
 
 	return resp, nil
