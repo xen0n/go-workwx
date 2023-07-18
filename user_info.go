@@ -49,6 +49,21 @@ func (c *WorkwxApp) GetUserIDByMobile(mobile string) (string, error) {
 	return resp.UserID, nil
 }
 
+// GetUserIDByEmail 通过邮箱获取 userid
+func (c *WorkwxApp) GetUserIDByEmail(email string, emailType EmailType) (string, error) {
+	if emailType == 0 {
+		emailType = EmailTypeCorporate
+	}
+	resp, err := c.execUserIDByEmail(reqUserIDByEmail{
+		Email:     email,
+		EmailType: emailType,
+	})
+	if err != nil {
+		return "", err
+	}
+	return resp.UserID, nil
+}
+
 // GetUserInfoByCode 获取访问用户身份，根据code获取成员信息
 func (c *WorkwxApp) GetUserInfoByCode(code string) (*UserIdentityInfo, error) {
 	resp, err := c.execUserInfoGet(reqUserInfoGet{

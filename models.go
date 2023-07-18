@@ -226,6 +226,38 @@ type respUserIDByMobile struct {
 	UserID string `json:"userid"`
 }
 
+// EmailType 用户邮箱的类型
+//
+// 1表示用户邮箱是企业邮箱（默认）
+// 2表示用户邮箱是个人邮箱
+type EmailType int
+
+const (
+	// EmailTypeCorporate 企业邮箱
+	EmailTypeCorporate EmailType = 1
+	// EmailTypePersonal 个人邮箱
+	EmailTypePersonal EmailType = 2
+)
+
+// reqUserIDByEmail 邮箱获取 userid 请求
+type reqUserIDByEmail struct {
+	Email     string    `json:"email"`
+	EmailType EmailType `json:"email_type"`
+}
+
+var _ bodyer = reqUserIDByEmail{}
+
+func (x reqUserIDByEmail) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respUserIDByEmail 邮箱获取 userid 响应
+type respUserIDByEmail struct {
+	respCommon
+
+	UserID string `json:"userid"`
+}
+
 // reqDeptCreate 创建部门
 type reqDeptCreate struct {
 	DeptInfo *DeptInfo
