@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2023-07-06 15:39:31 +0800
+// 文档爬取时间: 2023-07-19 20:38:09 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -1326,11 +1326,12 @@ const ErrCode45022 ErrCode = 45022
 // 排查方法: [查看帮助]
 //
 // 企业人数已达到上限，添加成员失败。
-// 1）管理员可前往管理后台进行[认证]，成员可联系管理员认证，认证后可继续添加更多成员。
-// 2）可删除通讯录中的无用帐号，删除后可添加更多成员。
+// 1）若当前企业未认证，管理员可前往管理后台进行[认证]，成员可联系管理员认证，认证后可继续添加更多成员。
+// 2）若当前企业已认证或已验证，管理员可前往管理后台申请[扩容]，成员可联系管理员扩容，扩容后可继续添加更多成员。
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A45024
 // [认证]: https://work.weixin.qq.com/wework_admin/frame#/authCenter
+// [扩容]: https://work.weixin.qq.com/wework_admin/frame#/profile/addressBookExpansion/index
 const ErrCode45024 ErrCode = 45024
 
 // ErrCode45026 触发删除用户数的保护
@@ -2753,7 +2754,7 @@ const ErrCode84095 ErrCode = 84095
 // 排查方法: -
 const ErrCode84096 ErrCode = 84096
 
-// ErrCode84097 当前企业有未处理订单
+// ErrCode84097 当前企业有等待生效的订单，无法下新单
 //
 // 排查方法: -
 const ErrCode84097 ErrCode = 84097
