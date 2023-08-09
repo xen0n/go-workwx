@@ -40,6 +40,8 @@ type OAContent struct {
 	Title []OAText `json:"title"`
 	// Value 控件值 ，需在此为申请人在各个控件中填写内容不同控件有不同的赋值参数，具体说明详见附录。模板配置的控件属性为必填时，对应value值需要有值。
 	Value OAContentValue `json:"value"`
+	// Hidden 控件隐藏标识，为1表示控件被隐藏
+	Hidden uint8 `json:"hidden"`
 }
 
 // OAContents 审批申请详情，由多个表单控件及其内容组成，其中包含需要对控件赋值的信息
