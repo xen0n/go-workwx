@@ -72,6 +72,20 @@ func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	return resp, nil
 }
 
+// execUserUpdate 更新成员
+func (c *WorkwxApp) execUserUpdate(req reqUserUpdate) (respUserUpdate, error) {
+	var resp respUserUpdate
+	err := c.executeQyapiJSONPost("/cgi-bin/user/update", req, &resp, true)
+	if err != nil {
+		return respUserUpdate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserUpdate{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserList 获取部门成员详情
 func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
 	var resp respUserList
@@ -81,6 +95,34 @@ func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respUserList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execConvertUserIDToOpenID userid转openid
+func (c *WorkwxApp) execConvertUserIDToOpenID(req reqConvertUserIDToOpenID) (respConvertUserIDToOpenID, error) {
+	var resp respConvertUserIDToOpenID
+	err := c.executeQyapiJSONPost("/cgi-bin/user/convert_to_openid", req, &resp, true)
+	if err != nil {
+		return respConvertUserIDToOpenID{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respConvertUserIDToOpenID{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execConvertOpenIDToUserID openid转userid
+func (c *WorkwxApp) execConvertOpenIDToUserID(req reqConvertOpenIDToUserID) (respConvertOpenIDToUserID, error) {
+	var resp respConvertOpenIDToUserID
+	err := c.executeQyapiJSONPost("/cgi-bin/user/convert_to_userid", req, &resp, true)
+	if err != nil {
+		return respConvertOpenIDToUserID{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respConvertOpenIDToUserID{}, bizErr
 	}
 
 	return resp, nil

@@ -154,31 +154,27 @@ func (x reqUserGet) intoURLValues() url.Values {
 	}
 }
 
-// respUserDetail 成员详细信息的公共字段
-type respUserDetail struct {
-	UserID         string   `json:"userid"`
-	Name           string   `json:"name"`
-	DeptIDs        []int64  `json:"department"`
-	DeptOrder      []uint32 `json:"order"`
-	Position       string   `json:"position"`
-	Mobile         string   `json:"mobile"`
-	Gender         string   `json:"gender"`
-	Email          string   `json:"email"`
-	IsLeaderInDept []int    `json:"is_leader_in_dept"`
-	AvatarURL      string   `json:"avatar"`
-	Telephone      string   `json:"telephone"`
-	IsEnabled      int      `json:"enable"`
-	Alias          string   `json:"alias"`
-	Status         int      `json:"status"`
-	QRCodeURL      string   `json:"qr_code"`
-	// TODO: extattr external_profile external_position
-}
-
 // respUserGet 读取成员响应
 type respUserGet struct {
 	respCommon
 
-	respUserDetail
+	UserDetail
+}
+
+// reqUserUpdate 更新成员请求
+type reqUserUpdate struct {
+	UserDetail *UserDetail
+}
+
+var _ bodyer = reqUserUpdate{}
+
+func (x reqUserUpdate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x.UserDetail)
+}
+
+// respUserUpdate 更新成员响应
+type respUserUpdate struct {
+	respCommon
 }
 
 // reqUserList 部门成员请求
@@ -205,7 +201,43 @@ func (x reqUserList) intoURLValues() url.Values {
 type respUserList struct {
 	respCommon
 
-	Users []*respUserDetail `json:"userlist"`
+	Users []*UserDetail `json:"userlist"`
+}
+
+// reqConvertUserIDToOpenID userid转openid 请求
+type reqConvertUserIDToOpenID struct {
+	UserID string `json:"userid"`
+}
+
+var _ bodyer = reqConvertUserIDToOpenID{}
+
+// respConvertUserIDToOpenID userid转openid 响应
+type respConvertUserIDToOpenID struct {
+	respCommon
+
+	OpenID string `json:"openid"`
+}
+
+func (x reqConvertUserIDToOpenID) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// reqConvertOpenIDToUserID openid转userid 请求
+type reqConvertOpenIDToUserID struct {
+	OpenID string `json:"openid"`
+}
+
+var _ bodyer = reqConvertOpenIDToUserID{}
+
+// respConvertUserIDToOpenID openid转userid 响应
+type respConvertOpenIDToUserID struct {
+	respCommon
+
+	UserID string `json:"userid"`
+}
+
+func (x reqConvertOpenIDToUserID) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
 }
 
 // reqUserIDByMobile 手机号获取 userid 请求

@@ -17,12 +17,13 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execUserCreate`|TODO|TODO|+|`POST /cgi-bin/user/create`|[创建成员](https://work.weixin.qq.com/api/doc#90000/90135/90195)
 `execUserGet`|`reqUserGet`|`respUserGet`|+|`GET /cgi-bin/user/get`|[读取成员](https://work.weixin.qq.com/api/doc#90000/90135/90196)
-`execUserUpdate`|TODO|TODO|+|`POST /cgi/bin/user/update`|[更新成员](https://work.weixin.qq.com/api/doc#90000/90135/90197)
-`execUserDelete`|TODO|TODO|+|`GET /cgi/bin/user/delete`|[删除成员](https://work.weixin.qq.com/api/doc#90000/90135/90198)
-`execUserBatchDelete`|TODO|TODO|+|`POST /cgi/bin/user/batchdelete`|[批量删除成员](https://work.weixin.qq.com/api/doc#90000/90135/90199)
+`execUserUpdate`|`reqUserUpdate`|`respUserUpdate`|+|`POST /cgi-bin/user/update`|[更新成员](https://work.weixin.qq.com/api/doc#90000/90135/90197)
+`execUserDelete`|TODO|TODO|+|`GET /cgi-bin/user/delete`|[删除成员](https://work.weixin.qq.com/api/doc#90000/90135/90198)
+`execUserBatchDelete`|TODO|TODO|+|`POST /cgi-bin/user/batchdelete`|[批量删除成员](https://work.weixin.qq.com/api/doc#90000/90135/90199)
 `execUserSimpleList`|TODO|TODO|+|`GET /cgi-bin/user/simplelist`|[获取部门成员](https://work.weixin.qq.com/api/doc#90000/90135/90200)
 `execUserList`|`reqUserList`|`respUserList`|+|`GET /cgi-bin/user/list`|[获取部门成员详情](https://work.weixin.qq.com/api/doc#90000/90135/90201)
-`execUserConvertToOpenID`|TODO|TODO|+|`POST /cgi-bin/user/convert_to_openid`|[userid与openid互换](https://work.weixin.qq.com/api/doc#90000/90135/90202)
+`execConvertUserIDToOpenID`|`reqConvertUserIDToOpenID`|`respConvertUserIDToOpenID`|+|`POST /cgi-bin/user/convert_to_openid`|[userid转openid](https://work.weixin.qq.com/api/doc#90000/90135/90202)
+`execConvertOpenIDToUserID`|`reqConvertOpenIDToUserID`|`respConvertOpenIDToUserID`|+|`POST /cgi-bin/user/convert_to_userid`|[openid转userid](https://work.weixin.qq.com/api/doc#90000/90135/90202)
 `execUserAuthSucc`|TODO|TODO|+|`GET /cgi-bin/user/authsucc`|[二次验证](https://work.weixin.qq.com/api/doc#90000/90135/90203)
 `execUserBatchInvite`|TODO|TODO|+|`POST /cgi-bin/batch/invite`|[邀请成员](https://work.weixin.qq.com/api/doc#90000/90135/90975)
 `execUserIDByMobile`|`reqUserIDByMobile`|`respUserIDByMobile`|+|`POST /cgi-bin/user/getuserid`|[手机号获取userid](https://work.weixin.qq.com/api/doc/90001/90143/91693)
@@ -36,7 +37,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execDeptCreate`|`reqDeptCreate`|`respDeptCreate`|+|`POST /cgi-bin/department/create`|[创建部门](https://work.weixin.qq.com/api/doc#90000/90135/90205)
 `execDeptUpdate`|TODO|TODO|+|`POST /cgi-bin/department/update`|[更新部门](https://work.weixin.qq.com/api/doc#90000/90135/90206)
-`execDeptDelete`|TODO|TODO|+|`GET /cgi/bin/department/delete`|[删除部门](https://work.weixin.qq.com/api/doc#90000/90135/90207)
+`execDeptDelete`|TODO|TODO|+|`GET /cgi-bin/department/delete`|[删除部门](https://work.weixin.qq.com/api/doc#90000/90135/90207)
 `execDeptList`|`reqDeptList`|`respDeptList`|+|`GET /cgi-bin/department/list`|[获取部门列表](https://work.weixin.qq.com/api/doc#90000/90135/90208)
 `execDeptSimpleList`|`reqDeptSimpleList`| `respDeptSimpleList` |+|`GET /cgi-bin/department/simplelist`|[获取子部门ID列表](https://developer.work.weixin.qq.com/document/path/95350)
 
@@ -48,11 +49,11 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execTagCreate`|TODO|TODO|+|`POST /cgi-bin/tag/create`|[创建标签](https://work.weixin.qq.com/api/doc#90000/90135/90210)
 `execTagUpdate`|TODO|TODO|+|`POST /cgi-bin/tag/update`|[更新标签名字](https://work.weixin.qq.com/api/doc#90000/90135/90211)
-`execTagDelete`|TODO|TODO|+|`GET /cgi/bin/tag/delete`|[删除标签](https://work.weixin.qq.com/api/doc#90000/90135/90212)
-`execTagListUsers`|TODO|TODO|+|`GET /cgi/bin/tag/get`|[获取标签成员](https://work.weixin.qq.com/api/doc#90000/90135/90213)
-`execTagAddUsers`|TODO|TODO|+|`POST /cgi/bin/tag/addtagusers`|[增加标签成员](https://work.weixin.qq.com/api/doc#90000/90135/90214)
-`execTagDeleteUsers`|TODO|TODO|+|`POST /cgi/bin/tag/deltagusers`|[删除标签成员](https://work.weixin.qq.com/api/doc#90000/90135/90215)
-`execTagList`|TODO|TODO|+|`GET /cgi/bin/tag/list`|[获取标签列表](https://work.weixin.qq.com/api/doc#90000/90135/90216)
+`execTagDelete`|TODO|TODO|+|`GET /cgi-bin/tag/delete`|[删除标签](https://work.weixin.qq.com/api/doc#90000/90135/90212)
+`execTagListUsers`|TODO|TODO|+|`GET /cgi-bin/tag/get`|[获取标签成员](https://work.weixin.qq.com/api/doc#90000/90135/90213)
+`execTagAddUsers`|TODO|TODO|+|`POST /cgi-bin/tag/addtagusers`|[增加标签成员](https://work.weixin.qq.com/api/doc#90000/90135/90214)
+`execTagDeleteUsers`|TODO|TODO|+|`POST /cgi-bin/tag/deltagusers`|[删除标签成员](https://work.weixin.qq.com/api/doc#90000/90135/90215)
+`execTagList`|TODO|TODO|+|`GET /cgi-bin/tag/list`|[获取标签列表](https://work.weixin.qq.com/api/doc#90000/90135/90216)
 
 # 异步批量接口
 
