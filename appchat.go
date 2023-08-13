@@ -11,6 +11,19 @@ func (c *WorkwxApp) CreateAppchat(chatInfo *ChatInfo) (chatID string, err error)
 	return resp.ChatID, nil
 }
 
+// UpdateAppchat 修改群聊会话
+func (c *WorkwxApp) UpdateAppchat(chatInfo ChatInfo, addMemberUserIDs, delMemberUserIDs []string) (err error) {
+	_, err = c.execAppchatUpdate(reqAppchatUpdate{
+		ChatInfo:         chatInfo,
+		AddMemberUserIDs: addMemberUserIDs,
+		DelMemberUserIDs: delMemberUserIDs,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // GetAppchat 获取群聊会话
 func (c *WorkwxApp) GetAppchat(chatID string) (*ChatInfo, error) {
 	resp, err := c.execAppchatGet(reqAppchatGet{

@@ -436,6 +436,20 @@ func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, 
 	return resp, nil
 }
 
+// execAppchatUpdate 修改群聊会话
+func (c *WorkwxApp) execAppchatUpdate(req reqAppchatUpdate) (respAppchatUpdate, error) {
+	var resp respAppchatUpdate
+	err := c.executeQyapiJSONPost("/cgi-bin/appchat/update", req, &resp, true)
+	if err != nil {
+		return respAppchatUpdate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAppchatUpdate{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execAppchatGet 获取群聊会话
 func (c *WorkwxApp) execAppchatGet(req reqAppchatGet) (respAppchatGet, error) {
 	var resp respAppchatGet
@@ -697,6 +711,62 @@ func (c *WorkwxApp) execDelContactWayExternalContact(req reqDelContactWayExterna
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respDelContactWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddGroupChatJoinWayExternalContact 配置客户群「加入群聊」方式
+func (c *WorkwxApp) execAddGroupChatJoinWayExternalContact(req reqAddGroupChatJoinWayExternalContact) (respAddGroupChatJoinWayExternalContact, error) {
+	var resp respAddGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/add_join_way", req, &resp, true)
+	if err != nil {
+		return respAddGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetGroupChatJoinWayExternalContact 获取企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) execGetGroupChatJoinWayExternalContact(req reqGetGroupChatJoinWayExternalContact) (respGetGroupChatJoinWayExternalContact, error) {
+	var resp respGetGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/get_join_way", req, &resp, true)
+	if err != nil {
+		return respGetGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execUpdateGroupChatJoinWayExternalContact 更新企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) execUpdateGroupChatJoinWayExternalContact(req reqUpdateGroupChatJoinWayExternalContact) (respUpdateGroupChatJoinWayExternalContact, error) {
+	var resp respUpdateGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/update_join_way", req, &resp, true)
+	if err != nil {
+		return respUpdateGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUpdateGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execDelGroupChatJoinWayExternalContact 删除企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) execDelGroupChatJoinWayExternalContact(req reqDelGroupChatJoinWayExternalContact) (respDelGroupChatJoinWayExternalContact, error) {
+	var resp respDelGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/del_join_way", req, &resp, true)
+	if err != nil {
+		return respDelGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDelGroupChatJoinWayExternalContact{}, bizErr
 	}
 
 	return resp, nil

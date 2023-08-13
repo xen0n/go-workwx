@@ -252,6 +252,18 @@ Name|JSON|Type|Doc
 `UnionID`|`unionid`|`string`| 可进行临时会话的客户UnionID，该参数仅在is_temp为true时有效，如不指定则不进行限制
 `Conclusions`|`conclusions`|`Conclusions`| 结束语，会话结束时自动发送给客户，可参考“结束语定义”，仅在is_temp为true时有效,<https://developer.work.weixin.qq.com/document/path/92572#%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%AE%9A%E4%B9%89>
 
+### `ExternalGroupChatJoinWay` 配置客户群「加入群聊」方式
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Scene`|`scene`|`int`| 场景，1 - 群的小程序插件，2 - 群的二维码插件
+`Remark`|`remark`|`string`| 联系方式的备注信息，用于助记，超过30个字符将被截断
+`AutoCreateRoom`|`auto_create_room`|`int`| 当群满了后，是否自动新建群。0-否；1-是。 默认为1
+`RoomBaseName`|`room_base_name`|`string`| 自动建群的群名前缀，当auto_create_room为1时有效。最长40个utf8字符
+`RoomBaseID`|`room_base_id`|`int`| 自动建群的群起始序号，当auto_create_room为1时有效
+`ChatIDs`|`chat_id_list`|`[]string`| 使用该配置的客户群ID列表，支持5个。
+`State`|`state`|`string`| 企业自定义的state参数，用于区分不同的入群渠道。不超过30个UTF-8字符
+
 ### `Conclusions` 结束语，会话结束时自动发送给客户
 
 Name|JSON|Type|Doc

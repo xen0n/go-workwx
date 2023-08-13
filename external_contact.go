@@ -331,6 +331,46 @@ func (c *WorkwxApp) ExternalContactDelContactWay(configID string) error {
 	return err
 }
 
+// ExternalContactAddGroupChatJoinWay 配置客户群「加入群聊」方式
+func (c *WorkwxApp) ExternalContactAddGroupChatJoinWay(externalGroupChatJoinWay ExternalGroupChatJoinWay) (string, error) {
+	resp, err := c.execAddGroupChatJoinWayExternalContact(
+		reqAddGroupChatJoinWayExternalContact{
+			ExternalGroupChatJoinWay: externalGroupChatJoinWay,
+		})
+	if err != nil {
+		return "", err
+	}
+
+	return resp.ConfigID, nil
+}
+
+// ExternalContactGetGroupChatJoinWay 获取企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) ExternalContactGetGroupChatJoinWay(configID string) (*ExternalContactGroupChatJoinWay, error) {
+	resp, err := c.execGetGroupChatJoinWayExternalContact(reqGetGroupChatJoinWayExternalContact{ConfigID: configID})
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp.JoinWay, nil
+}
+
+// ExternalContactUpdateGroupChatJoinWay 更新企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) ExternalContactUpdateGroupChatJoinWay(configID string, externalGroupChatJoinWay ExternalGroupChatJoinWay) error {
+	_, err := c.execUpdateGroupChatJoinWayExternalContact(reqUpdateGroupChatJoinWayExternalContact{
+		ConfigID:                 configID,
+		ExternalGroupChatJoinWay: externalGroupChatJoinWay,
+	})
+
+	return err
+}
+
+// ExternalContactDelGroupChatJoinWay 删除企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) ExternalContactDelGroupChatJoinWay(configID string) error {
+	_, err := c.execDelGroupChatJoinWayExternalContact(reqDelGroupChatJoinWayExternalContact{ConfigID: configID})
+
+	return err
+}
+
 // ExternalContactCloseTempChat 结束临时会话
 func (c *WorkwxApp) ExternalContactCloseTempChat(userID, externalUserID string) error {
 	_, err := c.execCloseTempChatExternalContact(reqCloseTempChatExternalContact{

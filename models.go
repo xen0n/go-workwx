@@ -399,6 +399,24 @@ type respAppchatCreate struct {
 	ChatID string `json:"chatid"`
 }
 
+// reqAppchatUpdate 修改群聊会话请求
+type reqAppchatUpdate struct {
+	ChatInfo
+	AddMemberUserIDs []string `json:"add_user_list"`
+	DelMemberUserIDs []string `json:"del_user_list"`
+}
+
+var _ bodyer = reqAppchatUpdate{}
+
+func (x reqAppchatUpdate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respAppchatUpdate 修改群聊会话响应
+type respAppchatUpdate struct {
+	respCommon
+}
+
 // reqMediaUpload 临时素材上传请求
 type reqMediaUpload struct {
 	Type  string
@@ -1180,6 +1198,72 @@ func (x reqDelContactWayExternalContact) intoBody() ([]byte, error) {
 }
 
 type respDelContactWayExternalContact struct {
+	respCommon
+}
+
+type reqAddGroupChatJoinWayExternalContact struct {
+	ExternalGroupChatJoinWay
+}
+
+var _ bodyer = reqAddGroupChatJoinWayExternalContact{}
+
+func (x reqAddGroupChatJoinWayExternalContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respAddGroupChatJoinWayExternalContact struct {
+	respCommon
+
+	ConfigID string `json:"config_id"`
+}
+
+type reqGetGroupChatJoinWayExternalContact struct {
+	ConfigID string `json:"config_id"`
+}
+
+var _ bodyer = reqGetGroupChatJoinWayExternalContact{}
+
+func (x reqGetGroupChatJoinWayExternalContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respGetGroupChatJoinWayExternalContact struct {
+	respCommon
+	JoinWay ExternalContactGroupChatJoinWay `json:"join_way"`
+}
+
+type ExternalContactGroupChatJoinWay struct {
+	ConfigID string `json:"config_id"`
+	QRCode   string `json:"qr_code"`
+	ExternalGroupChatJoinWay
+}
+
+type reqUpdateGroupChatJoinWayExternalContact struct {
+	ConfigID string `json:"config_id"`
+	ExternalGroupChatJoinWay
+}
+
+var _ bodyer = reqUpdateGroupChatJoinWayExternalContact{}
+
+func (x reqUpdateGroupChatJoinWayExternalContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respUpdateGroupChatJoinWayExternalContact struct {
+	respCommon
+}
+
+type reqDelGroupChatJoinWayExternalContact struct {
+	ConfigID string `json:"config_id"`
+}
+
+var _ bodyer = reqDelGroupChatJoinWayExternalContact{}
+
+func (x reqDelGroupChatJoinWayExternalContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respDelGroupChatJoinWayExternalContact struct {
 	respCommon
 }
 
