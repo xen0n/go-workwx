@@ -100,6 +100,20 @@ func (c *WorkwxApp) execUserIDByMobile(req reqUserIDByMobile) (respUserIDByMobil
 	return resp, nil
 }
 
+// execUserIDByEmail 邮箱获取userid
+func (c *WorkwxApp) execUserIDByEmail(req reqUserIDByEmail) (respUserIDByEmail, error) {
+	var resp respUserIDByEmail
+	err := c.executeQyapiJSONPost("/cgi-bin/user/get_userid_by_email", req, &resp, true)
+	if err != nil {
+		return respUserIDByEmail{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserIDByEmail{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execDeptCreate 创建部门
 func (c *WorkwxApp) execDeptCreate(req reqDeptCreate) (respDeptCreate, error) {
 	var resp respDeptCreate
