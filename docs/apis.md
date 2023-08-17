@@ -130,8 +130,6 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
-`execAppchatListGet`|`reqAppchatList`|`respAppchatList`|+|`POST /cgi-bin/externalcontact/groupchat/list`|[获取客户群列表](https://developer.work.weixin.qq.com/document/path/92120)
-`execAppchatInfoGet`|`reqAppchatInfo`|`respAppchatInfo`|+|`POST /cgi-bin/externalcontact/groupchat/get`|[获取客户群详细](https://developer.work.weixin.qq.com/document/path/92122)
 `execAppchatCreate`|`reqAppchatCreate`|`respAppchatCreate`|+|`POST /cgi-bin/appchat/create`|[创建群聊会话](https://work.weixin.qq.com/api/doc#90000/90135/90245)
 `execAppchatUpdate`|`reqAppchatUpdate`|`respAppchatUpdate`|+|`POST /cgi-bin/appchat/update`|[修改群聊会话](https://work.weixin.qq.com/api/doc#90000/90135/90246)
 `execAppchatGet`|`reqAppchatGet`|`respAppchatGet`|+|`GET /cgi-bin/appchat/get`|[获取群聊会话](https://work.weixin.qq.com/api/doc#90000/90135/90247)
@@ -185,7 +183,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execMsgAuditCheckRoomAgree`|`reqMsgAuditCheckRoomAgree`|`respMsgAuditCheckRoomAgree`|+|`POST /cgi-bin/msgaudit/check_room_agree`|[获取会话同意情况（群聊）](https://work.weixin.qq.com/api/doc/90000/90135/91782)
 `execMsgAuditGetGroupChat`|`reqMsgAuditGetGroupChat`|`respMsgAuditGetGroupChat`|+|`POST /cgi-bin/msgaudit/groupchat/get`|[获取会话内容存档内部群信息](https://work.weixin.qq.com/api/doc/90000/90135/92951)
 
-# 企业服务人员管理 - 联系我
+# 企业服务人员管理 - 联系我与客户入群方式
 
 ## API calls
 
@@ -202,6 +200,15 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execGetGroupChatJoinWayExternalContact`|`reqGetGroupChatJoinWayExternalContact`|`respGetGroupChatJoinWayExternalContact`|+|`POST /cgi-bin/externalcontact/groupchat/get_join_way`|[获取企业已配置的客户群「加入群聊」方式](https://developer.work.weixin.qq.com/document/path/92229#%E8%8E%B7%E5%8F%96%E5%AE%A2%E6%88%B7%E7%BE%A4%E8%BF%9B%E7%BE%A4%E6%96%B9%E5%BC%8F%E9%85%8D%E7%BD%AE)
 `execUpdateGroupChatJoinWayExternalContact`|`reqUpdateGroupChatJoinWayExternalContact`|`respUpdateGroupChatJoinWayExternalContact`|+|`POST /cgi-bin/externalcontact/groupchat/update_join_way`|[更新企业已配置的客户群「加入群聊」方式](https://developer.work.weixin.qq.com/document/path/92229#%E8%8E%B7%E5%8F%96%E5%AE%A2%E6%88%B7%E7%BE%A4%E8%BF%9B%E7%BE%A4%E6%96%B9%E5%BC%8F%E9%85%8D%E7%BD%AE)
 `execDelGroupChatJoinWayExternalContact`|`reqDelGroupChatJoinWayExternalContact`|`respDelGroupChatJoinWayExternalContact`|+|`POST /cgi-bin/externalcontact/groupchat/del_join_way`|[删除企业已配置的客户群「加入群聊」方式](https://developer.work.weixin.qq.com/document/path/92229#%E5%88%A0%E9%99%A4%E5%AE%A2%E6%88%B7%E7%BE%A4%E8%BF%9B%E7%BE%A4%E6%96%B9%E5%BC%8F%E9%85%8D%E7%BD%AE)
+
+# 客户联系 - 客户群管理
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execGroupChatListGet`|`reqGroupChatList`|`respGroupChatList`|+|`POST /cgi-bin/externalcontact/groupchat/list`|[获取客户群列表](https://developer.work.weixin.qq.com/document/path/92120)
+`execGroupChatInfoGet`|`reqGroupChatInfo`|`respGroupChatInfo`|+|`POST /cgi-bin/externalcontact/groupchat/get`|[获取客户群详细](https://developer.work.weixin.qq.com/document/path/92122)
 
 # 在职继承
 
@@ -221,7 +228,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execTransferResignedCustomer`|`reqTransferCustomer`|`respTransferCustomer`|+|`POST /cgi-bin/externalcontact/resigned/transfer_customer`|[离职继承 分配离职成员的客户](https://developer.work.weixin.qq.com/document/path/94081)
 `execGetTransferResignedCustomerResult`|`reqGetTransferCustomerResult`|`respGetTransferCustomerResult`|+|`POST /cgi-bin/externalcontact/resigned/transfer_result`|[离职继承 查询客户接替状态](https://developer.work.weixin.qq.com/document/path/94082)
 
-# 客户联系-消息推送
+# 客户联系 - 消息推送
 
 ## API calls
 Name|Request Type|Response Type|Access Token|URL|Doc

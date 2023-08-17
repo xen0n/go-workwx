@@ -354,6 +354,29 @@ func (c *WorkwxApp) ExternalContactGetGroupChatJoinWay(configID string) (*Extern
 	return &resp.JoinWay, nil
 }
 
+// GetGroupChatList 获取客户群列表
+func (c *WorkwxApp) GetGroupChatList(req ReqChatList) (*RespGroupChatList, error) {
+	resp, err := c.execGroupChatListGet(reqGroupChatList{
+		ReqChatList: req,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return resp.RespGroupChatList, nil
+}
+
+// GetGroupChatInfo 获取客户群详细信息
+func (c *WorkwxApp) GetGroupChatInfo(chatID string, chatNeedName int64) (*RespGroupChatInfo, error) {
+	resp, err := c.execGroupChatInfoGet(reqGroupChatInfo{
+		ChatID:   chatID,
+		NeedName: chatNeedName,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return resp.GroupChat, nil
+}
+
 // ExternalContactUpdateGroupChatJoinWay 更新企业已配置的客户群「加入群聊」方式
 func (c *WorkwxApp) ExternalContactUpdateGroupChatJoinWay(configID string, externalGroupChatJoinWay ExternalGroupChatJoinWay) error {
 	_, err := c.execUpdateGroupChatJoinWayExternalContact(reqUpdateGroupChatJoinWayExternalContact{

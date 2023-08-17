@@ -38,20 +38,20 @@ func (c *WorkwxApp) GetAppchat(chatID string) (*ChatInfo, error) {
 	return obj, nil
 }
 
-// GetAppChatList 获取客户群列表
-func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespAppchatList, error) {
-	resp, err := c.execAppchatListGet(reqAppchatList{
+// GetAppChatList 获取客户群列表 企业微信接口调整 此API同GetGroupChatList 兼容处理
+func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespGroupChatList, error) {
+	resp, err := c.execGroupChatListGet(reqGroupChatList{
 		ReqChatList: req,
 	})
 	if err != nil {
 		return nil, err
 	}
-	return resp.RespAppchatList, nil
+	return resp.RespGroupChatList, nil
 }
 
-// GetAppChatInfo 获取客户群详细信息
-func (c *WorkwxApp) GetAppChatInfo(chatID string) (*RespAppChatInfo, error) {
-	resp, err := c.execAppchatInfoGet(reqAppchatInfo{
+// GetAppChatInfo 获取客户群详细信息 企业微信接口调整 此API同GetGroupChatInfo 兼容处理
+func (c *WorkwxApp) GetAppChatInfo(chatID string) (*RespGroupChatInfo, error) {
+	resp, err := c.execGroupChatInfoGet(reqGroupChatInfo{
 		ChatID:   chatID,
 		NeedName: ChatNeedName,
 	})

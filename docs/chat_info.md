@@ -26,18 +26,18 @@ Name|JSON|Type|Doc
 `Cursor`|`cursor`|`string`| 用于分页查询的游标，字符串类型，由上一次调用返回，首次调用不填
 `Limit`|`limit`|`int64`| 分页，预期请求的数据量，取值范围 1 ~ 1000
 
-### `RespGroupChatList` 客户群列表数据
+### `GroupChatList` 客户群列表数据
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `ChatID`|`chat_id`|`string`| 客户群ID
 `Status`|`status`|`int64`| 客户群跟进状态 0 - 跟进人正常 1 - 跟进人离职 2 - 离职继承中 3 - 离职继承完成
 
-### `RespAppchatList` 客户群列表结果
+### `RespGroupChatList` 客户群列表结果
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
-`GroupChatList`|`group_chat_list`|`[]RespGroupChatList`| 客户群列表
+`GroupChatList`|`group_chat_list`|`[]GroupChatList`| 客户群列表
 `NextCursor`|`next_cursor`|`string`| 分页游标
 
 ### `ChatMemberList` 客户群成员列表
@@ -65,7 +65,7 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `UserID`|`userid`|`string`| 管理员ID
 
-### `RespAppChatInfo` 客户群详情
+### `RespGroupChatInfo` 客户群详情
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `ChatID`|`chat_id`|`string`| 客户群ID

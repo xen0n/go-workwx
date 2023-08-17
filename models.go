@@ -922,37 +922,6 @@ type respTransferGroupChatExternalContact struct {
 	FailedChatList []ExternalContactGroupChatTransferFailed `json:"failed_chat_list"`
 }
 
-type reqAppchatList struct {
-	ReqChatList ReqChatList
-}
-
-func (x reqAppchatList) intoBody() ([]byte, error) {
-	return marshalIntoJSONBody(x.ReqChatList)
-}
-
-var _ bodyer = reqAppchatList{}
-
-type respAppchatList struct {
-	respCommon
-	*RespAppchatList
-}
-
-type reqAppchatInfo struct {
-	ChatID   string `json:"chat_id"`
-	NeedName int64  `json:"need_name"`
-}
-
-func (x reqAppchatInfo) intoBody() ([]byte, error) {
-	return marshalIntoJSONBody(x)
-}
-
-var _ bodyer = reqAppchatInfo{}
-
-type respAppchatInfo struct {
-	respCommon
-	GroupChat *RespAppChatInfo `json:"group_chat"`
-}
-
 type reqOAGetTemplateDetail struct {
 	TemplateID string `json:"template_id"`
 }
@@ -1199,6 +1168,37 @@ func (x reqDelContactWayExternalContact) intoBody() ([]byte, error) {
 
 type respDelContactWayExternalContact struct {
 	respCommon
+}
+
+type reqGroupChatList struct {
+	ReqChatList ReqChatList
+}
+
+func (x reqGroupChatList) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x.ReqChatList)
+}
+
+var _ bodyer = reqGroupChatList{}
+
+type respGroupChatList struct {
+	respCommon
+	*RespGroupChatList
+}
+
+type reqGroupChatInfo struct {
+	ChatID   string `json:"chat_id"`
+	NeedName int64  `json:"need_name"`
+}
+
+func (x reqGroupChatInfo) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+var _ bodyer = reqGroupChatInfo{}
+
+type respGroupChatInfo struct {
+	respCommon
+	GroupChat *RespGroupChatInfo `json:"group_chat"`
 }
 
 type reqAddGroupChatJoinWayExternalContact struct {
