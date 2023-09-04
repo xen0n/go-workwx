@@ -480,6 +480,11 @@ type EventAddHalfExternalContact interface {
 
 	// GetState 添加此用户的「联系我」方式配置的state参数，可用于识别添加此用户的渠道
 	GetState() string
+
+	// GetWelcomeCode 欢迎语code，可用于发送欢迎语
+	// 当企业微信开启加好友无须验证且人员不主动添加到通讯录，则收到此事件,可以发送欢迎语
+	// See also: https://developer.work.weixin.qq.com/document/path/92130#%E5%A4%96%E9%83%A8%E8%81%94%E7%B3%BB%E4%BA%BA%E5%85%8D%E9%AA%8C%E8%AF%81%E6%B7%BB%E5%8A%A0%E6%88%90%E5%91%98%E4%BA%8B%E4%BB%B6
+	GetWelcomeCode() string
 }
 
 var _ EventAddHalfExternalContact = (*rxEventAddHalfExternalContact)(nil)
