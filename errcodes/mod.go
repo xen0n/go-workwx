@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2023-08-20 16:05:11 +0800
+// 文档爬取时间: 2023-09-12 19:14:27 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -2477,14 +2477,14 @@ const ErrCode84005 ErrCode = 84005
 // 2）若需再次获取用户详情，需要用户重新点击链接后，根据新的code获取新的user_ticket
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A84014
-// [根据code获取成员信息]: https://open.work.weixin.qq.com/api/doc#10028/%E6%A0%B9%E6%8D%AEcode%E8%8E%B7%E5%8F%96%E6%88%90%E5%91%98%E4%BF%A1%E6%81%AF
+// [根据code获取成员信息]: https://open.work.weixin.qq.com/api/doc#15122/%E8%8E%B7%E5%8F%96%E8%AE%BF%E9%97%AE%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD
 const ErrCode84014 ErrCode = 84014
 
 // ErrCode84015 成员票据无效
 //
-// 排查方法: 确认user_ticket参数来源是否正确。参考接口：[根据code获取成员信息]
+// 排查方法: 确认user_ticket参数来源是否正确。参考接口：[获取访问用户身份]
 //
-// [根据code获取成员信息]: https://developer.work.weixin.qq.com/document/path/90313#10028/%E6%A0%B9%E6%8D%AEcode%E8%8E%B7%E5%8F%96%E6%88%90%E5%91%98%E4%BF%A1%E6%81%AF
+// [获取访问用户身份]: https://developer.work.weixin.qq.com/document/path/90313#15122/%E8%8E%B7%E5%8F%96%E8%AE%BF%E9%97%AE%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD
 const ErrCode84015 ErrCode = 84015
 
 // ErrCode84019 缺少templateid参数
@@ -3770,6 +3770,16 @@ const ErrCode90420 ErrCode = 90420
 // 排查方法: -
 const ErrCode90431 ErrCode = 90431
 
+// ErrCode90432 充值账户未开通
+//
+// 排查方法: -
+const ErrCode90432 ErrCode = 90432
+
+// ErrCode90433 账户余额不足
+//
+// 排查方法: -
+const ErrCode90433 ErrCode = 90433
+
 // ErrCode90456 必须指定组织者
 //
 // 排查方法: -
@@ -4564,6 +4574,36 @@ const ErrCode301096 ErrCode = 301096
 //
 // 排查方法: 打卡规则中位置和wifi信息不能同时为空
 const ErrCode301097 ErrCode = 301097
+
+// ErrCode301099 所属的打卡规则，不可提交【迟到】补卡
+//
+// 排查方法: -
+const ErrCode301099 ErrCode = 301099
+
+// ErrCode301101 所属的打卡规则，不可提交【早退】补卡
+//
+// 排查方法: -
+const ErrCode301101 ErrCode = 301101
+
+// ErrCode301102 所属的打卡规则，不可提交【缺卡】补卡
+//
+// 排查方法: -
+const ErrCode301102 ErrCode = 301102
+
+// ErrCode301103 所属的打卡规则，不可提交【其他异常】补卡
+//
+// 排查方法: -
+const ErrCode301103 ErrCode = 301103
+
+// ErrCode301104 所属的打卡规则，不可提交【迟到】、【其他异常】补卡
+//
+// 排查方法: -
+const ErrCode301104 ErrCode = 301104
+
+// ErrCode301105 所属的打卡规则，不可提交【早退】、【其他异常】补卡
+//
+// 排查方法: -
+const ErrCode301105 ErrCode = 301105
 
 // ErrCode301056 审批应用已停用
 //
@@ -5997,6 +6037,16 @@ const ErrCode701134 ErrCode = 701134
 //
 // 排查方法: -
 const ErrCode701150 ErrCode = 701150
+
+// ErrCode701160 存在未通过支付检查的企业
+//
+// 排查方法: -
+const ErrCode701160 ErrCode = 701160
+
+// ErrCode701161 订单已经指定使用微信网银支付
+//
+// 排查方法: -
+const ErrCode701161 ErrCode = 701161
 
 // ErrCode730000 非法的tmp_openid
 //

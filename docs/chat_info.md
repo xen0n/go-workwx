@@ -79,4 +79,9 @@ Name|JSON|Type|Doc
 ```go
 // ChatNeedName 是否需要返回群成员的名字 0-不返回；1-返回。默认不返回
 const ChatNeedName int64 = 1
+
+// RespAppchatList 企业微信接口调整 兼容处理
+type RespAppchatList = RespGroupChatList
+// RespAppChatInfo 企业微信接口调整 兼容处理
+type RespAppChatInfo = RespGroupChatInfo
 ```

@@ -39,7 +39,7 @@ func (c *WorkwxApp) GetAppchat(chatID string) (*ChatInfo, error) {
 }
 
 // GetAppChatList 获取客户群列表 企业微信接口调整 此API同GetGroupChatList 兼容处理
-func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespGroupChatList, error) {
+func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespAppchatList, error) {
 	resp, err := c.execGroupChatListGet(reqGroupChatList{
 		ReqChatList: req,
 	})
@@ -50,7 +50,7 @@ func (c *WorkwxApp) GetAppChatList(req ReqChatList) (*RespGroupChatList, error) 
 }
 
 // GetAppChatInfo 获取客户群详细信息 企业微信接口调整 此API同GetGroupChatInfo 兼容处理
-func (c *WorkwxApp) GetAppChatInfo(chatID string) (*RespGroupChatInfo, error) {
+func (c *WorkwxApp) GetAppChatInfo(chatID string) (*RespAppChatInfo, error) {
 	resp, err := c.execGroupChatInfoGet(reqGroupChatInfo{
 		ChatID:   chatID,
 		NeedName: ChatNeedName,
