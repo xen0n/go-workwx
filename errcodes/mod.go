@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2023-07-19 20:38:09 +0800
+// 文档爬取时间: 2023-09-12 19:14:27 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -1321,7 +1321,7 @@ const ErrCode45009 ErrCode = 45009
 // 排查方法: 设置应用若带有name参数，则不允许为空，且不超过32个字符
 const ErrCode45022 ErrCode = 45022
 
-// ErrCode45024 帐号数量超过上限
+// ErrCode45024 账号数量超过上限
 //
 // 排查方法: [查看帮助]
 //
@@ -1330,8 +1330,8 @@ const ErrCode45022 ErrCode = 45022
 // 2）若当前企业已认证或已验证，管理员可前往管理后台申请[扩容]，成员可联系管理员扩容，扩容后可继续添加更多成员。
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A45024
-// [认证]: https://work.weixin.qq.com/wework_admin/frame#/authCenter
-// [扩容]: https://work.weixin.qq.com/wework_admin/frame#/profile/addressBookExpansion/index
+// [认证]: https://work.weixin.qq.com/wework_admin/frame#/authCenter/?from=api
+// [扩容]: https://work.weixin.qq.com/wework_admin/frame#/profile/addressBookExpansion/index?from=api
 const ErrCode45024 ErrCode = 45024
 
 // ErrCode45026 触发删除用户数的保护
@@ -1448,7 +1448,7 @@ const ErrCode48006 ErrCode = 48006
 // 排查方法: [查看帮助]
 //
 // API接口无权限调用，由于客服账号未授权给该应用。请确认：
-// 1) 微信客服相关接口，要求「微信客服->管理帐号、分配会话和收发消息」权限，且授权了对应的客服账号。可在企业管理后台“微信客服”进行权限管理。
+// 1) 微信客服相关接口，要求「微信客服->管理账号、分配会话和收发消息」权限，且授权了对应的客服账号。可在企业管理后台“微信客服”进行权限管理。
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A48007
 const ErrCode48007 ErrCode = 48007
@@ -2210,7 +2210,7 @@ const ErrCode670016 ErrCode = 670016
 // 排查方法: -
 const ErrCode670017 ErrCode = 670017
 
-// ErrCode670018 该联系人帐号异常，无法邀请其加入上下游
+// ErrCode670018 该联系人账号异常，无法邀请其加入上下游
 //
 // 排查方法: -
 const ErrCode670018 ErrCode = 670018
@@ -2240,7 +2240,7 @@ const ErrCode670022 ErrCode = 670022
 // 排查方法: -
 const ErrCode670023 ErrCode = 670023
 
-// ErrCode670024 帐号异常，不能进行导入
+// ErrCode670024 账号异常，不能进行导入
 //
 // 排查方法: -
 const ErrCode670024 ErrCode = 670024
@@ -2477,14 +2477,14 @@ const ErrCode84005 ErrCode = 84005
 // 2）若需再次获取用户详情，需要用户重新点击链接后，根据新的code获取新的user_ticket
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A84014
-// [根据code获取成员信息]: https://open.work.weixin.qq.com/api/doc#10028/%E6%A0%B9%E6%8D%AEcode%E8%8E%B7%E5%8F%96%E6%88%90%E5%91%98%E4%BF%A1%E6%81%AF
+// [根据code获取成员信息]: https://open.work.weixin.qq.com/api/doc#15122/%E8%8E%B7%E5%8F%96%E8%AE%BF%E9%97%AE%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD
 const ErrCode84014 ErrCode = 84014
 
 // ErrCode84015 成员票据无效
 //
-// 排查方法: 确认user_ticket参数来源是否正确。参考接口：[根据code获取成员信息]
+// 排查方法: 确认user_ticket参数来源是否正确。参考接口：[获取访问用户身份]
 //
-// [根据code获取成员信息]: https://developer.work.weixin.qq.com/document/path/90313#10028/%E6%A0%B9%E6%8D%AEcode%E8%8E%B7%E5%8F%96%E6%88%90%E5%91%98%E4%BF%A1%E6%81%AF
+// [获取访问用户身份]: https://developer.work.weixin.qq.com/document/path/90313#15122/%E8%8E%B7%E5%8F%96%E8%AE%BF%E9%97%AE%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD
 const ErrCode84015 ErrCode = 84015
 
 // ErrCode84019 缺少templateid参数
@@ -3108,6 +3108,11 @@ const ErrCode84178 ErrCode = 84178
 //
 // 排查方法: -
 const ErrCode84180 ErrCode = 84180
+
+// ErrCode84186 当前版本的剩余时长超过一年，不支持新购
+//
+// 排查方法: -
+const ErrCode84186 ErrCode = 84186
 
 // ErrCode84188 如果付费版本未发布，就不能创建预下单
 //
@@ -3745,6 +3750,36 @@ const ErrCode90415 ErrCode = 90415
 // 排查方法: -
 const ErrCode90416 ErrCode = 90416
 
+// ErrCode90418 指定的提现人员未实名认证
+//
+// 排查方法: -
+const ErrCode90418 ErrCode = 90418
+
+// ErrCode90419 上传图片出现错误
+//
+// 排查方法: 请重新上传图片并使用新获得的mediaid，仍失败时请尝试使用新的申请单号重新提交
+const ErrCode90419 ErrCode = 90419
+
+// ErrCode90420 指定的提现人员的实名认证信息与超级管理员不符
+//
+// 排查方法: -
+const ErrCode90420 ErrCode = 90420
+
+// ErrCode90431 一个应用一个企业一天内最多只能创建3个免支付订单
+//
+// 排查方法: -
+const ErrCode90431 ErrCode = 90431
+
+// ErrCode90432 充值账户未开通
+//
+// 排查方法: -
+const ErrCode90432 ErrCode = 90432
+
+// ErrCode90433 账户余额不足
+//
+// 排查方法: -
+const ErrCode90433 ErrCode = 90433
+
 // ErrCode90456 必须指定组织者
 //
 // 排查方法: -
@@ -4186,20 +4221,20 @@ const ErrCode95002 ErrCode = 95002
 
 // ErrCode95003 发送客服消息可接待客户咨询数限制
 //
-// 排查方法: 企业未验证或未绑定视频号
+// 排查方法: 企业未验证
 const ErrCode95003 ErrCode = 95003
 
 // ErrCode95004 open_kfid不存在
 //
-// 排查方法: 跨企业使用，或对已删除的帐号操作
+// 排查方法: 跨企业使用，或对已删除的账号操作
 const ErrCode95004 ErrCode = 95004
 
-// ErrCode95005 客服帐号数超过限制
+// ErrCode95005 客服账号数超过限制
 //
 // 排查方法: 客服账号数不能多于最大的数量限制，且至少有一个
 const ErrCode95005 ErrCode = 95005
 
-// ErrCode95006 不合法的客服帐号名
+// ErrCode95006 不合法的客服账号名
 //
 // 排查方法: -
 const ErrCode95006 ErrCode = 95006
@@ -4283,7 +4318,7 @@ const ErrCode95023 ErrCode = 95023
 // 排查方法: 请改善后再试
 const ErrCode95026 ErrCode = 95026
 
-// ErrCode95027 企业未认证，仅可创建10个客服帐号
+// ErrCode95027 企业未认证，仅可创建10个客服账号
 //
 // 排查方法: 认证企业后即可继续创建
 const ErrCode95027 ErrCode = 95027
@@ -4539,6 +4574,36 @@ const ErrCode301096 ErrCode = 301096
 //
 // 排查方法: 打卡规则中位置和wifi信息不能同时为空
 const ErrCode301097 ErrCode = 301097
+
+// ErrCode301099 所属的打卡规则，不可提交【迟到】补卡
+//
+// 排查方法: -
+const ErrCode301099 ErrCode = 301099
+
+// ErrCode301101 所属的打卡规则，不可提交【早退】补卡
+//
+// 排查方法: -
+const ErrCode301101 ErrCode = 301101
+
+// ErrCode301102 所属的打卡规则，不可提交【缺卡】补卡
+//
+// 排查方法: -
+const ErrCode301102 ErrCode = 301102
+
+// ErrCode301103 所属的打卡规则，不可提交【其他异常】补卡
+//
+// 排查方法: -
+const ErrCode301103 ErrCode = 301103
+
+// ErrCode301104 所属的打卡规则，不可提交【迟到】、【其他异常】补卡
+//
+// 排查方法: -
+const ErrCode301104 ErrCode = 301104
+
+// ErrCode301105 所属的打卡规则，不可提交【早退】、【其他异常】补卡
+//
+// 排查方法: -
+const ErrCode301105 ErrCode = 301105
 
 // ErrCode301056 审批应用已停用
 //
@@ -5054,12 +5119,12 @@ const ErrCode610014 ErrCode = 610014
 //
 // 排查方法: [查看帮助]
 //
-// 小程序对应的开放平台帐号未认证。请确认：
-// 1) 小程序绑定的开放平台帐号是否已认证。
-// 2) 若开放平台帐号是通过api代注册所创建，可通过微信的「[认证代注册的帐号]」完成认证。
+// 小程序对应的开放平台账号未认证。请确认：
+// 1) 小程序绑定的开放平台账号是否已认证。
+// 2) 若开放平台账号是通过api代注册所创建，可通过微信的「[认证代注册的账号]」完成认证。
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A610015
-// [认证代注册的帐号]: https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/product/Open_Platform_Account_Management.html#%E5%9B%9B%E3%80%81%E8%AE%A4%E8%AF%81%E4%BB%A3%E6%B3%A8%E5%86%8C%E7%9A%84%E5%B8%90%E5%8F%B7
+// [认证代注册的账号]: https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/product/Open_Platform_Account_Management.html#%E5%9B%9B%E3%80%81%E8%AE%A4%E8%AF%81%E4%BB%A3%E6%B3%A8%E5%86%8C%E7%9A%84%E5%B8%90%E5%8F%B7
 const ErrCode610015 ErrCode = 610015
 
 // ErrCode610016 企业未认证
@@ -5072,8 +5137,8 @@ const ErrCode610016 ErrCode = 610016
 // 排查方法: [查看帮助]
 //
 // 小程序和企业主体不一致。确认：
-// 1) 小程序的主体名称，或者小程序绑定的开放平台帐号主体名称，与企业的主体名称是否一致。
-// 2) 如果小程序、开放平台帐号、企业三者的主体一致，那需要调用接口传入的openid与unionid是否该小程序获取。
+// 1) 小程序的主体名称，或者小程序绑定的开放平台账号主体名称，与企业的主体名称是否一致。
+// 2) 如果小程序、开放平台账号、企业三者的主体一致，那需要调用接口传入的openid与unionid是否该小程序获取。
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A610017
 const ErrCode610017 ErrCode = 610017
@@ -5253,7 +5318,7 @@ const ErrCode640029 ErrCode = 640029
 // 排查方法: -
 const ErrCode640032 ErrCode = 640032
 
-// ErrCode640035 免费帐号调用微盘api累计上限为1000次/月，每个企业内所有免费账号共用此次数限制
+// ErrCode640035 免费账号调用微盘api累计上限为1000次/月，每个企业内所有免费账号共用此次数限制
 //
 // 排查方法: 升级为付费账号，不受此限制
 const ErrCode640035 ErrCode = 640035
@@ -5530,7 +5595,7 @@ const ErrCode845002 ErrCode = 845002
 
 // ErrCode845003 unionid认证主体和企业认证主体不一致
 //
-// 排查方法: 请确保开放平台帐号已经认证，且认证的主体名称与企业的主体名称一致
+// 排查方法: 请确保开放平台账号已经认证，且认证的主体名称与企业的主体名称一致
 const ErrCode845003 ErrCode = 845003
 
 // ErrCode846000 不是代开发或者第三方应用
@@ -5593,12 +5658,12 @@ const ErrCode60257 ErrCode = 60257
 // 排查方法: -
 const ErrCode301007 ErrCode = 301007
 
-// ErrCode701001 不是license基础帐号
+// ErrCode701001 不是license基础账号
 //
 // 排查方法: -
 const ErrCode701001 ErrCode = 701001
 
-// ErrCode701002 不合法的license帐号
+// ErrCode701002 不合法的license账号
 //
 // 排查方法: -
 const ErrCode701002 ErrCode = 701002
@@ -5618,12 +5683,12 @@ const ErrCode701004 ErrCode = 701004
 // 排查方法: -
 const ErrCode701005 ErrCode = 701005
 
-// ErrCode701006 不合法的license帐号类型
+// ErrCode701006 不合法的license账号类型
 //
 // 排查方法: -
 const ErrCode701006 ErrCode = 701006
 
-// ErrCode701007 不合法的帐号类型
+// ErrCode701007 不合法的账号类型
 //
 // 排查方法: -
 const ErrCode701007 ErrCode = 701007
@@ -5671,17 +5736,17 @@ const ErrCode701014 ErrCode = 701014
 // 排查方法: -
 const ErrCode701015 ErrCode = 701015
 
-// ErrCode701016 帐号未激活或者已经过期
+// ErrCode701016 账号未激活或者已经过期
 //
 // 排查方法: -
 const ErrCode701016 ErrCode = 701016
 
-// ErrCode701017 帐号30天内迁移过
+// ErrCode701017 账号30天内迁移过
 //
 // 排查方法: -
 const ErrCode701017 ErrCode = 701017
 
-// ErrCode701018 迁移帐号重叠，接收帐号已有相同类型的帐号
+// ErrCode701018 迁移账号重叠，接收账号已有相同类型的账号
 //
 // 排查方法: -
 const ErrCode701018 ErrCode = 701018
@@ -5726,7 +5791,7 @@ const ErrCode701025 ErrCode = 701025
 // 排查方法: -
 const ErrCode701026 ErrCode = 701026
 
-// ErrCode701027 测试企业购买帐号个数超限。
+// ErrCode701027 测试企业购买账号个数超限。
 //
 // 排查方法: -
 const ErrCode701027 ErrCode = 701027
@@ -5962,6 +6027,26 @@ const ErrCode701132 ErrCode = 701132
 //
 // 排查方法: -
 const ErrCode701133 ErrCode = 701133
+
+// ErrCode701134 操作过于频繁，请稍后再试
+//
+// 排查方法: -
+const ErrCode701134 ErrCode = 701134
+
+// ErrCode701150 测试企业不支持分配许可
+//
+// 排查方法: -
+const ErrCode701150 ErrCode = 701150
+
+// ErrCode701160 存在未通过支付检查的企业
+//
+// 排查方法: -
+const ErrCode701160 ErrCode = 701160
+
+// ErrCode701161 订单已经指定使用微信网银支付
+//
+// 排查方法: -
+const ErrCode701161 ErrCode = 701161
 
 // ErrCode730000 非法的tmp_openid
 //
@@ -6287,6 +6372,16 @@ const ErrCode710200 ErrCode = 710200
 //
 // 排查方法: -
 const ErrCode710201 ErrCode = 710201
+
+// ErrCode751001 企业未开通邮箱高级功能
+//
+// 排查方法: -
+const ErrCode751001 ErrCode = 751001
+
+// ErrCode751002 企业邮箱高级功能分配余额不足
+//
+// 排查方法: -
+const ErrCode751002 ErrCode = 751002
 
 // ErrCode2400001 请求参数错误
 //

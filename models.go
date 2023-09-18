@@ -154,31 +154,27 @@ func (x reqUserGet) intoURLValues() url.Values {
 	}
 }
 
-// respUserDetail 成员详细信息的公共字段
-type respUserDetail struct {
-	UserID         string   `json:"userid"`
-	Name           string   `json:"name"`
-	DeptIDs        []int64  `json:"department"`
-	DeptOrder      []uint32 `json:"order"`
-	Position       string   `json:"position"`
-	Mobile         string   `json:"mobile"`
-	Gender         string   `json:"gender"`
-	Email          string   `json:"email"`
-	IsLeaderInDept []int    `json:"is_leader_in_dept"`
-	AvatarURL      string   `json:"avatar"`
-	Telephone      string   `json:"telephone"`
-	IsEnabled      int      `json:"enable"`
-	Alias          string   `json:"alias"`
-	Status         int      `json:"status"`
-	QRCodeURL      string   `json:"qr_code"`
-	// TODO: extattr external_profile external_position
-}
-
 // respUserGet 读取成员响应
 type respUserGet struct {
 	respCommon
 
-	respUserDetail
+	UserDetail
+}
+
+// reqUserUpdate 更新成员请求
+type reqUserUpdate struct {
+	UserDetail *UserDetail
+}
+
+var _ bodyer = reqUserUpdate{}
+
+func (x reqUserUpdate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x.UserDetail)
+}
+
+// respUserUpdate 更新成员响应
+type respUserUpdate struct {
+	respCommon
 }
 
 // reqUserList 部门成员请求
@@ -205,7 +201,43 @@ func (x reqUserList) intoURLValues() url.Values {
 type respUserList struct {
 	respCommon
 
-	Users []*respUserDetail `json:"userlist"`
+	Users []*UserDetail `json:"userlist"`
+}
+
+// reqConvertUserIDToOpenID userid转openid 请求
+type reqConvertUserIDToOpenID struct {
+	UserID string `json:"userid"`
+}
+
+var _ bodyer = reqConvertUserIDToOpenID{}
+
+// respConvertUserIDToOpenID userid转openid 响应
+type respConvertUserIDToOpenID struct {
+	respCommon
+
+	OpenID string `json:"openid"`
+}
+
+func (x reqConvertUserIDToOpenID) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// reqConvertOpenIDToUserID openid转userid 请求
+type reqConvertOpenIDToUserID struct {
+	OpenID string `json:"openid"`
+}
+
+var _ bodyer = reqConvertOpenIDToUserID{}
+
+// respConvertUserIDToOpenID openid转userid 响应
+type respConvertOpenIDToUserID struct {
+	respCommon
+
+	UserID string `json:"userid"`
+}
+
+func (x reqConvertOpenIDToUserID) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
 }
 
 // reqUserIDByMobile 手机号获取 userid 请求
@@ -365,6 +397,24 @@ type respAppchatCreate struct {
 	respCommon
 
 	ChatID string `json:"chatid"`
+}
+
+// reqAppchatUpdate 修改群聊会话请求
+type reqAppchatUpdate struct {
+	ChatInfo
+	AddMemberUserIDs []string `json:"add_user_list"`
+	DelMemberUserIDs []string `json:"del_user_list"`
+}
+
+var _ bodyer = reqAppchatUpdate{}
+
+func (x reqAppchatUpdate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respAppchatUpdate 修改群聊会话响应
+type respAppchatUpdate struct {
+	respCommon
 }
 
 // reqMediaUpload 临时素材上传请求
@@ -872,37 +922,6 @@ type respTransferGroupChatExternalContact struct {
 	FailedChatList []ExternalContactGroupChatTransferFailed `json:"failed_chat_list"`
 }
 
-type reqAppchatList struct {
-	ReqChatList ReqChatList
-}
-
-func (x reqAppchatList) intoBody() ([]byte, error) {
-	return marshalIntoJSONBody(x.ReqChatList)
-}
-
-var _ bodyer = reqAppchatList{}
-
-type respAppchatList struct {
-	respCommon
-	*RespAppchatList
-}
-
-type reqAppchatInfo struct {
-	ChatID   string `json:"chat_id"`
-	NeedName int64  `json:"need_name"`
-}
-
-func (x reqAppchatInfo) intoBody() ([]byte, error) {
-	return marshalIntoJSONBody(x)
-}
-
-var _ bodyer = reqAppchatInfo{}
-
-type respAppchatInfo struct {
-	respCommon
-	GroupChat *RespAppChatInfo `json:"group_chat"`
-}
-
 type reqOAGetTemplateDetail struct {
 	TemplateID string `json:"template_id"`
 }
@@ -1148,6 +1167,103 @@ func (x reqDelContactWayExternalContact) intoBody() ([]byte, error) {
 }
 
 type respDelContactWayExternalContact struct {
+	respCommon
+}
+
+type reqGroupChatList struct {
+	ReqChatList ReqChatList
+}
+
+func (x reqGroupChatList) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x.ReqChatList)
+}
+
+var _ bodyer = reqGroupChatList{}
+
+type respGroupChatList struct {
+	respCommon
+	*RespGroupChatList
+}
+
+type reqGroupChatInfo struct {
+	ChatID   string `json:"chat_id"`
+	NeedName int64  `json:"need_name"`
+}
+
+func (x reqGroupChatInfo) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+var _ bodyer = reqGroupChatInfo{}
+
+type respGroupChatInfo struct {
+	respCommon
+	GroupChat *RespGroupChatInfo `json:"group_chat"`
+}
+
+type reqAddGroupChatJoinWayExternalContact struct {
+	ExternalGroupChatJoinWay
+}
+
+var _ bodyer = reqAddGroupChatJoinWayExternalContact{}
+
+func (x reqAddGroupChatJoinWayExternalContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respAddGroupChatJoinWayExternalContact struct {
+	respCommon
+
+	ConfigID string `json:"config_id"`
+}
+
+type reqGetGroupChatJoinWayExternalContact struct {
+	ConfigID string `json:"config_id"`
+}
+
+var _ bodyer = reqGetGroupChatJoinWayExternalContact{}
+
+func (x reqGetGroupChatJoinWayExternalContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respGetGroupChatJoinWayExternalContact struct {
+	respCommon
+	JoinWay ExternalContactGroupChatJoinWay `json:"join_way"`
+}
+
+type ExternalContactGroupChatJoinWay struct {
+	ConfigID string `json:"config_id"`
+	QRCode   string `json:"qr_code"`
+	ExternalGroupChatJoinWay
+}
+
+type reqUpdateGroupChatJoinWayExternalContact struct {
+	ConfigID string `json:"config_id"`
+	ExternalGroupChatJoinWay
+}
+
+var _ bodyer = reqUpdateGroupChatJoinWayExternalContact{}
+
+func (x reqUpdateGroupChatJoinWayExternalContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respUpdateGroupChatJoinWayExternalContact struct {
+	respCommon
+}
+
+type reqDelGroupChatJoinWayExternalContact struct {
+	ConfigID string `json:"config_id"`
+}
+
+var _ bodyer = reqDelGroupChatJoinWayExternalContact{}
+
+func (x reqDelGroupChatJoinWayExternalContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respDelGroupChatJoinWayExternalContact struct {
 	respCommon
 }
 

@@ -72,6 +72,20 @@ func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	return resp, nil
 }
 
+// execUserUpdate 更新成员
+func (c *WorkwxApp) execUserUpdate(req reqUserUpdate) (respUserUpdate, error) {
+	var resp respUserUpdate
+	err := c.executeQyapiJSONPost("/cgi-bin/user/update", req, &resp, true)
+	if err != nil {
+		return respUserUpdate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserUpdate{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserList 获取部门成员详情
 func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
 	var resp respUserList
@@ -81,6 +95,34 @@ func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respUserList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execConvertUserIDToOpenID userid转openid
+func (c *WorkwxApp) execConvertUserIDToOpenID(req reqConvertUserIDToOpenID) (respConvertUserIDToOpenID, error) {
+	var resp respConvertUserIDToOpenID
+	err := c.executeQyapiJSONPost("/cgi-bin/user/convert_to_openid", req, &resp, true)
+	if err != nil {
+		return respConvertUserIDToOpenID{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respConvertUserIDToOpenID{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execConvertOpenIDToUserID openid转userid
+func (c *WorkwxApp) execConvertOpenIDToUserID(req reqConvertOpenIDToUserID) (respConvertOpenIDToUserID, error) {
+	var resp respConvertOpenIDToUserID
+	err := c.executeQyapiJSONPost("/cgi-bin/user/convert_to_userid", req, &resp, true)
+	if err != nil {
+		return respConvertOpenIDToUserID{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respConvertOpenIDToUserID{}, bizErr
 	}
 
 	return resp, nil
@@ -352,34 +394,6 @@ func (c *WorkwxApp) execTransferGroupChatExternalContact(req reqTransferGroupCha
 	return resp, nil
 }
 
-// execAppchatListGet 获取客户群列表
-func (c *WorkwxApp) execAppchatListGet(req reqAppchatList) (respAppchatList, error) {
-	var resp respAppchatList
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/list", req, &resp, true)
-	if err != nil {
-		return respAppchatList{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAppchatList{}, bizErr
-	}
-
-	return resp, nil
-}
-
-// execAppchatInfoGet 获取客户群详细
-func (c *WorkwxApp) execAppchatInfoGet(req reqAppchatInfo) (respAppchatInfo, error) {
-	var resp respAppchatInfo
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/get", req, &resp, true)
-	if err != nil {
-		return respAppchatInfo{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAppchatInfo{}, bizErr
-	}
-
-	return resp, nil
-}
-
 // execAppchatCreate 创建群聊会话
 func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, error) {
 	var resp respAppchatCreate
@@ -389,6 +403,20 @@ func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, 
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respAppchatCreate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAppchatUpdate 修改群聊会话
+func (c *WorkwxApp) execAppchatUpdate(req reqAppchatUpdate) (respAppchatUpdate, error) {
+	var resp respAppchatUpdate
+	err := c.executeQyapiJSONPost("/cgi-bin/appchat/update", req, &resp, true)
+	if err != nil {
+		return respAppchatUpdate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAppchatUpdate{}, bizErr
 	}
 
 	return resp, nil
@@ -669,6 +697,90 @@ func (c *WorkwxApp) execCloseTempChatExternalContact(req reqCloseTempChatExterna
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respCloseTempChatExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddGroupChatJoinWayExternalContact 配置客户群「加入群聊」方式
+func (c *WorkwxApp) execAddGroupChatJoinWayExternalContact(req reqAddGroupChatJoinWayExternalContact) (respAddGroupChatJoinWayExternalContact, error) {
+	var resp respAddGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/add_join_way", req, &resp, true)
+	if err != nil {
+		return respAddGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetGroupChatJoinWayExternalContact 获取企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) execGetGroupChatJoinWayExternalContact(req reqGetGroupChatJoinWayExternalContact) (respGetGroupChatJoinWayExternalContact, error) {
+	var resp respGetGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/get_join_way", req, &resp, true)
+	if err != nil {
+		return respGetGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execUpdateGroupChatJoinWayExternalContact 更新企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) execUpdateGroupChatJoinWayExternalContact(req reqUpdateGroupChatJoinWayExternalContact) (respUpdateGroupChatJoinWayExternalContact, error) {
+	var resp respUpdateGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/update_join_way", req, &resp, true)
+	if err != nil {
+		return respUpdateGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUpdateGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execDelGroupChatJoinWayExternalContact 删除企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) execDelGroupChatJoinWayExternalContact(req reqDelGroupChatJoinWayExternalContact) (respDelGroupChatJoinWayExternalContact, error) {
+	var resp respDelGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/del_join_way", req, &resp, true)
+	if err != nil {
+		return respDelGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDelGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGroupChatListGet 获取客户群列表
+func (c *WorkwxApp) execGroupChatListGet(req reqGroupChatList) (respGroupChatList, error) {
+	var resp respGroupChatList
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/list", req, &resp, true)
+	if err != nil {
+		return respGroupChatList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGroupChatList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGroupChatInfoGet 获取客户群详细
+func (c *WorkwxApp) execGroupChatInfoGet(req reqGroupChatInfo) (respGroupChatInfo, error) {
+	var resp respGroupChatInfo
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/get", req, &resp, true)
+	if err != nil {
+		return respGroupChatInfo{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGroupChatInfo{}, bizErr
 	}
 
 	return resp, nil
