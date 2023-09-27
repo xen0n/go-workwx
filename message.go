@@ -122,20 +122,14 @@ func (c *WorkwxApp) SendTextCardMessage(
 // 否则为单纯的【发送应用消息】接口调用。
 func (c *WorkwxApp) SendNewsMessage(
 	recipient *Recipient,
-	title string,
-	description string,
-	url string,
-	picURL string,
+	articles []Article,
 	isSafe bool,
 ) error {
 	return c.sendMessage(
 		recipient,
 		"news",
 		map[string]interface{}{
-			"title":       title,
-			"description": description, // TODO: 零值
-			"url":         url,
-			"picurl":      picURL, // TODO: 零值
+			"articles": articles,
 		}, isSafe,
 	)
 }
@@ -146,29 +140,14 @@ func (c *WorkwxApp) SendNewsMessage(
 // 否则为单纯的【发送应用消息】接口调用。
 func (c *WorkwxApp) SendMPNewsMessage(
 	recipient *Recipient,
-	title string,
-	thumbMediaID string,
-	author string,
-	sourceContentURL string,
-	content string,
-	digest string,
+	mparticles []MPArticle,
 	isSafe bool,
 ) error {
 	return c.sendMessage(
 		recipient,
 		"mpnews",
 		map[string]interface{}{
-			// TODO: 支持发送多条图文
-			"articles": []interface{}{
-				map[string]interface{}{
-					"title":              title,
-					"thumb_media_id":     thumbMediaID,
-					"author":             author,           // TODO: 零值
-					"content_source_url": sourceContentURL, // TODO: 零值
-					"content":            content,
-					"digest":             digest,
-				},
-			},
+			"articles": mparticles,
 		}, isSafe,
 	)
 }
@@ -206,6 +185,21 @@ func (c *WorkwxApp) SendTaskCardMessage(
 			"url":         url,
 			"task_id":     taskid,
 			"btn":         btn,
+		}, isSafe,
+	)
+}
+
+// SendTemplateCardMessage 发送卡片模板消息
+func (c *WorkwxApp) SendTemplateCardMessage(
+	recipient *Recipient,
+	template_card TemplateCard,
+	isSafe bool,
+) error {
+	return c.sendMessage(
+		recipient,
+		"template_card",
+		map[string]interface{}{
+			"template_card": template_card,
 		}, isSafe,
 	)
 }
