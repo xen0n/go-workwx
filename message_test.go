@@ -33,7 +33,10 @@ func TestSendTextMessage(t *testing.T) {
 		TagIDs:   []string{},
 		ChatID:   "",
 	}
-	_ = wxclient.SendTextMessage(&recipient, "这是一条普通文本消息", false)
+	err := wxclient.SendTextMessage(&recipient, "这是一条普通文本消息", false)
+	if err != nil {
+		fmt.Printf("get err: %v\n", err)
+	}
 }
 
 func TestSendMarkdownMessage(t *testing.T) {
@@ -122,15 +125,15 @@ func TestSendNewsMessage(t *testing.T) {
 	msgObj := []Article{
 		{Title: "中秋节礼品领取",
 			Description: "今年中秋节公司有豪礼相送",
-			Url:         "https://wiki.eryajf.net",
-			PicUrl:      "http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png",
-			AppId:       "",
+			URL:         "https://wiki.eryajf.net",
+			PicURL:      "http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png",
+			AppID:       "",
 			PagePath:    ""},
 		{Title: "中秋节礼品领取2",
 			Description: "今年中秋节公司有豪礼相送2",
-			Url:         "https://wiki.eryajf.net",
-			PicUrl:      "http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png",
-			AppId:       "",
+			URL:         "https://wiki.eryajf.net",
+			PicURL:      "http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png",
+			AppID:       "",
 			PagePath:    ""},
 	}
 
@@ -166,7 +169,7 @@ func TestSendMPNewsMessage(t *testing.T) {
 		{Title: "中秋节礼品领取",
 			ThumbMediaID:     rst.MediaID,
 			Author:           "eryajf",
-			ContentSourceUrl: "https://wiki.eryajf.net",
+			ContentSourceURL: "https://wiki.eryajf.net",
 			Content:          "这是正文里边的内容。",
 			Digest:           "这里是图文消息的描述"},
 	}
@@ -195,10 +198,10 @@ func TestSendTaskCardMessage(t *testing.T) {
 			Color:       "red",
 			IsBold:      false,
 		}}
-	_ = wxclient.SendTaskCardMessage(&recipient, "请审核该条信息", "这是说明信息", "https://wiki.eryajf.net", "aaab", btn, false)
+	_ = wxclient.SendTaskCardMessage(&recipient, "请审核该条信息", "这是说明信息", "https://wiki.eryajf.net", "aaadb", btn, false)
 }
 
-func TestSendTemplateCardMessage(t *testing.T) {
+func TestSendTemplateCardTextNoticeMessage(t *testing.T) {
 	recipient := Recipient{
 		UserIDs:  []string{userID},
 		PartyIDs: []string{},
@@ -208,18 +211,19 @@ func TestSendTemplateCardMessage(t *testing.T) {
 	msgObj := TemplateCard{
 		CardType: CardTypeTextNotice,
 		Source: Source{
-			IconURL:   "https://t.eryajf.net/imgs/2023/02/712e2287455b9a0c.png",
-			Desc:      "二丫讲梵的公众号",
+			IconURL:   "https://wwcdn.weixin.qq.com/node/wework/images/202201062104.366e5ee28e.png",
+			Desc:      "企业微信logo",
 			DescColor: 0,
 		},
-		ActionMenu: &ActionMenu{
+		ActionMenu: ActionMenu{
 			Desc: "卡片副交互辅助文本说明",
 			ActionList: []ActionList{
 				{Text: "接受推送", Key: "A"},
 				{Text: "不再推送", Key: "B"},
 			},
 		},
-		TaskID: "aaadaa",
+		// 确保唯一
+		TaskID: "aaacddada",
 		MainTitle: MainTitle{
 			Title: "欢迎使用企业微信",
 			Desc:  "你的朋友也都在用。",
@@ -230,7 +234,7 @@ func TestSendTemplateCardMessage(t *testing.T) {
 			Title:     "百度",
 			QuoteText: "去往百度",
 		},
-		EmphasisContent: &EmphasisContent{
+		EmphasisContent: EmphasisContent{
 			Title: "100",
 			Desc:  "核心数据",
 		},
@@ -240,6 +244,56 @@ func TestSendTemplateCardMessage(t *testing.T) {
 			URL:      "qq.com",
 			Appid:    "aaaaaaa",
 			Pagepath: "/index.html",
+		},
+	}
+	err := wxclient.SendTemplateCardMessage(&recipient, msgObj, false)
+	if err != nil {
+		fmt.Printf("get err: %v\n", err)
+	}
+}
+
+func TestSendTemplateCardVoteInTeractionMessage(t *testing.T) {
+	recipient := Recipient{
+		UserIDs:  []string{userID},
+		PartyIDs: []string{},
+		TagIDs:   []string{},
+		ChatID:   "",
+	}
+	msgObj := TemplateCard{
+		CardType: CardTypeVoteInteraction,
+		Source: Source{
+			IconURL: "https://wwcdn.weixin.qq.com/node/wework/images/202201062104.366e5ee28e.png",
+			Desc:    "企业微信logo",
+		},
+		// 确保唯一
+		TaskID: "1",
+		MainTitle: MainTitle{
+			Title: "欢迎使用企业微信",
+			Desc:  "你的朋友也都在用。",
+		},
+		CheckBox: CheckBox{
+			QuestionKey: "qa1",
+			OptionList: []struct {
+				ID        string `json:"id"`
+				Text      string `json:"text"`
+				IsChecked bool   `json:"is_checked"`
+			}{
+				{
+					ID:        "op1",
+					Text:      "选项1",
+					IsChecked: false,
+				},
+				{
+					ID:        "op2",
+					Text:      "选项2",
+					IsChecked: false,
+				},
+			},
+			Mode: 0,
+		},
+		SubmitButton: SubmitButton{
+			Text: "提交",
+			Key:  "key",
 		},
 	}
 	err := wxclient.SendTemplateCardMessage(&recipient, msgObj, false)

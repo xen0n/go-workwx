@@ -192,14 +192,14 @@ func (c *WorkwxApp) SendTaskCardMessage(
 // SendTemplateCardMessage 发送卡片模板消息
 func (c *WorkwxApp) SendTemplateCardMessage(
 	recipient *Recipient,
-	template_card TemplateCard,
+	templateCard TemplateCard,
 	isSafe bool,
 ) error {
 	return c.sendMessage(
 		recipient,
 		"template_card",
 		map[string]interface{}{
-			"template_card": template_card,
+			"template_card": templateCard,
 		}, isSafe,
 	)
 }
