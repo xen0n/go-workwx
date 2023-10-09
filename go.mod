@@ -8,7 +8,7 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/smartystreets/goconvey v1.7.2
 	github.com/urfave/cli/v2 v2.24.4
-	golang.org/x/net v0.15.0
+	golang.org/x/net v0.16.0
 )
 
 require (
