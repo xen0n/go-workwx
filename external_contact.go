@@ -26,12 +26,20 @@ func (c *WorkwxApp) GetExternalContact(externalUserID string) (*ExternalContactI
 	return &resp.ExternalContactInfo, nil
 }
 
-// BatchListExternalContact 批量获取客户详情
+// BatchListExternalContact
+//
+// Deprecated: 因为批量获取客户详情 https://developer.work.weixin.qq.com/document/path/92994 已经 deprecated UserID参数
+// 请使用 BatchListExternalContactsOfUserIDs 代替 为了保证兼容此函数保留
 func (c *WorkwxApp) BatchListExternalContact(userID string, cursor string, limit int) (*BatchListExternalContactsResp, error) {
+	return c.BatchListExternalContactsOfUserIDs([]string{userID}, cursor, limit)
+}
+
+// BatchListExternalContactsOfUserIDs 批量获取客户详情 支持多个不同UserID
+func (c *WorkwxApp) BatchListExternalContactsOfUserIDs(userID []string, cursor string, limit int) (*BatchListExternalContactsResp, error) {
 	resp, err := c.execExternalContactBatchList(reqExternalContactBatchList{
-		UserID: userID,
-		Cursor: cursor,
-		Limit:  limit,
+		UseridList: userID,
+		Cursor:     cursor,
+		Limit:      limit,
 	})
 	if err != nil {
 		return nil, err
