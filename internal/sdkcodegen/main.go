@@ -13,7 +13,6 @@ import (
 
 func main() {
 	// TODO: error handling
-	filename := "/Users/mryuanchao/coding/golang/go-workwx/docs/apis.md"
 	var destFilename string
 	if len(os.Args) == 3 {
 		destFilename = os.Args[2]
@@ -23,7 +22,6 @@ func main() {
 	}
 
 	emitToStdout := destFilename == "-"
-	destFilename = "/Users/mryuanchao/coding/golang/go-workwx/apis.md.go"
 	file, err := os.Open(filename)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "open input file failed: %+v\n", err)
