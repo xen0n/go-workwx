@@ -13,6 +13,7 @@ import (
 
 func main() {
 	// TODO: error handling
+	filename := os.Args[1]
 	var destFilename string
 	if len(os.Args) == 3 {
 		destFilename = os.Args[2]
@@ -22,6 +23,7 @@ func main() {
 	}
 
 	emitToStdout := destFilename == "-"
+
 	file, err := os.Open(filename)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "open input file failed: %+v\n", err)
