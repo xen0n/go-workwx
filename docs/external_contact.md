@@ -414,3 +414,51 @@ Name|JSON|Type|Doc
 `Order`|`order,omitempty`|`uint32`| 标签组排序的次序值，order值大的排序靠前。有效的值范围是[0, 2^32)
 `Tag`|`tag,omitempty`|`[]ExternalContactAddCorpTag`| 标签组内的标签列表
 `AgentID`|`agentid,omitempty`|`int64`| 授权方安装的应用agentid。仅旧的第三方多应用套件需要填此参数
+
+
+### `AddMomentTaskSenderList` 客户朋友圈发表任务的执行者列表
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`UserList`|`user_list`|`[]string`| 发表任务的执行者用户列表，最多支持10万个
+`DepartmentList`|`department_list`|`[]int64`| 发表任务的执行者部门列表
+
+### `AddMomentTaskContactList` 可见到该朋友圈的客户列表
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`TagList`|`tag_list`|`[]string`| 可见到该朋友圈的客户标签列表。注：这里仅支持企业客户标签，不支持规则组标签
+
+### `AddMomentTaskVisibleRange` 指定的发表范围；若未指定，则表示执行者为应用可见范围内所有成员
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`SenderList`|`sender_list`|`AddMomentTaskSenderList`| 发表任务的执行者列表
+`ExternalContactList`|`external_contact_list`|`AddMomentTaskContactList`| 可见到该朋友圈的客户列表
+
+### `MomentTaskAttachments` 附件
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`MsgType`|`msgtype`|`AttachmentMsgType`| 附件类型，可选image、link或者video
+`Image`|`image`|`Image`| 图片消息配置
+`Link`|`link`|`Link`| 图文消息配置
+`Video`|`video`|`Video`| 视频消息配置
+
+### `AddMomentTask` 企业发表内容到客户的朋友圈
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Text`|`text`|`Text`| 文本消息
+`Attachments`|`attachments`|`[]MomentTaskAttachments`| 附件，不能与text.content同时为空，最多支持9个图片类型，或者1个视频，或者1个链接。类型只能三选一，若传了不同类型，报错'invalid attachments msgtype'
+`VisibleRange`|`visible_range`|`AddMomentTaskVisibleRange`| 指定的发表范围；若未指定，则表示执行者为应用可见范围内所有成员
+
+### `GetMomentTaskResult` 获取任务创建结果
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Errcode`|`errcode`|`string`|
+`Errmsg`|`errmsg`|`string`
+`MomentId`|`moment_id|`string`| 朋友圈id
+`InvalidSendList`|`invalid_sender_list`|`AddMomentTaskSenderList`| 不合法的执行者列表，包括不存在的id以及不在应用可见范围内的部门或者成员
+`InvalidExternalContaceList`|`invalid_external_contact_list`|`AddMomentTaskContactList`|

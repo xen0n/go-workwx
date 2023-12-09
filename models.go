@@ -1327,3 +1327,51 @@ var _ bodyer = reqExternalContactAddCorpTagGroup{}
 func (x reqExternalContactAddCorpTagGroup) intoBody() ([]byte, error) {
 	return marshalIntoJSONBody(x.ExternalContactAddCorpTagGroup)
 }
+
+type reqAddMomentTask struct {
+	AddMomentTask
+}
+
+var _ bodyer = reqAddMomentTask{}
+
+func (x reqAddMomentTask) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x.AddMomentTask)
+}
+
+type respAddMomentTask struct {
+	respCommon
+	JobId string `json:"jobid"`
+}
+
+type reqGetMomentTaskResult struct {
+	JobId string
+}
+
+var _ urlValuer = reqGetMomentTaskResult{}
+
+func (x reqGetMomentTaskResult) intoURLValues() url.Values {
+	return url.Values{
+		"jobid": {x.JobId},
+	}
+}
+
+type respGetMomentTaskResult struct {
+	respCommon
+	Status int                 `json:"status"`
+	Type   string              `json:"type"`
+	Result GetMomentTaskResult `json:"result"`
+}
+
+type reqCancelMomentTask struct {
+	MomentId string `json:"moment_id"`
+}
+
+var _ bodyer = reqCancelMomentTask{}
+
+func (x reqCancelMomentTask) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respCancelMomentTask struct {
+	respCommon
+}

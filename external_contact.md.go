@@ -511,3 +511,58 @@ type ExternalContactAddCorpTagGroup struct {
 	// AgentID 授权方安装的应用agentid。仅旧的第三方多应用套件需要填此参数
 	AgentID int64 `json:"agentid,omitempty"`
 }
+
+// AddMomentTaskSenderList 客户朋友圈发表任务的执行者列表
+type AddMomentTaskSenderList struct {
+	// UserList 发表任务的执行者用户列表，最多支持10万个
+	UserList []string `json:"user_list"`
+	// DepartmentList 发表任务的执行者部门列表
+	DepartmentList []int64 `json:"department_list"`
+}
+
+// AddMomentTaskContactList 可见到该朋友圈的客户列表
+type AddMomentTaskContactList struct {
+	// TagList 可见到该朋友圈的客户标签列表。注：这里仅支持企业客户标签，不支持规则组标签
+	TagList []string `json:"tag_list"`
+}
+
+// AddMomentTaskVisibleRange 指定的发表范围；若未指定，则表示执行者为应用可见范围内所有成员
+type AddMomentTaskVisibleRange struct {
+	// SenderList 发表任务的执行者列表
+	SenderList AddMomentTaskSenderList `json:"sender_list"`
+	// ExternalContactList 可见到该朋友圈的客户列表
+	ExternalContactList AddMomentTaskContactList `json:"external_contact_list"`
+}
+
+// MomentTaskAttachments 附件
+type MomentTaskAttachments struct {
+	// MsgType 附件类型，可选image、link或者video
+	MsgType AttachmentMsgType `json:"msgtype"`
+	// Image 图片消息配置
+	Image Image `json:"image"`
+	// Link 图文消息配置
+	Link Link `json:"link"`
+	// Video 视频消息配置
+	Video Video `json:"video"`
+}
+
+// AddMomentTask 企业发表内容到客户的朋友圈
+type AddMomentTask struct {
+	// Text 文本消息
+	Text Text `json:"text"`
+	// Attachments 附件，不能与text.content同时为空，最多支持9个图片类型，或者1个视频，或者1个链接。类型只能三选一，若传了不同类型，报错'invalid attachments msgtype'
+	Attachments []MomentTaskAttachments `json:"attachments"`
+	// VisibleRange 指定的发表范围；若未指定，则表示执行者为应用可见范围内所有成员
+	VisibleRange AddMomentTaskVisibleRange `json:"visible_range"`
+}
+
+// GetMomentTaskResult 获取任务创建结果
+type GetMomentTaskResult struct {
+	Errcode string `json:"errcode"`
+	Errmsg  string `json:"errmsg"`
+	// MomentId 朋友圈id
+	MomentId string
+	// InvalidSendList 不合法的执行者列表，包括不存在的id以及不在应用可见范围内的部门或者成员
+	InvalidSendList            AddMomentTaskSenderList  `json:"invalid_sender_list"`
+	InvalidExternalContaceList AddMomentTaskContactList `json:"invalid_external_contact_list"`
+}

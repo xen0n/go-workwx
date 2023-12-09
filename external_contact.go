@@ -435,3 +435,24 @@ func (c *WorkwxApp) SendWelcomeMsg(welcomeCode string, text Text, attachments []
 	})
 	return err
 }
+
+// AddMomentTask 创建发表任务
+// https://developer.work.weixin.qq.com/document/path/95094
+func (c *WorkwxApp) AddMomentTask(task AddMomentTask) (string, error) {
+	resp, err := c.execAddMomentTask(reqAddMomentTask{task})
+	return resp.JobId, err
+}
+
+// GetMomentTaskResult 获取任务创建结果
+// https://developer.work.weixin.qq.com/document/path/95094
+func (c *WorkwxApp) GetMomentTaskResult(jobId string) (GetMomentTaskResult, error) {
+	resp, err := c.execGetMomentTaskResult(reqGetMomentTaskResult{JobId: jobId})
+	return resp.Result, err
+}
+
+// CancelMomentTask 停止发表企业朋友圈
+// https://developer.work.weixin.qq.com/document/path/97612
+func (c *WorkwxApp) CancelMomentTask(momentId string) error {
+	_, err := c.execCancelMomentTask(reqCancelMomentTask{MomentId: momentId})
+	return err
+}

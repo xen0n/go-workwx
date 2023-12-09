@@ -869,3 +869,45 @@ func (c *WorkwxApp) execSendWelcomeMsg(req reqSendWelcomeMsgExternalContact) (re
 
 	return resp, nil
 }
+
+// execAddMomentTask 创建发表任务
+func (c *WorkwxApp) execAddMomentTask(req reqAddMomentTask) (respAddMomentTask, error) {
+	var resp respAddMomentTask
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/add_moment_task", req, &resp, true)
+	if err != nil {
+		return respAddMomentTask{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddMomentTask{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetMomentTaskResult 获取任务创建结果
+func (c *WorkwxApp) execGetMomentTaskResult(req reqGetMomentTaskResult) (respGetMomentTaskResult, error) {
+	var resp respGetMomentTaskResult
+	err := c.executeQyapiGet("/cgi-bin/externalcontact/get_moment_task_result", req, &resp, true)
+	if err != nil {
+		return respGetMomentTaskResult{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetMomentTaskResult{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execCancelMomentTask 停止发表企业朋友圈
+func (c *WorkwxApp) execCancelMomentTask(req reqCancelMomentTask) (respCancelMomentTask, error) {
+	var resp respCancelMomentTask
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/cancel_moment_task", req, &resp, true)
+	if err != nil {
+		return respCancelMomentTask{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respCancelMomentTask{}, bizErr
+	}
+
+	return resp, nil
+}
