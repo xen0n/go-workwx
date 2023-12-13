@@ -23,7 +23,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v5
       with:
         go-version: ${{ matrix.go }}
 
@@ -33,7 +33,7 @@ jobs:
     - name: Lint
       uses: golangci/golangci-lint-action@v3.7.0
       with:
-        version: v1.53
+        version: v1.55
 
     - name: Test
       run: go test -v ./...
