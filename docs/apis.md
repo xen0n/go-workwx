@@ -26,6 +26,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execConvertOpenIDToUserID`|`reqConvertOpenIDToUserID`|`respConvertOpenIDToUserID`|+|`POST /cgi-bin/user/convert_to_userid`|[openid转userid](https://work.weixin.qq.com/api/doc#90000/90135/90202)
 `execUserAuthSucc`|TODO|TODO|+|`GET /cgi-bin/user/authsucc`|[二次验证](https://work.weixin.qq.com/api/doc#90000/90135/90203)
 `execUserBatchInvite`|TODO|TODO|+|`POST /cgi-bin/batch/invite`|[邀请成员](https://work.weixin.qq.com/api/doc#90000/90135/90975)
+`execUserJoinQrcode`|`reqUserJoinQrcode`|`respUserJoinQrcode`|+|`GET /cgi-bin/corp/get_join_qrcode`|[获取加入企业二维码](https://developer.work.weixin.qq.com/document/path/91714)
 `execUserIDByMobile`|`reqUserIDByMobile`|`respUserIDByMobile`|+|`POST /cgi-bin/user/getuserid`|[手机号获取userid](https://work.weixin.qq.com/api/doc/90001/90143/91693)
 `execUserIDByEmail`|`reqUserIDByEmail`|`respUserIDByEmail`|+|`POST /cgi-bin/user/get_userid_by_email`|[邮箱获取userid](https://developer.work.weixin.qq.com/document/path/95895)
 

@@ -240,6 +240,42 @@ func (x reqConvertOpenIDToUserID) intoBody() ([]byte, error) {
 	return marshalIntoJSONBody(x)
 }
 
+// SizeType qrcode尺寸类型
+//
+// 1: 171 x 171; 2: 399 x 399; 3: 741 x 741; 4: 2052 x 2052
+type SizeType int
+
+const (
+	// SizeTypeMini 171 x 171
+	SizeTypeMini SizeType = iota + 1
+	// SizeTypeSmall 399 x 399
+	SizeTypeSmall
+	// SizeTypeMedium 741 x 741
+	SizeTypeMedium
+	// SizeTypeLarge 2052 x 2052
+	SizeTypeLarge
+)
+
+// reqUserJoinQrcode 获取加入企业二维码 请求
+type reqUserJoinQrcode struct {
+	SizeType SizeType `json:"size_type"`
+}
+
+var _ urlValuer = reqUserJoinQrcode{}
+
+func (x reqUserJoinQrcode) intoURLValues() url.Values {
+	return url.Values{
+		"size_type": {strconv.Itoa(int(x.SizeType))},
+	}
+}
+
+// respUserJoinQrcode 获取加入企业二维码 响应
+type respUserJoinQrcode struct {
+	respCommon
+
+	JoinQrcode string `json:"join_qrcode"`
+}
+
 // reqUserIDByMobile 手机号获取 userid 请求
 type reqUserIDByMobile struct {
 	Mobile string `json:"mobile"`

@@ -128,6 +128,20 @@ func (c *WorkwxApp) execConvertOpenIDToUserID(req reqConvertOpenIDToUserID) (res
 	return resp, nil
 }
 
+// execUserJoinQrcode 获取加入企业二维码
+func (c *WorkwxApp) execUserJoinQrcode(req reqUserJoinQrcode) (respUserJoinQrcode, error) {
+	var resp respUserJoinQrcode
+	err := c.executeQyapiGet("/cgi-bin/corp/get_join_qrcode", req, &resp, true)
+	if err != nil {
+		return respUserJoinQrcode{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserJoinQrcode{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserIDByMobile 手机号获取userid
 func (c *WorkwxApp) execUserIDByMobile(req reqUserIDByMobile) (respUserIDByMobile, error) {
 	var resp respUserIDByMobile

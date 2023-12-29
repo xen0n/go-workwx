@@ -91,6 +91,17 @@ func (c *WorkwxApp) ConvertOpenIDToUserID(openID string) (string, error) {
 	return resp.UserID, nil
 }
 
+// GetUserJoinQrcode 获取加入企业二维码
+func (c *WorkwxApp) GetUserJoinQrcode(sizeType SizeType) (string, error) {
+	resp, err := c.execUserJoinQrcode(reqUserJoinQrcode{
+		SizeType: sizeType,
+	})
+	if err != nil {
+		return "", err
+	}
+	return resp.JoinQrcode, nil
+}
+
 // GetUserIDByMobile 通过手机号获取 userid
 func (c *WorkwxApp) GetUserIDByMobile(mobile string) (string, error) {
 	resp, err := c.execUserIDByMobile(reqUserIDByMobile{
