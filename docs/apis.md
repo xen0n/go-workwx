@@ -210,6 +210,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execGroupChatListGet`|`reqGroupChatList`|`respGroupChatList`|+|`POST /cgi-bin/externalcontact/groupchat/list`|[获取客户群列表](https://developer.work.weixin.qq.com/document/path/92120)
 `execGroupChatInfoGet`|`reqGroupChatInfo`|`respGroupChatInfo`|+|`POST /cgi-bin/externalcontact/groupchat/get`|[获取客户群详细](https://developer.work.weixin.qq.com/document/path/92122)
+`execConvertOpenGIDToChatID`|`reqConvertOpenGIDToChatID`|`respConvertOpenGIDToChatID`|+|`POST /cgi-bin/externalcontact/opengid_to_chatid`|[客户群opengid转换](https://developer.work.weixin.qq.com/document/path/94822)
 
 # 在职继承
 

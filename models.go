@@ -1237,6 +1237,24 @@ type respGroupChatInfo struct {
 	GroupChat *RespGroupChatInfo `json:"group_chat"`
 }
 
+// reqConvertOpenGIDToChatID 客户群opengid转换 请求
+type reqConvertOpenGIDToChatID struct {
+	OpenGID string `json:"opengid"`
+}
+
+var _ bodyer = reqConvertOpenGIDToChatID{}
+
+func (x reqConvertOpenGIDToChatID) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respConvertOpenGIDToChatID 客户群opengid转换 响应
+type respConvertOpenGIDToChatID struct {
+	respCommon
+
+	ChatID string `json:"chat_id"`
+}
+
 type reqAddGroupChatJoinWayExternalContact struct {
 	ExternalGroupChatJoinWay
 }

@@ -800,6 +800,20 @@ func (c *WorkwxApp) execGroupChatInfoGet(req reqGroupChatInfo) (respGroupChatInf
 	return resp, nil
 }
 
+// execConvertOpenGIDToChatID 客户群opengid转换
+func (c *WorkwxApp) execConvertOpenGIDToChatID(req reqConvertOpenGIDToChatID) (respConvertOpenGIDToChatID, error) {
+	var resp respConvertOpenGIDToChatID
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/opengid_to_chatid", req, &resp, true)
+	if err != nil {
+		return respConvertOpenGIDToChatID{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respConvertOpenGIDToChatID{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execTransferCustomer 在职继承 分配在职成员的客户
 func (c *WorkwxApp) execTransferCustomer(req reqTransferCustomer) (respTransferCustomer, error) {
 	var resp respTransferCustomer

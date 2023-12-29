@@ -377,6 +377,17 @@ func (c *WorkwxApp) GetGroupChatInfo(chatID string, chatNeedName int64) (*RespGr
 	return resp.GroupChat, nil
 }
 
+// ConvertOpenGIDToChatID 客户群opengid转换
+func (c *WorkwxApp) ConvertOpenGIDToChatID(openGID string) (string, error) {
+	resp, err := c.execConvertOpenGIDToChatID(reqConvertOpenGIDToChatID{
+		OpenGID: openGID,
+	})
+	if err != nil {
+		return "", err
+	}
+	return resp.ChatID, nil
+}
+
 // ExternalContactUpdateGroupChatJoinWay 更新企业已配置的客户群「加入群聊」方式
 func (c *WorkwxApp) ExternalContactUpdateGroupChatJoinWay(configID string, externalGroupChatJoinWay ExternalGroupChatJoinWay) error {
 	_, err := c.execUpdateGroupChatJoinWayExternalContact(reqUpdateGroupChatJoinWayExternalContact{
