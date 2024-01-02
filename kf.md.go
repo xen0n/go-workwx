@@ -13,3 +13,27 @@ type KfAccount struct {
 	// ManagePrivilege 当前调用接口的应用身份，是否有该客服账号的管理权限（编辑客服账号信息、分配会话和收发消息）。组件应用不返回此字段
 	ManagePrivilege bool `json:"manage_privilege,omitempty"`
 }
+
+// KfServicer 客服接待人员
+type KfServicer struct {
+	// UserID 接待人员的userid。第三方应用获取到的为密文userid，即open_userid
+	UserID string `json:"userid,omitempty"`
+	// Status 接待人员的接待状态。0:接待中,1:停止接待。
+	Status int `json:"status"`
+	// StopType 接待人员的接待状态为「停止接待」的子类型。0:停止接待,1:暂时挂起
+	StopType int `json:"stop_type"`
+	// DepartmentID 接待人员部门的id
+	DepartmentID int64 `json:"department_id,omitempty"`
+}
+
+// KfServicerResult 客户群列表数据
+type KfServicerResult struct {
+	// UserID 接待人员的userid
+	UserID string `json:"userid,omitempty"`
+	// DepartmentID 接待人员部门的id
+	DepartmentID int64 `json:"department_id,omitempty"`
+	// ErrCode 该条记录的结果
+	ErrCode int64 `json:"errcode"`
+	// ErrMsg 结果信息
+	ErrMsg string `json:"errmsg"`
+}

@@ -967,3 +967,45 @@ func (c *WorkwxApp) execAddKfContact(req reqAddKfContact) (respAddKfContact, err
 
 	return resp, nil
 }
+
+// execKfServicerCreate 添加接待人员
+func (c *WorkwxApp) execKfServicerCreate(req reqKfServicerCreate) (respKfServicerCreate, error) {
+	var resp respKfServicerCreate
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/servicer/add", req, &resp, true)
+	if err != nil {
+		return respKfServicerCreate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServicerCreate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServicerDelete 删除接待人员
+func (c *WorkwxApp) execKfServicerDelete(req reqKfServicerDelete) (respKfServicerDelete, error) {
+	var resp respKfServicerDelete
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/servicer/del", req, &resp, true)
+	if err != nil {
+		return respKfServicerDelete{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServicerDelete{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServicerList 获取接待人员列表
+func (c *WorkwxApp) execKfServicerList(req reqKfServicerList) (respKfServicerList, error) {
+	var resp respKfServicerList
+	err := c.executeQyapiGet("/cgi-bin/kf/servicer/list", req, &resp, true)
+	if err != nil {
+		return respKfServicerList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServicerList{}, bizErr
+	}
+
+	return resp, nil
+}

@@ -58,5 +58,43 @@ func (c *WorkwxApp) AddKfContact(openKfID, scene string) (url string, err error)
 	if err != nil {
 		return "", err
 	}
-	return resp.Url, nil
+	return resp.URL, nil
+}
+
+// CreateKfServicer 创建接待人员
+func (c *WorkwxApp) CreateKfServicer(openKfID string, userIDs []string, departmentIDs []int64) (resultList []*KfServicerResult, err error) {
+	resp, err := c.execKfServicerCreate(reqKfServicerCreate{
+		OpenKfID:      openKfID,
+		UserIDs:       userIDs,
+		DepartmentIDs: departmentIDs,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return resp.ResultList, nil
+}
+
+// DeleteKfServicer 删除接待人员
+func (c *WorkwxApp) DeleteKfServicer(openKfID string, userIDs []string, departmentIDs []int64) (resultList []*KfServicerResult, err error) {
+	resp, err := c.execKfServicerDelete(reqKfServicerDelete{
+		OpenKfID:      openKfID,
+		UserIDs:       userIDs,
+		DepartmentIDs: departmentIDs,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return resp.ResultList, nil
+}
+
+// ListKfServicer 获取接待人员列表
+func (c *WorkwxApp) ListKfServicer(openKfID string) ([]*KfServicer, error) {
+	resp, err := c.execKfServicerList(reqKfServicerList{
+		OpenKfID: openKfID,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.ServicerList, nil
 }

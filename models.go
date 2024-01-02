@@ -1475,5 +1475,65 @@ func (x reqAddKfContact) intoBody() ([]byte, error) {
 type respAddKfContact struct {
 	respCommon
 
-	Url string `json:"url"`
+	URL string `json:"url"`
+}
+
+// reqKfServicerCreate 添加接待人员
+type reqKfServicerCreate struct {
+	OpenKfID      string   `json:"open_kfid"`
+	UserIDs       []string `json:"userid_list"`
+	DepartmentIDs []int64  `json:"department_id_list"`
+}
+
+var _ bodyer = reqKfServicerCreate{}
+
+func (x reqKfServicerCreate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfServicerCreate 添加接待人员 响应
+type respKfServicerCreate struct {
+	respCommon
+
+	ResultList []*KfServicerResult `json:"result_list"`
+}
+
+// reqKfServicerDelete 删除接待人员
+type reqKfServicerDelete struct {
+	OpenKfID      string   `json:"open_kfid"`
+	UserIDs       []string `json:"userid_list"`
+	DepartmentIDs []int64  `json:"department_id_list"`
+}
+
+var _ bodyer = reqKfServicerDelete{}
+
+func (x reqKfServicerDelete) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfServicerDelete 删除接待人员 响应
+type respKfServicerDelete struct {
+	respCommon
+
+	ResultList []*KfServicerResult `json:"result_list"`
+}
+
+// reqKfServicerList 获取接待人员列表
+type reqKfServicerList struct {
+	OpenKfID string `json:"open_kfid"`
+}
+
+var _ urlValuer = reqKfServicerList{}
+
+func (x reqKfServicerList) intoURLValues() url.Values {
+	return url.Values{
+		"open_kfid": {x.OpenKfID},
+	}
+}
+
+// respKfServicerList 接待人员列表 响应
+type respKfServicerList struct {
+	respCommon
+
+	ServicerList []*KfServicer `json:"servicer_list"`
 }

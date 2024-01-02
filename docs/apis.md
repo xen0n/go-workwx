@@ -239,7 +239,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execSendWelcomeMsg`|`reqSendWelcomeMsgExternalContact`|`respSendWelcomeMsgExternalContact`|+|`POST /cgi-bin/externalcontact/send_welcome_msg`|[发送新客户欢迎语](https://developer.work.weixin.qq.com/document/path/92137)
 
 
-# 微信客服
+# 微信客服 - 客服账号管理
 
 ## API calls
 
@@ -250,3 +250,13 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execKfAccountDelete`|`reqKfAccountDelete`|`respKfAccountDelete`|+|`GET /cgi-bin/kf/account/del`|[删除客服账号](https://developer.work.weixin.qq.com/document/path/94663)
 `execKfAccountList`|`reqKfAccountList`|`respKfAccountList`|+|`GET /cgi-bin/kf/account/list`|[获取客服账号列表](https://developer.work.weixin.qq.com/document/path/94661)
 `execAddKfContact`|`reqAddKfContact`|`respAddKfContact`|+|`POST /cgi-bin/kf/add_contact_way`|[获取客服账号链接](https://developer.work.weixin.qq.com/document/path/94665)
+
+# 微信客服 - 接待人员管理
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execKfServicerCreate`|`reqKfServicerCreate`|`respKfServicerCreate`|+|`POST /cgi-bin/kf/servicer/add`|[添加接待人员](https://developer.work.weixin.qq.com/document/path/94646)
+`execKfServicerDelete`|`reqKfServicerDelete`|`respKfServicerDelete`|+|`POST /cgi-bin/kf/servicer/del`|[删除接待人员](https://developer.work.weixin.qq.com/document/path/94647)
+`execKfServicerList`|`reqKfServicerList`|`respKfServicerList`|+|`GET /cgi-bin/kf/servicer/list`|[获取接待人员列表](https://developer.work.weixin.qq.com/document/path/94645)
