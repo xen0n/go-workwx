@@ -240,6 +240,42 @@ func (x reqConvertOpenIDToUserID) intoBody() ([]byte, error) {
 	return marshalIntoJSONBody(x)
 }
 
+// SizeType qrcode尺寸类型
+//
+// 1: 171 x 171; 2: 399 x 399; 3: 741 x 741; 4: 2052 x 2052
+type SizeType int
+
+const (
+	// SizeTypeMini 171 x 171
+	SizeTypeMini SizeType = iota + 1
+	// SizeTypeSmall 399 x 399
+	SizeTypeSmall
+	// SizeTypeMedium 741 x 741
+	SizeTypeMedium
+	// SizeTypeLarge 2052 x 2052
+	SizeTypeLarge
+)
+
+// reqUserJoinQrcode 获取加入企业二维码 请求
+type reqUserJoinQrcode struct {
+	SizeType SizeType `json:"size_type"`
+}
+
+var _ urlValuer = reqUserJoinQrcode{}
+
+func (x reqUserJoinQrcode) intoURLValues() url.Values {
+	return url.Values{
+		"size_type": {strconv.Itoa(int(x.SizeType))},
+	}
+}
+
+// respUserJoinQrcode 获取加入企业二维码 响应
+type respUserJoinQrcode struct {
+	respCommon
+
+	JoinQrcode string `json:"join_qrcode"`
+}
+
 // reqUserIDByMobile 手机号获取 userid 请求
 type reqUserIDByMobile struct {
 	Mobile string `json:"mobile"`
@@ -1201,6 +1237,24 @@ type respGroupChatInfo struct {
 	GroupChat *RespGroupChatInfo `json:"group_chat"`
 }
 
+// reqConvertOpenGIDToChatID 客户群opengid转换 请求
+type reqConvertOpenGIDToChatID struct {
+	OpenGID string `json:"opengid"`
+}
+
+var _ bodyer = reqConvertOpenGIDToChatID{}
+
+func (x reqConvertOpenGIDToChatID) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respConvertOpenGIDToChatID 客户群opengid转换 响应
+type respConvertOpenGIDToChatID struct {
+	respCommon
+
+	ChatID string `json:"chat_id"`
+}
+
 type reqAddGroupChatJoinWayExternalContact struct {
 	ExternalGroupChatJoinWay
 }
@@ -1326,4 +1380,160 @@ var _ bodyer = reqExternalContactAddCorpTagGroup{}
 
 func (x reqExternalContactAddCorpTagGroup) intoBody() ([]byte, error) {
 	return marshalIntoJSONBody(x.ExternalContactAddCorpTagGroup)
+}
+
+// reqKfAccountCreate 创建客服账号
+type reqKfAccountCreate struct {
+	Name    string `json:"name"`
+	MediaID string `json:"media_id"`
+}
+
+var _ bodyer = reqKfAccountCreate{}
+
+func (x reqKfAccountCreate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfAccountCreate 创建客服账号 响应
+type respKfAccountCreate struct {
+	respCommon
+
+	OpenKfID string `json:"open_kfid"`
+}
+
+// reqKfAccountDelete 删除客服账号
+type reqKfAccountDelete struct {
+	OpenKfID string `json:"open_kfid"`
+}
+
+var _ urlValuer = reqKfAccountDelete{}
+
+func (x reqKfAccountDelete) intoURLValues() url.Values {
+	return url.Values{
+		"open_kfid": {x.OpenKfID},
+	}
+}
+
+// respKfAccountDelete 删除客服账号 响应
+type respKfAccountDelete struct {
+	respCommon
+}
+
+// reqKfAccountUpdate 修改客服账号
+type reqKfAccountUpdate struct {
+	OpenKfID string `json:"open_kfid"`
+	Name     string `json:"name"`
+	MediaID  string `json:"media_id"`
+}
+
+var _ bodyer = reqKfAccountUpdate{}
+
+func (x reqKfAccountUpdate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfAccountUpdate 修改客服账号 响应
+type respKfAccountUpdate struct {
+	respCommon
+}
+
+// reqKfAccountList 获取客服账号列表
+type reqKfAccountList struct {
+	Offset int64 `json:"offset"`
+	Limit  int64 `json:"limit"`
+}
+
+var _ urlValuer = reqKfAccountList{}
+
+func (x reqKfAccountList) intoURLValues() url.Values {
+	return url.Values{
+		"offset": {strconv.FormatInt(x.Offset, 10)},
+		"limit":  {strconv.FormatInt(x.Limit, 10)},
+	}
+}
+
+// respKfAccountList 客服账号列表 响应
+type respKfAccountList struct {
+	respCommon
+
+	AccountList []*KfAccount `json:"account_list"`
+}
+
+// reqAddKfContact 获取客服账号链接
+type reqAddKfContact struct {
+	OpenKfID string `json:"open_kfid"`
+	Scene    string `json:"scene"`
+}
+
+var _ bodyer = reqAddKfContact{}
+
+func (x reqAddKfContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respAddKfContact 获取客服账号链接 响应
+type respAddKfContact struct {
+	respCommon
+
+	URL string `json:"url"`
+}
+
+// reqKfServicerCreate 添加接待人员
+type reqKfServicerCreate struct {
+	OpenKfID      string   `json:"open_kfid"`
+	UserIDs       []string `json:"userid_list"`
+	DepartmentIDs []int64  `json:"department_id_list"`
+}
+
+var _ bodyer = reqKfServicerCreate{}
+
+func (x reqKfServicerCreate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfServicerCreate 添加接待人员 响应
+type respKfServicerCreate struct {
+	respCommon
+
+	ResultList []*KfServicerResult `json:"result_list"`
+}
+
+// reqKfServicerDelete 删除接待人员
+type reqKfServicerDelete struct {
+	OpenKfID      string   `json:"open_kfid"`
+	UserIDs       []string `json:"userid_list"`
+	DepartmentIDs []int64  `json:"department_id_list"`
+}
+
+var _ bodyer = reqKfServicerDelete{}
+
+func (x reqKfServicerDelete) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfServicerDelete 删除接待人员 响应
+type respKfServicerDelete struct {
+	respCommon
+
+	ResultList []*KfServicerResult `json:"result_list"`
+}
+
+// reqKfServicerList 获取接待人员列表
+type reqKfServicerList struct {
+	OpenKfID string `json:"open_kfid"`
+}
+
+var _ urlValuer = reqKfServicerList{}
+
+func (x reqKfServicerList) intoURLValues() url.Values {
+	return url.Values{
+		"open_kfid": {x.OpenKfID},
+	}
+}
+
+// respKfServicerList 接待人员列表 响应
+type respKfServicerList struct {
+	respCommon
+
+	ServicerList []*KfServicer `json:"servicer_list"`
 }

@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2023-09-12 19:14:27 +0800
+// 文档爬取时间: 2024-01-02 18:55:58 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -325,11 +325,11 @@ const ErrCode40066 ErrCode = 40066
 // 排查方法: 标签/标签组ID未指定，或者指定的标签/标签组ID不存在
 const ErrCode40068 ErrCode = 40068
 
-// ErrCode40070 指定的标签范围结点全部无效
+// ErrCode40070 指定的标签范围节点全部无效
 //
 // 排查方法: [查看帮助]
 //
-// 指定的标签范围结点全部无效。确认：
+// 指定的标签范围节点全部无效。确认：
 // 1）指定的参数格式是否正确。比如，"userlist":[ "user1"]，而不是指定为 "userlist" : "user1"。
 // 2）指定的成员或者部门，是否存在于通讯录中。
 //
@@ -605,6 +605,21 @@ const ErrCode40201 ErrCode = 40201
 //
 // 排查方法: 微盘接口请检查<code>userid</code>已废弃
 const ErrCode40203 ErrCode = 40203
+
+// ErrCode40204 微信反垃圾
+//
+// 排查方法: -
+const ErrCode40204 ErrCode = 40204
+
+// ErrCode40205 成员微信票据过期
+//
+// 排查方法: 请确保成员最近一年内或离职前一年内登录过企业微信并进行微信授权
+const ErrCode40205 ErrCode = 40205
+
+// ErrCode40206 请求body字节数超过限制
+//
+// 排查方法: -
+const ErrCode40206 ErrCode = 40206
 
 // ErrCode41001 缺少access_token参数
 //
@@ -1516,6 +1531,11 @@ const ErrCode50002 ErrCode = 50002
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A50003
 const ErrCode50003 ErrCode = 50003
 
+// ErrCode50006 系统应用已禁用
+//
+// 排查方法: -
+const ErrCode50006 ErrCode = 50006
+
 // ErrCode50100 分页查询的游标无效
 //
 // 排查方法: -
@@ -1610,6 +1630,16 @@ const ErrCode60021 ErrCode = 60021
 //
 // 排查方法: 第三方应用类型，不允许通过接口修改该应用的主页 URL
 const ErrCode60028 ErrCode = 60028
+
+// ErrCode60030 已超出应用可见范围
+//
+// 排查方法: 调整应用可见范围覆盖操作的规则组、会议室等
+const ErrCode60030 ErrCode = 60030
+
+// ErrCode60031 当前应用已禁止调用API
+//
+// 排查方法: -
+const ErrCode60031 ErrCode = 60031
 
 // ErrCode60102 UserID已存在
 //
@@ -1913,6 +1943,11 @@ const ErrCode60236 ErrCode = 60236
 //
 // 排查方法: 检查payment_id是否误用或者拼写错误
 const ErrCode60237 ErrCode = 60237
+
+// ErrCode60238 传入的partyid有误
+//
+// 排查方法: 检查partyid
+const ErrCode60238 ErrCode = 60238
 
 // ErrCode60239 收款人未实名
 //
@@ -2340,7 +2375,7 @@ const ErrCode701112 ErrCode = 701112
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A80001
 const ErrCode80001 ErrCode = 80001
 
-// ErrCode81001 部门下的结点数超过限制（3W）
+// ErrCode81001 部门下的节点数超过限制（3W）
 //
 // 排查方法: -
 const ErrCode81001 ErrCode = 81001
@@ -2462,6 +2497,16 @@ const ErrCode82003 ErrCode = 82003
 //
 // 排查方法: 消息内容中可能存在使客户端crash的内容
 const ErrCode82004 ErrCode = 82004
+
+// ErrCode82101 指定的更新对象为空
+//
+// 排查方法:
+const ErrCode82101 ErrCode = 82101
+
+// ErrCode82102 指定的更新对象不在多人消息内
+//
+// 排查方法:
+const ErrCode82102 ErrCode = 82102
 
 // ErrCode84005 第三方应用不存在
 //
@@ -3299,6 +3344,11 @@ const ErrCode86217 ErrCode = 86217
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A86220
 const ErrCode86220 ErrCode = 86220
 
+// ErrCode86222 应用多人消息成员必须要包含至少一个下游企业员工
+//
+// 排查方法: -
+const ErrCode86222 ErrCode = 86222
+
 // ErrCode86224 不是受限群，不允许使用该接口
 //
 // 排查方法: -
@@ -3404,6 +3454,11 @@ const ErrCode90207 ErrCode = 90207
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A90208
 const ErrCode90208 ErrCode = 90208
+
+// ErrCode90210 需要用户进行成员授权
+//
+// 排查方法: -
+const ErrCode90210 ErrCode = 90210
 
 // ErrCode90211 登录时传入的suiteid不合法
 //
@@ -3765,6 +3820,11 @@ const ErrCode90419 ErrCode = 90419
 // 排查方法: -
 const ErrCode90420 ErrCode = 90420
 
+// ErrCode90421 所选择的经营范围与主体类型不符
+//
+// 排查方法: -
+const ErrCode90421 ErrCode = 90421
+
 // ErrCode90431 一个应用一个企业一天内最多只能创建3个免支付订单
 //
 // 排查方法: -
@@ -4095,6 +4155,26 @@ const ErrCode90700 ErrCode = 90700
 // 排查方法: -
 const ErrCode90704 ErrCode = 90704
 
+// ErrCode90705 日程的创建者已经离职，不可删除
+//
+// 排查方法: -
+const ErrCode90705 ErrCode = 90705
+
+// ErrCode90706 无法将非周期日程的起始时间修改成早于当前时间
+//
+// 排查方法: -
+const ErrCode90706 ErrCode = 90706
+
+// ErrCode90707 日程关联的会议正在进行中，无法修改
+//
+// 排查方法: -
+const ErrCode90707 ErrCode = 90707
+
+// ErrCode90708 日程创建者没有默认日历，需要传日历参数
+//
+// 排查方法: -
+const ErrCode90708 ErrCode = 90708
+
 // ErrCode91040 获取ticket的类型无效
 //
 // 排查方法: [查看帮助]
@@ -4323,6 +4403,21 @@ const ErrCode95026 ErrCode = 95026
 // 排查方法: 认证企业后即可继续创建
 const ErrCode95027 ErrCode = 95027
 
+// ErrCode95030 客服组件设置的禁发消息类型
+//
+// 排查方法: -
+const ErrCode95030 ErrCode = 95030
+
+// ErrCode95031 客户48小时内未发起过咨询
+//
+// 排查方法: 需要客户发起咨询后才可调用
+const ErrCode95031 ErrCode = 95031
+
+// ErrCode95032 客服组件获取客服聊天记录权限已失效
+//
+// 排查方法: 请联系官方对接人员沟通处理
+const ErrCode95032 ErrCode = 95032
+
 // ErrCode301002 无权限操作指定的应用
 //
 // 排查方法: [查看帮助]
@@ -4480,6 +4575,11 @@ const ErrCode301060 ErrCode = 301060
 //
 // 排查方法: -
 const ErrCode301061 ErrCode = 301061
+
+// ErrCode301073 设置排班的时间参数不合法
+//
+// 排查方法: openapi目前仅支持对未来日期设置排班
+const ErrCode301073 ErrCode = 301073
 
 // ErrCode301080 应打卡时间非法
 //
@@ -5548,6 +5648,51 @@ const ErrCode740005 ErrCode = 740005
 // 排查方法: 要求域名ICP备案跟企业主体一致
 const ErrCode740006 ErrCode = 740006
 
+// ErrCode770001 高级功能额度不足
+//
+// 排查方法: -
+const ErrCode770001 ErrCode = 770001
+
+// ErrCode770003 高级功能全企业购买模式不允许分配和撤销高级功能账户
+//
+// 排查方法: -
+const ErrCode770003 ErrCode = 770003
+
+// ErrCode770004 不存在合法的用户列表
+//
+// 排查方法: -
+const ErrCode770004 ErrCode = 770004
+
+// ErrCode770005 未开通业务高级功能
+//
+// 排查方法: -
+const ErrCode770005 ErrCode = 770005
+
+// ErrCode770006 不合法的jobid
+//
+// 排查方法: -
+const ErrCode770006 ErrCode = 770006
+
+// ErrCode770007 任务正在处理中
+//
+// 排查方法: -
+const ErrCode770007 ErrCode = 770007
+
+// ErrCode770008 存在用户账户分配高级功能超过7天，不允许撤销
+//
+// 排查方法: -
+const ErrCode770008 ErrCode = 770008
+
+// ErrCode770009 请求中所有合法用户账户均是高级功能账户
+//
+// 排查方法: -
+const ErrCode770009 ErrCode = 770009
+
+// ErrCode770010 已在腾讯会议侧购买高级功能，不允许通过此接口操作
+//
+// 排查方法: -
+const ErrCode770010 ErrCode = 770010
+
 // ErrCode842002 代开发应用模版未上线
 //
 // 排查方法: -
@@ -6033,6 +6178,11 @@ const ErrCode701133 ErrCode = 701133
 // 排查方法: -
 const ErrCode701134 ErrCode = 701134
 
+// ErrCode701135 接口许可购买时长不可低于应用订单时长
+//
+// 排查方法: -
+const ErrCode701135 ErrCode = 701135
+
 // ErrCode701150 测试企业不支持分配许可
 //
 // 排查方法: -
@@ -6047,6 +6197,11 @@ const ErrCode701160 ErrCode = 701160
 //
 // 排查方法: -
 const ErrCode701161 ErrCode = 701161
+
+// ErrCode701170 群活码第三方限免许可到期
+//
+// 排查方法: -
+const ErrCode701170 ErrCode = 701170
 
 // ErrCode730000 非法的tmp_openid
 //

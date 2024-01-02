@@ -128,6 +128,20 @@ func (c *WorkwxApp) execConvertOpenIDToUserID(req reqConvertOpenIDToUserID) (res
 	return resp, nil
 }
 
+// execUserJoinQrcode 获取加入企业二维码
+func (c *WorkwxApp) execUserJoinQrcode(req reqUserJoinQrcode) (respUserJoinQrcode, error) {
+	var resp respUserJoinQrcode
+	err := c.executeQyapiGet("/cgi-bin/corp/get_join_qrcode", req, &resp, true)
+	if err != nil {
+		return respUserJoinQrcode{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserJoinQrcode{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserIDByMobile 手机号获取userid
 func (c *WorkwxApp) execUserIDByMobile(req reqUserIDByMobile) (respUserIDByMobile, error) {
 	var resp respUserIDByMobile
@@ -786,6 +800,20 @@ func (c *WorkwxApp) execGroupChatInfoGet(req reqGroupChatInfo) (respGroupChatInf
 	return resp, nil
 }
 
+// execConvertOpenGIDToChatID 客户群opengid转换
+func (c *WorkwxApp) execConvertOpenGIDToChatID(req reqConvertOpenGIDToChatID) (respConvertOpenGIDToChatID, error) {
+	var resp respConvertOpenGIDToChatID
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/opengid_to_chatid", req, &resp, true)
+	if err != nil {
+		return respConvertOpenGIDToChatID{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respConvertOpenGIDToChatID{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execTransferCustomer 在职继承 分配在职成员的客户
 func (c *WorkwxApp) execTransferCustomer(req reqTransferCustomer) (respTransferCustomer, error) {
 	var resp respTransferCustomer
@@ -865,6 +893,118 @@ func (c *WorkwxApp) execSendWelcomeMsg(req reqSendWelcomeMsgExternalContact) (re
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respSendWelcomeMsgExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountCreate 添加客服账号
+func (c *WorkwxApp) execKfAccountCreate(req reqKfAccountCreate) (respKfAccountCreate, error) {
+	var resp respKfAccountCreate
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/add", req, &resp, true)
+	if err != nil {
+		return respKfAccountCreate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountCreate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountUpdate 修改客服账号
+func (c *WorkwxApp) execKfAccountUpdate(req reqKfAccountUpdate) (respKfAccountUpdate, error) {
+	var resp respKfAccountUpdate
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/update", req, &resp, true)
+	if err != nil {
+		return respKfAccountUpdate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountUpdate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountDelete 删除客服账号
+func (c *WorkwxApp) execKfAccountDelete(req reqKfAccountDelete) (respKfAccountDelete, error) {
+	var resp respKfAccountDelete
+	err := c.executeQyapiGet("/cgi-bin/kf/account/del", req, &resp, true)
+	if err != nil {
+		return respKfAccountDelete{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountDelete{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountList 获取客服账号列表
+func (c *WorkwxApp) execKfAccountList(req reqKfAccountList) (respKfAccountList, error) {
+	var resp respKfAccountList
+	err := c.executeQyapiGet("/cgi-bin/kf/account/list", req, &resp, true)
+	if err != nil {
+		return respKfAccountList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddKfContact 获取客服账号链接
+func (c *WorkwxApp) execAddKfContact(req reqAddKfContact) (respAddKfContact, error) {
+	var resp respAddKfContact
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/add_contact_way", req, &resp, true)
+	if err != nil {
+		return respAddKfContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddKfContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServicerCreate 添加接待人员
+func (c *WorkwxApp) execKfServicerCreate(req reqKfServicerCreate) (respKfServicerCreate, error) {
+	var resp respKfServicerCreate
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/servicer/add", req, &resp, true)
+	if err != nil {
+		return respKfServicerCreate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServicerCreate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServicerDelete 删除接待人员
+func (c *WorkwxApp) execKfServicerDelete(req reqKfServicerDelete) (respKfServicerDelete, error) {
+	var resp respKfServicerDelete
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/servicer/del", req, &resp, true)
+	if err != nil {
+		return respKfServicerDelete{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServicerDelete{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServicerList 获取接待人员列表
+func (c *WorkwxApp) execKfServicerList(req reqKfServicerList) (respKfServicerList, error) {
+	var resp respKfServicerList
+	err := c.executeQyapiGet("/cgi-bin/kf/servicer/list", req, &resp, true)
+	if err != nil {
+		return respKfServicerList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServicerList{}, bizErr
 	}
 
 	return resp, nil
