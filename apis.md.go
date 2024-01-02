@@ -897,3 +897,73 @@ func (c *WorkwxApp) execSendWelcomeMsg(req reqSendWelcomeMsgExternalContact) (re
 
 	return resp, nil
 }
+
+// execKfAccountCreate 添加客服账号
+func (c *WorkwxApp) execKfAccountCreate(req reqKfAccountCreate) (respKfAccountCreate, error) {
+	var resp respKfAccountCreate
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/add", req, &resp, true)
+	if err != nil {
+		return respKfAccountCreate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountCreate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountUpdate 修改客服账号
+func (c *WorkwxApp) execKfAccountUpdate(req reqKfAccountUpdate) (respKfAccountUpdate, error) {
+	var resp respKfAccountUpdate
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/update", req, &resp, true)
+	if err != nil {
+		return respKfAccountUpdate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountUpdate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountDelete 删除客服账号
+func (c *WorkwxApp) execKfAccountDelete(req reqKfAccountDelete) (respKfAccountDelete, error) {
+	var resp respKfAccountDelete
+	err := c.executeQyapiGet("/cgi-bin/kf/account/del", req, &resp, true)
+	if err != nil {
+		return respKfAccountDelete{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountDelete{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountList 获取客服账号列表
+func (c *WorkwxApp) execKfAccountList(req reqKfAccountList) (respKfAccountList, error) {
+	var resp respKfAccountList
+	err := c.executeQyapiGet("/cgi-bin/kf/account/list", req, &resp, true)
+	if err != nil {
+		return respKfAccountList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddKfContact 获取客服账号链接
+func (c *WorkwxApp) execAddKfContact(req reqAddKfContact) (respAddKfContact, error) {
+	var resp respAddKfContact
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/add_contact_way", req, &resp, true)
+	if err != nil {
+		return respAddKfContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddKfContact{}, bizErr
+	}
+
+	return resp, nil
+}

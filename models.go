@@ -1381,3 +1381,99 @@ var _ bodyer = reqExternalContactAddCorpTagGroup{}
 func (x reqExternalContactAddCorpTagGroup) intoBody() ([]byte, error) {
 	return marshalIntoJSONBody(x.ExternalContactAddCorpTagGroup)
 }
+
+// reqKfAccountCreate 创建客服账号
+type reqKfAccountCreate struct {
+	Name    string `json:"name"`
+	MediaID string `json:"media_id"`
+}
+
+var _ bodyer = reqKfAccountCreate{}
+
+func (x reqKfAccountCreate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfAccountCreate 创建客服账号 响应
+type respKfAccountCreate struct {
+	respCommon
+
+	OpenKfID string `json:"open_kfid"`
+}
+
+// reqKfAccountDelete 删除客服账号
+type reqKfAccountDelete struct {
+	OpenKfID string `json:"open_kfid"`
+}
+
+var _ urlValuer = reqKfAccountDelete{}
+
+func (x reqKfAccountDelete) intoURLValues() url.Values {
+	return url.Values{
+		"open_kfid": {x.OpenKfID},
+	}
+}
+
+// respKfAccountDelete 删除客服账号 响应
+type respKfAccountDelete struct {
+	respCommon
+}
+
+// reqKfAccountUpdate 修改客服账号
+type reqKfAccountUpdate struct {
+	OpenKfID string `json:"open_kfid"`
+	Name     string `json:"name"`
+	MediaID  string `json:"media_id"`
+}
+
+var _ bodyer = reqKfAccountUpdate{}
+
+func (x reqKfAccountUpdate) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfAccountUpdate 修改客服账号 响应
+type respKfAccountUpdate struct {
+	respCommon
+}
+
+// reqKfAccountList 获取客服账号列表
+type reqKfAccountList struct {
+	Offset int64 `json:"offset"`
+	Limit  int64 `json:"limit"`
+}
+
+var _ urlValuer = reqKfAccountList{}
+
+func (x reqKfAccountList) intoURLValues() url.Values {
+	return url.Values{
+		"offset": {strconv.FormatInt(x.Offset, 10)},
+		"limit":  {strconv.FormatInt(x.Limit, 10)},
+	}
+}
+
+// respKfAccountList 客服账号列表 响应
+type respKfAccountList struct {
+	respCommon
+
+	AccountList []*KfAccount `json:"account_list"`
+}
+
+// reqAddKfContact 获取客服账号链接
+type reqAddKfContact struct {
+	OpenKfID string `json:"open_kfid"`
+	Scene    string `json:"scene"`
+}
+
+var _ bodyer = reqAddKfContact{}
+
+func (x reqAddKfContact) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respAddKfContact 获取客服账号链接 响应
+type respAddKfContact struct {
+	respCommon
+
+	Url string `json:"url"`
+}

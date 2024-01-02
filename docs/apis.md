@@ -237,3 +237,16 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execAddMsgTemplate`|`reqAddMsgTemplateExternalContact`|`respAddMsgTemplateExternalContact`|+|`POST /cgi-bin/externalcontact/add_msg_template`|[创建企业群发](https://developer.work.weixin.qq.com/document/path/92135)
 `execSendWelcomeMsg`|`reqSendWelcomeMsgExternalContact`|`respSendWelcomeMsgExternalContact`|+|`POST /cgi-bin/externalcontact/send_welcome_msg`|[发送新客户欢迎语](https://developer.work.weixin.qq.com/document/path/92137)
+
+
+# 微信客服
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execKfAccountCreate`|`reqKfAccountCreate`|`respKfAccountCreate`|+|`POST /cgi-bin/kf/account/add`|[添加客服账号](https://developer.work.weixin.qq.com/document/path/94662)
+`execKfAccountUpdate`|`reqKfAccountUpdate`|`respKfAccountUpdate`|+|`POST /cgi-bin/kf/account/update`|[修改客服账号](https://developer.work.weixin.qq.com/document/path/94664)
+`execKfAccountDelete`|`reqKfAccountDelete`|`respKfAccountDelete`|+|`GET /cgi-bin/kf/account/del`|[删除客服账号](https://developer.work.weixin.qq.com/document/path/94663)
+`execKfAccountList`|`reqKfAccountList`|`respKfAccountList`|+|`GET /cgi-bin/kf/account/list`|[获取客服账号列表](https://developer.work.weixin.qq.com/document/path/94661)
+`execAddKfContact`|`reqAddKfContact`|`respAddKfContact`|+|`POST /cgi-bin/kf/add_contact_way`|[获取客服账号链接](https://developer.work.weixin.qq.com/document/path/94665)
