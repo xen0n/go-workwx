@@ -26,7 +26,7 @@ func cmdSendMessage(c *cli.Context) error {
 	url := c.String(flagURL)
 	picURL := c.String(flagPicURL)
 	buttonText := c.String(flagButtonText)
-	sourceContentURL := c.String(flagSourceContentURL)
+	// sourceContentURL := c.String(flagSourceContentURL)
 	digest := c.String(flagDigest)
 
 	app := cfg.MakeWorkwxApp()
@@ -73,21 +73,29 @@ func cmdSendMessage(c *cli.Context) error {
 	case "news":
 		err = app.SendNewsMessage(
 			&recipient,
-			title,
-			description,
-			url,
-			picURL,
+			[]workwx.Article{
+				workwx.Article{
+					Title:       title,
+					Description: description,
+					URL:         url,
+					PicURL:      picURL,
+					AppID:       "",
+					PagePath:    "",
+				},
+			},
 			isSafe,
 		)
 	case "mpnews":
 		err = app.SendMPNewsMessage(
 			&recipient,
-			title,
-			thumbMediaID,
-			author,
-			sourceContentURL,
-			content,
-			digest,
+			[]workwx.MPArticle{workwx.MPArticle{
+				Title:            title,
+				ThumbMediaID:     thumbMediaID,
+				Author:           author,
+				ContentSourceURL: content,
+				Content:          content,
+				Digest:           digest,
+			}},
 			isSafe,
 		)
 	default:
