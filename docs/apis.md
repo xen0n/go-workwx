@@ -260,3 +260,12 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execKfServicerCreate`|`reqKfServicerCreate`|`respKfServicerCreate`|+|`POST /cgi-bin/kf/servicer/add`|[添加接待人员](https://developer.work.weixin.qq.com/document/path/94646)
 `execKfServicerDelete`|`reqKfServicerDelete`|`respKfServicerDelete`|+|`POST /cgi-bin/kf/servicer/del`|[删除接待人员](https://developer.work.weixin.qq.com/document/path/94647)
 `execKfServicerList`|`reqKfServicerList`|`respKfServicerList`|+|`GET /cgi-bin/kf/servicer/list`|[获取接待人员列表](https://developer.work.weixin.qq.com/document/path/94645)
+
+# 微信客服 - 会话分配与消息收发
+
+## API calls
+
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execKfServiceStateGet`|`reqKfServiceStateGet`|`respKfServiceStateGet`|+|`POST /cgi-bin/kf/service_state/get`|[获取会话状态](https://developer.work.weixin.qq.com/document/path/94669)
+`execKfServiceStateTrans`|`reqKfServiceStateTrans`|`respKfServiceStateTrans`|+|`POST /cgi-bin/kf/service_state/trans`|[变更会话状态](https://developer.work.weixin.qq.com/document/path/94669)

@@ -1289,26 +1289,26 @@ const (
 type TemplateCard struct {
 	CardType   TemplateCardType `json:"card_type"`
 	Source     Source           `json:"source"`
-	ActionMenu ActionMenu       `json:"action_menu,omitempty" validate:"required_with=TaskID"`
+	ActionMenu *ActionMenu      `json:"action_menu,omitempty" validate:"required_with=TaskID"`
 	TaskID     string           `json:"task_id,omitempty" validate:"required_with=ActionMenu"`
-	MainTitle  MainTitle        `json:"main_title"`
-	QuoteArea  QuoteArea        `json:"quote_area"`
+	MainTitle  *MainTitle       `json:"main_title"`
+	QuoteArea  *QuoteArea       `json:"quote_area,omitempty"`
 	// 文本通知型
-	EmphasisContent EmphasisContent `json:"emphasis_content,omitempty"`
-	SubTitleText    string          `json:"sub_title_text,omitempty"`
+	EmphasisContent *EmphasisContent `json:"emphasis_content,omitempty"`
+	SubTitleText    string           `json:"sub_title_text,omitempty"`
 	// 图文展示型
-	ImageTextArea         ImageTextArea           `json:"image_text_area,omitempty"`
-	CardImage             CardImage               `json:"card_image,omitempty"`
+	ImageTextArea         *ImageTextArea          `json:"image_text_area,omitempty"`
+	CardImage             *CardImage              `json:"card_image,omitempty"`
 	HorizontalContentList []HorizontalContentList `json:"horizontal_content_list"`
 	JumpList              []JumpList              `json:"jump_list"`
-	CardAction            CardAction              `json:"card_action,omitempty"`
+	CardAction            *CardAction             `json:"card_action,omitempty"`
 	// 按钮交互型
-	ButtonSelection ButtonSelection `json:"button_selection,omitempty"`
-	ButtonList      []Button        `json:"button_list,omitempty" validate:"omitempty,max=6"`
+	ButtonSelection *ButtonSelection `json:"button_selection,omitempty"`
+	ButtonList      []Button         `json:"button_list,omitempty" validate:"omitempty,max=6"`
 	// 投票选择型
-	CheckBox     CheckBox     `json:"checkbox,omitempty"`
-	SelectList   []SelectList `json:"select_list,omitempty" validate:"max=3"`
-	SubmitButton SubmitButton `json:"submit_button,omitempty"`
+	CheckBox     *CheckBox     `json:"checkbox,omitempty"`
+	SelectList   []SelectList  `json:"select_list,omitempty" validate:"max=3"`
+	SubmitButton *SubmitButton `json:"submit_button,omitempty"`
 }
 
 type TemplateCardUpdateMessage struct {
@@ -1820,4 +1820,45 @@ type respKfServicerList struct {
 	respCommon
 
 	ServicerList []*KfServicer `json:"servicer_list"`
+}
+
+// reqKfServiceStateGet 获取会话状态
+type reqKfServiceStateGet struct {
+	OpenKfID       string `json:"open_kfid"`
+	ExternalUserID string `json:"external_userid"`
+}
+
+var _ bodyer = reqKfServiceStateGet{}
+
+func (x reqKfServiceStateGet) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfServiceStateGet 获取会话状态 响应
+type respKfServiceStateGet struct {
+	respCommon
+
+	ServiceState   KfServiceState `json:"service_state"`
+	ServicerUserID string         `json:"servicer_userid"`
+}
+
+// reqKfServiceStateTrans 变更会话状态
+type reqKfServiceStateTrans struct {
+	OpenKfID       string         `json:"open_kfid"`
+	ExternalUserID string         `json:"external_userid"`
+	ServiceState   KfServiceState `json:"service_state"`
+	ServicerUserID string         `json:"servicer_userid"`
+}
+
+var _ bodyer = reqKfServiceStateTrans{}
+
+func (x reqKfServiceStateTrans) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfServiceStateTrans 变更会话状态 响应
+type respKfServiceStateTrans struct {
+	respCommon
+
+	MsgCode string `json:"msg_code"`
 }

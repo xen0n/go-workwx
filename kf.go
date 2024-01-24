@@ -98,3 +98,29 @@ func (c *WorkwxApp) ListKfServicer(openKfID string) ([]*KfServicer, error) {
 
 	return resp.ServicerList, nil
 }
+
+// GetKfServiceState 获取会话状态
+func (c *WorkwxApp) GetKfServiceState(openKfID, externalUserID string) (KfServiceState, string, error) {
+	resp, err := c.execKfServiceStateGet(reqKfServiceStateGet{
+		OpenKfID:       openKfID,
+		ExternalUserID: externalUserID,
+	})
+	if err != nil {
+		return KfServiceStateUntreated, "", err
+	}
+	return resp.ServiceState, resp.ServicerUserID, nil
+}
+
+// TransKfServiceState 变更会话状态
+func (c *WorkwxApp) TransKfServiceState(openKfID, externalUserID, servicerUserID string, ServiceState KfServiceState) (string, error) {
+	resp, err := c.execKfServiceStateTrans(reqKfServiceStateTrans{
+		OpenKfID:       openKfID,
+		ExternalUserID: externalUserID,
+		ServiceState:   ServiceState,
+		ServicerUserID: servicerUserID,
+	})
+	if err != nil {
+		return "", err
+	}
+	return resp.MsgCode, nil
+}
