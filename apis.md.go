@@ -1009,3 +1009,31 @@ func (c *WorkwxApp) execKfServicerList(req reqKfServicerList) (respKfServicerLis
 
 	return resp, nil
 }
+
+// execKfServiceStateGet 获取会话状态
+func (c *WorkwxApp) execKfServiceStateGet(req reqKfServiceStateGet) (respKfServiceStateGet, error) {
+	var resp respKfServiceStateGet
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/service_state/get", req, &resp, true)
+	if err != nil {
+		return respKfServiceStateGet{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServiceStateGet{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServiceStateTrans 变更会话状态
+func (c *WorkwxApp) execKfServiceStateTrans(req reqKfServiceStateTrans) (respKfServiceStateTrans, error) {
+	var resp respKfServiceStateTrans
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/service_state/trans", req, &resp, true)
+	if err != nil {
+		return respKfServiceStateTrans{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServiceStateTrans{}, bizErr
+	}
+
+	return resp, nil
+}

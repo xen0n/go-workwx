@@ -37,3 +37,25 @@ type KfServicerResult struct {
 	// ErrMsg 结果信息
 	ErrMsg string `json:"errmsg"`
 }
+
+// KfServiceState 客服会话状态
+//
+// 0 未处理 新会话接入
+// 1 由智能助手接待
+// 2 待接入池排队中
+// 3 由人工接待
+// 4 已结束/未开始
+type KfServiceState int
+
+const (
+	// KfServiceStateUntreated 未处理 新会话接入
+	KfServiceStateUntreated KfServiceState = iota
+	// KfServiceStateRobotReception 由智能助手接待
+	KfServiceStateRobotReception
+	// KfServiceStateInQueue 待接入池排队中
+	KfServiceStateInQueue
+	// KfServiceStateManualReception 由人工接待
+	KfServiceStateManualReception
+	// KfServiceStateFinished 已结束/未开始
+	KfServiceStateFinished
+)

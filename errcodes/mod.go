@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2024-01-02 18:55:58 +0800
+// 文档爬取时间: 2024-01-24 16:57:05 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -2083,6 +2083,11 @@ const ErrCode65023 ErrCode = 65023
 //
 // 排查方法: 检查学生的班主任、任课教师或家长所在班级群群主是否在应用可见范围内
 const ErrCode65024 ErrCode = 65024
+
+// ErrCode400237 location的长度超过最大限制
+//
+// 排查方法: -
+const ErrCode400237 ErrCode = 400237
 
 // ErrCode660001 无效的商户号
 //
@@ -6203,6 +6208,11 @@ const ErrCode701161 ErrCode = 701161
 // 排查方法: -
 const ErrCode701170 ErrCode = 701170
 
+// ErrCode701200 其他镜像发布中，禁止发布
+//
+// 排查方法: -
+const ErrCode701200 ErrCode = 701200
+
 // ErrCode730000 非法的tmp_openid
 //
 // 排查方法: -
@@ -6262,6 +6272,51 @@ const ErrCode730010 ErrCode = 730010
 //
 // 排查方法: -
 const ErrCode730011 ErrCode = 730011
+
+// ErrCode790000 不合法的jobid
+//
+// 排查方法: -
+const ErrCode790000 ErrCode = 790000
+
+// ErrCode790001 不合法的任务状态
+//
+// 排查方法: -
+const ErrCode790001 ErrCode = 790001
+
+// ErrCode790002 任务已经在执行
+//
+// 排查方法: -
+const ErrCode790002 ErrCode = 790002
+
+// ErrCode790003 任务执行结果已经上报
+//
+// 排查方法: -
+const ErrCode790003 ErrCode = 790003
+
+// ErrCode790004 未授权会话组件
+//
+// 排查方法: -
+const ErrCode790004 ErrCode = 790004
+
+// ErrCode790005 nonce重复
+//
+// 排查方法: -
+const ErrCode790005 ErrCode = 790005
+
+// ErrCode790006 没有已发布的镜像
+//
+// 排查方法: -
+const ErrCode790006 ErrCode = 790006
+
+// ErrCode790007 无法解密消息
+//
+// 排查方法: -
+const ErrCode790007 ErrCode = 790007
+
+// ErrCode790008 任务不在运行中
+//
+// 排查方法: -
+const ErrCode790008 ErrCode = 790008
 
 // ErrCode830001 用于上传临时素材的url非法
 //

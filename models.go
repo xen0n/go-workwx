@@ -1821,3 +1821,44 @@ type respKfServicerList struct {
 
 	ServicerList []*KfServicer `json:"servicer_list"`
 }
+
+// reqKfServiceStateGet 获取会话状态
+type reqKfServiceStateGet struct {
+	OpenKfID       string `json:"open_kfid"`
+	ExternalUserID string `json:"external_userid"`
+}
+
+var _ bodyer = reqKfServiceStateGet{}
+
+func (x reqKfServiceStateGet) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfServiceStateGet 获取会话状态 响应
+type respKfServiceStateGet struct {
+	respCommon
+
+	ServiceState   KfServiceState `json:"service_state"`
+	ServicerUserID string         `json:"servicer_userid"`
+}
+
+// reqKfServiceStateTrans 变更会话状态
+type reqKfServiceStateTrans struct {
+	OpenKfID       string         `json:"open_kfid"`
+	ExternalUserID string         `json:"external_userid"`
+	ServiceState   KfServiceState `json:"service_state"`
+	ServicerUserID string         `json:"servicer_userid"`
+}
+
+var _ bodyer = reqKfServiceStateTrans{}
+
+func (x reqKfServiceStateTrans) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfServiceStateTrans 变更会话状态 响应
+type respKfServiceStateTrans struct {
+	respCommon
+
+	MsgCode string `json:"msg_code"`
+}
