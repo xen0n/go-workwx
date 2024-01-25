@@ -55,6 +55,9 @@ const EventTypeSysApprovalChange EventType = "sys_approval_change"
 // EventTypeChangeContact 通讯录回调通知
 const EventTypeChangeContact EventType = "change_contact"
 
+// EventTypeKfMsgOrEvent 客服回调通知
+const EventTypeKfMsgOrEvent EventType = "kf_msg_or_event"
+
 // ChangeType 变更类型
 type ChangeType string
 
@@ -296,6 +299,13 @@ Name|XML|Type|Doc
 Name|XML|Type|Doc
 :---|:--|:---|:--
 `EventKey`|`EventKey`|`string`|事件key
+
+### `rxEventKfMsgOrEvent` 接受的事件消息，客服接收消息和事件
+
+Name|XML|Type|Doc
+:---|:--|:---|:--
+`OpenKfID`|`OpenKfId`|`string`|有新消息的客服账号。可通过sync_msg接口指定open_kfid获取此客服账号的消息
+`Token`|`Token`|`string`|调用拉取消息接口时，需要传此token，用于校验请求的合法性
 
 ### `rxEventUnknown` 接受的事件消息，未定义的事件类型
 

@@ -1690,12 +1690,10 @@ type reqKfAccountDelete struct {
 	OpenKfID string `json:"open_kfid"`
 }
 
-var _ urlValuer = reqKfAccountDelete{}
+var _ bodyer = reqKfAccountDelete{}
 
-func (x reqKfAccountDelete) intoURLValues() url.Values {
-	return url.Values{
-		"open_kfid": {x.OpenKfID},
-	}
+func (x reqKfAccountDelete) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
 }
 
 // respKfAccountDelete 删除客服账号 响应
@@ -1861,4 +1859,27 @@ type respKfServiceStateTrans struct {
 	respCommon
 
 	MsgCode string `json:"msg_code"`
+}
+
+// reqKfSyncMsg 读取消息
+type reqKfSyncMsg struct {
+	OpenKfID    string `json:"open_kfid"`
+	Cursor      string `json:"cursor"`
+	Token       string `json:"token"`
+	Limit       int64  `json:"limit"`
+	VoiceFormat int    `json:"voice_format"`
+}
+
+var _ bodyer = reqKfSyncMsg{}
+
+func (x reqKfSyncMsg) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfSyncMsg 读取消息 响应
+type respKfSyncMsg struct {
+	respCommon
+	NextCursor string  `json:"next_cursor"`
+	HasMore    int     `json:"has_more"`
+	MsgList    []KfMsg `json:"msg_list"`
 }

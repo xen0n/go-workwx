@@ -124,3 +124,18 @@ func (c *WorkwxApp) TransKfServiceState(openKfID, externalUserID, servicerUserID
 	}
 	return resp.MsgCode, nil
 }
+
+// KfSyncMsg 微信客服获取消息列表
+func (c *WorkwxApp) KfSyncMsg(openKfID, token, cursor string, limit int64, voiceFormat int) ([]KfMsg, int, string, error) {
+	resp, err := c.execKfSyncMsg(reqKfSyncMsg{
+		OpenKfID:    openKfID,
+		Cursor:      cursor,
+		Token:       token,
+		Limit:       limit,
+		VoiceFormat: voiceFormat,
+	})
+	if err != nil {
+		return nil, 0, "", err
+	}
+	return resp.MsgList, resp.HasMore, resp.NextCursor, nil
+}

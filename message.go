@@ -207,6 +207,8 @@ func (c *WorkwxApp) SendTemplateCardMessage(
 // sendMessage 发送消息底层接口
 //
 // 收件人参数如果仅设置了 `ChatID` 字段，则为【发送消息到群聊会话】接口调用；
+// 收件人参数如果仅设置了 `OpenKfID` 字段，则为【客服发送消息】接口调用；
+// 收件人参数如果仅设置了 `Code` 字段，则为【发送欢迎语等事件响应消息】接口调用；
 // 否则为单纯的【发送应用消息】接口调用。
 func (c *WorkwxApp) sendMessage(
 	recipient *Recipient,
@@ -214,15 +216,18 @@ func (c *WorkwxApp) sendMessage(
 	content map[string]interface{},
 	isSafe bool,
 ) error {
-	isApichatSendRequest := false
+	sendRequestFunc := c.execMessageSend
 	if !recipient.isValidForMessageSend() {
-		if !recipient.isValidForAppchatSend() {
+		if recipient.isValidForAppchatSend() {
+			sendRequestFunc = c.execAppchatSend
+		} else if recipient.isValidForKfSend() {
+			sendRequestFunc = c.execKfSend
+		} else if recipient.isValidForKfOnEventSend() {
+			sendRequestFunc = c.execKfOnEventSend
+		} else {
 			// TODO: better error
 			return errors.New("recipient invalid for message sending")
 		}
-
-		// 发送给群聊
-		isApichatSendRequest = true
 	}
 
 	req := reqMessage{
@@ -236,13 +241,7 @@ func (c *WorkwxApp) sendMessage(
 		IsSafe:  isSafe,
 	}
 
-	var resp respMessageSend
-	var err error
-	if isApichatSendRequest {
-		resp, err = c.execAppchatSend(req)
-	} else {
-		resp, err = c.execMessageSend(req)
-	}
+	resp, err := sendRequestFunc(req)
 
 	if err != nil {
 		return err

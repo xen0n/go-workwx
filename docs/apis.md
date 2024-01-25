@@ -247,7 +247,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execKfAccountCreate`|`reqKfAccountCreate`|`respKfAccountCreate`|+|`POST /cgi-bin/kf/account/add`|[添加客服账号](https://developer.work.weixin.qq.com/document/path/94662)
 `execKfAccountUpdate`|`reqKfAccountUpdate`|`respKfAccountUpdate`|+|`POST /cgi-bin/kf/account/update`|[修改客服账号](https://developer.work.weixin.qq.com/document/path/94664)
-`execKfAccountDelete`|`reqKfAccountDelete`|`respKfAccountDelete`|+|`GET /cgi-bin/kf/account/del`|[删除客服账号](https://developer.work.weixin.qq.com/document/path/94663)
+`execKfAccountDelete`|`reqKfAccountDelete`|`respKfAccountDelete`|+|`POST /cgi-bin/kf/account/del`|[删除客服账号](https://developer.work.weixin.qq.com/document/path/94663)
 `execKfAccountList`|`reqKfAccountList`|`respKfAccountList`|+|`GET /cgi-bin/kf/account/list`|[获取客服账号列表](https://developer.work.weixin.qq.com/document/path/94661)
 `execAddKfContact`|`reqAddKfContact`|`respAddKfContact`|+|`POST /cgi-bin/kf/add_contact_way`|[获取客服账号链接](https://developer.work.weixin.qq.com/document/path/94665)
 
@@ -269,3 +269,6 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execKfServiceStateGet`|`reqKfServiceStateGet`|`respKfServiceStateGet`|+|`POST /cgi-bin/kf/service_state/get`|[获取会话状态](https://developer.work.weixin.qq.com/document/path/94669)
 `execKfServiceStateTrans`|`reqKfServiceStateTrans`|`respKfServiceStateTrans`|+|`POST /cgi-bin/kf/service_state/trans`|[变更会话状态](https://developer.work.weixin.qq.com/document/path/94669)
+`execKfSyncMsg`|`reqKfSyncMsg`|`respKfSyncMsg`|+|`POST /cgi-bin/kf/sync_msg`|[读取消息](https://developer.work.weixin.qq.com/document/path/94670)
+`execKfSend`|`reqMessage`|`respMessageSend`|+|`POST /cgi-bin/kf/send_msg`|[发送消息](https://developer.work.weixin.qq.com/document/path/94677)
+`execKfOnEventSend`|`reqMessage`|`respMessageSend`|+|`POST /cgi-bin/kf/send_msg_on_event`|[发送欢迎语等事件响应消息](https://developer.work.weixin.qq.com/document/path/95122)

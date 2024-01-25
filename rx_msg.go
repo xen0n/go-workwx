@@ -206,6 +206,12 @@ func (m *RxMessage) EventAppUnsubscribe() (*rxEventAppUnsubscribe, bool) {
 	return y, ok
 }
 
+// EventKfMsgOrEvent  如果消息为客服接收消息和事件，则拿出相应消息参数，否则返回 nil, false
+func (m *RxMessage) EventKfMsgOrEvent() (*rxEventKfMsgOrEvent, bool) {
+	y, ok := m.extras.(*rxEventKfMsgOrEvent)
+	return y, ok
+}
+
 // EventUnknown  未定义的event类型
 func (m *RxMessage) EventUnknown() (*rxEventUnknown, bool) {
 	y, ok := m.extras.(*rxEventUnknown)

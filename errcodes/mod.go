@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2024-01-24 16:57:05 +0800
+// 文档爬取时间: 2024-01-25 18:02:01 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //

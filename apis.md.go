@@ -929,7 +929,7 @@ func (c *WorkwxApp) execKfAccountUpdate(req reqKfAccountUpdate) (respKfAccountUp
 // execKfAccountDelete 删除客服账号
 func (c *WorkwxApp) execKfAccountDelete(req reqKfAccountDelete) (respKfAccountDelete, error) {
 	var resp respKfAccountDelete
-	err := c.executeQyapiGet("/cgi-bin/kf/account/del", req, &resp, true)
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/del", req, &resp, true)
 	if err != nil {
 		return respKfAccountDelete{}, err
 	}
@@ -1033,6 +1033,48 @@ func (c *WorkwxApp) execKfServiceStateTrans(req reqKfServiceStateTrans) (respKfS
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respKfServiceStateTrans{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfSyncMsg 读取消息
+func (c *WorkwxApp) execKfSyncMsg(req reqKfSyncMsg) (respKfSyncMsg, error) {
+	var resp respKfSyncMsg
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/sync_msg", req, &resp, true)
+	if err != nil {
+		return respKfSyncMsg{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfSyncMsg{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfSend 发送消息
+func (c *WorkwxApp) execKfSend(req reqMessage) (respMessageSend, error) {
+	var resp respMessageSend
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/send_msg", req, &resp, true)
+	if err != nil {
+		return respMessageSend{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respMessageSend{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfOnEventSend 发送欢迎语等事件响应消息
+func (c *WorkwxApp) execKfOnEventSend(req reqMessage) (respMessageSend, error) {
+	var resp respMessageSend
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/send_msg_on_event", req, &resp, true)
+	if err != nil {
+		return respMessageSend{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respMessageSend{}, bizErr
 	}
 
 	return resp, nil
