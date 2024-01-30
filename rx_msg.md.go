@@ -61,6 +61,9 @@ const EventTypeSysApprovalChange EventType = "sys_approval_change"
 // EventTypeChangeContact 通讯录回调通知
 const EventTypeChangeContact EventType = "change_contact"
 
+// EventTypeKfMsgOrEvent 客服回调通知
+const EventTypeKfMsgOrEvent EventType = "kf_msg_or_event"
+
 // ChangeType 变更类型
 type ChangeType string
 
@@ -364,6 +367,14 @@ type rxEventAppSubscribe struct {
 type rxEventAppUnsubscribe struct {
 	// EventKey 事件key
 	EventKey string `xml:"EventKey"`
+}
+
+// rxEventKfMsgOrEvent 接受的事件消息，客服接收消息和事件
+type rxEventKfMsgOrEvent struct {
+	// OpenKfID 有新消息的客服账号。可通过sync_msg接口指定open_kfid获取此客服账号的消息
+	OpenKfID string `xml:"OpenKfId"`
+	// Token 调用拉取消息接口时，需要传此token，用于校验请求的合法性
+	Token string `xml:"Token"`
 }
 
 // rxEventUnknown 接受的事件消息，未定义的事件类型
