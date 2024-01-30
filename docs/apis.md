@@ -8,6 +8,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execGetJSAPITicket`|`reqJSAPITicket`|`respJSAPITicket`|+|`GET /cgi-bin/get_jsapi_ticket`|[获取企业的jsapi_ticket](https://open.work.weixin.qq.com/api/doc/90000/90136/90506)
 `execGetJSAPITicketAgentConfig`|`reqJSAPITicketAgentConfig`|`respJSAPITicket`|+|`GET /cgi-bin/ticket/get`|[获取应用的jsapi_ticket](https://open.work.weixin.qq.com/api/doc/90000/90136/90506)
 `execJSCode2Session`|`reqJSCode2Session`|`respJSCode2Session`|+|`GET /cgi-bin/miniprogram/jscode2session`|[临时登录凭证校验code2Session](https://open.work.weixin.qq.com/api/doc/90000/90136/91507)
+`execAuthCode2UserInfo`|`reqAuthCode2UserInfo`|`respAuthCode2UserInfo`|+|`GET /cgi-bin/auth/getuserinfo`|[获取访问用户身份](https://developer.work.weixin.qq.com/document/path/91023)
 
 # 成员管理
 

@@ -58,6 +58,20 @@ func (c *WorkwxApp) execJSCode2Session(req reqJSCode2Session) (respJSCode2Sessio
 	return resp, nil
 }
 
+// execAuthCode2UserInfo 获取访问用户身份
+func (c *WorkwxApp) execAuthCode2UserInfo(req reqAuthCode2UserInfo) (respAuthCode2UserInfo, error) {
+	var resp respAuthCode2UserInfo
+	err := c.executeQyapiGet("/cgi-bin/auth/getuserinfo", req, &resp, true)
+	if err != nil {
+		return respAuthCode2UserInfo{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAuthCode2UserInfo{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserGet 读取成员
 func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	var resp respUserGet

@@ -739,6 +739,33 @@ type JSCodeSession struct {
 	SessionKey string `json:"session_key"`
 }
 
+// reqAuthCode2UserInfo 获取访问用户身份
+type reqAuthCode2UserInfo struct {
+	Code string
+}
+
+var _ urlValuer = reqAuthCode2UserInfo{}
+
+func (x reqAuthCode2UserInfo) intoURLValues() url.Values {
+	return url.Values{
+		"code": {x.Code},
+	}
+}
+
+// respAuthCode2UserInfo 获取访问用户身份响应
+type respAuthCode2UserInfo struct {
+	respCommon
+	AuthCodeUserInfo
+}
+
+// AuthCodeUserInfo 访问用户身份
+type AuthCodeUserInfo struct {
+	UserID         string `json:"userid,omitempty"`
+	UserTicket     string `json:"user_ticket,omitempty"`
+	OpenID         string `json:"openid,omitempty"`
+	ExternalUserID string `json:"external_userid,omitempty"`
+}
+
 type reqMsgAuditListPermitUser struct {
 	MsgAuditEdition MsgAuditEdition `json:"type"`
 }

@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2024-01-25 18:02:01 +0800
+// 文档爬取时间: 2024-01-30 16:57:13 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -1040,6 +1040,16 @@ const ErrCode41095 ErrCode = 41095
 //
 // 排查方法: -
 const ErrCode41096 ErrCode = 41096
+
+// ErrCode41098 组件关联应用创建的获客链接授权给了其他组件
+//
+// 排查方法: -
+const ErrCode41098 ErrCode = 41098
+
+// ErrCode41099 不是服务商代支付模式
+//
+// 排查方法: -
+const ErrCode41099 ErrCode = 41099
 
 // ErrCode41102 缺少菜单名
 //
@@ -4179,6 +4189,11 @@ const ErrCode90707 ErrCode = 90707
 //
 // 排查方法: -
 const ErrCode90708 ErrCode = 90708
+
+// ErrCode90710 日程关联的会议已经结束，无法修改
+//
+// 排查方法: -
+const ErrCode90710 ErrCode = 90710
 
 // ErrCode91040 获取ticket的类型无效
 //

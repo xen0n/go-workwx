@@ -234,3 +234,12 @@ func (c *WorkwxApp) JSCode2Session(jscode string) (*JSCodeSession, error) {
 	}
 	return &resp.JSCodeSession, nil
 }
+
+// AuthCode2UserInfo 获取访问用户身份
+func (c *WorkwxApp) AuthCode2UserInfo(code string) (*AuthCodeUserInfo, error) {
+	resp, err := c.execAuthCode2UserInfo(reqAuthCode2UserInfo{Code: code})
+	if err != nil {
+		return nil, err
+	}
+	return &resp.AuthCodeUserInfo, nil
+}

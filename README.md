@@ -82,6 +82,7 @@ CI 会在 `go1.17` 和 Go 的当前稳定版本、上一个稳定版本上跑测
 * [x] OA (**大部分支持**，见下)
 * [x] 会话内容存档 (**大部分支持**，见下)
 * [x] 企业微信登录接口 (code2Session)
+* [x] 获取访问用户身份 (code2UserInfo)
 
 <details>
 <summary>通讯录管理 API</summary>
