@@ -88,6 +88,7 @@ Name|JSON|Type|Doc
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Key`|`key`|`string`| 选项key，可通过“获取审批模板详情”接口获得
+`Value`|`value`|`[]OAText`| 选项值，若配置了多语言则会包含中英文的选项值
 
 ### `OAContentMember` 所选成员内容，即申请人在此控件选择的成员，多选模式下可以有多个
 
@@ -207,7 +208,8 @@ Name|JSON|Type|Doc
 `Selector`|`selector`|`OATemplateControlConfigSelector`| Selector控件（单选/多选控件）
 `Contact`|`contact`|`OATemplateControlConfigContact`| Contact控件（成员/部门控件）
 `Table`|`table`|`OATemplateControlConfigTable`| Table（明细控件）
-`Attendance`|`attendance`|`OATemplateControlConfigAttendance`| Attendance控件（假勤控件）
+`Attendance`|`attendance`|`OATemplateControlConfigAttendance`| Attendance控件（假勤控件）【出差】【加班】【外出】模板特有的控件
+`Vacation`|`vacation_list`|`OATemplateControlConfigVacation`| Vacation控件（假勤控件）【请假】模板特有控件, 请假类型强关联审批应用中的假期管理。
 
 ### `OATemplateControlConfigDate` 类型标志，日期/日期+时间控件的config中会包含此参数
 
