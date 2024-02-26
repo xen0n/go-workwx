@@ -114,6 +114,8 @@ type OAContentSelector struct {
 type OAContentSelectorOption struct {
 	// Key 选项key，可通过“获取审批模板详情”接口获得
 	Key string `json:"key"`
+	// Value 选项值，若配置了多语言则会包含中英文的选项值
+	Value []OAText `json:"value"`
 }
 
 // OAContentMember 所选成员内容，即申请人在此控件选择的成员，多选模式下可以有多个
@@ -254,8 +256,10 @@ type OATemplateControlConfig struct {
 	Contact OATemplateControlConfigContact `json:"contact"`
 	// Table Table（明细控件）
 	Table OATemplateControlConfigTable `json:"table"`
-	// Attendance Attendance控件（假勤控件）
+	// Attendance Attendance控件（假勤控件）【出差】【加班】【外出】模板特有的控件
 	Attendance OATemplateControlConfigAttendance `json:"attendance"`
+	// Vacation Vacation控件（假勤控件）【请假】模板特有控件, 请假类型强关联审批应用中的假期管理。
+	Vacation OATemplateControlConfigVacation `json:"vacation_list"`
 }
 
 // OATemplateControlConfigDate 类型标志，日期/日期+时间控件的config中会包含此参数
