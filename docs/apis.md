@@ -159,6 +159,9 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execOAApplyEvent`|`reqOAApplyEvent`|`respOAApplyEvent`|+|`POST /cgi-bin/oa/applyevent`|[提交审批申请](https://work.weixin.qq.com/api/doc/90000/90135/91853)
 `execOAGetApprovalInfo`|`reqOAGetApprovalInfo`|`respOAGetApprovalInfo`|+|`POST /cgi-bin/oa/getapprovalinfo`|[批量获取审批单号](https://work.weixin.qq.com/api/doc/90000/90135/91816)
 `execOAGetApprovalDetail`|`reqOAGetApprovalDetail`|`respOAGetApprovalDetail`|+|`POST /cgi-bin/oa/getapprovaldetail`|[获取审批申请详情](https://work.weixin.qq.com/api/doc/90000/90135/91983)
+`execOAGetCorpVacationConf`| `reqOAGetCorpVacationConf`     | `respOAGetCorpVacationConf`     |+| `GET /cgi-bin/oa/vacation/getcorpconf`           |[获取企业假期管理配置](https://developer.work.weixin.qq.com/document/path/93375)
+`execOAGetUserVacationQuota`| `reqOAGetUserVacationQuota`    | `respOAGetUserVacationQuota`    |+| `POST /cgi-bin/oa/vacation/getuservacationquota` |[获取成员假期余额](https://developer.work.weixin.qq.com/document/path/93376)
+`execOASetOneUserVacationQuota`| `reqOASetOneUserVacationQuota` | `respOASetOneUserVacationQuota` |+| `POST /cgi-bin/oa/vacation/setoneuserquota`      |[修改成员假期余额](https://developer.work.weixin.qq.com/document/path/93377)
 
 # 企业支付
 

@@ -414,3 +414,72 @@ const OAApprovalInfoFilterKeyDepartment   OAApprovalInfoFilterKey = "department"
 // OAApprovalInfoFilterKeySpStatus 审批状态
 const OAApprovalInfoFilterKeySpStatus  OAApprovalInfoFilterKey = "sp_status"
 ```
+
+### `CorpVacationConf` 企业假期管理配置
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`ID`|`id`|`uint32`| 假期id
+`Name`|`name`|`string`| 假期名称
+`TimeAttr`|`time_attr`|`uint32`| 假期时间刻度：0-按天请假；1-按小时请假
+`DurationType`|`duration_type`|`uint32`| 时长计算类型：0-自然日；1-工作日
+`QuotaAttr`|`quota_attr`|`CorpVacationConfQuotaAttr`| 假期发放相关配置
+`PerdayDuration`|`perday_duration`|`uint32`| 单位换算值，即1天对应的秒数，可将此值除以3600得到一天对应的小时。
+`IsNewovertime`|`is_newovertime`|`*uint32`| 是否关联加班调休，0-不关联，1-关联，关联后改假期类型变为调休假
+`EnterCompTimeLimit`|`enter_comp_time_limit`|`*uint32`| 入职时间大于n个月可用该假期，单位为月
+`ExpireRule`|`expire_rule`|`*CorpVacationConfExpireRule`| 假期过期规则
+
+### `CorpVacationConfQuotaAttr` 企业假期管理配置-假期发放相关配置
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`Type`|`type`|`uint32`| 假期发放类型：0-不限额；1-自动按年发放；2-手动发放；3-自动按月发放
+`AutoresetTime`|`autoreset_time`|`uint32`| 自动发放时间戳，若假期发放为自动发放，此参数代表自动发放日期。注：返回时间戳的年份是无意义的，请只使用返回时间的月和日；若at_entry_date为true，该字段则无效，假期发放时间为员工入职时间
+`AutoresetDuration`|`autoreset_duration`|`uint32`| 自动发放时长，单位为秒。注：只有自动按年发放和自动按月发放时有效，若选择了按照工龄和司龄发放，该字段无效，发放时长请使用区间中的quota
+`QuotaRuleType`|`quota_rule_type`|`*uint32`| 额度计算类型，自动按年发放时有效，0-固定额度；1-按工龄计算；2-按司龄计算
+`QuotaRules`|`quota_rules`|`*CorpVacationConfQuotaRules`| 额度计算规则，自动按年发放时有效
+`AtEntryDate`|`at_entry_date`|`*bool`| 是否按照入职日期发放假期，只有在自动按年发放类型有效，选择后发放假期的时间会成为员工入职的日期
+`AutoResetMonthDay`|`auto_reset_month_day`|`*uint32`| 自动按月发放的发放时间，只有自动按月发放类型有效
+
+### `CorpVacationConfQuotaRules` 企业假期管理配置-额度计算规则
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`List`|`list`|`[]CorpVacationConfQuotaRule`| 额度计算规则区间，只有在选择了按照工龄计算或者按照司龄计算时有效
+
+### `CorpVacationConfQuotaRule` 企业假期管理配置-额度计算规则区间
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`Quota`|`quota`|`uint32`| 区间发放时长，单位为s
+`Begin`|`begin`|`uint32`| 区间开始点，单位为年
+`End`|`end`|`uint32`| 区间结束点，无穷大则为0，单位为年
+`BasedOnActualWorkTime`|`based_on_actual_work_time`|`bool`| 是否根据实际入职时间计算假期，选择后会根据员工在今年的实际工作时间发放假期
+
+### `CorpVacationConfExpireRule` 企业假期管理配置-假期过期规则
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`Type`|`type`|`uint32`| 过期规则类型，1-按固定时间过期，2-从发放日按年过期，3-从发放日按月过期，4-不过期
+`Duration`|`duration`|`uint64`| 有效期，按年过期为年，按月过期为月，只有在以上两种情况时有效
+`Date`|`date`|`CorpVacationConfDate`| 失效日期，只有按固定时间过期时有效
+`ExternDurationEnable`|`extern_duration_enable`|`bool`| 是否允许延长有效期
+`ExternDuration`|`extern_duration`|`CorpVacationConfDate`| 延长有效期的具体时间，只有在extern_duration_enable为true时有效
+
+### `CorpVacationConfDate` 企业假期管理配置-失效日期
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`Month`|`month`|`uint32`| 月份
+`Day`|`day`|`uint32`| 日
+
+### `UserVacationQuota` 假期列表
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`ID`|`id`|`uint32`| 假期id
+`AssignDuration`|`assignduration`|`uint32`| 发放时长，单位为秒
+`UsedDuration`|`usedduration`|`uint32`| 使用时长，单位为秒
+`LeftDuration`|`leftduration`|`uint32`| 剩余时长，单位为秒
+`VacationName`|`vacationname`|`string`| 假期名称
+`RealAssignDuration`|`real_assignduration`|`uint32`| 假期的实际发放时长，通常在设置了按照实际工作时间发放假期后进行计算

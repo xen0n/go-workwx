@@ -576,6 +576,48 @@ func (c *WorkwxApp) execOAGetApprovalDetail(req reqOAGetApprovalDetail) (respOAG
 	return resp, nil
 }
 
+// execOAGetCorpVacationConf 获取企业假期管理配置
+func (c *WorkwxApp) execOAGetCorpVacationConf(req reqOAGetCorpVacationConf) (respOAGetCorpVacationConf, error) {
+	var resp respOAGetCorpVacationConf
+	err := c.executeQyapiGet("/cgi-bin/oa/vacation/getcorpconf", req, &resp, true)
+	if err != nil {
+		return respOAGetCorpVacationConf{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetCorpVacationConf{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAGetUserVacationQuota 获取成员假期余额
+func (c *WorkwxApp) execOAGetUserVacationQuota(req reqOAGetUserVacationQuota) (respOAGetUserVacationQuota, error) {
+	var resp respOAGetUserVacationQuota
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/vacation/getuservacationquota", req, &resp, true)
+	if err != nil {
+		return respOAGetUserVacationQuota{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetUserVacationQuota{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOASetOneUserVacationQuota 修改成员假期余额
+func (c *WorkwxApp) execOASetOneUserVacationQuota(req reqOASetOneUserVacationQuota) (respOASetOneUserVacationQuota, error) {
+	var resp respOASetOneUserVacationQuota
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/vacation/setoneuserquota", req, &resp, true)
+	if err != nil {
+		return respOASetOneUserVacationQuota{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOASetOneUserVacationQuota{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execMsgAuditListPermitUser 获取会话内容存档开启成员列表
 func (c *WorkwxApp) execMsgAuditListPermitUser(req reqMsgAuditListPermitUser) (respMsgAuditListPermitUser, error) {
 	var resp respMsgAuditListPermitUser
