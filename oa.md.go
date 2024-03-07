@@ -198,12 +198,26 @@ type OAContentFormula struct {
 
 // OAContentDateRange 时长组件
 type OAContentDateRange struct {
+	// Type 时间展示类型：halfday-日期；hour-日期+时间
+	Type string `json:"type"`
 	// NewBegin 开始时间，unix时间戳
 	NewBegin int `json:"new_begin"`
 	// NewEnd 结束时间，unix时间戳
 	NewEnd int `json:"new_end"`
 	// NewDuration 时长范围，单位秒
 	NewDuration int `json:"new_duration"`
+	// PerdayDuration 每天的工作时长
+	PerdayDuration int `json:"perday_duration"`
+	// TimezoneInfo 时区信息，只有在非UTC+8的情况下会返回
+	TimezoneInfo *OAContentDateRangeTimezoneInfo `json:"timezone_info"`
+}
+
+// OAContentDateRangeTimezoneInfo 时区信息
+type OAContentDateRangeTimezoneInfo struct {
+	// ZoneOffset 时区偏移量
+	ZoneOffset string `json:"zone_offset"`
+	// ZoneDesc 时区描述
+	ZoneDesc string `json:"zone_desc"`
 }
 
 // OATemplateDetail 审批模板详情

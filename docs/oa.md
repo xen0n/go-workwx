@@ -163,10 +163,19 @@ Name|JSON|Type|Doc
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
+`Type`|`type`|`string`| 时间展示类型：halfday-日期；hour-日期+时间
 `NewBegin`|`new_begin`|`int`| 开始时间，unix时间戳
 `NewEnd`|`new_end`|`int`| 结束时间，unix时间戳
 `NewDuration`|`new_duration`|`int`| 时长范围，单位秒
+`PerdayDuration`|`perday_duration`|`int`| 每天的工作时长
+`TimezoneInfo`|`timezone_info`|`*OAContentDateRangeTimezoneInfo`|时区信息，只有在非UTC+8的情况下会返回
 
+### `OAContentDateRangeTimezoneInfo` 时区信息
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`ZoneOffset`|`zone_offset`|`string`|时区偏移量
+`ZoneDesc`|`zone_desc`|`string`|时区描述
 
 ### `OATemplateDetail` 审批模板详情
 
