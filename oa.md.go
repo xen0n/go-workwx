@@ -198,12 +198,26 @@ type OAContentFormula struct {
 
 // OAContentDateRange 时长组件
 type OAContentDateRange struct {
+	// Type 时间展示类型：halfday-日期；hour-日期+时间
+	Type string `json:"type"`
 	// NewBegin 开始时间，unix时间戳
 	NewBegin int `json:"new_begin"`
 	// NewEnd 结束时间，unix时间戳
 	NewEnd int `json:"new_end"`
 	// NewDuration 时长范围，单位秒
 	NewDuration int `json:"new_duration"`
+	// PerdayDuration 每天的工作时长
+	PerdayDuration int `json:"perday_duration"`
+	// TimezoneInfo 时区信息，只有在非UTC+8的情况下会返回
+	TimezoneInfo *OAContentDateRangeTimezoneInfo `json:"timezone_info"`
+}
+
+// OAContentDateRangeTimezoneInfo 时区信息
+type OAContentDateRangeTimezoneInfo struct {
+	// ZoneOffset 时区偏移量
+	ZoneOffset string `json:"zone_offset"`
+	// ZoneDesc 时区描述
+	ZoneDesc string `json:"zone_desc"`
 }
 
 // OATemplateDetail 审批模板详情
@@ -487,3 +501,99 @@ const OAApprovalInfoFilterKeyDepartment OAApprovalInfoFilterKey = "department"
 
 // OAApprovalInfoFilterKeySpStatus 审批状态
 const OAApprovalInfoFilterKeySpStatus OAApprovalInfoFilterKey = "sp_status"
+
+// CorpVacationConf 企业假期管理配置
+type CorpVacationConf struct {
+	// ID 假期id
+	ID uint32 `json:"id"`
+	// Name 假期名称
+	Name string `json:"name"`
+	// TimeAttr 假期时间刻度：0-按天请假；1-按小时请假
+	TimeAttr uint32 `json:"time_attr"`
+	// DurationType 时长计算类型：0-自然日；1-工作日
+	DurationType uint32 `json:"duration_type"`
+	// QuotaAttr 假期发放相关配置
+	QuotaAttr CorpVacationConfQuotaAttr `json:"quota_attr"`
+	// PerdayDuration 单位换算值，即1天对应的秒数，可将此值除以3600得到一天对应的小时。
+	PerdayDuration uint32 `json:"perday_duration"`
+	// IsNewovertime 是否关联加班调休，0-不关联，1-关联，关联后改假期类型变为调休假
+	IsNewovertime *uint32 `json:"is_newovertime"`
+	// EnterCompTimeLimit 入职时间大于n个月可用该假期，单位为月
+	EnterCompTimeLimit *uint32 `json:"enter_comp_time_limit"`
+	// ExpireRule 假期过期规则
+	ExpireRule *CorpVacationConfExpireRule `json:"expire_rule"`
+}
+
+// CorpVacationConfQuotaAttr 企业假期管理配置-假期发放相关配置
+type CorpVacationConfQuotaAttr struct {
+	// Type 假期发放类型：0-不限额；1-自动按年发放；2-手动发放；3-自动按月发放
+	Type uint32 `json:"type"`
+	// AutoresetTime 自动发放时间戳，若假期发放为自动发放，此参数代表自动发放日期。注：返回时间戳的年份是无意义的，请只使用返回时间的月和日；若at_entry_date为true，该字段则无效，假期发放时间为员工入职时间
+	AutoresetTime uint32 `json:"autoreset_time"`
+	// AutoresetDuration 自动发放时长，单位为秒。注：只有自动按年发放和自动按月发放时有效，若选择了按照工龄和司龄发放，该字段无效，发放时长请使用区间中的quota
+	AutoresetDuration uint32 `json:"autoreset_duration"`
+	// QuotaRuleType 额度计算类型，自动按年发放时有效，0-固定额度；1-按工龄计算；2-按司龄计算
+	QuotaRuleType *uint32 `json:"quota_rule_type"`
+	// QuotaRules 额度计算规则，自动按年发放时有效
+	QuotaRules *CorpVacationConfQuotaRules `json:"quota_rules"`
+	// AtEntryDate 是否按照入职日期发放假期，只有在自动按年发放类型有效，选择后发放假期的时间会成为员工入职的日期
+	AtEntryDate *bool `json:"at_entry_date"`
+	// AutoResetMonthDay 自动按月发放的发放时间，只有自动按月发放类型有效
+	AutoResetMonthDay *uint32 `json:"auto_reset_month_day"`
+}
+
+// CorpVacationConfQuotaRules 企业假期管理配置-额度计算规则
+type CorpVacationConfQuotaRules struct {
+	// List 额度计算规则区间，只有在选择了按照工龄计算或者按照司龄计算时有效
+	List []CorpVacationConfQuotaRule `json:"list"`
+}
+
+// CorpVacationConfQuotaRule 企业假期管理配置-额度计算规则区间
+type CorpVacationConfQuotaRule struct {
+	// Quota 区间发放时长，单位为s
+	Quota uint32 `json:"quota"`
+	// Begin 区间开始点，单位为年
+	Begin uint32 `json:"begin"`
+	// End 区间结束点，无穷大则为0，单位为年
+	End uint32 `json:"end"`
+	// BasedOnActualWorkTime 是否根据实际入职时间计算假期，选择后会根据员工在今年的实际工作时间发放假期
+	BasedOnActualWorkTime bool `json:"based_on_actual_work_time"`
+}
+
+// CorpVacationConfExpireRule 企业假期管理配置-假期过期规则
+type CorpVacationConfExpireRule struct {
+	// Type 过期规则类型，1-按固定时间过期，2-从发放日按年过期，3-从发放日按月过期，4-不过期
+	Type uint32 `json:"type"`
+	// Duration 有效期，按年过期为年，按月过期为月，只有在以上两种情况时有效
+	Duration uint64 `json:"duration"`
+	// Date 失效日期，只有按固定时间过期时有效
+	Date CorpVacationConfDate `json:"date"`
+	// ExternDurationEnable 是否允许延长有效期
+	ExternDurationEnable bool `json:"extern_duration_enable"`
+	// ExternDuration 延长有效期的具体时间，只有在extern_duration_enable为true时有效
+	ExternDuration CorpVacationConfDate `json:"extern_duration"`
+}
+
+// CorpVacationConfDate 企业假期管理配置-失效日期
+type CorpVacationConfDate struct {
+	// Month 月份
+	Month uint32 `json:"month"`
+	// Day 日
+	Day uint32 `json:"day"`
+}
+
+// UserVacationQuota 假期列表
+type UserVacationQuota struct {
+	// ID 假期id
+	ID uint32 `json:"id"`
+	// AssignDuration 发放时长，单位为秒
+	AssignDuration uint32 `json:"assignduration"`
+	// UsedDuration 使用时长，单位为秒
+	UsedDuration uint32 `json:"usedduration"`
+	// LeftDuration 剩余时长，单位为秒
+	LeftDuration uint32 `json:"leftduration"`
+	// VacationName 假期名称
+	VacationName string `json:"vacationname"`
+	// RealAssignDuration 假期的实际发放时长，通常在设置了按照实际工作时间发放假期后进行计算
+	RealAssignDuration uint32 `json:"real_assignduration"`
+}

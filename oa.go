@@ -53,6 +53,30 @@ func (c *WorkwxApp) GetOAApprovalDetail(spNo string) (*OAApprovalDetail, error) 
 	return &resp.Info, nil
 }
 
+// GetOAGetCorpVacationConf 获取企业假期管理配置
+func (c *WorkwxApp) GetOAGetCorpVacationConf() ([]CorpVacationConf, error) {
+	resp, err := c.execOAGetCorpVacationConf(reqOAGetCorpVacationConf{})
+	if err != nil {
+		return nil, err
+	}
+	return resp.Lists, nil
+}
+
+// GetOAGetUserVacationQuota 获取成员假期余额
+func (c *WorkwxApp) GetOAGetUserVacationQuota(userID string) ([]UserVacationQuota, error) {
+	resp, err := c.execOAGetUserVacationQuota(reqOAGetUserVacationQuota{UserID: userID})
+	if err != nil {
+		return nil, err
+	}
+	return resp.Lists, nil
+}
+
+// SetOAOneUserVacationQuota 修改成员假期余额
+func (c *WorkwxApp) SetOAOneUserVacationQuota(req OASetOneUserVacationQuota) error {
+	_, err := c.execOASetOneUserVacationQuota(reqOASetOneUserVacationQuota(req))
+	return err
+}
+
 // GetOAApprovalInfoReq 批量获取审批单号请求
 type GetOAApprovalInfoReq struct {
 	// StartTime 审批单提交的时间范围，开始时间，UNix时间戳
@@ -153,4 +177,13 @@ type OAApprovalInfoComment struct {
 type OAApprovalInfoCommentUserInfo struct {
 	// UserID 备注人userid
 	UserID string `xml:"UserId"`
+}
+
+// OASetOneUserVacationQuota 修改成员假期余额
+type OASetOneUserVacationQuota struct {
+	UserID       string
+	VacationID   string
+	LeftDuration string
+	TimeAttr     int64
+	Remarks      string
 }
