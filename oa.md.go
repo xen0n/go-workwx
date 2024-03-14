@@ -78,12 +78,18 @@ type OAContentValue struct {
 	Members []OAContentMember `json:"members"`
 	// Departments 部门控件（control参数为Contact，且value参数为departments）
 	Departments []OAContentDepartment `json:"departments"`
+	// Tips 说明文字控件（control参数为Tips）
+	Tips OATemplateControlConfigTips `json:"new_tips"`
 	// Files 附件控件（control参数为File，且value参数为files）
 	Files []OAContentFile `json:"files"`
 	// Table 明细控件（control参数为Table）
 	Table []OAContentTableList `json:"children"`
 	// Vacation 假勤组件-请假组件（control参数为Vacation）
 	Vacation OAContentVacation `json:"vacation"`
+	// Attendance 假勤组件-出差/外出/加班组件（control参数为Attendance）
+	Attendance OAContentVacationAttendance `json:"attendance"`
+	// PunchCorrection 假勤组件-出差/外出/加班组件（control参数为Attendance）
+	PunchCorrection OAContentPunchCorrection `json:"punch_correction"`
 	// Location 位置控件（control参数为Location，且value参数为location）
 	Location OAContentLocation `json:"location"`
 	// RelatedApproval 关联审批单控件（control参数为RelatedApproval，且value参数为related_approval）
@@ -92,6 +98,8 @@ type OAContentValue struct {
 	Formula OAContentFormula `json:"formula"`
 	// DateRange 时长组件（control参数为DateRange，且value参数为date_range）
 	DateRange OAContentDateRange `json:"date_range"`
+	// BankAccount 收款账户控件（control参数为BankAccount）
+	BankAccount OAContentBankAccount `json:"bank_account"`
 }
 
 // OAContentDate 日期/日期+时间内容
@@ -160,6 +168,8 @@ type OAContentVacationAttendance struct {
 	DateRange OAContentVacationAttendanceDateRange `json:"date_range"`
 	// Type 假勤组件类型：1-请假；3-出差；4-外出；5-加班
 	Type uint8 `json:"type"`
+	// SliceInfo 时长支持按天分片信息， 2020/10/01之前的历史表单不支持时长分片
+	SliceInfo OAContentVacationAttendanceSliceInfo `json:"slice_info"`
 }
 
 // OAContentVacationAttendanceDateRange 假勤组件时间选择范围
@@ -168,6 +178,36 @@ type OAContentVacationAttendanceDateRange struct {
 	Type string `json:"type"`
 	//  时长范围
 	OAContentDateRange
+}
+
+// OAContentVacationAttendanceSliceInfo 假勤组件时长支持按天分片信息， 2020/10/01之前的历史表单不支持时长分片
+type OAContentVacationAttendanceSliceInfo struct {
+	// Duration 总时长，单位是秒
+	Duration uint64 `json:"duration"`
+	// State 时长计算来源类型: 1--系统自动计算;2--用户修改
+	State uint8 `json:"state"`
+	// DayItems 时长计算来源类型: 1--系统自动计算;2--用户修改
+	DayItems []OAContentVacationAttendanceSliceInfoDayItem `json:"day_items"`
+}
+
+// OAContentVacationAttendanceSliceInfoDayItem 假勤组件时长支持按天分片信息，每一天的分片时长信息
+type OAContentVacationAttendanceSliceInfoDayItem struct {
+	// Daytime 日期的00:00:00时间戳，Unix时间
+	Daytime uint64 `json:"daytime"`
+	// Duration 分隔当前日期的时长秒数
+	Duration uint64 `json:"duration"`
+}
+
+// OAContentPunchCorrection 补卡组件
+type OAContentPunchCorrection struct {
+	// State 异常状态说明
+	State string `json:"state"`
+	// Time 补卡时间，Unix时间戳
+	Time uint64 `json:"time"`
+	// Version 版本标识，为1的时候为新版补卡，daymonthyear有值
+	Version uint8 `json:"version"`
+	// Daymonthyear 补卡日期0点Unix时间戳
+	Daymonthyear uint64 `json:"daymonthyear"`
 }
 
 // OAContentLocation 位置控件
@@ -218,6 +258,40 @@ type OAContentDateRangeTimezoneInfo struct {
 	ZoneOffset string `json:"zone_offset"`
 	// ZoneDesc 时区描述
 	ZoneDesc string `json:"zone_desc"`
+}
+
+// OAContentBankAccount 时长组件
+type OAContentBankAccount struct {
+	// AccountType 账户类型 ：1：对公账户,2：个人账户
+	AccountType uint8 `json:"account_type"`
+	// AccountName 账户名
+	AccountName string `json:"account_name"`
+	// AccountNumber 账号
+	AccountNumber string `json:"account_number"`
+	// Remark 备注
+	Remark string `json:"remark"`
+	// Bank 银行信息
+	Bank OAContentBankAccountBank `json:"bank"`
+}
+
+// OAContentBankAccountBank 银行信息
+type OAContentBankAccountBank struct {
+	// BankAlias 银行名称
+	BankAlias string `json:"bank_alias"`
+	// BankAliasCode 银行代码
+	BankAliasCode string `json:"bank_alias_code"`
+	// Province 省份
+	Province string `json:"province"`
+	// ProvinceCode 省份代码
+	ProvinceCode uint8 `json:"province_code"`
+	// City 城市
+	City string `json:"city"`
+	// CityCode 城市代码
+	CityCode uint8 `json:"city_code"`
+	// BankBranchName 银行支行
+	BankBranchName string `json:"bank_branch_name"`
+	// BankBranchId 银行支行联行号
+	BankBranchId string `json:"bank_branch_id"`
 }
 
 // OATemplateDetail 审批模板详情
@@ -274,6 +348,8 @@ type OATemplateControlConfig struct {
 	Attendance OATemplateControlConfigAttendance `json:"attendance"`
 	// Vacation Vacation控件（假勤控件）【请假】模板特有控件, 请假类型强关联审批应用中的假期管理。
 	Vacation OATemplateControlConfigVacation `json:"vacation_list"`
+	// Tips Tips控件（说明文字控件）
+	Tips OATemplateControlConfigTips `json:"tips"`
 }
 
 // OATemplateControlConfigDate 类型标志，日期/日期+时间控件的config中会包含此参数
@@ -338,6 +414,56 @@ type OATemplateControlConfigVacationItem struct {
 	ID int `json:"id"`
 	// Name 假期类型名称，默认zh_CN中文名称
 	Name []OAText `json:"name"`
+}
+
+// OATemplateControlConfigTips 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTips struct {
+	// TipsContent 说明文字数组，元素为不同语言的富文本说明文字
+	TipsContent []OATemplateControlConfigTipsContent `json:"tips_content"`
+}
+
+// OATemplateControlConfigTipsContent 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContent struct {
+	// Text 某个语言的富文本说明文字数组，元素为不同文本类型的说明文字分段
+	Text OATemplateControlConfigTipsContentText `json:"text"`
+	// Lang 语言类型
+	Lang string `json:"lang"`
+}
+
+// OATemplateControlConfigTipsContentText 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentText struct {
+	// SubText 说明文字分段
+	SubText []OATemplateControlConfigTipsContentSubText `json:"sub_text"`
+}
+
+// OATemplateControlConfigTipsContentSubText 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentSubText struct {
+	// Type 文本类型 1:纯文本 2:链接，每个说明文字中只支持包含一个链接
+	Type uint8 `json:"type"`
+	// Content 内容
+	Content OATemplateControlConfigTipsContentSubTextContent `json:"content"`
+}
+
+// OATemplateControlConfigTipsContentSubTextContent 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentSubTextContent struct {
+	// Text 纯文本类型的内容
+	Text *OATemplateControlConfigTipsContentSubTextContentPlain `json:"plain_text"`
+	// Lang 链接类型的内容
+	Lang *OATemplateControlConfigTipsContentSubTextContentLink `json:"link"`
+}
+
+// OATemplateControlConfigTipsContentSubTextContentPlain 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentSubTextContentPlain struct {
+	// Content 纯文本文字
+	Content string `json:"content"`
+}
+
+// OATemplateControlConfigTipsContentSubTextContentLink 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentSubTextContentLink struct {
+	// Title 链接标题
+	Title string `json:"title"`
+	// URL 链接url
+	URL string `json:"url"`
 }
 
 // OAControl 控件类型

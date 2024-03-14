@@ -61,13 +61,17 @@ Name|JSON|Type|Doc
 `Selector`|`selector`|`OAContentSelector`| 单选/多选控件（control参数为Selector）
 `Members`|`members`|`[]OAContentMember`| 成员控件（control参数为Contact，且value参数为members）
 `Departments`|`departments`|`[]OAContentDepartment`| 部门控件（control参数为Contact，且value参数为departments）
+`Tips`|`new_tips`|`OATemplateControlConfigTips`| 说明文字控件（control参数为Tips）
 `Files`|`files`|`[]OAContentFile`| 附件控件（control参数为File，且value参数为files）
 `Table`|`children`|`[]OAContentTableList`| 明细控件（control参数为Table）
 `Vacation`|`vacation`|`OAContentVacation`| 假勤组件-请假组件（control参数为Vacation）
+`Attendance`|`attendance`|`OAContentVacationAttendance`| 假勤组件-出差/外出/加班组件（control参数为Attendance）
+`PunchCorrection`|`punch_correction`|`OAContentPunchCorrection`| 假勤组件-出差/外出/加班组件（control参数为Attendance）
 `Location`|`location`|`OAContentLocation`| 位置控件（control参数为Location，且value参数为location）
 `RelatedApproval`|`related_approval`|`[]OAContentRelatedApproval`| 关联审批单控件（control参数为RelatedApproval，且value参数为related_approval）
 `Formula`|`formula`|`OAContentFormula`| 公式控件（control参数为Formula，且value参数为formula）
 `DateRange`|`date_range`|`OAContentDateRange`| 时长组件（control参数为DateRange，且value参数为date_range）
+`BankAccount`|`bank_account`|`OAContentBankAccount`| 收款账户控件（control参数为BankAccount）
 
 ### `OAContentDate` 日期/日期+时间内容
 
@@ -129,6 +133,7 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `DateRange`|`date_range`|`OAContentVacationAttendanceDateRange`| 假勤组件时间选择范围
 `Type`|`type`|`uint8`| 假勤组件类型：1-请假；3-出差；4-外出；5-加班
+`SliceInfo`|`slice_info`|`OAContentVacationAttendanceSliceInfo`| 时长支持按天分片信息， 2020/10/01之前的历史表单不支持时长分片
 
 ### `OAContentVacationAttendanceDateRange` 假勤组件时间选择范围
 
@@ -136,6 +141,30 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Type`|`type`|`string`| 时间展示类型：day-日期；hour-日期+时间
 ``|``|`OAContentDateRange`| 时长范围
+
+### `OAContentVacationAttendanceSliceInfo` 假勤组件时长支持按天分片信息， 2020/10/01之前的历史表单不支持时长分片
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Duration`|`duration`|`uint64`| 总时长，单位是秒
+`State`|`state`|`uint8`| 时长计算来源类型: 1--系统自动计算;2--用户修改
+`DayItems`|`day_items`|`[]OAContentVacationAttendanceSliceInfoDayItem`| 时长计算来源类型: 1--系统自动计算;2--用户修改
+
+### `OAContentVacationAttendanceSliceInfoDayItem` 假勤组件时长支持按天分片信息，每一天的分片时长信息
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Daytime`|`daytime`|`uint64`| 日期的00:00:00时间戳，Unix时间
+`Duration`|`duration`|`uint64`| 分隔当前日期的时长秒数
+
+### `OAContentPunchCorrection` 补卡组件
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`State`|`state`|`string`| 异常状态说明
+`Time`|`time`|`uint64`| 补卡时间，Unix时间戳
+`Version`|`version`|`uint8`| 版本标识，为1的时候为新版补卡，daymonthyear有值
+`Daymonthyear`|`daymonthyear`|`uint64`| 补卡日期0点Unix时间戳
 
 ### `OAContentLocation` 位置控件
 
@@ -176,6 +205,29 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `ZoneOffset`|`zone_offset`|`string`|时区偏移量
 `ZoneDesc`|`zone_desc`|`string`|时区描述
+
+### `OAContentBankAccount` 时长组件
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`AccountType`|`account_type`|`uint8`| 账户类型 ：1：对公账户,2：个人账户
+`AccountName`|`account_name`|`string`| 账户名
+`AccountNumber`|`account_number`|`string`| 账号
+`Remark`|`remark`|`string`| 备注
+`Bank`|`bank`|`OAContentBankAccountBank`| 银行信息
+
+### `OAContentBankAccountBank` 银行信息
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`BankAlias`|`bank_alias`|`string`|银行名称
+`BankAliasCode`|`bank_alias_code`|`string`|银行代码
+`Province`|`province`|`string`|省份
+`ProvinceCode`|`province_code`|`uint8`|省份代码
+`City`|`city`|`string`|城市
+`CityCode`|`city_code`|`uint8`|城市代码
+`BankBranchName`|`bank_branch_name`|`string`|银行支行
+`BankBranchId`|`bank_branch_id`|`string`|银行支行联行号
 
 ### `OATemplateDetail` 审批模板详情
 
@@ -219,6 +271,7 @@ Name|JSON|Type|Doc
 `Table`|`table`|`OATemplateControlConfigTable`| Table（明细控件）
 `Attendance`|`attendance`|`OATemplateControlConfigAttendance`| Attendance控件（假勤控件）【出差】【加班】【外出】模板特有的控件
 `Vacation`|`vacation_list`|`OATemplateControlConfigVacation`| Vacation控件（假勤控件）【请假】模板特有控件, 请假类型强关联审批应用中的假期管理。
+`Tips`|`tips`|`OATemplateControlConfigTips`| Tips控件（说明文字控件）
 
 ### `OATemplateControlConfigDate` 类型标志，日期/日期+时间控件的config中会包含此参数
 
@@ -278,6 +331,52 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `ID`|`id`|`int`| 假期类型标识id
 `Name`|`name`|`[]OAText`| 假期类型名称，默认zh_CN中文名称
+
+### `OATemplateControlConfigTips` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`TipsContent`|`tips_content`|`[]OATemplateControlConfigTipsContent`| 说明文字数组，元素为不同语言的富文本说明文字
+
+### `OATemplateControlConfigTipsContent` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Text`|`text`|`OATemplateControlConfigTipsContentText`| 某个语言的富文本说明文字数组，元素为不同文本类型的说明文字分段
+`Lang`|`lang`|`string`| 语言类型
+
+### `OATemplateControlConfigTipsContentText` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`SubText`|`sub_text`|`[]OATemplateControlConfigTipsContentSubText`| 说明文字分段
+
+### `OATemplateControlConfigTipsContentSubText` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Type`|`type`|`uint8`| 文本类型 1:纯文本 2:链接，每个说明文字中只支持包含一个链接
+`Content`|`content`|`OATemplateControlConfigTipsContentSubTextContent`| 内容
+
+### `OATemplateControlConfigTipsContentSubTextContent` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Text`|`plain_text`|`*OATemplateControlConfigTipsContentSubTextContentPlain`| 纯文本类型的内容
+`Lang`|`link`|`*OATemplateControlConfigTipsContentSubTextContentLink`| 链接类型的内容
+
+### `OATemplateControlConfigTipsContentSubTextContentPlain` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Content`|`content`|`string`| 纯文本文字
+
+### `OATemplateControlConfigTipsContentSubTextContentLink` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Title`|`title`|`string`| 链接标题
+`URL`|`url`|`string`| 链接url
 
 ```go
 // OAControl 控件类型
