@@ -30,6 +30,7 @@ Name|JSON|Type|Doc
 `ID`|`id`|`string`| 控件id：控件的唯一id，可通过“获取审批模板详情”接口获取
 `Title`|`title`|`[]OAText`| 控件名称 ，若配置了多语言则会包含中英文的控件名称
 `Value`|`value`|`OAContentValue`| 控件值 ，需在此为申请人在各个控件中填写内容不同控件有不同的赋值参数，具体说明详见附录。模板配置的控件属性为必填时，对应value值需要有值。
+`Hidden`|`hidden`|`uint8`| 控件隐藏标识，为1表示控件被隐藏
 
 ### `OAContents` 审批申请详情，由多个表单控件及其内容组成，其中包含需要对控件赋值的信息
 
