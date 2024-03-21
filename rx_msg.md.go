@@ -52,9 +52,6 @@ type EventType string
 // EventTypeChangeExternalContact 企业客户事件
 const EventTypeChangeExternalContact EventType = "change_external_contact"
 
-// EventTypeChangeExternalChat 客户群变更事件
-const EventTypeChangeExternalChat EventType = "change_external_chat"
-
 // EventTypeSysApprovalChange 审批申请状态变化回调通知
 const EventTypeSysApprovalChange EventType = "sys_approval_change"
 
@@ -85,11 +82,32 @@ const ChangeTypeDelFollowUser ChangeType = "del_follow_user"
 // ChangeTypeTransferFail 客户接替失败事件
 const ChangeTypeTransferFail ChangeType = "transfer_fail"
 
+// EventTypeChangeExternalChat 客户群变更事件
+const EventTypeChangeExternalChat EventType = "change_external_chat"
+
+// EventTypeChangeExternalTag 企业客户标签变更事件
+const EventTypeChangeExternalTag EventType = "change_external_tag"
+
 // ChangeTypeCreateUser 新增成员事件
 const ChangeTypeCreateUser ChangeType = "create_user"
 
 // ChangeTypeUpdateUser 更新成员事件
 const ChangeTypeUpdateUser ChangeType = "update_user"
+
+// ChangeTypeCreate 事件变更类型： 创建
+const ChangeTypeCreate ChangeType = "create"
+
+// ChangeTypeUpdate 事件变更类型： 更新
+const ChangeTypeUpdate ChangeType = "update"
+
+// ChangeTypeDismiss 事件变更类型： 解散
+const ChangeTypeDismiss ChangeType = "dismiss"
+
+// ChangeTypeDelete 事件变更类型： 删除
+const ChangeTypeDelete ChangeType = "delete"
+
+// ChangeTypeShuffle 事件变更类型： 重排
+const ChangeTypeShuffle ChangeType = "shuffle"
 
 // EventTypeAppMenuClick 点击菜单
 const EventTypeAppMenuClick = "click"
