@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2024-03-07 10:09:58 +0800
+// 文档爬取时间: 2024-04-08 19:03:10 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -596,6 +596,21 @@ const ErrCode40142 ErrCode = 40142
 // 排查方法: -
 const ErrCode40143 ErrCode = 40143
 
+// ErrCode40165 已经升级了客户群ID，无法再次升级
+//
+// 排查方法: -
+const ErrCode40165 ErrCode = 40165
+
+// ErrCode40166 还未升级客户群ID，无法调用接口
+//
+// 排查方法: -
+const ErrCode40166 ErrCode = 40166
+
+// ErrCode40167 指定的升级时间不合法
+//
+// 排查方法: -
+const ErrCode40167 ErrCode = 40167
+
 // ErrCode40201 当前操作包含敏感信息，被反垃圾拦截
 //
 // 排查方法: -
@@ -620,6 +635,36 @@ const ErrCode40205 ErrCode = 40205
 //
 // 排查方法: -
 const ErrCode40206 ErrCode = 40206
+
+// ErrCode40207 不合法的tfa_code
+//
+// 排查方法: -
+const ErrCode40207 ErrCode = 40207
+
+// ErrCode40208 验证的用户不在二次验证生效范围内
+//
+// 排查方法: -
+const ErrCode40208 ErrCode = 40208
+
+// ErrCode40209 oauth跳转域名与二次验证的域名不匹配
+//
+// 排查方法: -
+const ErrCode40209 ErrCode = 40209
+
+// ErrCode40210 未配置二次验证url
+//
+// 排查方法: -
+const ErrCode40210 ErrCode = 40210
+
+// ErrCode40211 不合法的RSA公钥
+//
+// 排查方法: -
+const ErrCode40211 ErrCode = 40211
+
+// ErrCode40212 公钥版本号不能低于旧公钥的版本号
+//
+// 排查方法: -
+const ErrCode40212 ErrCode = 40212
 
 // ErrCode41001 缺少access_token参数
 //
@@ -4259,6 +4304,11 @@ const ErrCode93000 ErrCode = 93000
 // 排查方法: -
 const ErrCode93004 ErrCode = 93004
 
+// ErrCode93006 不合法的群ID
+//
+// 排查方法: -
+const ErrCode93006 ErrCode = 93006
+
 // ErrCode93008 不在群里
 //
 // 排查方法: -
@@ -6662,3 +6712,13 @@ const ErrCode400012 ErrCode = 400012
 //
 // 排查方法: -
 const ErrCode400013 ErrCode = 400013
+
+// ErrCode400301 5分钟内有相同的会议正在创建中，暂不可再创建
+//
+// 排查方法: 若相同的会议未创建成功，可于相同会议首次创建时间5分钟后重新创建
+const ErrCode400301 ErrCode = 400301
+
+// ErrCode400302 相同的会议已经创建成功
+//
+// 排查方法: 若明确需要创建相同的会议，可在创建会议请求包中设置"skip_duplicate_check":true 跳过重复会议检查
+const ErrCode400302 ErrCode = 400302
