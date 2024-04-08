@@ -61,13 +61,17 @@ Name|JSON|Type|Doc
 `Selector`|`selector`|`OAContentSelector`| 单选/多选控件（control参数为Selector）
 `Members`|`members`|`[]OAContentMember`| 成员控件（control参数为Contact，且value参数为members）
 `Departments`|`departments`|`[]OAContentDepartment`| 部门控件（control参数为Contact，且value参数为departments）
+`Tips`|`new_tips`|`OATemplateControlConfigTips`| 说明文字控件（control参数为Tips）
 `Files`|`files`|`[]OAContentFile`| 附件控件（control参数为File，且value参数为files）
 `Table`|`children`|`[]OAContentTableList`| 明细控件（control参数为Table）
 `Vacation`|`vacation`|`OAContentVacation`| 假勤组件-请假组件（control参数为Vacation）
+`Attendance`|`attendance`|`OAContentVacationAttendance`| 假勤组件-出差/外出/加班组件（control参数为Attendance）
+`PunchCorrection`|`punch_correction`|`OAContentPunchCorrection`| 假勤组件-出差/外出/加班组件（control参数为Attendance）
 `Location`|`location`|`OAContentLocation`| 位置控件（control参数为Location，且value参数为location）
 `RelatedApproval`|`related_approval`|`[]OAContentRelatedApproval`| 关联审批单控件（control参数为RelatedApproval，且value参数为related_approval）
 `Formula`|`formula`|`OAContentFormula`| 公式控件（control参数为Formula，且value参数为formula）
 `DateRange`|`date_range`|`OAContentDateRange`| 时长组件（control参数为DateRange，且value参数为date_range）
+`BankAccount`|`bank_account`|`OAContentBankAccount`| 收款账户控件（control参数为BankAccount）
 
 ### `OAContentDate` 日期/日期+时间内容
 
@@ -88,6 +92,7 @@ Name|JSON|Type|Doc
 Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Key`|`key`|`string`| 选项key，可通过“获取审批模板详情”接口获得
+`Value`|`value`|`[]OAText`| 选项值，若配置了多语言则会包含中英文的选项值
 
 ### `OAContentMember` 所选成员内容，即申请人在此控件选择的成员，多选模式下可以有多个
 
@@ -128,6 +133,7 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `DateRange`|`date_range`|`OAContentVacationAttendanceDateRange`| 假勤组件时间选择范围
 `Type`|`type`|`uint8`| 假勤组件类型：1-请假；3-出差；4-外出；5-加班
+`SliceInfo`|`slice_info`|`OAContentVacationAttendanceSliceInfo`| 时长支持按天分片信息， 2020/10/01之前的历史表单不支持时长分片
 
 ### `OAContentVacationAttendanceDateRange` 假勤组件时间选择范围
 
@@ -135,6 +141,30 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Type`|`type`|`string`| 时间展示类型：day-日期；hour-日期+时间
 ``|``|`OAContentDateRange`| 时长范围
+
+### `OAContentVacationAttendanceSliceInfo` 假勤组件时长支持按天分片信息， 2020/10/01之前的历史表单不支持时长分片
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Duration`|`duration`|`uint64`| 总时长，单位是秒
+`State`|`state`|`uint8`| 时长计算来源类型: 1--系统自动计算;2--用户修改
+`DayItems`|`day_items`|`[]OAContentVacationAttendanceSliceInfoDayItem`| 时长计算来源类型: 1--系统自动计算;2--用户修改
+
+### `OAContentVacationAttendanceSliceInfoDayItem` 假勤组件时长支持按天分片信息，每一天的分片时长信息
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Daytime`|`daytime`|`uint64`| 日期的00:00:00时间戳，Unix时间
+`Duration`|`duration`|`uint64`| 分隔当前日期的时长秒数
+
+### `OAContentPunchCorrection` 补卡组件
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`State`|`state`|`string`| 异常状态说明
+`Time`|`time`|`uint64`| 补卡时间，Unix时间戳
+`Version`|`version`|`uint8`| 版本标识，为1的时候为新版补卡，daymonthyear有值
+`Daymonthyear`|`daymonthyear`|`uint64`| 补卡日期0点Unix时间戳
 
 ### `OAContentLocation` 位置控件
 
@@ -162,10 +192,42 @@ Name|JSON|Type|Doc
 
 Name|JSON|Type|Doc
 :---|:---|:---|:--
+`Type`|`type`|`string`| 时间展示类型：halfday-日期；hour-日期+时间
 `NewBegin`|`new_begin`|`int`| 开始时间，unix时间戳
 `NewEnd`|`new_end`|`int`| 结束时间，unix时间戳
 `NewDuration`|`new_duration`|`int`| 时长范围，单位秒
+`PerdayDuration`|`perday_duration`|`int`| 每天的工作时长
+`TimezoneInfo`|`timezone_info`|`*OAContentDateRangeTimezoneInfo`|时区信息，只有在非UTC+8的情况下会返回
 
+### `OAContentDateRangeTimezoneInfo` 时区信息
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`ZoneOffset`|`zone_offset`|`string`|时区偏移量
+`ZoneDesc`|`zone_desc`|`string`|时区描述
+
+### `OAContentBankAccount` 时长组件
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`AccountType`|`account_type`|`uint8`| 账户类型 ：1：对公账户,2：个人账户
+`AccountName`|`account_name`|`string`| 账户名
+`AccountNumber`|`account_number`|`string`| 账号
+`Remark`|`remark`|`string`| 备注
+`Bank`|`bank`|`OAContentBankAccountBank`| 银行信息
+
+### `OAContentBankAccountBank` 银行信息
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`BankAlias`|`bank_alias`|`string`|银行名称
+`BankAliasCode`|`bank_alias_code`|`string`|银行代码
+`Province`|`province`|`string`|省份
+`ProvinceCode`|`province_code`|`uint8`|省份代码
+`City`|`city`|`string`|城市
+`CityCode`|`city_code`|`uint8`|城市代码
+`BankBranchName`|`bank_branch_name`|`string`|银行支行
+`BankBranchId`|`bank_branch_id`|`string`|银行支行联行号
 
 ### `OATemplateDetail` 审批模板详情
 
@@ -207,7 +269,9 @@ Name|JSON|Type|Doc
 `Selector`|`selector`|`OATemplateControlConfigSelector`| Selector控件（单选/多选控件）
 `Contact`|`contact`|`OATemplateControlConfigContact`| Contact控件（成员/部门控件）
 `Table`|`table`|`OATemplateControlConfigTable`| Table（明细控件）
-`Attendance`|`attendance`|`OATemplateControlConfigAttendance`| Attendance控件（假勤控件）
+`Attendance`|`attendance`|`OATemplateControlConfigAttendance`| Attendance控件（假勤控件）【出差】【加班】【外出】模板特有的控件
+`Vacation`|`vacation_list`|`OATemplateControlConfigVacation`| Vacation控件（假勤控件）【请假】模板特有控件, 请假类型强关联审批应用中的假期管理。
+`Tips`|`tips`|`OATemplateControlConfigTips`| Tips控件（说明文字控件）
 
 ### `OATemplateControlConfigDate` 类型标志，日期/日期+时间控件的config中会包含此参数
 
@@ -267,6 +331,52 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `ID`|`id`|`int`| 假期类型标识id
 `Name`|`name`|`[]OAText`| 假期类型名称，默认zh_CN中文名称
+
+### `OATemplateControlConfigTips` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`TipsContent`|`tips_content`|`[]OATemplateControlConfigTipsContent`| 说明文字数组，元素为不同语言的富文本说明文字
+
+### `OATemplateControlConfigTipsContent` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Text`|`text`|`OATemplateControlConfigTipsContentText`| 某个语言的富文本说明文字数组，元素为不同文本类型的说明文字分段
+`Lang`|`lang`|`string`| 语言类型
+
+### `OATemplateControlConfigTipsContentText` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`SubText`|`sub_text`|`[]OATemplateControlConfigTipsContentSubText`| 说明文字分段
+
+### `OATemplateControlConfigTipsContentSubText` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Type`|`type`|`uint8`| 文本类型 1:纯文本 2:链接，每个说明文字中只支持包含一个链接
+`Content`|`content`|`OATemplateControlConfigTipsContentSubTextContent`| 内容
+
+### `OATemplateControlConfigTipsContentSubTextContent` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Text`|`plain_text`|`*OATemplateControlConfigTipsContentSubTextContentPlain`| 纯文本类型的内容
+`Lang`|`link`|`*OATemplateControlConfigTipsContentSubTextContentLink`| 链接类型的内容
+
+### `OATemplateControlConfigTipsContentSubTextContentPlain` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Content`|`content`|`string`| 纯文本文字
+
+### `OATemplateControlConfigTipsContentSubTextContentLink` 类型标志，说明文字控件的config中会包含此参数
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`Title`|`title`|`string`| 链接标题
+`URL`|`url`|`string`| 链接url
 
 ```go
 // OAControl 控件类型
@@ -412,3 +522,72 @@ const OAApprovalInfoFilterKeyDepartment   OAApprovalInfoFilterKey = "department"
 // OAApprovalInfoFilterKeySpStatus 审批状态
 const OAApprovalInfoFilterKeySpStatus  OAApprovalInfoFilterKey = "sp_status"
 ```
+
+### `CorpVacationConf` 企业假期管理配置
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`ID`|`id`|`uint32`| 假期id
+`Name`|`name`|`string`| 假期名称
+`TimeAttr`|`time_attr`|`uint32`| 假期时间刻度：0-按天请假；1-按小时请假
+`DurationType`|`duration_type`|`uint32`| 时长计算类型：0-自然日；1-工作日
+`QuotaAttr`|`quota_attr`|`CorpVacationConfQuotaAttr`| 假期发放相关配置
+`PerdayDuration`|`perday_duration`|`uint32`| 单位换算值，即1天对应的秒数，可将此值除以3600得到一天对应的小时。
+`IsNewovertime`|`is_newovertime`|`*uint32`| 是否关联加班调休，0-不关联，1-关联，关联后改假期类型变为调休假
+`EnterCompTimeLimit`|`enter_comp_time_limit`|`*uint32`| 入职时间大于n个月可用该假期，单位为月
+`ExpireRule`|`expire_rule`|`*CorpVacationConfExpireRule`| 假期过期规则
+
+### `CorpVacationConfQuotaAttr` 企业假期管理配置-假期发放相关配置
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`Type`|`type`|`uint32`| 假期发放类型：0-不限额；1-自动按年发放；2-手动发放；3-自动按月发放
+`AutoresetTime`|`autoreset_time`|`uint32`| 自动发放时间戳，若假期发放为自动发放，此参数代表自动发放日期。注：返回时间戳的年份是无意义的，请只使用返回时间的月和日；若at_entry_date为true，该字段则无效，假期发放时间为员工入职时间
+`AutoresetDuration`|`autoreset_duration`|`uint32`| 自动发放时长，单位为秒。注：只有自动按年发放和自动按月发放时有效，若选择了按照工龄和司龄发放，该字段无效，发放时长请使用区间中的quota
+`QuotaRuleType`|`quota_rule_type`|`*uint32`| 额度计算类型，自动按年发放时有效，0-固定额度；1-按工龄计算；2-按司龄计算
+`QuotaRules`|`quota_rules`|`*CorpVacationConfQuotaRules`| 额度计算规则，自动按年发放时有效
+`AtEntryDate`|`at_entry_date`|`*bool`| 是否按照入职日期发放假期，只有在自动按年发放类型有效，选择后发放假期的时间会成为员工入职的日期
+`AutoResetMonthDay`|`auto_reset_month_day`|`*uint32`| 自动按月发放的发放时间，只有自动按月发放类型有效
+
+### `CorpVacationConfQuotaRules` 企业假期管理配置-额度计算规则
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`List`|`list`|`[]CorpVacationConfQuotaRule`| 额度计算规则区间，只有在选择了按照工龄计算或者按照司龄计算时有效
+
+### `CorpVacationConfQuotaRule` 企业假期管理配置-额度计算规则区间
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`Quota`|`quota`|`uint32`| 区间发放时长，单位为s
+`Begin`|`begin`|`uint32`| 区间开始点，单位为年
+`End`|`end`|`uint32`| 区间结束点，无穷大则为0，单位为年
+`BasedOnActualWorkTime`|`based_on_actual_work_time`|`bool`| 是否根据实际入职时间计算假期，选择后会根据员工在今年的实际工作时间发放假期
+
+### `CorpVacationConfExpireRule` 企业假期管理配置-假期过期规则
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`Type`|`type`|`uint32`| 过期规则类型，1-按固定时间过期，2-从发放日按年过期，3-从发放日按月过期，4-不过期
+`Duration`|`duration`|`uint64`| 有效期，按年过期为年，按月过期为月，只有在以上两种情况时有效
+`Date`|`date`|`CorpVacationConfDate`| 失效日期，只有按固定时间过期时有效
+`ExternDurationEnable`|`extern_duration_enable`|`bool`| 是否允许延长有效期
+`ExternDuration`|`extern_duration`|`CorpVacationConfDate`| 延长有效期的具体时间，只有在extern_duration_enable为true时有效
+
+### `CorpVacationConfDate` 企业假期管理配置-失效日期
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`Month`|`month`|`uint32`| 月份
+`Day`|`day`|`uint32`| 日
+
+### `UserVacationQuota` 假期列表
+
+Name|JSON|Type|Doc
+:---|:---|:-------------|:--
+`ID`|`id`|`uint32`| 假期id
+`AssignDuration`|`assignduration`|`uint32`| 发放时长，单位为秒
+`UsedDuration`|`usedduration`|`uint32`| 使用时长，单位为秒
+`LeftDuration`|`leftduration`|`uint32`| 剩余时长，单位为秒
+`VacationName`|`vacationname`|`string`| 假期名称
+`RealAssignDuration`|`real_assignduration`|`uint32`| 假期的实际发放时长，通常在设置了按照实际工作时间发放假期后进行计算

@@ -32,18 +32,18 @@ type ReqChatList struct {
 	Limit int64 `json:"limit"`
 }
 
-// RespGroupChatList 客户群列表数据
-type RespGroupChatList struct {
+// GroupChatList 客户群列表数据
+type GroupChatList struct {
 	// ChatID 客户群ID
 	ChatID string `json:"chat_id"`
 	// Status 客户群跟进状态 0 - 跟进人正常 1 - 跟进人离职 2 - 离职继承中 3 - 离职继承完成
 	Status int64 `json:"status"`
 }
 
-// RespAppchatList 客户群列表结果
-type RespAppchatList struct {
+// RespGroupChatList 客户群列表结果
+type RespGroupChatList struct {
 	// GroupChatList 客户群列表
-	GroupChatList []RespGroupChatList `json:"group_chat_list"`
+	GroupChatList []GroupChatList `json:"group_chat_list"`
 	// NextCursor 分页游标
 	NextCursor string `json:"next_cursor"`
 }
@@ -80,8 +80,8 @@ type ChatAdminList struct {
 	UserID string `json:"userid"`
 }
 
-// RespAppChatInfo 客户群详情
-type RespAppChatInfo struct {
+// RespGroupChatInfo 客户群详情
+type RespGroupChatInfo struct {
 	// ChatID 客户群ID
 	ChatID string `json:"chat_id"`
 	// Name 客户群名称
@@ -100,3 +100,9 @@ type RespAppChatInfo struct {
 
 // ChatNeedName 是否需要返回群成员的名字 0-不返回；1-返回。默认不返回
 const ChatNeedName int64 = 1
+
+// RespAppchatList 企业微信接口调整 兼容处理
+type RespAppchatList = RespGroupChatList
+
+// RespAppChatInfo 企业微信接口调整 兼容处理
+type RespAppChatInfo = RespGroupChatInfo

@@ -58,6 +58,20 @@ func (c *WorkwxApp) execJSCode2Session(req reqJSCode2Session) (respJSCode2Sessio
 	return resp, nil
 }
 
+// execAuthCode2UserInfo 获取访问用户身份
+func (c *WorkwxApp) execAuthCode2UserInfo(req reqAuthCode2UserInfo) (respAuthCode2UserInfo, error) {
+	var resp respAuthCode2UserInfo
+	err := c.executeQyapiGet("/cgi-bin/auth/getuserinfo", req, &resp, true)
+	if err != nil {
+		return respAuthCode2UserInfo{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAuthCode2UserInfo{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserGet 读取成员
 func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	var resp respUserGet
@@ -67,6 +81,20 @@ func (c *WorkwxApp) execUserGet(req reqUserGet) (respUserGet, error) {
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respUserGet{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execUserUpdate 更新成员
+func (c *WorkwxApp) execUserUpdate(req reqUserUpdate) (respUserUpdate, error) {
+	var resp respUserUpdate
+	err := c.executeQyapiJSONPost("/cgi-bin/user/update", req, &resp, true)
+	if err != nil {
+		return respUserUpdate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserUpdate{}, bizErr
 	}
 
 	return resp, nil
@@ -86,6 +114,48 @@ func (c *WorkwxApp) execUserList(req reqUserList) (respUserList, error) {
 	return resp, nil
 }
 
+// execConvertUserIDToOpenID userid转openid
+func (c *WorkwxApp) execConvertUserIDToOpenID(req reqConvertUserIDToOpenID) (respConvertUserIDToOpenID, error) {
+	var resp respConvertUserIDToOpenID
+	err := c.executeQyapiJSONPost("/cgi-bin/user/convert_to_openid", req, &resp, true)
+	if err != nil {
+		return respConvertUserIDToOpenID{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respConvertUserIDToOpenID{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execConvertOpenIDToUserID openid转userid
+func (c *WorkwxApp) execConvertOpenIDToUserID(req reqConvertOpenIDToUserID) (respConvertOpenIDToUserID, error) {
+	var resp respConvertOpenIDToUserID
+	err := c.executeQyapiJSONPost("/cgi-bin/user/convert_to_userid", req, &resp, true)
+	if err != nil {
+		return respConvertOpenIDToUserID{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respConvertOpenIDToUserID{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execUserJoinQrcode 获取加入企业二维码
+func (c *WorkwxApp) execUserJoinQrcode(req reqUserJoinQrcode) (respUserJoinQrcode, error) {
+	var resp respUserJoinQrcode
+	err := c.executeQyapiGet("/cgi-bin/corp/get_join_qrcode", req, &resp, true)
+	if err != nil {
+		return respUserJoinQrcode{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserJoinQrcode{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execUserIDByMobile 手机号获取userid
 func (c *WorkwxApp) execUserIDByMobile(req reqUserIDByMobile) (respUserIDByMobile, error) {
 	var resp respUserIDByMobile
@@ -95,6 +165,20 @@ func (c *WorkwxApp) execUserIDByMobile(req reqUserIDByMobile) (respUserIDByMobil
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respUserIDByMobile{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execUserIDByEmail 邮箱获取userid
+func (c *WorkwxApp) execUserIDByEmail(req reqUserIDByEmail) (respUserIDByEmail, error) {
+	var resp respUserIDByEmail
+	err := c.executeQyapiJSONPost("/cgi-bin/user/get_userid_by_email", req, &resp, true)
+	if err != nil {
+		return respUserIDByEmail{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUserIDByEmail{}, bizErr
 	}
 
 	return resp, nil
@@ -338,34 +422,6 @@ func (c *WorkwxApp) execTransferGroupChatExternalContact(req reqTransferGroupCha
 	return resp, nil
 }
 
-// execAppchatListGet 获取客户群列表
-func (c *WorkwxApp) execAppchatListGet(req reqAppchatList) (respAppchatList, error) {
-	var resp respAppchatList
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/list", req, &resp, true)
-	if err != nil {
-		return respAppchatList{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAppchatList{}, bizErr
-	}
-
-	return resp, nil
-}
-
-// execAppchatInfoGet 获取客户群详细
-func (c *WorkwxApp) execAppchatInfoGet(req reqAppchatInfo) (respAppchatInfo, error) {
-	var resp respAppchatInfo
-	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/get", req, &resp, true)
-	if err != nil {
-		return respAppchatInfo{}, err
-	}
-	if bizErr := resp.TryIntoErr(); bizErr != nil {
-		return respAppchatInfo{}, bizErr
-	}
-
-	return resp, nil
-}
-
 // execAppchatCreate 创建群聊会话
 func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, error) {
 	var resp respAppchatCreate
@@ -375,6 +431,20 @@ func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, 
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respAppchatCreate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAppchatUpdate 修改群聊会话
+func (c *WorkwxApp) execAppchatUpdate(req reqAppchatUpdate) (respAppchatUpdate, error) {
+	var resp respAppchatUpdate
+	err := c.executeQyapiJSONPost("/cgi-bin/appchat/update", req, &resp, true)
+	if err != nil {
+		return respAppchatUpdate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAppchatUpdate{}, bizErr
 	}
 
 	return resp, nil
@@ -501,6 +571,48 @@ func (c *WorkwxApp) execOAGetApprovalDetail(req reqOAGetApprovalDetail) (respOAG
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respOAGetApprovalDetail{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAGetCorpVacationConf 获取企业假期管理配置
+func (c *WorkwxApp) execOAGetCorpVacationConf(req reqOAGetCorpVacationConf) (respOAGetCorpVacationConf, error) {
+	var resp respOAGetCorpVacationConf
+	err := c.executeQyapiGet("/cgi-bin/oa/vacation/getcorpconf", req, &resp, true)
+	if err != nil {
+		return respOAGetCorpVacationConf{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetCorpVacationConf{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOAGetUserVacationQuota 获取成员假期余额
+func (c *WorkwxApp) execOAGetUserVacationQuota(req reqOAGetUserVacationQuota) (respOAGetUserVacationQuota, error) {
+	var resp respOAGetUserVacationQuota
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/vacation/getuservacationquota", req, &resp, true)
+	if err != nil {
+		return respOAGetUserVacationQuota{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOAGetUserVacationQuota{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execOASetOneUserVacationQuota 修改成员假期余额
+func (c *WorkwxApp) execOASetOneUserVacationQuota(req reqOASetOneUserVacationQuota) (respOASetOneUserVacationQuota, error) {
+	var resp respOASetOneUserVacationQuota
+	err := c.executeQyapiJSONPost("/cgi-bin/oa/vacation/setoneuserquota", req, &resp, true)
+	if err != nil {
+		return respOASetOneUserVacationQuota{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respOASetOneUserVacationQuota{}, bizErr
 	}
 
 	return resp, nil
@@ -660,6 +772,104 @@ func (c *WorkwxApp) execCloseTempChatExternalContact(req reqCloseTempChatExterna
 	return resp, nil
 }
 
+// execAddGroupChatJoinWayExternalContact 配置客户群「加入群聊」方式
+func (c *WorkwxApp) execAddGroupChatJoinWayExternalContact(req reqAddGroupChatJoinWayExternalContact) (respAddGroupChatJoinWayExternalContact, error) {
+	var resp respAddGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/add_join_way", req, &resp, true)
+	if err != nil {
+		return respAddGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetGroupChatJoinWayExternalContact 获取企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) execGetGroupChatJoinWayExternalContact(req reqGetGroupChatJoinWayExternalContact) (respGetGroupChatJoinWayExternalContact, error) {
+	var resp respGetGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/get_join_way", req, &resp, true)
+	if err != nil {
+		return respGetGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execUpdateGroupChatJoinWayExternalContact 更新企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) execUpdateGroupChatJoinWayExternalContact(req reqUpdateGroupChatJoinWayExternalContact) (respUpdateGroupChatJoinWayExternalContact, error) {
+	var resp respUpdateGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/update_join_way", req, &resp, true)
+	if err != nil {
+		return respUpdateGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUpdateGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execDelGroupChatJoinWayExternalContact 删除企业已配置的客户群「加入群聊」方式
+func (c *WorkwxApp) execDelGroupChatJoinWayExternalContact(req reqDelGroupChatJoinWayExternalContact) (respDelGroupChatJoinWayExternalContact, error) {
+	var resp respDelGroupChatJoinWayExternalContact
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/del_join_way", req, &resp, true)
+	if err != nil {
+		return respDelGroupChatJoinWayExternalContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDelGroupChatJoinWayExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGroupChatListGet 获取客户群列表
+func (c *WorkwxApp) execGroupChatListGet(req reqGroupChatList) (respGroupChatList, error) {
+	var resp respGroupChatList
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/list", req, &resp, true)
+	if err != nil {
+		return respGroupChatList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGroupChatList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGroupChatInfoGet 获取客户群详细
+func (c *WorkwxApp) execGroupChatInfoGet(req reqGroupChatInfo) (respGroupChatInfo, error) {
+	var resp respGroupChatInfo
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/groupchat/get", req, &resp, true)
+	if err != nil {
+		return respGroupChatInfo{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGroupChatInfo{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execConvertOpenGIDToChatID 客户群opengid转换
+func (c *WorkwxApp) execConvertOpenGIDToChatID(req reqConvertOpenGIDToChatID) (respConvertOpenGIDToChatID, error) {
+	var resp respConvertOpenGIDToChatID
+	err := c.executeQyapiJSONPost("/cgi-bin/externalcontact/opengid_to_chatid", req, &resp, true)
+	if err != nil {
+		return respConvertOpenGIDToChatID{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respConvertOpenGIDToChatID{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execTransferCustomer 在职继承 分配在职成员的客户
 func (c *WorkwxApp) execTransferCustomer(req reqTransferCustomer) (respTransferCustomer, error) {
 	var resp respTransferCustomer
@@ -739,6 +949,188 @@ func (c *WorkwxApp) execSendWelcomeMsg(req reqSendWelcomeMsgExternalContact) (re
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respSendWelcomeMsgExternalContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountCreate 添加客服账号
+func (c *WorkwxApp) execKfAccountCreate(req reqKfAccountCreate) (respKfAccountCreate, error) {
+	var resp respKfAccountCreate
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/add", req, &resp, true)
+	if err != nil {
+		return respKfAccountCreate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountCreate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountUpdate 修改客服账号
+func (c *WorkwxApp) execKfAccountUpdate(req reqKfAccountUpdate) (respKfAccountUpdate, error) {
+	var resp respKfAccountUpdate
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/update", req, &resp, true)
+	if err != nil {
+		return respKfAccountUpdate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountUpdate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountDelete 删除客服账号
+func (c *WorkwxApp) execKfAccountDelete(req reqKfAccountDelete) (respKfAccountDelete, error) {
+	var resp respKfAccountDelete
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/del", req, &resp, true)
+	if err != nil {
+		return respKfAccountDelete{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountDelete{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfAccountList 获取客服账号列表
+func (c *WorkwxApp) execKfAccountList(req reqKfAccountList) (respKfAccountList, error) {
+	var resp respKfAccountList
+	err := c.executeQyapiGet("/cgi-bin/kf/account/list", req, &resp, true)
+	if err != nil {
+		return respKfAccountList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfAccountList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddKfContact 获取客服账号链接
+func (c *WorkwxApp) execAddKfContact(req reqAddKfContact) (respAddKfContact, error) {
+	var resp respAddKfContact
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/add_contact_way", req, &resp, true)
+	if err != nil {
+		return respAddKfContact{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddKfContact{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServicerCreate 添加接待人员
+func (c *WorkwxApp) execKfServicerCreate(req reqKfServicerCreate) (respKfServicerCreate, error) {
+	var resp respKfServicerCreate
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/servicer/add", req, &resp, true)
+	if err != nil {
+		return respKfServicerCreate{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServicerCreate{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServicerDelete 删除接待人员
+func (c *WorkwxApp) execKfServicerDelete(req reqKfServicerDelete) (respKfServicerDelete, error) {
+	var resp respKfServicerDelete
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/servicer/del", req, &resp, true)
+	if err != nil {
+		return respKfServicerDelete{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServicerDelete{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServicerList 获取接待人员列表
+func (c *WorkwxApp) execKfServicerList(req reqKfServicerList) (respKfServicerList, error) {
+	var resp respKfServicerList
+	err := c.executeQyapiGet("/cgi-bin/kf/servicer/list", req, &resp, true)
+	if err != nil {
+		return respKfServicerList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServicerList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServiceStateGet 获取会话状态
+func (c *WorkwxApp) execKfServiceStateGet(req reqKfServiceStateGet) (respKfServiceStateGet, error) {
+	var resp respKfServiceStateGet
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/service_state/get", req, &resp, true)
+	if err != nil {
+		return respKfServiceStateGet{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServiceStateGet{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfServiceStateTrans 变更会话状态
+func (c *WorkwxApp) execKfServiceStateTrans(req reqKfServiceStateTrans) (respKfServiceStateTrans, error) {
+	var resp respKfServiceStateTrans
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/service_state/trans", req, &resp, true)
+	if err != nil {
+		return respKfServiceStateTrans{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfServiceStateTrans{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfSyncMsg 读取消息
+func (c *WorkwxApp) execKfSyncMsg(req reqKfSyncMsg) (respKfSyncMsg, error) {
+	var resp respKfSyncMsg
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/sync_msg", req, &resp, true)
+	if err != nil {
+		return respKfSyncMsg{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respKfSyncMsg{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfSend 发送消息
+func (c *WorkwxApp) execKfSend(req reqMessage) (respMessageSend, error) {
+	var resp respMessageSend
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/send_msg", req, &resp, true)
+	if err != nil {
+		return respMessageSend{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respMessageSend{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execKfOnEventSend 发送欢迎语等事件响应消息
+func (c *WorkwxApp) execKfOnEventSend(req reqMessage) (respMessageSend, error) {
+	var resp respMessageSend
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/send_msg_on_event", req, &resp, true)
+	if err != nil {
+		return respMessageSend{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respMessageSend{}, bizErr
 	}
 
 	return resp, nil

@@ -4,6 +4,9 @@
 # library has no lockfile
 /Gopkg.lock
 
+# perhaps people would all have their workwxctl binary in the repo root
+/workwxctl
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/go,vim,linux,emacs,macos,visualstudiocode,intellij+all
 # Edit at https://www.toptal.com/developers/gitignore?templates=go,vim,linux,emacs,macos,visualstudiocode,intellij+all

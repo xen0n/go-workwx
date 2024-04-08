@@ -308,6 +308,24 @@ type ExternalContactWay struct {
 	Conclusions Conclusions `json:"conclusions"`
 }
 
+// ExternalGroupChatJoinWay 配置客户群「加入群聊」方式
+type ExternalGroupChatJoinWay struct {
+	// Scene 场景，1 - 群的小程序插件，2 - 群的二维码插件
+	Scene int `json:"scene"`
+	// Remark 联系方式的备注信息，用于助记，超过30个字符将被截断
+	Remark string `json:"remark"`
+	// AutoCreateRoom 当群满了后，是否自动新建群。0-否；1-是。 默认为1
+	AutoCreateRoom int `json:"auto_create_room"`
+	// RoomBaseName 自动建群的群名前缀，当auto_create_room为1时有效。最长40个utf8字符
+	RoomBaseName string `json:"room_base_name"`
+	// RoomBaseID 自动建群的群起始序号，当auto_create_room为1时有效
+	RoomBaseID int `json:"room_base_id"`
+	// ChatIDs 使用该配置的客户群ID列表，支持5个。
+	ChatIDs []string `json:"chat_id_list"`
+	// State 企业自定义的state参数，用于区分不同的入群渠道。不超过30个UTF-8字符
+	State string `json:"state"`
+}
+
 // Conclusions 结束语，会话结束时自动发送给客户
 type Conclusions struct {
 	// Text 文本消息

@@ -18,6 +18,11 @@ const (
 	flagQyapiHostOverride = "qyapi-host-override"
 	flagTLSKeyLogFile     = "tls-key-logfile"
 
+	flagName   = "name"
+	flagOwner  = "owner"
+	flagUser   = "user"
+	flagChatID = "chatid"
+
 	flagMessageType  = "message-type"
 	flagSafe         = "safe"
 	flagToUser       = "to-user"

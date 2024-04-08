@@ -178,6 +178,14 @@ func extractMessageExtras(common rxMessageCommon, body []byte) (messageKind, err
 				return nil, err
 			}
 			return &x, nil
+		case EventTypeKfMsgOrEvent:
+			var x rxEventKfMsgOrEvent
+			err := xml.Unmarshal(body, &x)
+			if err != nil {
+				return nil, err
+			}
+			return &x, nil
+
 		default:
 			// 返回一个未定义的事件类型
 			return &rxEventUnknown{EventType: string(common.Event), Raw: string(body)}, nil
@@ -705,6 +713,36 @@ func (r rxEventAppSubscribe) formatInto(w io.Writer) {
 
 func (r rxEventAppUnsubscribe) formatInto(w io.Writer) {
 	_, _ = fmt.Fprintf(w, "EventKey: %#v", r.EventKey)
+}
+
+// EventKfMsgOrEvent 客服接收消息和事件
+type EventKfMsgOrEvent interface {
+	messageKind
+
+	// GetOpenKfID 客服账号ID
+	GetOpenKfID() string
+
+	// GetToken 调用拉取消息接口时，需要传此token，用于校验请求的合法性
+	GetToken() string
+}
+
+var _ EventKfMsgOrEvent = (*rxEventKfMsgOrEvent)(nil)
+
+func (r *rxEventKfMsgOrEvent) formatInto(w io.Writer) {
+	_, _ = fmt.Fprintf(
+		w,
+		"OpenKfID: %#v, Token: %#v",
+		r.OpenKfID,
+		r.Token,
+	)
+}
+
+func (r *rxEventKfMsgOrEvent) GetOpenKfID() string {
+	return r.OpenKfID
+}
+
+func (r *rxEventKfMsgOrEvent) GetToken() string {
+	return r.Token
 }
 
 func (r rxEventUnknown) formatInto(w io.Writer) {

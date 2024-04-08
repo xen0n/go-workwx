@@ -60,6 +60,30 @@ func InitApp() *cli.App {
 				Action: cmdDeptList,
 			},
 			{
+				Name:   "appchat-create",
+				Usage:  "创建群聊会话",
+				Action: cmdAppchatCreate,
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:  flagChatID,
+						Usage: "欲建立的群聊 chatid，不能与已有的群重复，最长32个字符。只允许字符0-9及字母a-zA-Z。如果不填，系统会随机生成群id",
+					},
+					&cli.StringFlag{
+						Name:  flagName,
+						Usage: "群聊名。最多50个utf8字符，超过将截断",
+					},
+					&cli.StringFlag{
+						Name:  flagOwner,
+						Usage: "群主的 ID。如果不指定，系统会随机从群成员列表中选一人作为群主",
+					},
+					&cli.StringSliceFlag{
+						Name:    flagUser,
+						Aliases: []string{flagToUserShort},
+						Usage:   "群成员 ID，可重复指定。至少2人，至多2000人",
+					},
+				},
+			},
+			{
 				Name:   "appchat-get",
 				Usage:  "获取群聊会话",
 				Action: cmdAppchatGet,

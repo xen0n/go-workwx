@@ -78,12 +78,18 @@ type OAContentValue struct {
 	Members []OAContentMember `json:"members"`
 	// Departments 部门控件（control参数为Contact，且value参数为departments）
 	Departments []OAContentDepartment `json:"departments"`
+	// Tips 说明文字控件（control参数为Tips）
+	Tips OATemplateControlConfigTips `json:"new_tips"`
 	// Files 附件控件（control参数为File，且value参数为files）
 	Files []OAContentFile `json:"files"`
 	// Table 明细控件（control参数为Table）
 	Table []OAContentTableList `json:"children"`
 	// Vacation 假勤组件-请假组件（control参数为Vacation）
 	Vacation OAContentVacation `json:"vacation"`
+	// Attendance 假勤组件-出差/外出/加班组件（control参数为Attendance）
+	Attendance OAContentVacationAttendance `json:"attendance"`
+	// PunchCorrection 假勤组件-出差/外出/加班组件（control参数为Attendance）
+	PunchCorrection OAContentPunchCorrection `json:"punch_correction"`
 	// Location 位置控件（control参数为Location，且value参数为location）
 	Location OAContentLocation `json:"location"`
 	// RelatedApproval 关联审批单控件（control参数为RelatedApproval，且value参数为related_approval）
@@ -92,6 +98,8 @@ type OAContentValue struct {
 	Formula OAContentFormula `json:"formula"`
 	// DateRange 时长组件（control参数为DateRange，且value参数为date_range）
 	DateRange OAContentDateRange `json:"date_range"`
+	// BankAccount 收款账户控件（control参数为BankAccount）
+	BankAccount OAContentBankAccount `json:"bank_account"`
 }
 
 // OAContentDate 日期/日期+时间内容
@@ -114,6 +122,8 @@ type OAContentSelector struct {
 type OAContentSelectorOption struct {
 	// Key 选项key，可通过“获取审批模板详情”接口获得
 	Key string `json:"key"`
+	// Value 选项值，若配置了多语言则会包含中英文的选项值
+	Value []OAText `json:"value"`
 }
 
 // OAContentMember 所选成员内容，即申请人在此控件选择的成员，多选模式下可以有多个
@@ -158,6 +168,8 @@ type OAContentVacationAttendance struct {
 	DateRange OAContentVacationAttendanceDateRange `json:"date_range"`
 	// Type 假勤组件类型：1-请假；3-出差；4-外出；5-加班
 	Type uint8 `json:"type"`
+	// SliceInfo 时长支持按天分片信息， 2020/10/01之前的历史表单不支持时长分片
+	SliceInfo OAContentVacationAttendanceSliceInfo `json:"slice_info"`
 }
 
 // OAContentVacationAttendanceDateRange 假勤组件时间选择范围
@@ -166,6 +178,36 @@ type OAContentVacationAttendanceDateRange struct {
 	Type string `json:"type"`
 	//  时长范围
 	OAContentDateRange
+}
+
+// OAContentVacationAttendanceSliceInfo 假勤组件时长支持按天分片信息， 2020/10/01之前的历史表单不支持时长分片
+type OAContentVacationAttendanceSliceInfo struct {
+	// Duration 总时长，单位是秒
+	Duration uint64 `json:"duration"`
+	// State 时长计算来源类型: 1--系统自动计算;2--用户修改
+	State uint8 `json:"state"`
+	// DayItems 时长计算来源类型: 1--系统自动计算;2--用户修改
+	DayItems []OAContentVacationAttendanceSliceInfoDayItem `json:"day_items"`
+}
+
+// OAContentVacationAttendanceSliceInfoDayItem 假勤组件时长支持按天分片信息，每一天的分片时长信息
+type OAContentVacationAttendanceSliceInfoDayItem struct {
+	// Daytime 日期的00:00:00时间戳，Unix时间
+	Daytime uint64 `json:"daytime"`
+	// Duration 分隔当前日期的时长秒数
+	Duration uint64 `json:"duration"`
+}
+
+// OAContentPunchCorrection 补卡组件
+type OAContentPunchCorrection struct {
+	// State 异常状态说明
+	State string `json:"state"`
+	// Time 补卡时间，Unix时间戳
+	Time uint64 `json:"time"`
+	// Version 版本标识，为1的时候为新版补卡，daymonthyear有值
+	Version uint8 `json:"version"`
+	// Daymonthyear 补卡日期0点Unix时间戳
+	Daymonthyear uint64 `json:"daymonthyear"`
 }
 
 // OAContentLocation 位置控件
@@ -196,12 +238,60 @@ type OAContentFormula struct {
 
 // OAContentDateRange 时长组件
 type OAContentDateRange struct {
+	// Type 时间展示类型：halfday-日期；hour-日期+时间
+	Type string `json:"type"`
 	// NewBegin 开始时间，unix时间戳
 	NewBegin int `json:"new_begin"`
 	// NewEnd 结束时间，unix时间戳
 	NewEnd int `json:"new_end"`
 	// NewDuration 时长范围，单位秒
 	NewDuration int `json:"new_duration"`
+	// PerdayDuration 每天的工作时长
+	PerdayDuration int `json:"perday_duration"`
+	// TimezoneInfo 时区信息，只有在非UTC+8的情况下会返回
+	TimezoneInfo *OAContentDateRangeTimezoneInfo `json:"timezone_info"`
+}
+
+// OAContentDateRangeTimezoneInfo 时区信息
+type OAContentDateRangeTimezoneInfo struct {
+	// ZoneOffset 时区偏移量
+	ZoneOffset string `json:"zone_offset"`
+	// ZoneDesc 时区描述
+	ZoneDesc string `json:"zone_desc"`
+}
+
+// OAContentBankAccount 时长组件
+type OAContentBankAccount struct {
+	// AccountType 账户类型 ：1：对公账户,2：个人账户
+	AccountType uint8 `json:"account_type"`
+	// AccountName 账户名
+	AccountName string `json:"account_name"`
+	// AccountNumber 账号
+	AccountNumber string `json:"account_number"`
+	// Remark 备注
+	Remark string `json:"remark"`
+	// Bank 银行信息
+	Bank OAContentBankAccountBank `json:"bank"`
+}
+
+// OAContentBankAccountBank 银行信息
+type OAContentBankAccountBank struct {
+	// BankAlias 银行名称
+	BankAlias string `json:"bank_alias"`
+	// BankAliasCode 银行代码
+	BankAliasCode string `json:"bank_alias_code"`
+	// Province 省份
+	Province string `json:"province"`
+	// ProvinceCode 省份代码
+	ProvinceCode uint8 `json:"province_code"`
+	// City 城市
+	City string `json:"city"`
+	// CityCode 城市代码
+	CityCode uint8 `json:"city_code"`
+	// BankBranchName 银行支行
+	BankBranchName string `json:"bank_branch_name"`
+	// BankBranchId 银行支行联行号
+	BankBranchId string `json:"bank_branch_id"`
 }
 
 // OATemplateDetail 审批模板详情
@@ -254,8 +344,12 @@ type OATemplateControlConfig struct {
 	Contact OATemplateControlConfigContact `json:"contact"`
 	// Table Table（明细控件）
 	Table OATemplateControlConfigTable `json:"table"`
-	// Attendance Attendance控件（假勤控件）
+	// Attendance Attendance控件（假勤控件）【出差】【加班】【外出】模板特有的控件
 	Attendance OATemplateControlConfigAttendance `json:"attendance"`
+	// Vacation Vacation控件（假勤控件）【请假】模板特有控件, 请假类型强关联审批应用中的假期管理。
+	Vacation OATemplateControlConfigVacation `json:"vacation_list"`
+	// Tips Tips控件（说明文字控件）
+	Tips OATemplateControlConfigTips `json:"tips"`
 }
 
 // OATemplateControlConfigDate 类型标志，日期/日期+时间控件的config中会包含此参数
@@ -320,6 +414,56 @@ type OATemplateControlConfigVacationItem struct {
 	ID int `json:"id"`
 	// Name 假期类型名称，默认zh_CN中文名称
 	Name []OAText `json:"name"`
+}
+
+// OATemplateControlConfigTips 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTips struct {
+	// TipsContent 说明文字数组，元素为不同语言的富文本说明文字
+	TipsContent []OATemplateControlConfigTipsContent `json:"tips_content"`
+}
+
+// OATemplateControlConfigTipsContent 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContent struct {
+	// Text 某个语言的富文本说明文字数组，元素为不同文本类型的说明文字分段
+	Text OATemplateControlConfigTipsContentText `json:"text"`
+	// Lang 语言类型
+	Lang string `json:"lang"`
+}
+
+// OATemplateControlConfigTipsContentText 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentText struct {
+	// SubText 说明文字分段
+	SubText []OATemplateControlConfigTipsContentSubText `json:"sub_text"`
+}
+
+// OATemplateControlConfigTipsContentSubText 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentSubText struct {
+	// Type 文本类型 1:纯文本 2:链接，每个说明文字中只支持包含一个链接
+	Type uint8 `json:"type"`
+	// Content 内容
+	Content OATemplateControlConfigTipsContentSubTextContent `json:"content"`
+}
+
+// OATemplateControlConfigTipsContentSubTextContent 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentSubTextContent struct {
+	// Text 纯文本类型的内容
+	Text *OATemplateControlConfigTipsContentSubTextContentPlain `json:"plain_text"`
+	// Lang 链接类型的内容
+	Lang *OATemplateControlConfigTipsContentSubTextContentLink `json:"link"`
+}
+
+// OATemplateControlConfigTipsContentSubTextContentPlain 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentSubTextContentPlain struct {
+	// Content 纯文本文字
+	Content string `json:"content"`
+}
+
+// OATemplateControlConfigTipsContentSubTextContentLink 类型标志，说明文字控件的config中会包含此参数
+type OATemplateControlConfigTipsContentSubTextContentLink struct {
+	// Title 链接标题
+	Title string `json:"title"`
+	// URL 链接url
+	URL string `json:"url"`
 }
 
 // OAControl 控件类型
@@ -483,3 +627,99 @@ const OAApprovalInfoFilterKeyDepartment OAApprovalInfoFilterKey = "department"
 
 // OAApprovalInfoFilterKeySpStatus 审批状态
 const OAApprovalInfoFilterKeySpStatus OAApprovalInfoFilterKey = "sp_status"
+
+// CorpVacationConf 企业假期管理配置
+type CorpVacationConf struct {
+	// ID 假期id
+	ID uint32 `json:"id"`
+	// Name 假期名称
+	Name string `json:"name"`
+	// TimeAttr 假期时间刻度：0-按天请假；1-按小时请假
+	TimeAttr uint32 `json:"time_attr"`
+	// DurationType 时长计算类型：0-自然日；1-工作日
+	DurationType uint32 `json:"duration_type"`
+	// QuotaAttr 假期发放相关配置
+	QuotaAttr CorpVacationConfQuotaAttr `json:"quota_attr"`
+	// PerdayDuration 单位换算值，即1天对应的秒数，可将此值除以3600得到一天对应的小时。
+	PerdayDuration uint32 `json:"perday_duration"`
+	// IsNewovertime 是否关联加班调休，0-不关联，1-关联，关联后改假期类型变为调休假
+	IsNewovertime *uint32 `json:"is_newovertime"`
+	// EnterCompTimeLimit 入职时间大于n个月可用该假期，单位为月
+	EnterCompTimeLimit *uint32 `json:"enter_comp_time_limit"`
+	// ExpireRule 假期过期规则
+	ExpireRule *CorpVacationConfExpireRule `json:"expire_rule"`
+}
+
+// CorpVacationConfQuotaAttr 企业假期管理配置-假期发放相关配置
+type CorpVacationConfQuotaAttr struct {
+	// Type 假期发放类型：0-不限额；1-自动按年发放；2-手动发放；3-自动按月发放
+	Type uint32 `json:"type"`
+	// AutoresetTime 自动发放时间戳，若假期发放为自动发放，此参数代表自动发放日期。注：返回时间戳的年份是无意义的，请只使用返回时间的月和日；若at_entry_date为true，该字段则无效，假期发放时间为员工入职时间
+	AutoresetTime uint32 `json:"autoreset_time"`
+	// AutoresetDuration 自动发放时长，单位为秒。注：只有自动按年发放和自动按月发放时有效，若选择了按照工龄和司龄发放，该字段无效，发放时长请使用区间中的quota
+	AutoresetDuration uint32 `json:"autoreset_duration"`
+	// QuotaRuleType 额度计算类型，自动按年发放时有效，0-固定额度；1-按工龄计算；2-按司龄计算
+	QuotaRuleType *uint32 `json:"quota_rule_type"`
+	// QuotaRules 额度计算规则，自动按年发放时有效
+	QuotaRules *CorpVacationConfQuotaRules `json:"quota_rules"`
+	// AtEntryDate 是否按照入职日期发放假期，只有在自动按年发放类型有效，选择后发放假期的时间会成为员工入职的日期
+	AtEntryDate *bool `json:"at_entry_date"`
+	// AutoResetMonthDay 自动按月发放的发放时间，只有自动按月发放类型有效
+	AutoResetMonthDay *uint32 `json:"auto_reset_month_day"`
+}
+
+// CorpVacationConfQuotaRules 企业假期管理配置-额度计算规则
+type CorpVacationConfQuotaRules struct {
+	// List 额度计算规则区间，只有在选择了按照工龄计算或者按照司龄计算时有效
+	List []CorpVacationConfQuotaRule `json:"list"`
+}
+
+// CorpVacationConfQuotaRule 企业假期管理配置-额度计算规则区间
+type CorpVacationConfQuotaRule struct {
+	// Quota 区间发放时长，单位为s
+	Quota uint32 `json:"quota"`
+	// Begin 区间开始点，单位为年
+	Begin uint32 `json:"begin"`
+	// End 区间结束点，无穷大则为0，单位为年
+	End uint32 `json:"end"`
+	// BasedOnActualWorkTime 是否根据实际入职时间计算假期，选择后会根据员工在今年的实际工作时间发放假期
+	BasedOnActualWorkTime bool `json:"based_on_actual_work_time"`
+}
+
+// CorpVacationConfExpireRule 企业假期管理配置-假期过期规则
+type CorpVacationConfExpireRule struct {
+	// Type 过期规则类型，1-按固定时间过期，2-从发放日按年过期，3-从发放日按月过期，4-不过期
+	Type uint32 `json:"type"`
+	// Duration 有效期，按年过期为年，按月过期为月，只有在以上两种情况时有效
+	Duration uint64 `json:"duration"`
+	// Date 失效日期，只有按固定时间过期时有效
+	Date CorpVacationConfDate `json:"date"`
+	// ExternDurationEnable 是否允许延长有效期
+	ExternDurationEnable bool `json:"extern_duration_enable"`
+	// ExternDuration 延长有效期的具体时间，只有在extern_duration_enable为true时有效
+	ExternDuration CorpVacationConfDate `json:"extern_duration"`
+}
+
+// CorpVacationConfDate 企业假期管理配置-失效日期
+type CorpVacationConfDate struct {
+	// Month 月份
+	Month uint32 `json:"month"`
+	// Day 日
+	Day uint32 `json:"day"`
+}
+
+// UserVacationQuota 假期列表
+type UserVacationQuota struct {
+	// ID 假期id
+	ID uint32 `json:"id"`
+	// AssignDuration 发放时长，单位为秒
+	AssignDuration uint32 `json:"assignduration"`
+	// UsedDuration 使用时长，单位为秒
+	UsedDuration uint32 `json:"usedduration"`
+	// LeftDuration 剩余时长，单位为秒
+	LeftDuration uint32 `json:"leftduration"`
+	// VacationName 假期名称
+	VacationName string `json:"vacationname"`
+	// RealAssignDuration 假期的实际发放时长，通常在设置了按照实际工作时间发放假期后进行计算
+	RealAssignDuration uint32 `json:"real_assignduration"`
+}

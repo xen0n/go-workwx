@@ -54,7 +54,7 @@ func userGenderFromGenderStr(x string) (UserGender, error) {
 	return UserGender(n), nil
 }
 
-func (x respUserDetail) intoUserInfo() (UserInfo, error) {
+func (x UserDetail) intoUserInfo() (UserInfo, error) {
 	deptInfo, err := reshapeDeptInfo(x.DeptIDs, x.DeptOrder, x.IsLeaderInDept)
 	if err != nil {
 		return UserInfo{}, err
