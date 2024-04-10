@@ -231,14 +231,16 @@ func (c *WorkwxApp) sendMessage(
 	}
 
 	req := reqMessage{
-		ToUser:  recipient.UserIDs,
-		ToParty: recipient.PartyIDs,
-		ToTag:   recipient.TagIDs,
-		ChatID:  recipient.ChatID,
-		AgentID: c.AgentID,
-		MsgType: msgtype,
-		Content: content,
-		IsSafe:  isSafe,
+		ToUser:   recipient.UserIDs,
+		ToParty:  recipient.PartyIDs,
+		ToTag:    recipient.TagIDs,
+		ChatID:   recipient.ChatID,
+		AgentID:  c.AgentID,
+		Code:     recipient.Code,
+		OpenKfID: recipient.OpenKfID,
+		MsgType:  msgtype,
+		Content:  content,
+		IsSafe:   isSafe,
 	}
 
 	resp, err := sendRequestFunc(req)
