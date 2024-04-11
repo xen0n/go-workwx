@@ -574,10 +574,12 @@ type BatchListExternalContactsResp struct {
 }
 
 // reqExternalContactBatchList 批量获取客户详情
+// https://developer.work.weixin.qq.com/document/path/92994
+// 本接口已经支持批量请求 单个 UserID参数已经废弃
 type reqExternalContactBatchList struct {
-	UserID string `json:"userid"`
-	Cursor string `json:"cursor"`
-	Limit  int    `json:"limit"`
+	UseridList []string `json:"userid_list"`
+	Cursor     string   `json:"cursor"`
+	Limit      int      `json:"limit"`
 }
 
 var _ bodyer = reqExternalContactBatchList{}

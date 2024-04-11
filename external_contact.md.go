@@ -127,7 +127,9 @@ type FollowUserTag struct {
 	GroupName string `json:"group_name"`
 	// TagName 该成员添加此外部联系人所打标签名称
 	TagName string `json:"tag_name"`
-	// Type 该成员添加此外部联系人所打标签类型, 1-企业设置, 2-用户自定义
+	// TagId 该成员添加此外部联系人所打企业标签的id，用户自定义类型标签（type=2）不返回
+	TagId string `json:"tag_id"`
+	// Type 该成员添加此外部联系人所打标签类型, 1-企业设置, 2-用户自定义 3-规则组标签（仅系统应用返回）
 	Type FollowUserTagType `json:"type"`
 }
 
