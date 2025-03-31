@@ -2,7 +2,7 @@ module github.com/xen0n/go-workwx/v2
 
 go 1.23.0
 
-toolchain go1.24.0
+toolchain go1.24.1
 
 require (
 	github.com/PuerkitoBio/goquery v1.10.2
@@ -10,7 +10,7 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/smartystreets/goconvey v1.8.1
 	github.com/urfave/cli/v2 v2.27.6
-	golang.org/x/net v0.37.0
+	golang.org/x/net v0.38.0
 )
 
 require (
