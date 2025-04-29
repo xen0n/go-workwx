@@ -774,6 +774,15 @@ type AuthCodeUserInfo struct {
 	ExternalUserID string `json:"external_userid,omitempty"`
 }
 
+// reqAuthTicket2UserInfo 获取访问用户敏感信息
+type reqAuthTicket2UserInfo struct {
+	UserTicket string `json:"user_ticket,omitempty"`
+}
+
+func (x reqAuthTicket2UserInfo) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
 type reqMsgAuditListPermitUser struct {
 	MsgAuditEdition MsgAuditEdition `json:"type"`
 }
