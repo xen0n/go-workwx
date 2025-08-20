@@ -2,12 +2,10 @@ package workwx
 
 import (
 	"encoding/json"
+	"errors"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
-)
-
-var (
-	validate = validator.New()
 )
 
 type WebhookMessage interface {
@@ -17,8 +15,8 @@ type WebhookMessage interface {
 
 // See https://developer.work.weixin.qq.com/document/path/99110#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BA
 
-// TextMessage 文本消息
-type TextMessage struct {
+// WebhookTextMessage 文本消息
+type WebhookTextMessage struct {
 	Text struct {
 		Content             string   `json:"content" validate:"required"`
 		MentionedList       []string `json:"mentioned_list"`
@@ -26,9 +24,9 @@ type TextMessage struct {
 	} `json:"text"`
 }
 
-var _ WebhookMessage = (*TextMessage)(nil)
+var _ WebhookMessage = (*WebhookTextMessage)(nil)
 
-func (t *TextMessage) ToWebhookMessagePayload() (map[string]any, error) {
+func (t *WebhookTextMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -39,20 +37,28 @@ func (t *TextMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	return dataMap, err
 }
 
-func (t *TextMessage) Validate() error {
-	return validate.Struct(t)
+func (t *WebhookTextMessage) Validate() error {
+	validate := validator.New()
+	if err := validate.Struct(t); err != nil {
+		var validationErrors []string
+		for _, err := range err.(validator.ValidationErrors) {
+			validationErrors = append(validationErrors, err.Error())
+		}
+		return errors.New("validation failed: " + strings.Join(validationErrors, ", "))
+	}
+	return nil
 }
 
-// MarkdownMessage markdown
-type MarkdownMessage struct {
+// WebhookMarkdownMessage markdown
+type WebhookMarkdownMessage struct {
 	Markdown struct {
 		Content string `json:"content" validate:"required"`
 	} `json:"markdown" validate:"required"`
 }
 
-var _ WebhookMessage = (*MarkdownMessage)(nil)
+var _ WebhookMessage = (*WebhookMarkdownMessage)(nil)
 
-func (t *MarkdownMessage) ToWebhookMessagePayload() (map[string]any, error) {
+func (t *WebhookMarkdownMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -63,21 +69,29 @@ func (t *MarkdownMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	return dataMap, err
 }
 
-func (t *MarkdownMessage) Validate() error {
-	return validate.Struct(t)
+func (t *WebhookMarkdownMessage) Validate() error {
+	validate := validator.New()
+	if err := validate.Struct(t); err != nil {
+		var validationErrors []string
+		for _, err := range err.(validator.ValidationErrors) {
+			validationErrors = append(validationErrors, err.Error())
+		}
+		return errors.New("validation failed: " + strings.Join(validationErrors, ", "))
+	}
+	return nil
 }
 
-// ImageMessage 图片类型
-type ImageMessage struct {
+// WebhookImageMessage 图片类型
+type WebhookImageMessage struct {
 	Image struct {
-		Base64 string `json:"base64"   validate:"required"` //图片内容的base64编码
-		Md5    string `json:"md5"  validate:"required"`
+		Base64 string `json:"base64" validate:"required"` //图片内容的base64编码
+		Md5    string `json:"md5" validate:"required"`
 	} `json:"image" validate:"required"`
 }
 
-var _ WebhookMessage = (*ImageMessage)(nil)
+var _ WebhookMessage = (*WebhookImageMessage)(nil)
 
-func (t *ImageMessage) ToWebhookMessagePayload() (map[string]any, error) {
+func (t *WebhookImageMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -88,20 +102,28 @@ func (t *ImageMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	return dataMap, err
 }
 
-func (t *ImageMessage) Validate() error {
-	return validate.Struct(t)
+func (t *WebhookImageMessage) Validate() error {
+	validate := validator.New()
+	if err := validate.Struct(t); err != nil {
+		var validationErrors []string
+		for _, err := range err.(validator.ValidationErrors) {
+			validationErrors = append(validationErrors, err.Error())
+		}
+		return errors.New("validation failed: " + strings.Join(validationErrors, ", "))
+	}
+	return nil
 }
 
-// VoiceMessage 语音类型
-type VoiceMessage struct {
+// WebhookVoiceMessage 语音类型
+type WebhookVoiceMessage struct {
 	Voice struct {
-		MediaID string `json:"media_id" validate:"required" ` //	语音文件id，通过下文的文件上传接口获取
+		MediaID string `json:"media_id" validate:"required"` //	语音文件id，通过下文的文件上传接口获取
 	} `json:"voice" validate:"required"`
 }
 
-var _ WebhookMessage = (*VoiceMessage)(nil)
+var _ WebhookMessage = (*WebhookVoiceMessage)(nil)
 
-func (t *VoiceMessage) ToWebhookMessagePayload() (map[string]any, error) {
+func (t *WebhookVoiceMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -112,12 +134,20 @@ func (t *VoiceMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	return dataMap, err
 }
 
-func (t *VoiceMessage) Validate() error {
-	return validate.Struct(t)
+func (t *WebhookVoiceMessage) Validate() error {
+	validate := validator.New()
+	if err := validate.Struct(t); err != nil {
+		var validationErrors []string
+		for _, err := range err.(validator.ValidationErrors) {
+			validationErrors = append(validationErrors, err.Error())
+		}
+		return errors.New("validation failed: " + strings.Join(validationErrors, ", "))
+	}
+	return nil
 }
 
-// ImageArticles 图文类型
-type ImageArticles struct {
+// WebhookImageArticles 图文类型
+type WebhookImageArticles struct {
 	News struct {
 		Articles []struct {
 			Title       string `json:"title" validate:"required"`
@@ -128,9 +158,9 @@ type ImageArticles struct {
 	} `json:"news"`
 }
 
-var _ WebhookMessage = (*ImageArticles)(nil)
+var _ WebhookMessage = (*WebhookImageArticles)(nil)
 
-func (t *ImageArticles) ToWebhookMessagePayload() (map[string]any, error) {
+func (t *WebhookImageArticles) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -141,19 +171,27 @@ func (t *ImageArticles) ToWebhookMessagePayload() (map[string]any, error) {
 	return dataMap, err
 }
 
-func (t *ImageArticles) Validate() error {
-	return validate.Struct(t)
+func (t *WebhookImageArticles) Validate() error {
+	validate := validator.New()
+	if err := validate.Struct(t); err != nil {
+		var validationErrors []string
+		for _, err := range err.(validator.ValidationErrors) {
+			validationErrors = append(validationErrors, err.Error())
+		}
+		return errors.New("validation failed: " + strings.Join(validationErrors, ", "))
+	}
+	return nil
 }
 
-type FileMessage struct {
+type WebhookFileMessage struct {
 	File struct {
 		MediaID string `json:"media_id" validate:"required"` //文件id，通过下文的文件上传接口获取
 	} `json:"file" validate:"required"`
 }
 
-var _ WebhookMessage = (*FileMessage)(nil)
+var _ WebhookMessage = (*WebhookFileMessage)(nil)
 
-func (t *FileMessage) ToWebhookMessagePayload() (map[string]any, error) {
+func (t *WebhookFileMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -164,11 +202,19 @@ func (t *FileMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	return dataMap, err
 }
 
-func (t *FileMessage) Validate() error {
-	return validate.Struct(t)
+func (t *WebhookFileMessage) Validate() error {
+	validate := validator.New()
+	if err := validate.Struct(t); err != nil {
+		var validationErrors []string
+		for _, err := range err.(validator.ValidationErrors) {
+			validationErrors = append(validationErrors, err.Error())
+		}
+		return errors.New("validation failed: " + strings.Join(validationErrors, ", "))
+	}
+	return nil
 }
 
-type TemplateCardMessage struct {
+type WebhookTemplateCardMessage struct {
 	TemplateCard struct {
 		CardType string `json:"card_type" validate:"required"`
 		Source   struct {
@@ -216,9 +262,9 @@ type TemplateCardMessage struct {
 	} `json:"template_card"`
 }
 
-var _ WebhookMessage = (*TemplateCardMessage)(nil)
+var _ WebhookMessage = (*WebhookTemplateCardMessage)(nil)
 
-func (t *TemplateCardMessage) ToWebhookMessagePayload() (map[string]any, error) {
+func (t *WebhookTemplateCardMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -229,6 +275,14 @@ func (t *TemplateCardMessage) ToWebhookMessagePayload() (map[string]any, error) 
 	return dataMap, err
 }
 
-func (t *TemplateCardMessage) Validate() error {
-	return validate.Struct(t)
+func (t *WebhookTemplateCardMessage) Validate() error {
+	validate := validator.New()
+	if err := validate.Struct(t); err != nil {
+		var validationErrors []string
+		for _, err := range err.(validator.ValidationErrors) {
+			validationErrors = append(validationErrors, err.Error())
+		}
+		return errors.New("validation failed: " + strings.Join(validationErrors, ", "))
+	}
+	return nil
 }
