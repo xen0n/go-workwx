@@ -70,12 +70,12 @@ func (c *WebhookClient) sendMessage(
 }
 
 // SendMessage 机器人支持文本（text）、markdown（markdown）、图片（image）、图文（news）、文件（file）、语音（voice）、模板卡片（template_card）七种消息类型
-func (c *WebhookClient) SendMessage(msg WebHookMessage) error {
+func (c *WebhookClient) SendMessage(msg WebhookMessage) error {
 
 	if err := msg.Validate(); err != nil {
 		return err
 	}
-	req, err := msg.Struct2Map()
+	req, err := msg.ToWebhookMessagePayload()
 	if err != nil {
 		return err
 	}

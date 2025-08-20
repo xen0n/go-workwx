@@ -10,8 +10,8 @@ var (
 	validate = validator.New()
 )
 
-type WebHookMessage interface {
-	Struct2Map() (map[string]any, error)
+type WebhookMessage interface {
+	ToWebhookMessagePayload() (map[string]any, error)
 	Validate() error
 }
 
@@ -26,7 +26,9 @@ type TextMessage struct {
 	} `json:"text"`
 }
 
-func (t *TextMessage) Struct2Map() (map[string]any, error) {
+var _ WebhookMessage = (*TextMessage)(nil)
+
+func (t *TextMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -48,7 +50,9 @@ type MarkdownMessage struct {
 	} `json:"markdown" validate:"required"`
 }
 
-func (t *MarkdownMessage) Struct2Map() (map[string]any, error) {
+var _ WebhookMessage = (*MarkdownMessage)(nil)
+
+func (t *MarkdownMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -71,7 +75,9 @@ type ImageMessage struct {
 	} `json:"image" validate:"required"`
 }
 
-func (t *ImageMessage) Struct2Map() (map[string]any, error) {
+var _ WebhookMessage = (*ImageMessage)(nil)
+
+func (t *ImageMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -93,7 +99,9 @@ type VoiceMessage struct {
 	} `json:"voice" validate:"required"`
 }
 
-func (t *VoiceMessage) Struct2Map() (map[string]any, error) {
+var _ WebhookMessage = (*VoiceMessage)(nil)
+
+func (t *VoiceMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -120,7 +128,9 @@ type ImageArticles struct {
 	} `json:"news"`
 }
 
-func (t *ImageArticles) Struct2Map() (map[string]any, error) {
+var _ WebhookMessage = (*ImageArticles)(nil)
+
+func (t *ImageArticles) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -141,7 +151,9 @@ type FileMessage struct {
 	} `json:"file" validate:"required"`
 }
 
-func (t *FileMessage) Struct2Map() (map[string]any, error) {
+var _ WebhookMessage = (*FileMessage)(nil)
+
+func (t *FileMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
@@ -204,7 +216,9 @@ type TemplateCardMessage struct {
 	} `json:"template_card"`
 }
 
-func (t *TemplateCardMessage) Struct2Map() (map[string]any, error) {
+var _ WebhookMessage = (*TemplateCardMessage)(nil)
+
+func (t *TemplateCardMessage) ToWebhookMessagePayload() (map[string]any, error) {
 	var dataMap = make(map[string]any)
 	buf, err := json.Marshal(t)
 	if err != nil {
