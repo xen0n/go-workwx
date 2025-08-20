@@ -71,7 +71,6 @@ func (c *WebhookClient) sendMessage(
 
 // SendMessage 机器人支持文本（text）、markdown（markdown）、图片（image）、图文（news）、文件（file）、语音（voice）、模板卡片（template_card）七种消息类型
 func (c *WebhookClient) SendMessage(msg WebhookMessage) error {
-
 	if err := msg.Validate(); err != nil {
 		return err
 	}
@@ -80,23 +79,20 @@ func (c *WebhookClient) SendMessage(msg WebhookMessage) error {
 		return err
 	}
 	switch msg.(type) {
-	case *TextMessage:
+	case *WebhookTextMessage:
 		req["msgtype"] = "text"
-	case *MarkdownMessage:
+	case *WebhookMarkdownMessage:
 		req["msgtype"] = "markdown"
-
-	case *ImageMessage:
+	case *WebhookImageMessage:
 		req["msgtype"] = "image"
-	case *ImageArticles:
+	case *WebhookImageArticles:
 		req["msgtype"] = "news"
-
-	case *FileMessage:
+	case *WebhookFileMessage:
 		req["msgtype"] = "file"
-	case *VoiceMessage:
+	case *WebhookVoiceMessage:
 		req["msgtype"] = "voice"
-	case *TemplateCardMessage:
+	case *WebhookTemplateCardMessage:
 		req["msgtype"] = "template_card"
 	}
 	return c.executeQyapiJSONPost("/cgi-bin/webhook/send", req, nil)
-
 }
