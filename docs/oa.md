@@ -445,6 +445,7 @@ Name|JSON|Type|Doc
 `Notifier`|`notifyer`|`[]OAApprovalDetailNotifier`| 抄送信息，可能有多个抄送节点
 `ApplyData`|`apply_data`|`OAContents`| 审批申请数据
 `Comments`|`comments`|`[]OAApprovalDetailComment`| 审批申请备注信息，可能有多个备注节点
+`ProcessList`|`process_list`|`OAApprovalDetailProcessList`| 流程信息列表（2024年新增）
 
 ### `OAApprovalDetailApplicant` 审批申请详情申请人信息
 
@@ -591,3 +592,28 @@ Name|JSON|Type|Doc
 `LeftDuration`|`leftduration`|`uint32`| 剩余时长，单位为秒
 `VacationName`|`vacationname`|`string`| 假期名称
 `RealAssignDuration`|`real_assignduration`|`uint32`| 假期的实际发放时长，通常在设置了按照实际工作时间发放假期后进行计算
+
+### `OAApprovalDetailProcessList` 流程信息列表
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`NodeList`|`node_list`|`[]OAApprovalDetailProcessNode`| 节点列表
+
+### `OAApprovalDetailProcessNode` 流程节点
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`NodeType`|`node_type`|`int`| 节点类型
+`SpStatus`|`sp_status`|`int`| 节点审批状态
+`ApvRel`|`apv_rel`|`int`| 审批关系
+`SubNodeList`|`sub_node_list`|`[]OAApprovalDetailProcessSubNode`| 子节点成员列表
+
+### `OAApprovalDetailProcessSubNode` 流程节点成员
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`UserID`|`userid`|`string`| 审批人userid
+`Speech`|`speech`|`string`| 审批意见
+`SpYj`|`sp_yj`|`int`| 审批意见类型
+`SpTime`|`sptime`|`int`| 审批时间戳
+`MediaIDs`|`media_ids`|`[]string`| 图片media_id

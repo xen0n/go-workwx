@@ -197,6 +197,11 @@ func InitApp() *cli.App {
 					},
 				},
 			},
+			{
+				Name:   "approval-detail-get",
+				Usage:  "获取审批详情",
+				Action: cmdApprovalDetailGet,
+			},
 		},
 	}
 }

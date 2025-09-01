@@ -539,6 +539,8 @@ type OAApprovalDetail struct {
 	ApplyData OAContents `json:"apply_data"`
 	// Comments 审批申请备注信息，可能有多个备注节点
 	Comments []OAApprovalDetailComment `json:"comments"`
+	// ProcessList 流程信息列表（2024年新增）
+	ProcessList OAApprovalDetailProcessList `json:"process_list"`
 }
 
 // OAApprovalDetailApplicant 审批申请详情申请人信息
@@ -722,4 +724,36 @@ type UserVacationQuota struct {
 	VacationName string `json:"vacationname"`
 	// RealAssignDuration 假期的实际发放时长，通常在设置了按照实际工作时间发放假期后进行计算
 	RealAssignDuration uint32 `json:"real_assignduration"`
+}
+
+// OAApprovalDetailProcessList 流程信息列表
+type OAApprovalDetailProcessList struct {
+	// NodeList 节点列表
+	NodeList []OAApprovalDetailProcessNode `json:"node_list"`
+}
+
+// OAApprovalDetailProcessNode 流程节点
+type OAApprovalDetailProcessNode struct {
+	// NodeType 节点类型
+	NodeType int `json:"node_type"`
+	// SpStatus 节点审批状态
+	SpStatus int `json:"sp_status"`
+	// ApvRel 审批关系
+	ApvRel int `json:"apv_rel"`
+	// SubNodeList 子节点成员列表
+	SubNodeList []OAApprovalDetailProcessSubNode `json:"sub_node_list"`
+}
+
+// OAApprovalDetailProcessSubNode 流程节点成员
+type OAApprovalDetailProcessSubNode struct {
+	// UserID 审批人userid
+	UserID string `json:"userid"`
+	// Speech 审批意见
+	Speech string `json:"speech"`
+	// SpYj 审批意见类型
+	SpYj int `json:"sp_yj"`
+	// SpTime 审批时间戳
+	SpTime int `json:"sptime"`
+	// MediaIDs 图片media_id
+	MediaIDs []string `json:"media_ids"`
 }
