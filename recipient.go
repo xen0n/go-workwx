@@ -81,7 +81,7 @@ func (x *Recipient) isValidForKfSend() bool {
 		return false
 	}
 
-	if !x.isIndividualTargetsEmpty() {
+	if len(x.UserIDs) == 0 {
 		return false
 	}
 
