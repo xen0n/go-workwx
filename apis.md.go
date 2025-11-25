@@ -936,3 +936,14 @@ func (c *WorkwxApp) execKfOnEventSend(req reqMessage) (respMessageSend, error) {
 
 	return resp, nil
 }
+
+// execKfCustomerBatchGet 获取客户基础信息
+func (c *WorkwxApp) execKfCustomerBatchGet(req reqKfCustomerBatchGet) (respKfCustomerBatchGet, error) {
+	var resp respKfCustomerBatchGet
+	err := executeQyapiJSONPost(c, "/cgi-bin/kf/customer/batchget", req, &resp, true)
+	if err != nil {
+		return respKfCustomerBatchGet{}, err
+	}
+
+	return resp, nil
+}

@@ -1,5 +1,7 @@
 package workwx
 
+import "errors"
+
 // CreateKfAccount 创建客服账号
 func (c *WorkwxApp) CreateKfAccount(name, mediaID string) (openKfID string, err error) {
 	resp, err := c.execKfAccountCreate(reqKfAccountCreate{
@@ -138,4 +140,32 @@ func (c *WorkwxApp) KfSyncMsg(openKfID, token, cursor string, limit int64, voice
 		return nil, 0, "", err
 	}
 	return resp.MsgList, resp.HasMore, resp.NextCursor, nil
+}
+
+// KfCustomerBatchGet 获取客户基础信息
+// 参数：
+//   - externalUseridList: 需要查询的 external_userid 列表。可填充个数：1 ~ 100。超过100个需分批调用。
+//   - needEnterSessionContext: 是否需要返回客户48小时内最后一次进入会话的上下文信息。
+//
+// 返回：
+//   - []KfCustomerInfo: 成功返回的客户信息
+//   - []string: 查询失败的 external_userid
+func (c *WorkwxApp) KfCustomerBatchGet(externalUseridList []string, needEnterSessionContext bool) ([]KfCustomerInfo, []string, error) {
+	needEnterSessionContextInt := 0
+	if needEnterSessionContext {
+		needEnterSessionContextInt = 1
+	}
+
+	if len(externalUseridList) == 0 || len(externalUseridList) > 100 {
+		return nil, nil, errors.New("externalUseridList length must be between 1 and 100")
+	}
+
+	resp, err := c.execKfCustomerBatchGet(reqKfCustomerBatchGet{
+		ExternalUseridList:      externalUseridList,
+		NeedEnterSessionContext: needEnterSessionContextInt,
+	})
+	if err != nil {
+		return nil, nil, err
+	}
+	return resp.CustomerList, resp.InvalidExternalUserid, nil
 }
