@@ -344,6 +344,11 @@ type Text struct {
 	Content string `json:"content"`
 }
 
+type Voice struct {
+	// MediaID 语音文件的media_id
+	MediaID string `json:"media_id"`
+}
+
 // Image 图片类型消息
 type Image struct {
 	// MediaID 图片的media_id

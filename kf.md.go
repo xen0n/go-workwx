@@ -56,6 +56,8 @@ type KfMsg struct {
 	MsgType MessageType `json:"msgtype"`
 	// Text 文本消息
 	Text Text `json:"text,omitempty"`
+	// Voice 语音消息
+	Voice Voice `json:"voice,omitempty"`
 	// Image 图片消息
 	Image Image `json:"image,omitempty"`
 	// Link 链接消息
