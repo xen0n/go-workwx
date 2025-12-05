@@ -2,6 +2,8 @@
 
 package workwx
 
+import "io"
+
 // execGetAccessToken 获取access_token
 func (c *WorkwxApp) execGetAccessToken(req reqAccessToken) (respAccessToken, error) {
 	var resp respAccessToken
@@ -451,6 +453,11 @@ func (c *WorkwxApp) execMediaUploadImg(req reqMediaUploadImg) (respMediaUploadIm
 	}
 
 	return resp, nil
+}
+
+// execMediaGet 获取临时素材
+func (c *WorkwxApp) execMediaGet(req reqMediaGet) (io.ReadCloser, error) {
+	return executeQyapiGetBinary(c, "/cgi-bin/media/get", req, true)
 }
 
 // execOAGetTemplateDetail 获取审批模板详情

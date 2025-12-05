@@ -516,6 +516,19 @@ type respMediaUploadImg struct {
 	URL string `json:"url"`
 }
 
+// reqMediaGet 获取临时素材请求
+type reqMediaGet struct {
+	MediaID string
+}
+
+var _ urlValuer = reqMediaGet{}
+
+func (x reqMediaGet) intoURLValues() url.Values {
+	return url.Values{
+		"media_id": {x.MediaID},
+	}
+}
+
 // reqExternalContactList 获取客户列表
 type reqExternalContactList struct {
 	UserID string `json:"userid"`
