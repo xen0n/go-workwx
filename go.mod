@@ -8,7 +8,7 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/smartystreets/goconvey v1.8.1
 	github.com/urfave/cli/v2 v2.27.6
-	golang.org/x/net v0.47.0
+	golang.org/x/net v0.48.0
 )
 
 require (
@@ -18,5 +18,5 @@ require (
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
 	github.com/smarty/assertions v1.15.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 // indirect
-	golang.org/x/text v0.31.0 // indirect
+	golang.org/x/text v0.32.0 // indirect
 )

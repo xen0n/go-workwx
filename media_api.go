@@ -1,6 +1,7 @@
 package workwx
 
 import (
+	"io"
 	"strconv"
 	"time"
 )
@@ -71,6 +72,13 @@ func (c *WorkwxApp) mediaUploadImg(media *Media) (url string, err error) {
 	return resp.URL, nil
 }
 
+// mediaGet 获取临时素材
+func (c *WorkwxApp) mediaGet(mediaID string) (io.ReadCloser, error) {
+	return c.execMediaGet(reqMediaGet{
+		MediaID: mediaID,
+	})
+}
+
 //
 // convenient wrappers
 //
@@ -120,6 +128,11 @@ func (c *WorkwxApp) UploadTempFileMedia(media *Media) (*MediaUploadResult, error
 	}
 
 	return result, nil
+}
+
+// GetTempMedia 获取临时素材
+func (c *WorkwxApp) GetTempMedia(mediaID string) (io.ReadCloser, error) {
+	return c.mediaGet(mediaID)
 }
 
 // UploadPermanentImageMedia 上传永久图片素材

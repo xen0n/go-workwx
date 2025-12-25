@@ -2,6 +2,8 @@
 
 package workwx
 
+import "io"
+
 // execGetAccessToken 获取access_token
 func (c *WorkwxApp) execGetAccessToken(req reqAccessToken) (respAccessToken, error) {
 	var resp respAccessToken
@@ -451,6 +453,11 @@ func (c *WorkwxApp) execMediaUploadImg(req reqMediaUploadImg) (respMediaUploadIm
 	}
 
 	return resp, nil
+}
+
+// execMediaGet 获取临时素材
+func (c *WorkwxApp) execMediaGet(req reqMediaGet) (io.ReadCloser, error) {
+	return executeQyapiGetBinary(c, "/cgi-bin/media/get", req, true)
 }
 
 // execOAGetTemplateDetail 获取审批模板详情
@@ -932,6 +939,17 @@ func (c *WorkwxApp) execKfOnEventSend(req reqMessage) (respMessageSend, error) {
 	err := executeQyapiJSONPost(c, "/cgi-bin/kf/send_msg_on_event", req, &resp, true)
 	if err != nil {
 		return respMessageSend{}, err
+	}
+
+	return resp, nil
+}
+
+// execKfCustomerBatchGet 获取客户基础信息
+func (c *WorkwxApp) execKfCustomerBatchGet(req reqKfCustomerBatchGet) (respKfCustomerBatchGet, error) {
+	var resp respKfCustomerBatchGet
+	err := executeQyapiJSONPost(c, "/cgi-bin/kf/customer/batchget", req, &resp, true)
+	if err != nil {
+		return respKfCustomerBatchGet{}, err
 	}
 
 	return resp, nil

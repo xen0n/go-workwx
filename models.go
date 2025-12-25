@@ -516,6 +516,19 @@ type respMediaUploadImg struct {
 	URL string `json:"url"`
 }
 
+// reqMediaGet 获取临时素材请求
+type reqMediaGet struct {
+	MediaID string
+}
+
+var _ urlValuer = reqMediaGet{}
+
+func (x reqMediaGet) intoURLValues() url.Values {
+	return url.Values{
+		"media_id": {x.MediaID},
+	}
+}
+
 // reqExternalContactList 获取客户列表
 type reqExternalContactList struct {
 	UserID string `json:"userid"`
@@ -2097,6 +2110,42 @@ type respKfSyncMsg struct {
 	NextCursor string  `json:"next_cursor"`
 	HasMore    int     `json:"has_more"`
 	MsgList    []KfMsg `json:"msg_list"`
+}
+
+// reqKfCustomerBatchGet 获取客户基础信息 请求
+type reqKfCustomerBatchGet struct {
+	ExternalUseridList      []string `json:"external_userid_list"`
+	NeedEnterSessionContext int      `json:"need_enter_session_context"`
+}
+
+var _ bodyer = reqKfCustomerBatchGet{}
+
+func (x reqKfCustomerBatchGet) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// respKfCustomerBatchGet 获取客户基础信息 响应
+type respKfCustomerBatchGet struct {
+	respCommon
+	CustomerList          []KfCustomerInfo `json:"customer_list"`
+	InvalidExternalUserid []string         `json:"invalid_external_userid"`
+}
+
+// KfCustomerInfo 客户基础信息
+type KfCustomerInfo struct {
+	ExternalUserid      string                 `json:"external_userid"`
+	Nickname            string                 `json:"nickname"`
+	Avatar              string                 `json:"avatar"`
+	Gender              int                    `json:"gender"`
+	Unionid             string                 `json:"unionid"`
+	EnterSessionContext *KfEnterSessionContext `json:"enter_session_context,omitempty"`
+}
+
+// KfEnterSessionContext 进入会话的上下文信息
+type KfEnterSessionContext struct {
+	Scene          string            `json:"scene"`
+	SceneParam     string            `json:"scene_param"`
+	WechatChannels *KfWechatChannels `json:"wechat_channels,omitempty"`
 }
 
 // reqOAGetCorpVacationConf 获取企业假期管理配置

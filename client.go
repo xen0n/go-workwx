@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"mime/multipart"
 	"net/url"
+	"strings"
 )
 
 // Workwx 企业微信客户端
@@ -133,6 +135,63 @@ func executeQyapiGet[T urlValuer, U tryIntoErr](
 	}
 
 	return nil
+}
+
+// executeQyapiGetBinary 执行 GET 请求，返回二进制响应体（用于下载文件等）
+// 如果响应是 JSON 错误，则返回错误
+// executeQyapiGetStream 执行 GET 请求，返回数据流。
+// 注意：调用者必须负责关闭返回的 io.ReadCloser
+func executeQyapiGetBinary[T urlValuer](
+	c *WorkwxApp,
+	path string,
+	req T,
+	withAccessToken bool,
+) (io.ReadCloser, error) {
+	urlObj, err := c.composeQyapiURLWithToken(path, req, withAccessToken)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.opts.HTTP.Get(urlObj.String())
+	if err != nil {
+		return nil, makeRequestErr(err)
+	}
+
+	// 重点逻辑：先检查这是否是一个 JSON 报错
+	// 企微 API 坑点：下载文件失败时，会返回 application/json 和错误码
+	contentType := resp.Header.Get("Content-Type")
+	if strings.Contains(contentType, "application/json") {
+		// 既然是 JSON，说明不是我们要的文件流，必须读出来检查错误
+		defer resp.Body.Close() // 读完错误信息要关闭
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return nil, makeRespUnmarshalErr(err)
+		}
+
+		var errResp respCommon
+		if err := json.Unmarshal(body, &errResp); err == nil {
+			if errResp.ErrCode != 0 {
+				return nil, &WorkwxClientError{
+					Code: errResp.ErrCode,
+					Msg:  errResp.ErrMsg,
+				}
+			}
+		}
+		// 极少情况：Content-Type 是 json 但内容没报错，或者无法解析，
+		// 这种情况视作业务逻辑不明，返回错误比较安全
+		return nil, fmt.Errorf("unexpected json response for download api")
+	}
+
+	// 检查 HTTP 状态码 (非 200 也是错误)
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		defer resp.Body.Close()
+		return nil, fmt.Errorf("http request failed: %s", resp.Status)
+	}
+
+	// 成功！返回 resp.Body 这个“水管”给上层去读
+	// 千万不要在这里 defer resp.Body.Close()，否则上层拿到的是关掉的流
+	return resp.Body, nil
 }
 
 func executeQyapiJSONPost[T bodyer, U tryIntoErr](
