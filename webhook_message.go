@@ -51,6 +51,21 @@ func (c *WebhookClient) SendMarkdownMessage(
 	return c.sendMessage("markdown", params)
 }
 
+// SendMarkdownV2Message 发送 Markdown_v2 消息
+//
+// NOTE: markdown_v2 内容，最长不超过4096个字节，必须是utf8编码。
+// 1. markdown_v2不支持字体颜色、@群成员的语法， 具体支持的语法可参考下面说明
+// 2. 消息内容在客户端 4.1.36 版本以下(安卓端为4.1.38以下) 消息表现为纯文本，建议使用最新客户端版本体验
+func (c *WebhookClient) SendMarkdownV2Message(
+	content string,
+) error {
+	params := map[string]any{
+		"content": content,
+	}
+
+	return c.sendMessage("markdown_v2", params)
+}
+
 // sendMessage 发送消息底层接口
 func (c *WebhookClient) sendMessage(
 	msgtype string,
