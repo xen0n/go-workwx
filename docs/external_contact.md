@@ -279,6 +279,12 @@ Name|JSON|Type|Doc
 :---|:---|:---|:--
 `Content`|`content`|`string`| 消息文本内容,最长为4000字节
 
+### `Voice` 语音消息
+
+Name|JSON|Type|Doc
+:---|:---|:---|:--
+`MediaID`|`media_id`|`string`| 语音文件的media_id
+
 ### `Image` 图片类型消息
 
 Name|JSON|Type|Doc

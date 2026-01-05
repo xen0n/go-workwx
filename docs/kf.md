@@ -41,6 +41,7 @@
 `ServicerUserID`| `servicer_userid,omitempty` | `string`      |从企业微信给客户发消息的接待人员userid（即仅origin为5才返回；msgtype为event，该字段不返回）
 `MsgType`      | `msgtype`                   | `MessageType` | 消息类型
 `Text`       | `text,omitempty`            | `Text`   | 文本消息
+`Voice`       | `voice,omitempty`           | `Voice`   | 语音消息
 `Image`       | `image,omitempty`           | `Image`   | 图片消息
 `Link`       | `link,omitempty`            | `Link`   | 链接消息
 `MiniProgram`       | `mini_program,omitempty`    | `MiniProgram`   | 小程序消息

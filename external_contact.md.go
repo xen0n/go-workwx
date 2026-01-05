@@ -344,6 +344,7 @@ type Text struct {
 	Content string `json:"content"`
 }
 
+// Voice 语音消息
 type Voice struct {
 	// MediaID 语音文件的media_id
 	MediaID string `json:"media_id"`
