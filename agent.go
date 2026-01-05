@@ -34,10 +34,16 @@ type AgentInfo struct {
 	CustomizedPublishStatus int
 }
 
-// GetAgentInfo 获取应用详情
-func (c *WorkwxApp) GetAgentInfo() (*AgentInfo, error) {
+// GetCurrentAgentInfo 获取当前应用详情
+func (c *WorkwxApp) GetCurrentAgentInfo() (*AgentInfo, error) {
+	agentId := c.AgentID
+	return c.GetAgentInfo(agentId)
+}
+
+// GetAgentInfo 获取指定应用详情
+func (c *WorkwxApp) GetAgentInfo(agentId int64) (*AgentInfo, error) {
 	resp, err := c.execAgentGetInfo(reqAgentGet{
-		AgentID: c.AgentID,
+		AgentID: agentId,
 	})
 	if err != nil {
 		return nil, err

@@ -305,7 +305,7 @@ func ExampleWorkwxApp_GetAgentInfo() {
 	app.SpawnAccessTokenRefresher()
 
 	// 获取应用详情
-	agentInfo, err := app.GetAgentInfo()
+	agentInfo, err := app.GetCurrentAgentInfo()
 	if err != nil {
 		// 处理错误
 		return
