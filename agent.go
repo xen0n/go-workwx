@@ -36,14 +36,13 @@ type AgentInfo struct {
 
 // GetCurrentAgentInfo 获取当前应用详情
 func (c *WorkwxApp) GetCurrentAgentInfo() (*AgentInfo, error) {
-	agentId := c.AgentID
-	return c.GetAgentInfo(agentId)
+	return c.GetAgentInfo(c.AgentID)
 }
 
 // GetAgentInfo 获取指定应用详情
-func (c *WorkwxApp) GetAgentInfo(agentId int64) (*AgentInfo, error) {
+func (c *WorkwxApp) GetAgentInfo(agentID int64) (*AgentInfo, error) {
 	resp, err := c.execAgentGetInfo(reqAgentGet{
-		AgentID: agentId,
+		AgentID: agentID,
 	})
 	if err != nil {
 		return nil, err
