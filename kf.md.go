@@ -149,13 +149,13 @@ type KfServiceState int
 
 const (
 	// KfServiceStateUntreated 未处理 新会话接入
-	KfServiceStateUntreated KfServiceState = iota
+	KfServiceStateUntreated KfServiceState = 0
 	// KfServiceStateRobotReception 由智能助手接待
-	KfServiceStateRobotReception
+	KfServiceStateRobotReception KfServiceState = 1
 	// KfServiceStateInQueue 待接入池排队中
-	KfServiceStateInQueue
+	KfServiceStateInQueue KfServiceState = 2
 	// KfServiceStateManualReception 由人工接待
-	KfServiceStateManualReception
+	KfServiceStateManualReception KfServiceState = 3
 	// KfServiceStateFinished 已结束/未开始
-	KfServiceStateFinished
+	KfServiceStateFinished KfServiceState = 4
 )

@@ -259,13 +259,13 @@ type SizeType int
 
 const (
 	// SizeTypeMini 171 x 171
-	SizeTypeMini SizeType = iota + 1
+	SizeTypeMini SizeType = 1
 	// SizeTypeSmall 399 x 399
-	SizeTypeSmall
+	SizeTypeSmall SizeType = 2
 	// SizeTypeMedium 741 x 741
-	SizeTypeMedium
+	SizeTypeMedium SizeType = 3
 	// SizeTypeLarge 2052 x 2052
-	SizeTypeLarge
+	SizeTypeLarge SizeType = 4
 )
 
 // reqUserJoinQrcode 获取加入企业二维码 请求

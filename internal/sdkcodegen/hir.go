@@ -16,8 +16,8 @@ type topic struct {
 type visibility int
 
 const (
-	visibilityPrivate visibility = iota + 1
-	visibilityPublic
+	visibilityPrivate visibility = 1
+	visibilityPublic  visibility = 2
 )
 
 // A model used by the APIs.
@@ -43,10 +43,10 @@ type apiModelField struct {
 type apiMethod int
 
 const (
-	apiMethodUnknown apiMethod = iota
-	apiMethodGET
-	apiMethodPOSTJSON
-	apiMethodPOSTMedia
+	apiMethodUnknown   apiMethod = 0
+	apiMethodGET       apiMethod = 1
+	apiMethodPOSTJSON  apiMethod = 2
+	apiMethodPOSTMedia apiMethod = 3
 )
 
 // An API call.
