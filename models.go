@@ -588,9 +588,10 @@ type BatchListExternalContactsResp struct {
 
 // reqExternalContactBatchList 批量获取客户详情
 type reqExternalContactBatchList struct {
-	UserID string `json:"userid"`
-	Cursor string `json:"cursor"`
-	Limit  int    `json:"limit"`
+	UserID     string   `json:"userid,omitempty"`
+	UserIDList []string `json:"userid_list,omitempty"`
+	Cursor     string   `json:"cursor"`
+	Limit      int      `json:"limit"`
 }
 
 var _ bodyer = reqExternalContactBatchList{}
