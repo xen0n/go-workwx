@@ -296,7 +296,7 @@ func ExampleWorkwxApp_ApplyOAEvent() {
 	_, _ = app.ApplyOAEvent(appInfo)
 }
 
-func ExampleWorkwxApp_GetAgent() {
+func ExampleWorkwxApp_GetAgentInfo() {
 	agentID := int64(1234567)
 
 	client := workwx.New(corpID)

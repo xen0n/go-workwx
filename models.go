@@ -2255,3 +2255,29 @@ type AgentAllowPartys struct {
 type AgentAllowTags struct {
 	TagID []int64 `json:"tagid"`
 }
+
+// reqAgentList 获取应用列表请求
+type reqAgentList struct{}
+
+var _ urlValuer = reqAgentList{}
+
+func (x reqAgentList) intoURLValues() url.Values {
+	return url.Values{}
+}
+
+// AgentItem 应用列表项
+type AgentItem struct {
+	// AgentID 企业应用id
+	AgentID int64 `json:"agentid"`
+	// Name 企业应用名称
+	Name string `json:"name"`
+	// SquareLogoURL 企业应用方形头像url
+	SquareLogoURL string `json:"square_logo_url"`
+}
+
+// respAgentList 获取应用列表响应
+type respAgentList struct {
+	respCommon
+
+	AgentList []AgentItem `json:"agentlist"`
+}

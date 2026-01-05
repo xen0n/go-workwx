@@ -125,7 +125,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execAgentGet`|`reqAgentGet`|`respAgentGet`|+|`GET /cgi-bin/agent/get`|[获取指定的应用详情](https://work.weixin.qq.com/api/doc#90000/90135/90227)
-`execAgentList`|TODO|TODO|+|`GET /cgi-bin/agent/list`|[获取access_token对应的应用列表](https://work.weixin.qq.com/api/doc#90000/90135/90227)
+`execAgentList`|`reqAgentList`|`respAgentList`|+|`GET /cgi-bin/agent/list`|[获取access_token对应的应用列表](https://work.weixin.qq.com/api/doc#90000/90135/90227)
 `execAgentSet`|TODO|TODO|+|`POST /cgi-bin/agent/set`|[设置应用](https://work.weixin.qq.com/api/doc#90000/90135/90228)
 
 # 应用管理 - 自定义菜单

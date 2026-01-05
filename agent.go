@@ -61,3 +61,13 @@ func (c *WorkwxApp) GetAgentInfo() (*AgentInfo, error) {
 
 	return agentInfo, nil
 }
+
+// GetAgentList 获取应用列表
+func (c *WorkwxApp) GetAgentList() ([]AgentItem, error) {
+	resp, err := c.execAgentList(reqAgentList{})
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.AgentList, nil
+}

@@ -965,3 +965,14 @@ func (c *WorkwxApp) execAgentGetInfo(req reqAgentGet) (respAgentGet, error) {
 
 	return resp, nil
 }
+
+// execAgentList 获取应用列表
+func (c *WorkwxApp) execAgentList(req reqAgentList) (respAgentList, error) {
+	var resp respAgentList
+	err := executeQyapiGet(c, "/cgi-bin/agent/list", req, &resp, true)
+	if err != nil {
+		return respAgentList{}, err
+	}
+
+	return resp, nil
+}
