@@ -1,3 +1,9 @@
+# 全局声明
+
+```go
+import "io"
+```
+
 # Access token 获取
 
 ## API calls

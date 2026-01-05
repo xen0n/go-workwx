@@ -11,6 +11,10 @@ type hir struct {
 type topic struct {
 	models []apiModel
 	calls  []apiCall
+
+	// TODO: retain source order
+	// map[languageTag][]snippet
+	inlineCodeSections map[string][]string
 }
 
 type visibility int

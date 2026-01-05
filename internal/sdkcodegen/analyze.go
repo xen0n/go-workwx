@@ -47,7 +47,9 @@ func analyzeH1(doc *mdTocNode) (topic, error) {
 		return empty, errToplevelTopicNotH1
 	}
 
-	result := topic{}
+	result := topic{
+		inlineCodeSections: make(map[string][]string),
+	}
 	for _, n := range doc.TocChildren {
 		// fmt.Printf("H2: %s\n", n.ThisText())
 		title := n.ThisInnerText()
@@ -72,6 +74,22 @@ func analyzeH1(doc *mdTocNode) (topic, error) {
 			return empty, errUnknownTopicChild
 		}
 	}
+
+	// model fields
+	// this allows tweaking the generated code slightly, such as including
+	// Go imports
+	for _, n := range doc.Content {
+		switch n.ThisType() {
+		case blackfriday.CodeBlock:
+			lang := string(n.This.CodeBlockData.Info)
+			result.inlineCodeSections[lang] = append(result.inlineCodeSections[lang], string(n.This.Literal))
+
+		default:
+			// ignore for now
+			// TODO: allow collecting paragraphs into doc comments
+		}
+	}
+
 	return result, nil
 }
 
