@@ -35,9 +35,9 @@ type AgentInfo struct {
 }
 
 // GetAgent 获取指定的应用详情
-func (c *WorkwxApp) GetAgent(agentID int64) (*AgentInfo, error) {
+func (c *WorkwxApp) GetAgent() (*AgentInfo, error) {
 	resp, err := c.execAgentGet(reqAgentGet{
-		AgentID: agentID,
+		AgentID: c.AgentID,
 	})
 	if err != nil {
 		return nil, err
