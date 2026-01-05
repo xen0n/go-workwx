@@ -41,7 +41,7 @@ func (c *WorkwxApp) GetCurrentAgentInfo() (*AgentInfo, error) {
 
 // GetAgentInfo 获取指定应用详情
 func (c *WorkwxApp) GetAgentInfo(agentID int64) (*AgentInfo, error) {
-	resp, err := c.execAgentGetInfo(reqAgentGet{
+	resp, err := c.execAgentGet(reqAgentGet{
 		AgentID: agentID,
 	})
 	if err != nil {

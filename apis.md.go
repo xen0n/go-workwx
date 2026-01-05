@@ -378,6 +378,28 @@ func (c *WorkwxApp) execTransferGroupChatExternalContact(req reqTransferGroupCha
 	return resp, nil
 }
 
+// execAgentGet 获取指定的应用详情
+func (c *WorkwxApp) execAgentGet(req reqAgentGet) (respAgentGet, error) {
+	var resp respAgentGet
+	err := executeQyapiGet(c, "/cgi-bin/agent/get", req, &resp, true)
+	if err != nil {
+		return respAgentGet{}, err
+	}
+
+	return resp, nil
+}
+
+// execAgentList 获取access_token对应的应用列表
+func (c *WorkwxApp) execAgentList(req reqAgentList) (respAgentList, error) {
+	var resp respAgentList
+	err := executeQyapiGet(c, "/cgi-bin/agent/list", req, &resp, true)
+	if err != nil {
+		return respAgentList{}, err
+	}
+
+	return resp, nil
+}
+
 // execAppchatCreate 创建群聊会话
 func (c *WorkwxApp) execAppchatCreate(req reqAppchatCreate) (respAppchatCreate, error) {
 	var resp respAppchatCreate
@@ -950,28 +972,6 @@ func (c *WorkwxApp) execKfCustomerBatchGet(req reqKfCustomerBatchGet) (respKfCus
 	err := executeQyapiJSONPost(c, "/cgi-bin/kf/customer/batchget", req, &resp, true)
 	if err != nil {
 		return respKfCustomerBatchGet{}, err
-	}
-
-	return resp, nil
-}
-
-// execAgentGetInfo 获取指定的应用详情
-func (c *WorkwxApp) execAgentGetInfo(req reqAgentGet) (respAgentGet, error) {
-	var resp respAgentGet
-	err := executeQyapiGet(c, "/cgi-bin/agent/get", req, &resp, true)
-	if err != nil {
-		return respAgentGet{}, err
-	}
-
-	return resp, nil
-}
-
-// execAgentList 获取应用列表
-func (c *WorkwxApp) execAgentList(req reqAgentList) (respAgentList, error) {
-	var resp respAgentList
-	err := executeQyapiGet(c, "/cgi-bin/agent/list", req, &resp, true)
-	if err != nil {
-		return respAgentList{}, err
 	}
 
 	return resp, nil
