@@ -158,7 +158,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execMediaUpload`|`reqMediaUpload`|`respMediaUpload`|+|`POST(media) /cgi-bin/media/upload`|[上传临时素材](https://work.weixin.qq.com/api/doc#90000/90135/90253)
 `execMediaUploadImg`|`reqMediaUploadImg`|`respMediaUploadImg`|+|`POST(media) /cgi-bin/media/uploadimg`|[上传永久图片](https://work.weixin.qq.com/api/doc#90000/90135/90256)
-`execMediaGet`|`reqMediaGet`|`io.ReadCloser`|+|`GET /cgi-bin/media/get`|[获取临时素材](https://work.weixin.qq.com/api/doc#90000/90135/90254)
+`execMediaGet`|`reqMediaGet`|`io.ReadCloser`|+|`GET(binary) /cgi-bin/media/get`|[获取临时素材](https://work.weixin.qq.com/api/doc#90000/90135/90254)
 `execMediaGetJSSDK`|TODO|TODO|+|`GET /cgi-bin/media/get/jssdk`|[获取高清语音素材](https://work.weixin.qq.com/api/doc#90000/90135/90255)
 
 # OA 数据接口

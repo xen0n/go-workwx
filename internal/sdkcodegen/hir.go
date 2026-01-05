@@ -45,8 +45,9 @@ type apiMethod int
 const (
 	apiMethodUnknown   apiMethod = 0
 	apiMethodGET       apiMethod = 1
-	apiMethodPOSTJSON  apiMethod = 2
-	apiMethodPOSTMedia apiMethod = 3
+	apiMethodGETBinary apiMethod = 2
+	apiMethodPOSTJSON  apiMethod = 3
+	apiMethodPOSTMedia apiMethod = 4
 )
 
 // An API call.

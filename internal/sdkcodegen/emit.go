@@ -162,6 +162,8 @@ func (e *goEmitter) emitAPICall(x *apiCall) error {
 	switch x.method {
 	case apiMethodGET:
 		execFnName = "executeQyapiGet"
+	case apiMethodGETBinary:
+		execFnName = "executeQyapiGetBinary"
 	case apiMethodPOSTJSON:
 		execFnName = "executeQyapiJSONPost"
 	case apiMethodPOSTMedia:
@@ -173,14 +175,20 @@ func (e *goEmitter) emitAPICall(x *apiCall) error {
 	// TODO: override the receiver of method
 	e.emitDoc(ident, x.doc)
 	e.e("func (c *WorkwxApp) %s(req %s) (%s, error) {\n", ident, x.reqType, x.respType)
-	e.e("var resp %s\n", x.respType)
-	e.e("err := %s(c, \"%s\", req, &resp, %v)\n", execFnName, x.httpURI, x.needsAccessToken)
-	e.e("if err != nil {\n")
-	// TODO: error_chain
-	e.e("return %s{}, err\n", x.respType)
-	e.e("}\n")
-	e.e("\n")
-	e.e("return resp, nil\n")
+
+	if x.method == apiMethodGETBinary {
+		e.e("return %s(c, \"%s\", req, %v)\n", execFnName, x.httpURI, x.needsAccessToken)
+	} else {
+		e.e("var resp %s\n", x.respType)
+		e.e("err := %s(c, \"%s\", req, &resp, %v)\n", execFnName, x.httpURI, x.needsAccessToken)
+		e.e("if err != nil {\n")
+		// TODO: error_chain
+		e.e("return %s{}, err\n", x.respType)
+		e.e("}\n")
+		e.e("\n")
+		e.e("return resp, nil\n")
+	}
+
 	e.e("}\n")
 	e.e("\n")
 

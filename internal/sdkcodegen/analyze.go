@@ -475,6 +475,8 @@ func parseAPIMethod(x string) (apiMethod, error) {
 	switch x {
 	case "GET":
 		return apiMethodGET, nil
+	case "GET(binary)":
+		return apiMethodGETBinary, nil
 	case "POST":
 		return apiMethodPOSTJSON, nil
 	case "POST(media)":
