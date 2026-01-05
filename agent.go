@@ -34,9 +34,9 @@ type AgentInfo struct {
 	CustomizedPublishStatus int
 }
 
-// GetAgent 获取指定的应用详情
-func (c *WorkwxApp) GetAgent() (*AgentInfo, error) {
-	resp, err := c.execAgentGet(reqAgentGet{
+// GetAgentInfo 获取应用详情
+func (c *WorkwxApp) GetAgentInfo() (*AgentInfo, error) {
+	resp, err := c.execAgentGetInfo(reqAgentGet{
 		AgentID: c.AgentID,
 	})
 	if err != nil {

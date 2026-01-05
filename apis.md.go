@@ -955,8 +955,8 @@ func (c *WorkwxApp) execKfCustomerBatchGet(req reqKfCustomerBatchGet) (respKfCus
 	return resp, nil
 }
 
-// execAgentGet 获取指定的应用详情
-func (c *WorkwxApp) execAgentGet(req reqAgentGet) (respAgentGet, error) {
+// execAgentGetInfo 获取指定的应用详情
+func (c *WorkwxApp) execAgentGetInfo(req reqAgentGet) (respAgentGet, error) {
 	var resp respAgentGet
 	err := executeQyapiGet(c, "/cgi-bin/agent/get", req, &resp, true)
 	if err != nil {
