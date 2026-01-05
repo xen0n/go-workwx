@@ -4,42 +4,42 @@
 
 ### `KfAccount` 客服账号
 
- Name              | JSON                         | Type     | Doc                                                      
+ Name              | JSON                         | Type     | Doc
 :------------------|:-----------------------------|:---------|:---------------------------------------------------------
- `OpenKfID`        | `open_kfid`                  | `string` | 客服账号ID                                                   
- `Name`            | `name`                       | `string` | 客服名称                                                     
- `Avatar`          | `avatar`                     | `string` | 客服头像URL                                                  
- `ManagePrivilege` | `manage_privilege,omitempty` | `bool`   | 当前调用接口的应用身份，是否有该客服账号的管理权限（编辑客服账号信息、分配会话和收发消息）。组件应用不返回此字段 
+ `OpenKfID`        | `open_kfid`                  | `string` | 客服账号ID
+ `Name`            | `name`                       | `string` | 客服名称
+ `Avatar`          | `avatar`                     | `string` | 客服头像URL
+ `ManagePrivilege` | `manage_privilege,omitempty` | `bool`   | 当前调用接口的应用身份，是否有该客服账号的管理权限（编辑客服账号信息、分配会话和收发消息）。组件应用不返回此字段
 
 ### `KfServicer` 客服接待人员
 
- Name           | JSON                      | Type     | Doc                                         
+ Name           | JSON                      | Type     | Doc
 :---------------|:--------------------------|:---------|:--------------------------------------------
- `UserID`       | `userid,omitempty`        | `string` | 接待人员的userid。第三方应用获取到的为密文userid，即open_userid 
- `Status`       | `status`                  | `int`    | 接待人员的接待状态。0:接待中,1:停止接待。                     
- `StopType`     | `stop_type`               | `int`    | 接待人员的接待状态为「停止接待」的子类型。0:停止接待,1:暂时挂起          
- `DepartmentID` | `department_id,omitempty` | `int64`  | 接待人员部门的id                                   
+ `UserID`       | `userid,omitempty`        | `string` | 接待人员的userid。第三方应用获取到的为密文userid，即open_userid
+ `Status`       | `status`                  | `int`    | 接待人员的接待状态。0:接待中,1:停止接待。
+ `StopType`     | `stop_type`               | `int`    | 接待人员的接待状态为「停止接待」的子类型。0:停止接待,1:暂时挂起
+ `DepartmentID` | `department_id,omitempty` | `int64`  | 接待人员部门的id
 
 ### `KfServicerResult` 接待人员数据
 
- Name           | JSON                      | Type     | Doc         
+ Name           | JSON                      | Type     | Doc
 :---------------|:--------------------------|:---------|:------------
- `UserID`       | `userid,omitempty`        | `string` | 接待人员的userid 
- `DepartmentID` | `department_id,omitempty` | `int64`  | 接待人员部门的id   
- `ErrCode`      | `errcode`                 | `int64`  | 该条记录的结果     
+ `UserID`       | `userid,omitempty`        | `string` | 接待人员的userid
+ `DepartmentID` | `department_id,omitempty` | `int64`  | 接待人员部门的id
+ `ErrCode`      | `errcode`                 | `int64`  | 该条记录的结果
  `ErrMsg`       | `errmsg`                  | `string` | 结果信息
 
 ### `KfMsg` 客服消息数据
 
- Name           | JSON                        | Type          | Doc         
+ Name           | JSON                        | Type          | Doc
 :---------------|:----------------------------|:--------------|:------------
 `MsgID`      | `msgid,omitempty`           | `string`      | 消息ID
 `OpenKfID`| `open_kfid,omitempty`       | `string`      |客服账号ID（msgtype为event，该字段不返回）
 `ExternalUserID`| `external_userid,omitempty` | `string`      |客客户UserID（msgtype为event，该字段不返回）
-`SendTime`      | `send_time,omitempty`       | `int64`       | 消息发送时间   
+`SendTime`      | `send_time,omitempty`       | `int64`       | 消息发送时间
 `Origin`      | `origin,omitempty`          | `int`         | 消息来源。3-微信客户发送的消息 4-系统推送的事件消息 5-接待人员在企业微信客户端发送的消息
 `ServicerUserID`| `servicer_userid,omitempty` | `string`      |从企业微信给客户发消息的接待人员userid（即仅origin为5才返回；msgtype为event，该字段不返回）
-`MsgType`      | `msgtype`                   | `MessageType` | 消息类型   
+`MsgType`      | `msgtype`                   | `MessageType` | 消息类型
 `Text`       | `text,omitempty`            | `Text`   | 文本消息
 `Image`       | `image,omitempty`           | `Image`   | 图片消息
 `Link`       | `link,omitempty`            | `Link`   | 链接消息
@@ -71,7 +71,7 @@ Name|JSON|Type|Doc
 
 ### `KfWechatChannels` 进入会话的视频号信息，从视频号进入会话才有值
 
- Name           | JSON                      | Type     | Doc         
+ Name           | JSON                      | Type     | Doc
 :---------------|:--------------------------|:---------|:------------
  `NickName`       | `nickname,omitempty`        | `string` | 视频号名称，视频号场景值为1、2、3时返回此项
  `ShopNickName` | `shop_nickname,omitempty` | `string`  | 视频号小店名称，视频号场景值为4、5时返回此项
@@ -85,15 +85,15 @@ const (
     // KfEventTypeEnterSession 用户进入会话事件
     KfEventTypeEnterSession KfEventType = "enter_session"
     // KfEventTypeMsgSendFail 消息发送失败事件
-	KfEventTypeMsgSendFail KfEventType = "msg_send_fail"
+    KfEventTypeMsgSendFail KfEventType = "msg_send_fail"
     // KfEventTypeServicerStatusChange 接待人员接待状态变更事件
-	KfEventTypeServicerStatusChange KfEventType = "servicer_status_change"
+    KfEventTypeServicerStatusChange KfEventType = "servicer_status_change"
     // KfEventTypeSessionStatusChange 会话状态变更事件
-	KfEventTypeSessionStatusChange KfEventType = "session_status_change"
+    KfEventTypeSessionStatusChange KfEventType = "session_status_change"
     // KfEventTypeUserRecallMsg 用户撤回消息事件
-	KfEventTypeUserRecallMsg KfEventType = "user_recall_msg"
+    KfEventTypeUserRecallMsg KfEventType = "user_recall_msg"
     // KfEventTypeServicerRecallMsg 接待人员撤回消息事件
-    KfEventTypeServicerRecallMsg KfEventType = "servicer_recall_msg" 
+    KfEventTypeServicerRecallMsg KfEventType = "servicer_recall_msg"
     // KfEventTypeRejectCustomerMsgSwitchChange 拒收客户消息变更事件
     KfEventTypeRejectCustomerMsgSwitchChange KfEventType = "reject_customer_msg_switch_change"
 )
@@ -108,15 +108,15 @@ const (
 type KfServiceState int
 
 const (
-	// KfServiceStateUntreated 未处理 新会话接入
+    // KfServiceStateUntreated 未处理 新会话接入
     KfServiceStateUntreated KfServiceState = iota
-	// KfServiceStateRobotReception 由智能助手接待
+    // KfServiceStateRobotReception 由智能助手接待
     KfServiceStateRobotReception
     // KfServiceStateInQueue 待接入池排队中
     KfServiceStateInQueue
-	// KfServiceStateManualReception 由人工接待
-	KfServiceStateManualReception
-	// KfServiceStateFinished 已结束/未开始
-	KfServiceStateFinished
+    // KfServiceStateManualReception 由人工接待
+    KfServiceStateManualReception
+    // KfServiceStateFinished 已结束/未开始
+    KfServiceStateFinished
 )
 ```
