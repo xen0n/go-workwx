@@ -295,3 +295,25 @@ func ExampleWorkwxApp_ApplyOAEvent() {
 	}
 	_, _ = app.ApplyOAEvent(appInfo)
 }
+
+func ExampleWorkwxApp_GetAgent() {
+	agentID := int64(1234567)
+
+	client := workwx.New(corpID)
+
+	app := client.WithApp(corpSecret, agentID)
+	app.SpawnAccessTokenRefresher()
+
+	// 获取应用详情
+	agentInfo, err := app.GetAgent(agentID)
+	if err != nil {
+		// 处理错误
+		return
+	}
+
+	// 使用应用信息
+	_ = agentInfo.Name
+	_ = agentInfo.Description
+	_ = agentInfo.SquareLogoURL
+	// ... 其他字段
+}

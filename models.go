@@ -2202,3 +2202,55 @@ func (x reqOASetOneUserVacationQuota) intoBody() ([]byte, error) {
 type respOASetOneUserVacationQuota struct {
 	respCommon
 }
+
+// reqAgentGet 获取应用详情请求
+type reqAgentGet struct {
+	AgentID int64
+}
+
+var _ urlValuer = reqAgentGet{}
+
+func (x reqAgentGet) intoURLValues() url.Values {
+	return url.Values{
+		"agentid": {strconv.FormatInt(x.AgentID, 10)},
+	}
+}
+
+// respAgentGet 获取应用详情响应
+type respAgentGet struct {
+	respCommon
+
+	AgentID                 int64               `json:"agentid"`
+	Name                    string              `json:"name"`
+	SquareLogoURL           string              `json:"square_logo_url"`
+	Description             string              `json:"description"`
+	AllowUserInfos          AgentAllowUserInfos `json:"allow_userinfos"`
+	AllowPartys             AgentAllowPartys    `json:"allow_partys"`
+	AllowTags               AgentAllowTags      `json:"allow_tags"`
+	Close                   int                 `json:"close"`
+	RedirectDomain          string              `json:"redirect_domain"`
+	ReportLocationFlag      int                 `json:"report_location_flag"`
+	IsReportEnter           int                 `json:"isreportenter"`
+	HomeURL                 string              `json:"home_url"`
+	CustomizedPublishStatus int                 `json:"customized_publish_status"`
+}
+
+// AgentAllowUserInfos 应用可见范围（人员）
+type AgentAllowUserInfos struct {
+	User []AgentAllowUser `json:"user"`
+}
+
+// AgentAllowUser 应用可见用户
+type AgentAllowUser struct {
+	UserID string `json:"userid"`
+}
+
+// AgentAllowPartys 应用可见范围（部门）
+type AgentAllowPartys struct {
+	PartyID []int64 `json:"partyid"`
+}
+
+// AgentAllowTags 应用可见范围（标签）
+type AgentAllowTags struct {
+	TagID []int64 `json:"tagid"`
+}
