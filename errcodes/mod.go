@@ -5,7 +5,7 @@ package errcodes
 // ErrCode 错误码类型
 //
 // 全局错误码文档: https://developer.work.weixin.qq.com/document/path/90313
-// 文档爬取时间: 2024-12-19 15:43:50 +0800
+// 文档爬取时间: 2026-01-05 16:38:13 +0800
 //
 // NOTE: 关于错误码的名字为何如此无聊:
 //
@@ -197,6 +197,7 @@ const ErrCode40027 ErrCode = 40027
 // oauth_code参数错误。确认：
 // 1）code只能消费一次，不能重复消费。比如说，是否存在多个服务器同时消费同一code情况。
 // 2）code需要在有效期间消费（5分钟），过期会自动失效。
+// 3)  颁发code的应用appid跟消费code所使用的应用suiteid不一致。
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A40029
 const ErrCode40029 ErrCode = 40029
@@ -523,7 +524,7 @@ const ErrCode40124 ErrCode = 40124
 // 排查方法: -
 const ErrCode40125 ErrCode = 40125
 
-// ErrCode40126 企业标签个数达到上限，最多为3000个
+// ErrCode40126 该企业的企业标签数已经达到上限
 //
 // 排查方法: -
 const ErrCode40126 ErrCode = 40126
@@ -612,6 +613,11 @@ const ErrCode40142 ErrCode = 40142
 //
 // 排查方法: -
 const ErrCode40143 ErrCode = 40143
+
+// ErrCode40144 客户当前的标签数量已达上限
+//
+// 排查方法: -
+const ErrCode40144 ErrCode = 40144
 
 // ErrCode40145 mediaid已过期失效
 //
@@ -1128,10 +1134,70 @@ const ErrCode41099 ErrCode = 41099
 // 排查方法: -
 const ErrCode41102 ErrCode = 41102
 
+// ErrCode41110 标签id不正确
+//
+// 排查方法: -
+const ErrCode41110 ErrCode = 41110
+
+// ErrCode41111 标签数量不能为空且不超过1000
+//
+// 排查方法: -
+const ErrCode41111 ErrCode = 41111
+
 // ErrCode41200 仅部分经营类目企业支持
 //
 // 排查方法: -
 const ErrCode41200 ErrCode = 41200
+
+// ErrCode41201 无效的获客助手会话信息chatkey
+//
+// 排查方法: -
+const ErrCode41201 ErrCode = 41201
+
+// ErrCode41202 商品图册数量超过上限
+//
+// 排查方法: -
+const ErrCode41202 ErrCode = 41202
+
+// ErrCode41210 企业创建的朋友圈数量不能超过10w/月
+//
+// 排查方法: -
+const ErrCode41210 ErrCode = 41210
+
+// ErrCode41211 企业未开通朋友圈功能
+//
+// 排查方法: -
+const ErrCode41211 ErrCode = 41211
+
+// ErrCode41300 当前群发模版未进行渲染
+//
+// 排查方法: -
+const ErrCode41300 ErrCode = 41300
+
+// ErrCode41301 无效的群发模版占位符
+//
+// 排查方法: -
+const ErrCode41301 ErrCode = 41301
+
+// ErrCode41302 群发模版占位符数量超过限制
+//
+// 排查方法: -
+const ErrCode41302 ErrCode = 41302
+
+// ErrCode41303 群发指定的关系对数量超过上限
+//
+// 排查方法: -
+const ErrCode41303 ErrCode = 41303
+
+// ErrCode41304 该模版任务已创建过群发
+//
+// 排查方法: -
+const ErrCode41304 ErrCode = 41304
+
+// ErrCode41305 未设置企业经营类目
+//
+// 排查方法: -
+const ErrCode41305 ErrCode = 41305
 
 // ErrCode42001 access_token已过期
 //
@@ -1170,7 +1236,7 @@ const ErrCode42012 ErrCode = 42012
 // 排查方法: 需要重新走登陆流程
 const ErrCode42013 ErrCode = 42013
 
-// ErrCode42014 任务卡片消息的task_id不合法
+// ErrCode42014 卡片消息的task_id不合法
 //
 // 排查方法: -
 const ErrCode42014 ErrCode = 42014
@@ -1458,6 +1524,11 @@ const ErrCode45026 ErrCode = 45026
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A45029
 const ErrCode45029 ErrCode = 45029
 
+// ErrCode45030 mediaid列表超过上限
+//
+// 排查方法: 列表上限为20
+const ErrCode45030 ErrCode = 45030
+
 // ErrCode45031 企业corpsecret不够安全，请重置
 //
 // 排查方法: -
@@ -1598,6 +1669,13 @@ const ErrCode48009 ErrCode = 48009
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#55963
 const ErrCode48010 ErrCode = 48010
+
+// ErrCode48011 成员活跃不满足要求,无法获取客户数据
+//
+// 排查方法: [查看帮助]
+//
+// [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#60001
+const ErrCode48011 ErrCode = 48011
 
 // ErrCode49004 签名不匹配
 //
@@ -2145,6 +2223,41 @@ const ErrCode60267 ErrCode = 60267
 //
 // 排查方法: 检查是否使用上次调用本接口时返回的cursor，并且没有改动过滤条件
 const ErrCode60268 ErrCode = 60268
+
+// ErrCode60269 企业邮箱别名非法
+//
+// 排查方法: 检查是否为专属域名的邮箱
+const ErrCode60269 ErrCode = 60269
+
+// ErrCode60270 企业邮箱别名已存在
+//
+// 排查方法: 企业邮箱别名需全局唯一
+const ErrCode60270 ErrCode = 60270
+
+// ErrCode60271 企业邮箱别名非法
+//
+// 排查方法: 检查是否为专属域名的邮箱
+const ErrCode60271 ErrCode = 60271
+
+// ErrCode60272 成员没有专属域名邮箱，不能设置企业邮箱别名
+//
+// 排查方法: 需要先为成员分配专属邮箱域名邮箱
+const ErrCode60272 ErrCode = 60272
+
+// ErrCode60273 别名邮箱超过限制，不能设置企业邮箱
+//
+// 排查方法: 需要删除部分别名邮箱
+const ErrCode60273 ErrCode = 60273
+
+// ErrCode60274 暂不支持批量导入「其他邮箱成员」成员
+//
+// 排查方法: -
+const ErrCode60274 ErrCode = 60274
+
+// ErrCode60275 暂不支持通过api对「其他邮箱成员」进行管理
+//
+// 排查方法: -
+const ErrCode60275 ErrCode = 60275
 
 // ErrCode65000 学校已经迁移
 //
@@ -4061,7 +4174,7 @@ const ErrCode90484 ErrCode = 90484
 // 排查方法: -
 const ErrCode90485 ErrCode = 90485
 
-// ErrCode90486 缺失repeate_interval参数
+// ErrCode90486 缺失repeat_interval参数
 //
 // 排查方法: -
 const ErrCode90486 ErrCode = 90486
@@ -4271,6 +4384,21 @@ const ErrCode90711 ErrCode = 90711
 // 排查方法: -
 const ErrCode90712 ErrCode = 90712
 
+// ErrCode90713 缺少日程参与者
+//
+// 排查方法: -
+const ErrCode90713 ErrCode = 90713
+
+// ErrCode90714 缺少日程管理员
+//
+// 排查方法: -
+const ErrCode90714 ErrCode = 90714
+
+// ErrCode90715 日程管理员必须在参与者中
+//
+// 排查方法: -
+const ErrCode90715 ErrCode = 90715
+
 // ErrCode91040 获取ticket的类型无效
 //
 // 排查方法: [查看帮助]
@@ -4325,12 +4453,17 @@ const ErrCode92007 ErrCode = 92007
 // 排查方法: -
 const ErrCode92008 ErrCode = 92008
 
-// ErrCode93000 机器人webhookurl不合法或者机器人已经被移除出群
+// ErrCode93000 消息推送webhookurl不合法或者消息推送已经被移除出群
 //
 // 排查方法: -
 const ErrCode93000 ErrCode = 93000
 
-// ErrCode93004 机器人被停用
+// ErrCode93001 当前群聊不允许推送消息
+//
+// 排查方法: -
+const ErrCode93001 ErrCode = 93001
+
+// ErrCode93004 消息推送被停用
 //
 // 排查方法: -
 const ErrCode93004 ErrCode = 93004
@@ -4344,6 +4477,21 @@ const ErrCode93006 ErrCode = 93006
 //
 // 排查方法: -
 const ErrCode93008 ErrCode = 93008
+
+// ErrCode93017 发消息的请求内容不能为空
+//
+// 排查方法: -
+const ErrCode93017 ErrCode = 93017
+
+// ErrCode93018 图片大小超过限制
+//
+// 排查方法: -
+const ErrCode93018 ErrCode = 93018
+
+// ErrCode93050 response_type字段不合法
+//
+// 排查方法: -
+const ErrCode93050 ErrCode = 93050
 
 // ErrCode94000 应用未开启工作台自定义模式
 //
@@ -4414,6 +4562,11 @@ const ErrCode94014 ErrCode = 94014
 //
 // 排查方法: -
 const ErrCode94015 ErrCode = 94015
+
+// ErrCode94016 用户配置的height参数跟应用模板不一致
+//
+// 排查方法: -
+const ErrCode94016 ErrCode = 94016
 
 // ErrCode95000 不合法的open_kfid
 //
@@ -4513,6 +4666,11 @@ const ErrCode95018 ErrCode = 95018
 //
 // [获取接待人员列表]: https://developer.work.weixin.qq.com/document/path/90313#31064
 const ErrCode95019 ErrCode = 95019
+
+// ErrCode95020 接待人员配置超过上限
+//
+// 排查方法: -
+const ErrCode95020 ErrCode = 95020
 
 // ErrCode95022 location_type非法
 //
@@ -5141,6 +5299,11 @@ const ErrCode400228 ErrCode = 400228
 // 排查方法: -
 const ErrCode400237 ErrCode = 400237
 
+// ErrCode400238 无权限设置media_set_type字段
+//
+// 排查方法: -
+const ErrCode400238 ErrCode = 400238
+
 // ErrCode400301 5分钟内有相同的会议正在创建中，暂不可再创建
 //
 // 排查方法: 若相同的会议未创建成功，可于相同会议首次创建时间5分钟后重新创建
@@ -5155,6 +5318,21 @@ const ErrCode400302 ErrCode = 400302
 //
 // 排查方法: 可以联系企业管理员在腾讯会议管理端为用户配置创建会议的权限
 const ErrCode400303 ErrCode = 400303
+
+// ErrCode400304 用户没有操作权限
+//
+// 排查方法: 确认用户是否已经激活且使用过日历
+const ErrCode400304 ErrCode = 400304
+
+// ErrCode400307 不允许获取其他企业成员创建的会议详情
+//
+// 排查方法: 检查会议是否为本企业成员创建
+const ErrCode400307 ErrCode = 400307
+
+// ErrCode400308 用户非会议参与人或者创建者，不允许获取会议详情
+//
+// 排查方法: -
+const ErrCode400308 ErrCode = 400308
 
 // ErrCode511020 问题重复
 //
@@ -5489,7 +5667,7 @@ const ErrCode610016 ErrCode = 610016
 //
 // 小程序和企业主体不一致。确认：
 // 1) 小程序的主体名称，或者小程序绑定的开放平台账号主体名称，与企业的主体名称是否一致。
-// 2) 如果小程序、开放平台账号、企业三者的主体一致，那需要调用接口传入的openid与unionid是否该小程序获取。
+// 2) 如果小程序、开放平台账号、企业三者的主体一致，那需要确认调用接口传入的openid与unionid是否该小程序获取。
 //
 // [查看帮助]: https://developer.work.weixin.qq.com/document/path/90313#%E9%94%99%E8%AF%AF%E7%A0%81%EF%BC%9A610017
 const ErrCode610017 ErrCode = 610017
@@ -5525,6 +5703,13 @@ const ErrCode610022 ErrCode = 610022
 //
 // [去管理后台购买]: https://work.weixin.qq.com/wework_admin/frame#/business/mall/index/productIntro/customerService
 const ErrCode610023 ErrCode = 610023
+
+// ErrCode610024 因企业未按要求提交资质材料，当前已无法管理客户，企业提交资质后即可继续管理。
+//
+// 排查方法: [资质提交地址]
+//
+// [资质提交地址]: https://work.weixin.qq.com/wework_admin/frame#/customer/businessCategory/qualification/submit?from=clientCard&amp;type=intercept
+const ErrCode610024 ErrCode = 610024
 
 // ErrCode630005 无效的launch_code
 //
@@ -6369,6 +6554,26 @@ const ErrCode680045 ErrCode = 680045
 // 排查方法: 检查企业中已启用的邮箱数量
 const ErrCode680046 ErrCode = 680046
 
+// ErrCode680047 别名邮箱格式不合法
+//
+// 排查方法: -
+const ErrCode680047 ErrCode = 680047
+
+// ErrCode680048 别名邮箱账号已存在
+//
+// 排查方法: -
+const ErrCode680048 ErrCode = 680048
+
+// ErrCode680049 传入的别名邮箱超出5个数量上限
+//
+// 排查方法: -
+const ErrCode680049 ErrCode = 680049
+
+// ErrCode680050 企业没有专属域名，不允许添加别名
+//
+// 排查方法: -
+const ErrCode680050 ErrCode = 680050
+
 // ErrCode680106 当前企业会议应用已关闭，音视频会议不可用，请联系管理员
 //
 // 排查方法: -
@@ -6631,6 +6836,11 @@ const ErrCode701070 ErrCode = 701070
 //
 // 排查方法: -
 const ErrCode701071 ErrCode = 701071
+
+// ErrCode701072 该企业没有有效的未激活许可
+//
+// 排查方法: -
+const ErrCode701072 ErrCode = 701072
 
 // ErrCode701081 更新激活码的时候写冲突，请获取激活码最新详情再根据激活码最新情况处理
 //
@@ -6963,6 +7173,36 @@ const ErrCode701250 ErrCode = 701250
 //
 // 排查方法: -
 const ErrCode701252 ErrCode = 701252
+
+// ErrCode701400 空间不在指定成员的微盘内容存档授权空间列表里
+//
+// 排查方法: -
+const ErrCode701400 ErrCode = 701400
+
+// ErrCode701401 成员不在微盘内容存档范围内
+//
+// 排查方法: -
+const ErrCode701401 ErrCode = 701401
+
+// ErrCode701402 微盘内容存档确认函未通过
+//
+// 排查方法: -
+const ErrCode701402 ErrCode = 701402
+
+// ErrCode701403 指定的微盘文件不支持下载
+//
+// 排查方法: -
+const ErrCode701403 ErrCode = 701403
+
+// ErrCode701404 成员非微盘空间超管
+//
+// 排查方法: -
+const ErrCode701404 ErrCode = 701404
+
+// ErrCode701405 数据已更新，请从第一页开始重新获取数据
+//
+// 排查方法: -
+const ErrCode701405 ErrCode = 701405
 
 // ErrCode710000 非法的open_corpid
 //
@@ -7313,6 +7553,11 @@ const ErrCode710658 ErrCode = 710658
 // 排查方法: -
 const ErrCode710659 ErrCode = 710659
 
+// ErrCode710660 数据专区示例镜像内部错误
+//
+// 排查方法: 根据errmsg以及专区日志进一步排查
+const ErrCode710660 ErrCode = 710660
+
 // ErrCode710671 调试凭证已过期
 //
 // 排查方法: -
@@ -7352,6 +7597,31 @@ const ErrCode710677 ErrCode = 710677
 //
 // 排查方法: -
 const ErrCode710678 ErrCode = 710678
+
+// ErrCode710682 大模型服务繁忙，请重试
+//
+// 排查方法: -
+const ErrCode710682 ErrCode = 710682
+
+// ErrCode710700 语音转文字失败
+//
+// 排查方法: -
+const ErrCode710700 ErrCode = 710700
+
+// ErrCode710800 操作的成员不是文档成员
+//
+// 排查方法: 把成员添加为文档成员
+const ErrCode710800 ErrCode = 710800
+
+// ErrCode710801 群聊不是企业内部群聊
+//
+// 排查方法: -
+const ErrCode710801 ErrCode = 710801
+
+// ErrCode710802 群聊被封禁
+//
+// 排查方法: -
+const ErrCode710802 ErrCode = 710802
 
 // ErrCode730000 非法的tmp_openid
 //
@@ -7410,9 +7680,11 @@ const ErrCode730009 ErrCode = 730009
 // 排查方法: -
 const ErrCode730010 ErrCode = 730010
 
-// ErrCode730011 不支持该类型的会议，不是通过API创建的
+// ErrCode730011 不支持该类型的会议
 //
-// 排查方法: -
+// 排查方法: 请确认企业和操作账号是否可以调用会议高级功能，参考[概述]
+//
+// [概述]: https://developer.work.weixin.qq.com/document/path/90313#25775
 const ErrCode730011 ErrCode = 730011
 
 // ErrCode740000 安全网关gateway_info的<host,port>冲突
@@ -7670,6 +7942,31 @@ const ErrCode800002 ErrCode = 800002
 // 排查方法: -
 const ErrCode800003 ErrCode = 800003
 
+// ErrCode810000 无效的欢迎语消费码
+//
+// 排查方法: -
+const ErrCode810000 ErrCode = 810000
+
+// ErrCode810001 校验好友关系失败
+//
+// 排查方法: -
+const ErrCode810001 ErrCode = 810001
+
+// ErrCode810002 消息发送限制
+//
+// 排查方法: 检查是否超过回复时间或条数的限制
+const ErrCode810002 ErrCode = 810002
+
+// ErrCode810003 智能账号状态异常
+//
+// 排查方法: -
+const ErrCode810003 ErrCode = 810003
+
+// ErrCode810004 智能账号审核未通过
+//
+// 排查方法: -
+const ErrCode810004 ErrCode = 810004
+
 // ErrCode830001 用于上传临时素材的url非法
 //
 // 排查方法: 确认url是否支持<code>Range</code>分块下载
@@ -7769,6 +8066,71 @@ const ErrCode2000009 ErrCode = 2000009
 //
 // 排查方法: -
 const ErrCode2000010 ErrCode = 2000010
+
+// ErrCode2000055 不允许删除主键列
+//
+// 排查方法: -
+const ErrCode2000055 ErrCode = 2000055
+
+// ErrCode2000111 系统失败，请稍后重试
+//
+// 排查方法: -
+const ErrCode2000111 ErrCode = 2000111
+
+// ErrCode2000141 系统失败，请稍后重试
+//
+// 排查方法: -
+const ErrCode2000141 ErrCode = 2000141
+
+// ErrCode2010003 并发超限，减少并发后重试
+//
+// 排查方法: 操作同一文档并发超限
+const ErrCode2010003 ErrCode = 2010003
+
+// ErrCode2020036 file_id或者file_url或者file_ext为空
+//
+// 排查方法: -
+const ErrCode2020036 ErrCode = 2020036
+
+// ErrCode2022003 记录不存在
+//
+// 排查方法: -
+const ErrCode2022003 ErrCode = 2022003
+
+// ErrCode2022005 视图为空
+//
+// 排查方法: -
+const ErrCode2022005 ErrCode = 2022005
+
+// ErrCode2022009 非法的视图类型
+//
+// 排查方法: -
+const ErrCode2022009 ErrCode = 2022009
+
+// ErrCode2022010 非法列类型
+//
+// 排查方法: -
+const ErrCode2022010 ErrCode = 2022010
+
+// ErrCode2022018 非法日期参数
+//
+// 排查方法: -
+const ErrCode2022018 ErrCode = 2022018
+
+// ErrCode2022020 非法的选择列属性
+//
+// 排查方法: -
+const ErrCode2022020 ErrCode = 2022020
+
+// ErrCode2022022 视图已存在
+//
+// 排查方法: -
+const ErrCode2022022 ErrCode = 2022022
+
+// ErrCode2022023 分页错误，offset超过总数
+//
+// 排查方法: -
+const ErrCode2022023 ErrCode = 2022023
 
 // ErrCode2022029 智能表的 行|列|大小 达到上限
 //
@@ -7871,6 +8233,28 @@ const ErrCode2022051 ErrCode = 2022051
 // 排查方法: -
 const ErrCode2022052 ErrCode = 2022052
 
+// ErrCode2040035 上一次写入未完成，请稍后重试
+//
+// 排查方法: -
+const ErrCode2040035 ErrCode = 2040035
+
+// ErrCode2040039 单元格、行、列超过上限
+//
+// 排查方法: -
+const ErrCode2040039 ErrCode = 2040039
+
+// ErrCode2050067 文档版本错误
+//
+// 排查方法: 需要使用[智能表格相关接口]而不是文档接口操作智能表格数据
+//
+// [智能表格相关接口]: https://developer.work.weixin.qq.com/document/path/90313#53109
+const ErrCode2050067 ErrCode = 2050067
+
+// ErrCode2090726 请稍后重试
+//
+// 排查方法: -
+const ErrCode2090726 ErrCode = 2090726
+
 // ErrCode2400001 请求参数错误
 //
 // 排查方法: -
@@ -7905,3 +8289,23 @@ const ErrCode2400007 ErrCode = 2400007
 //
 // 排查方法: -
 const ErrCode2400008 ErrCode = 2400008
+
+// ErrCode2505401 子表数量超过上限
+//
+// 排查方法: -
+const ErrCode2505401 ErrCode = 2505401
+
+// ErrCode2543337 数据加载中，请稍后重试
+//
+// 排查方法: -
+const ErrCode2543337 ErrCode = 2543337
+
+// ErrCode2543303 子表不存在
+//
+// 排查方法: -
+const ErrCode2543303 ErrCode = 2543303
+
+// ErrCode2543306 子工作表数量异常
+//
+// 排查方法: -
+const ErrCode2543306 ErrCode = 2543306
