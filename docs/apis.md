@@ -36,6 +36,7 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execUserJoinQrcode`|`reqUserJoinQrcode`|`respUserJoinQrcode`|+|`GET /cgi-bin/corp/get_join_qrcode`|[获取加入企业二维码](https://developer.work.weixin.qq.com/document/path/91714)
 `execUserIDByMobile`|`reqUserIDByMobile`|`respUserIDByMobile`|+|`POST /cgi-bin/user/getuserid`|[手机号获取userid](https://work.weixin.qq.com/api/doc/90001/90143/91693)
 `execUserIDByEmail`|`reqUserIDByEmail`|`respUserIDByEmail`|+|`POST /cgi-bin/user/get_userid_by_email`|[邮箱获取userid](https://developer.work.weixin.qq.com/document/path/95895)
+`execUserGetDetail`|`reqAuthTicket2UserInfo`|`respUserGet`|+|`POST /cgi-bin/user/getuserdetail`|[获取访问用户敏感信息](https://developer.work.weixin.qq.com/document/path/95833)
 
 # 部门管理
 
