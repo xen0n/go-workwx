@@ -17,19 +17,9 @@ type UserDetail struct {
 	Alias          string   `json:"alias"`
 	Status         int      `json:"status"`
 	QRCodeURL      string   `json:"qr_code"`
+	BizMail        string   `json:"biz_mail"`
+	Address        string   `json:"address"`
 	// TODO: extattr external_profile external_position
-}
-
-// UserSensitiveInfo 用户敏感信息
-type UserSensitiveInfo struct {
-	Userid  string `json:"userid"`
-	Gender  string `json:"gender"`
-	Avatar  string `json:"avatar"`
-	QrCode  string `json:"qr_code"`
-	Mobile  string `json:"mobile"`
-	Email   string `json:"email"`
-	BizMail string `json:"biz_mail"`
-	Address string `json:"address"`
 }
 
 // GetUser 读取成员
@@ -152,12 +142,12 @@ func (c *WorkwxApp) GetUserInfoByCode(code string) (*UserIdentityInfo, error) {
 }
 
 // GetUserDetail 获取用户敏感信息
-func (c *WorkwxApp) GetUserDetail(userTicket string) (*UserSensitiveInfo, error) {
+func (c *WorkwxApp) GetUserDetail(userTicket string) (*UserDetail, error) {
 	resp, err := c.execUserDetail(reqUserDetail{
 		UserTicket: userTicket,
 	})
 	if err != nil {
 		return nil, err
 	}
-	return &resp.UserSensitiveInfo, nil
+	return &resp.UserDetail, nil
 }

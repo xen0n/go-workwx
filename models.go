@@ -830,7 +830,7 @@ func (x reqUserDetail) intoBody() ([]byte, error) {
 
 type respUserDetail struct {
 	respCommon
-	UserSensitiveInfo
+	UserDetail
 }
 
 // respUserInfoGet 部门列表响应
