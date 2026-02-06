@@ -147,6 +147,17 @@ func (c *WorkwxApp) execUserIDByEmail(req reqUserIDByEmail) (respUserIDByEmail, 
 	return resp, nil
 }
 
+// execUserDetail 获取访问用户敏感信息
+func (c *WorkwxApp) execUserDetail(req reqUserDetail) (respUserDetail, error) {
+	var resp respUserDetail
+	err := executeQyapiJSONPost(c, "//cgi-bin/user/getuserdetail", req, &resp, true)
+	if err != nil {
+		return respUserDetail{}, err
+	}
+
+	return resp, nil
+}
+
 // execDeptCreate 创建部门
 func (c *WorkwxApp) execDeptCreate(req reqDeptCreate) (respDeptCreate, error) {
 	var resp respDeptCreate
@@ -186,17 +197,6 @@ func (c *WorkwxApp) execUserInfoGet(req reqUserInfoGet) (respUserInfoGet, error)
 	err := executeQyapiGet(c, "/cgi-bin/user/getuserinfo", req, &resp, true)
 	if err != nil {
 		return respUserInfoGet{}, err
-	}
-
-	return resp, nil
-}
-
-// execUserDetail 获取用户敏感信息
-func (c *WorkwxApp) execUserDetail(req reqUserDetail) (respUserDetail, error) {
-	var resp respUserDetail
-	err := executeQyapiJSONPost(c, "/cgi-bin/user/getuserdetail", req, &resp, true)
-	if err != nil {
-		return respUserDetail{}, err
 	}
 
 	return resp, nil
