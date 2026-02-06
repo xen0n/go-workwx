@@ -191,6 +191,17 @@ func (c *WorkwxApp) execUserInfoGet(req reqUserInfoGet) (respUserInfoGet, error)
 	return resp, nil
 }
 
+// execUserDetail 获取用户敏感信息
+func (c *WorkwxApp) execUserDetail(req reqUserDetail) (respUserDetail, error) {
+	var resp respUserDetail
+	err := executeQyapiJSONPost(c, "/cgi-bin/user/getuserdetail", req, &resp, true)
+	if err != nil {
+		return respUserDetail{}, err
+	}
+
+	return resp, nil
+}
+
 // execExternalContactList 获取客户列表
 func (c *WorkwxApp) execExternalContactList(req reqExternalContactList) (respExternalContactList, error) {
 	var resp respExternalContactList

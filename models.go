@@ -817,6 +817,22 @@ func (x reqUserInfoGet) intoURLValues() url.Values {
 	}
 }
 
+// reqUserDetail 获取成员详情
+type reqUserDetail struct {
+	UserTicket string `json:"user_ticket"`
+}
+
+var _ bodyer = reqUserDetail{}
+
+func (x reqUserDetail) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respUserDetail struct {
+	respCommon
+	UserSensitiveInfo
+}
+
 // respUserInfoGet 部门列表响应
 type respUserInfoGet struct {
 	respCommon
