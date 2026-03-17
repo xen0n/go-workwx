@@ -3,7 +3,7 @@ module github.com/xen0n/go-workwx/v2
 go 1.25.0
 
 require (
-	github.com/PuerkitoBio/goquery v1.11.0
+	github.com/PuerkitoBio/goquery v1.12.0
 	github.com/cenkalti/backoff/v4 v4.3.0
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/smartystreets/goconvey v1.8.1
